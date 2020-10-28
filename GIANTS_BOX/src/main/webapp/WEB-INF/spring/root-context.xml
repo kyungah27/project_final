@@ -11,6 +11,14 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- [컴포넌트 스캔 범위: dao, service] -->
+	<context:component-scan base-package="com.uver" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	
 
 	<!-- [DB] -->
  	<!--database.properties파일 read  --> 
