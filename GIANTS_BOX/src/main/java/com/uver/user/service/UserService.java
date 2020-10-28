@@ -1,11 +1,22 @@
 package com.uver.user.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.uver.user.dao.User;
 
 public interface UserService {
-
+	
+	public int doInsert(User user);
+	
+	public int doDelete(User user);
+	
+	public int doUpdate(User user);
+	
+	public User doSelectOne(String id);
+	
+	public List<User> doSelectList(User user);
+	
 	/**
 	 * 최초등록시 등급을 basic처리
 	 * 비지니스 로직
