@@ -1,4 +1,4 @@
-package com.uver.user.service;
+package com.uver.example;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
-
-import com.uver.user.dao.Level;
-import com.uver.user.dao.User;
-import com.uver.user.dao.UserDao;
 
 
 @Service("userServiceImpl")

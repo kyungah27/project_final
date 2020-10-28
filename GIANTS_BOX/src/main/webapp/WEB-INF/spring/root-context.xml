@@ -80,11 +80,11 @@
 	<!-- 강의시간에 한 것 (추후 정리) *********************************************** -->
 	
 	<!-- [dao, service] -->
-	<bean id="userDaoImpl" class="com.uver.user.dao.UserDaoImpl">
+	<bean id="userDaoImpl" class="com.uver.example.UserDaoImpl">
 		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
-	<bean id="userServiceImpl" class="com.uver.user.service.UserServiceImpl">
+	<bean id="userServiceImpl" class="com.uver.example.UserServiceImpl">
 		<constructor-arg name="userDao" ref="userDaoImpl" index="0"/>
 		<constructor-arg name="mailSender" ref="dummyMailService" index="1"/>
 	</bean> 
@@ -125,7 +125,7 @@
    </bean>
    
    <!-- DummyMailService:개발(Mail not send) -->
-   <bean  id="dummyMailService" class="com.uver.user.service.DummyMailService">
+   <bean  id="dummyMailService" class="com.uver.example.DummyMailService">
    </bean>
    
     <!-- email Session -->

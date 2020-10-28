@@ -1,4 +1,4 @@
-package com.uver.user.controller;
+package com.uver.example;
 
 import java.sql.SQLException;
 
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
-import com.uver.user.dao.User;
-import com.uver.user.service.UserService;
 
 @Controller
 public class UserController {

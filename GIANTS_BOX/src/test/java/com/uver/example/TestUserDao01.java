@@ -1,4 +1,4 @@
-package com.uver;
+package com.uver.example;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,10 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.uver.user.dao.Level;
-import com.uver.user.dao.User;
-import com.uver.user.dao.UserDaoImpl;
 
 //메소드 수행 순서:
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

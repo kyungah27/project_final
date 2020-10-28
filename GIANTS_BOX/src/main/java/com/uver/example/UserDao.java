@@ -1,4 +1,4 @@
-package com.uver.user.dao;
+package com.uver.example;
 
 import java.util.List;
 

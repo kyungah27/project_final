@@ -1,9 +1,7 @@
-package com.uver.user.service;
+package com.uver.example;
 
 import java.sql.SQLException;
 import java.util.List;
-
-import com.uver.user.dao.User;
 
 public interface UserService {
 	

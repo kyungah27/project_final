@@ -1,7 +1,7 @@
-package com.uver;
+package com.uver.example;
 
-import static com.uver.user.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
-import static com.uver.user.service.UserServiceImpl.MIN_RECOMMEND_FOR_SILVER;
+import static com.uver.example.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
+import static com.uver.example.UserServiceImpl.MIN_RECOMMEND_FOR_SILVER;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -27,11 +27,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import com.uver.user.dao.Level;
-import com.uver.user.dao.User;
-import com.uver.user.dao.UserDaoImpl;
-import com.uver.user.service.UserService;
 
 
 //메소드 수행 순서:

@@ -1,4 +1,4 @@
-package com.uver.user.dao;
+package com.uver.example;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
