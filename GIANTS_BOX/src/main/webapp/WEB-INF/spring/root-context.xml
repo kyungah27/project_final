@@ -12,9 +12,6 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
-
-
-
 	<!-- [DB] -->
  	<!--database.properties파일 read  --> 
    	<context:property-placeholder location="classpath:resources/config/database.properties"/>
@@ -36,8 +33,47 @@
 	</bean>
 	
 	
+	<!-- [dao, service] -->
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 강의시간에 한 것 (추후 정리) *********************************************** -->
+	
 	<!-- [dao, service] -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg name="dataSource" ref="dataSource" />
@@ -51,8 +87,6 @@
 		<constructor-arg name="userDao" ref="userDaoImpl" index="0"/>
 		<constructor-arg name="mailSender" ref="dummyMailService" index="1"/>
 	</bean> 
-
-
 
 
 
@@ -79,12 +113,8 @@
       <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
    </aop:config>
    
-		
-		
-		
-		
-		
-		
+   
+   
 		
 		
 	<!-- [email] -->
@@ -125,12 +155,6 @@
    <bean id="authenticator" class="javax.mail.Authenticator">
    	  <lookup-method name="getPasswordAuthentication" bean="passwordAuth" />
    </bean>
-   
-   
-   
-   
-   
-   
 
 
 </beans>
