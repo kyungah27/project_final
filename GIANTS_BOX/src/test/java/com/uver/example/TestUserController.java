@@ -1,7 +1,7 @@
 package com.uver.example;
 
-import static com.uver.user.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
-import static com.uver.user.service.UserServiceImpl.MIN_RECOMMEND_FOR_SILVER;
+import static com.uver.example.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
+import static com.uver.example.UserServiceImpl.MIN_RECOMMEND_FOR_SILVER;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -32,10 +32,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.uver.user.dao.Level;
-import com.uver.user.dao.User;
-import com.uver.user.service.UserService;
 
 //메소드 수행 순서:
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
