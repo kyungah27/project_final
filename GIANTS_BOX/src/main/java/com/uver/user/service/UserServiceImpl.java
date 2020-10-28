@@ -13,48 +13,61 @@ import org.springframework.stereotype.Service;
 
 import com.uver.user.dao.Level;
 import com.uver.user.dao.User;
-import com.uver.user.dao.UserDaoImpl;
+import com.uver.user.dao.UserDao;
 
 
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
-    final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     
-    
-    
-    //BASIC -> SILVER 등업되는 로그인 최소 기준값.
+    //---BASIC -> SILVER 등업되는 로그인 최소 기준값
     public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
-    //SILVER->GOLD 등업되는 로그인 최소 기준값.
+    //---SILVER -> GOLD 등업되는 로그인 최소 기준값
     public static final int MIN_RECOMMEND_FOR_SILVER = 30;
     
-    @Autowired
-    @Qualifier("dummyMailService")
-    private MailSender  mailSender;
     
-	private UserDaoImpl  userDao;
+    //---빈 생성--------------------------------------------
+    private final UserDao     userDao;
+    private final MailSender  mailSender;
 	
-	
-	
-	
-	
-	@Autowired
-	public UserServiceImpl(UserDaoImpl userDao) {
+	public UserServiceImpl(@Qualifier("userDaoImpl") 	  UserDao userDao
+						  ,@Qualifier("dummyMailService") MailSender mailSender) {
 		this.userDao = userDao;
-	}
-
-	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
 	
 	
 	
+	//---메서드--------------------------------------------
+	@Override
+	public int doInsert(User user) {
+		return userDao.doInsert(user);
+	}
 	
-//	public void setUserDao(UserDao userDao) {
-//		this.userDao = userDao;
-//	}
+	@Override
+	public int doDelete(User user){
+		return userDao.doDelete(user);
+	}
 
+	@Override
+	public int doUpdate(User user) {
+		return userDao.doUpdate(user);
+	}
+
+	@Override
+	public User doSelectOne(String id) {
+		return userDao.doSelectOne(id);
+	}
+
+	@Override
+	public List<User> doSelectList(User user) {
+		return userDao.doSelectList(user);
+	}
 	
-
+	
+	
+	
+	
 	/**
 	 * 최초등록시 등급을 basic처리
 	 * 비지니스 로직
@@ -75,21 +88,8 @@ public class UserServiceImpl implements UserService {
 		
 		return flag;
 	}
-	
 
 
-	/**
-	 * 등업
-	 * 1. 전체사용자를 읽어 들인다.
-	 * 2. 등업 대상자 선별.
-	 *  2.1. BASIC사용자 : 로그인 CNT 50이상이면 : SILVER
-	 *  2.2. SILVER사용자 : 추천이 CNT 30이상이면 : GOLD
-	 *  2.3. GOLD 대상 아님
-	 * 3.등업 
-	 * 
-	 * **트랜잭션 동기화: txXXXXX
-	 * @param user
-	 */
 	@Override
 	public void upgradeLevels(User user) throws Exception {
 		List<User> list = userDao.doSelectList(user);
@@ -101,7 +101,6 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
-
 	
 	/**
 	 * 등업 처리 
@@ -154,9 +153,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	
-	
-	
 	/**
 	 * 업그래이드 가능 여부 확인
 	 * @param user
@@ -171,10 +167,11 @@ public class UserServiceImpl implements UserService {
 		    case GOLD : return false;
 		    default : throw new IllegalArgumentException("Unknown Level:"+currentLevel);
 		}
-		
 	}
 	
 	
+	
+
 	
 	
 }
