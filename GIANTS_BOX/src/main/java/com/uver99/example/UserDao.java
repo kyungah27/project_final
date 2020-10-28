@@ -1,4 +1,4 @@
-package com.uver.example;
+package com.uver99.example;
 
 import java.util.List;
 

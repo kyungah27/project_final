@@ -22,6 +22,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver99.example.Level;
+import com.uver99.example.User;
+import com.uver99.example.UserDaoImpl;
+
 //메소드 수행 순서:
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration

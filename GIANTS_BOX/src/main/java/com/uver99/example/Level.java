@@ -1,4 +1,4 @@
-package com.uver.example;
+package com.uver99.example;
 
 public enum Level {
     //BASIC(1),SILVER(2),GOLD(3);//세 개의 이늄 오브젝트

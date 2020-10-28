@@ -80,17 +80,14 @@
 	<!-- 강의시간에 한 것 (추후 정리) *********************************************** -->
 	
 	<!-- [dao, service] -->
-	<bean id="userDaoImpl" class="com.uver.example.UserDaoImpl">
+	<bean id="userDaoImpl" class="com.uver99.example.UserDaoImpl">
 		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
-	<bean id="userServiceImpl" class="com.uver.example.UserServiceImpl">
+	<bean id="userServiceImpl" class="com.uver99.example.UserServiceImpl">
 		<constructor-arg name="userDao" ref="userDaoImpl" index="0"/>
 		<constructor-arg name="mailSender" ref="dummyMailService" index="1"/>
 	</bean> 
-
-
-
 
 
 	<!-- [transaction, aop] -->
@@ -110,13 +107,9 @@
    </tx:advice>
    
     <aop:config>  
-      <aop:pointcut expression="execution(* com.uver..service.*Impl.*(..))" id="txPointCut"/>
+      <aop:pointcut expression="execution(* com.uver.example..*ServiceImpl.*(..))" id="txPointCut"/>
       <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
    </aop:config>
-   
-   
-   
-		
 		
 	<!-- [email] -->
 	<!-- JavaMailSenderImpl:운영(Mail보내기) -->
@@ -125,7 +118,7 @@
    </bean>
    
    <!-- DummyMailService:개발(Mail not send) -->
-   <bean  id="dummyMailService" class="com.uver.example.DummyMailService">
+   <bean  id="dummyMailService" class="com.uver99.example.DummyMailService">
    </bean>
    
     <!-- email Session -->

@@ -1,4 +1,4 @@
-package com.uver.example;
+package com.uver99.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
