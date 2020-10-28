@@ -43,12 +43,13 @@
 		<constructor-arg name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="userDao" class="com.uver.user.dao.UserDaoImpl">
+	<bean id="userDaoImpl" class="com.uver.user.dao.UserDaoImpl">
 		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
 	<bean id="userServiceImpl" class="com.uver.user.service.UserServiceImpl">
-		<constructor-arg name="userDao" ref="userDao" />
+		<constructor-arg name="userDao" ref="userDaoImpl" index="0"/>
+		<constructor-arg name="mailSender" ref="dummyMailService" index="1"/>
 	</bean> 
 
 
@@ -74,7 +75,7 @@
    </tx:advice>
    
     <aop:config>  
-      <aop:pointcut expression="execution(* com.sist.ehr..service.*Impl.*(..))" id="txPointCut"/>
+      <aop:pointcut expression="execution(* com.uver..service.*Impl.*(..))" id="txPointCut"/>
       <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
    </aop:config>
    
