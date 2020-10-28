@@ -1,4 +1,4 @@
-package com.uver;
+package com.uver.example;
 
 import static com.uver.user.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SILVER;
 import static com.uver.user.service.UserServiceImpl.MIN_RECOMMEND_FOR_SILVER;
