@@ -20,6 +20,7 @@
     - 6) 댓글 : 김도희
     
 ### 4. 기획서
+[기획서.pdf](https://github.com/HYKim8/GIANTS_BOX/files/5450115/UVER_.pdf)
 
 ### 5. 요구사항정의서
 
