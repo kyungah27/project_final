@@ -9,7 +9,7 @@ public class ImgVO extends DTO {
 	private String 	serverName;		/** 서버저장이름 */
 	private String 	type;			/** 확장자 */
 	private int 	size;			/** 크기 */
-	private String 	isThumbnail;	/** 썸네일여부 */
+	private String	isThumbnail;	/** 썸네일여부 */
 	private String 	regDt;			/** 등록일 */
 	private String 	regId;			/** 등록자 */
 	
