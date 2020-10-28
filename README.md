@@ -25,7 +25,7 @@
 ### 5. 요구사항정의서
 
 ### 6. WBS
-![image](https://user-images.githubusercontent.com/70499031/97402196-7a416800-1935-11eb-9e9c-64414e0298cc.png)
+![image](https://user-images.githubusercontent.com/70499031/97402388-d1dfd380-1935-11eb-8727-2892a24927b3.png)
 
 ### 7. 개발아키텍쳐 : MVC
 #### 7-1. 백엔드
