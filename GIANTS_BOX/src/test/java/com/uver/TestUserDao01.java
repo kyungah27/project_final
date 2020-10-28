@@ -142,7 +142,7 @@ public class TestUserDao01 {
     	int flag =userDao.doInsert(user01);
     	assertThat(1, is(1));
     	//3.수정:이름,비번 수정
-		//user01=new User("H10_01","강사_01","1234",Level.BASIC,1,0,"jamesol@paran.com","");//BASIC
+		//user01=new User("H120_01","강사_01","1234",Level.BASIC,1,0,"jamesol@paran.com","");//BASIC
     	user01.setName(user01.getName()+"_U");
     	user01.setPasswd(user01.getPasswd()+"_U");
     	user01.setLevel(Level.SILVER);
@@ -153,7 +153,7 @@ public class TestUserDao01 {
     	flag = userDao.doUpdate(user01);
     	assertThat(1, is(1));
     	//4.단건조회
-    	//cntUser.setU_id("H10_0");
+    	//cntUser.setU_id("H120_0");
     	User vsUser = userDao.doSelectOne(user01.getU_id());
     	
     	//5.수정과 단건조회 비교.
