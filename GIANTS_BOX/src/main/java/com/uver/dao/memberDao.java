@@ -18,6 +18,25 @@ public class memberDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	
+	public int doDelete(memberVO member) {
+		int flag = 0; 
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(" DELETE FROM member \n");
+		sb.append(" WHERE seq = ?      \n");
+	    
+	    LOG.debug("==========================");
+		LOG.debug("=sql=\n"+sb.toString());
+		LOG.debug("=param=\n"+member);
+		LOG.debug("==========================");
+		
+		Object[] args = {member.getSeq()};
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		
+		return flag;
+	}
+	
 	/**
 	 * 사용자등록
 	 * @param member
