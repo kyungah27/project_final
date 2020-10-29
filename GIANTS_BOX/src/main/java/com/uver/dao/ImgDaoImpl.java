@@ -24,27 +24,35 @@ public class ImgDaoImpl implements ImgDao {
 	@Override
 	public int doInsert(ImgVO img) {
 		int flag 	  = 0;	    
-	    Object[] args = { img.getImgSeq(),
+	    Object[] args = { 
 	    				  img.getOriginName(),
 	    				  img.getServerName(),
-	    				  img.getType(),
-	    				  img.getSize(),
+	    				  img.getImgType(),
+	    				  img.getImgSize(),
 	    				  img.getIsThumbnail(),
-	    				  img.getRegDt(),
 	    				  img.getRegId()
 	    				};
 	    
 		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO IMAGE          \n");
-		sb.append("VALUES(IMAGE_SEQ.NEXTVAL,  \n");
-		sb.append("            ?,       	  \n");
-		sb.append("            ?,        	  \n");
-		sb.append("            ?,        	  \n");
-		sb.append("            ?,        	  \n");
-		sb.append("            ?,         	  \n");
-		sb.append("            SYSDATE,       \n");
-		sb.append("            ?              \n");
-		sb.append("            )              \n");
+		sb.append("INSERT INTO image (		\n");
+		sb.append("    img_seq,             \n");
+		sb.append("    origin_name,         \n");
+		sb.append("    server_name,         \n");
+		sb.append("    img_type,            \n");
+		sb.append("    img_size,            \n");
+		sb.append("    is_thumbnail,        \n");
+		sb.append("    reg_dt,              \n");
+		sb.append("    reg_id               \n");
+		sb.append(") VALUES (               \n");
+		sb.append("    IMAGE_SEQ.NEXTVAL,   \n");
+		sb.append("    ?,                   \n");
+		sb.append("    ?,                   \n");
+		sb.append("    ?,                   \n");
+		sb.append("    ?,                   \n");
+		sb.append("    ?,                   \n");
+		sb.append("    SYSDATE,             \n");
+		sb.append("    ?                    \n");
+		sb.append(")                        \n");
 		
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
@@ -61,7 +69,7 @@ public class ImgDaoImpl implements ImgDao {
 
 	@Override
 	public int doDelete(ImgVO img) {
-		// TODO Auto-generated method stub
+		LOG.debug("doDelete");
 		return 0;
 	}
 

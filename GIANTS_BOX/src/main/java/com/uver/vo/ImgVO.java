@@ -7,8 +7,8 @@ public class ImgVO extends DTO {
 	private int 	imgSeq;			/** 이미지 순번 */
 	private String 	originName;		/** 첨부이름 */
 	private String 	serverName;		/** 서버저장이름 */
-	private String 	type;			/** 확장자 */
-	private int 	size;			/** 크기 */
+	private String 	imgType;			/** 확장자 */
+	private int 	imgSize;			/** 크기 */
 	private String	isThumbnail;	/** 썸네일여부 */
 	private String 	regDt;			/** 등록일 */
 	private String 	regId;			/** 등록자 */
@@ -17,18 +17,18 @@ public class ImgVO extends DTO {
 	public ImgVO() {
 		super();
 	}
-	
-	
-	public ImgVO(int imgSeq, String originName, String serverName, String type, int size, String isThumbnail,
-			String regDt, String regId) {
+
+
+	public ImgVO(String originName, String serverName, String imgType, int imgSize, String isThumbnail,
+			String regId) {
 		super();
-		this.imgSeq = imgSeq;
+//		this.imgSeq = imgSeq;
 		this.originName = originName;
 		this.serverName = serverName;
-		this.type = type;
-		this.size = size;
+		this.imgType = imgType;
+		this.imgSize = imgSize;
 		this.isThumbnail = isThumbnail;
-		this.regDt = regDt;
+//		this.regDt = regDt;
 		this.regId = regId;
 	}
 
@@ -63,23 +63,23 @@ public class ImgVO extends DTO {
 	}
 
 
-	public String getType() {
-		return type;
+	public String getImgType() {
+		return imgType;
 	}
 
 
-	public void setType(String type) {
-		this.type = type;
+	public void setImgType(String imgType) {
+		this.imgType = imgType;
 	}
 
 
-	public int getSize() {
-		return size;
+	public int getImgSize() {
+		return imgSize;
 	}
 
 
-	public void setSize(int size) {
-		this.size = size;
+	public void setImgSize(int imgSize) {
+		this.imgSize = imgSize;
 	}
 
 
@@ -115,9 +115,9 @@ public class ImgVO extends DTO {
 
 	@Override
 	public String toString() {
-		return "ImgVO [imgSeq=" + imgSeq + ", originName=" + originName + ", serverName=" + serverName + ", type="
-				+ type + ", size=" + size + ", isThumbnail=" + isThumbnail + ", regDt=" + regDt + ", regId=" + regId
-				+ ", getDiv()=" + getDiv() + ", getNum()=" + getNum() + ", getTotalCnt()=" + getTotalCnt()
+		return "ImgVO [imgSeq=" + imgSeq + ", originName=" + originName + ", serverName=" + serverName + ", imgType="
+				+ imgType + ", imgSize=" + imgSize + ", isThumbnail=" + isThumbnail + ", regDt=" + regDt + ", regId="
+				+ regId + ", getDiv()=" + getDiv() + ", getNum()=" + getNum() + ", getTotalCnt()=" + getTotalCnt()
 				+ ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ "]";
 	}

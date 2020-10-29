@@ -72,7 +72,7 @@ public class TestUserDao01 {
 	@Test
 	@Ignore
     public void test() {
-    	System.out.println("JUnit test");
+    	LOG.debug("JUnit test");
     }
     
 	
