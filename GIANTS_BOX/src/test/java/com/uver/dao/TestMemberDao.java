@@ -40,18 +40,31 @@ public class TestMemberDao {
 	
 	@Test
 	public void test() {
-		dao.doInsert(member01);
-		dao.doInsert(member02);
-		dao.doInsert(member03);
+		//데이터 입력
+//		dao.doInsert(member01);
+//		dao.doInsert(member02);
+//		dao.doInsert(member03);
+		
+		//데이터삭제
+		dao.doDelete(member01);
+		dao.doDelete(member02);
+		dao.doDelete(member03);
+		
+		//단건조회
+//		memberVO member01 = dao.doSelectOne("H170_01");
+//		memberVO member02 = dao.doSelectOne("H170_02");
+//		memberVO member03 = dao.doSelectOne("H170_03");
 	}
+
+	
 
 	
 	
 	@Before
 	public void setUp() {
-		member01=new memberVO("H170_01","최현우_01","1234","dotori130@naver.com",01012344321,"19900130",1,"스릴러");
-		member02=new memberVO("H170_02","최현우_02","1234","dotori130@naver.com",01012344221,"19900130",1,"코믹");
-		member03=new memberVO("H170_03","최현우_03","1234","dotori130@naver.com",01012342321,"19900130",1,"멜로");
+		member01=new memberVO("H170_01","최현우_01","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
+		member02=new memberVO("H170_02","최현우_02","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
+		member03=new memberVO("H170_03","최현우_03","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
 		LOG.debug("** setup() **");
 		LOG.debug("***********************************");
 		LOG.debug("context"+context);
