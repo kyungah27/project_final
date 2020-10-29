@@ -41,7 +41,7 @@ public class TestImgDao {
     ImgVO img02;
     
     //---테스트 전 시퀀스 번호 확인 (nextval)
-    int seq = 87;
+    int seq = 92;
     
     @Before
 	public void setUp() throws Exception {
@@ -61,13 +61,16 @@ public class TestImgDao {
     
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void test() {
 		LOG.debug("---test---");
 		
-//		dao.doInsert(img01);
+//		int flag = 0;
+//		flag += dao.doInsert(img01);
+//		flag += dao.doInsert(img02);
 //		dao.doDelete(img01.getImgSeq());
-//		LOG.debug("[시퀀스 번호 재설정] " + (seq+1));
+//		dao.doDelete(img02.getImgSeq());
+//		LOG.debug("[시퀀스 번호 재설정] " + (seq+flag));
 	}
 	
 	@Test
@@ -111,6 +114,7 @@ public class TestImgDao {
 	}
 	
 	@Test
+	@Ignore
 	public void updateImg () {
 		
 		dao.doInsert(img01);

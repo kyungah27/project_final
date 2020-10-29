@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.EventImgVO;
+import com.uver.vo.ImgVO;
 
 
 @Repository("eventImgDao")
@@ -28,10 +29,19 @@ public class EventImgDaoImpl implements EventImgDao {
 		@Override
 		public EventImgVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			EventImgVO outVO = new EventImgVO(
-						rs.getInt("event_seq"),
-						rs.getInt("img_seq")
-						);
-			
+									rs.getInt("img_seq"),
+									rs.getInt("event_seq"),
+									new ImgVO(
+											rs.getInt("img_seq"),
+											rs.getString("origin_name"),
+											rs.getString("server_name"),
+											rs.getString("img_type"),
+											rs.getInt("img_size"),
+											rs.getString("is_thumbnail"),
+											rs.getString("reg_dt"),
+											rs.getString("reg_id")
+											)
+									);
 			return outVO;
 		}
    }; //---row mapper end
@@ -40,20 +50,17 @@ public class EventImgDaoImpl implements EventImgDao {
    //---메서드----------------------------------------------------------
 	@Override
 	public int doInsert(EventImgVO eventImg) {
-		int flag 	  = 0;	    
-	    Object[] args = { 
-	    				  eventImg.getEventSeq(),
-	    				  eventImg.getImgSeq(),
+		int 	 flag = 0;	    
+	    Object[] args = { eventImg.getImgSeq(),
+	    				  eventImg.getEventSeq()
 	    				};
 	    
 		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO event_image (	\n");
-		sb.append("    event_seq,	            \n");
-		sb.append("    img_seq	                \n");
-		sb.append(") VALUES (	                \n");
-		sb.append("    ?,	                    \n");
-		sb.append("    ?	                    \n");
-		sb.append(")	                        \n");
+		sb.append("INSERT INTO event_image   \n");
+		sb.append(" VALUES (                \n");
+		sb.append("    ?,                    \n");
+		sb.append("    ?                     \n");
+		sb.append(")                         \n");
 		
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
@@ -65,115 +72,59 @@ public class EventImgDaoImpl implements EventImgDao {
 
 		return flag;
 	}
-	
-	
-
-	
 
 	@Override
-	public int doDelete(EventImgVO eventImg) {
-		int flag 	  = 0;	    
-//	    Object[] args = { imgSeq };
-//	    
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("DELETE FROM image \n");
-//		sb.append("WHERE             \n");
-//		sb.append("    img_seq = ?   \n");
-//		
-//		LOG.debug("-----------------------------");
-//		LOG.debug("[SQL]\n"   + sb.toString());
-//		LOG.debug("[param]\n" + imgSeq);
-//		LOG.debug("-----------------------------");			
-//		
-//		flag = this.jdbcTemplate.update(sb.toString(), args);
-//		LOG.debug("[flag] "+flag);
-//
-		return flag;
-	}
-
-	@Override
-	public EventImgVO doSelectOne(EventImgVO eventImg) {
-		EventImgVO 	 outVO = null;	    
-//	    Object[] args  = { seq };
-//	    
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("SELECT				\n");
-//		sb.append("    img_seq,         \n");
-//		sb.append("    origin_name,     \n");
-//		sb.append("    server_name,     \n");
-//		sb.append("    img_type,        \n");
-//		sb.append("    img_size,        \n");
-//		sb.append("    is_thumbnail,    \n");
-//		sb.append("    reg_dt,          \n");
-//		sb.append("    reg_id           \n");
-//		sb.append("FROM                 \n");
-//		sb.append("    image            \n");
-//		sb.append("WHERE img_seq = ?    \n");
-//		
-//		LOG.debug("-----------------------------");
-//		LOG.debug("[SQL]\n"   + sb.toString());
-//		LOG.debug("[param]\n" + seq);
-//		LOG.debug("-----------------------------");			
-//		
-//		outVO = (ImgVO) this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-//		LOG.debug("[outVO]\n" + outVO);
-//
-		return outVO;
-	}
-
-	@Override
-	public List<EventImgVO> doSelectList(EventImgVO eventImg) {
+	public List<EventImgVO> doSelectList(int eventSeq) {
 		List<EventImgVO> list = null;	    
-//	    Object[] args  = { regId };
-//	    
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("SELECT				\n");
-//		sb.append("    img_seq,         \n");
-//		sb.append("    origin_name,     \n");
-//		sb.append("    server_name,     \n");
-//		sb.append("    img_type,        \n");
-//		sb.append("    img_size,        \n");
-//		sb.append("    is_thumbnail,    \n");
-//		sb.append("    reg_dt,          \n");
-//		sb.append("    reg_id           \n");
-//		sb.append("FROM                 \n");
-//		sb.append("    IMAGE            \n");
-//		sb.append("WHERE reg_id = ?     \n");
-//		sb.append("ORDER BY reg_dt DESC \n");
-//		
-//		LOG.debug("-----------------------------");
-//		LOG.debug("[SQL]\n"   + sb.toString());
-//		LOG.debug("[param]\n" + regId);
-//		LOG.debug("-----------------------------");			
-//		
-//		list = (List<ImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
-//		LOG.debug("-----------------------------");
-//		for (ImgVO vo : list) {
-//			LOG.debug("[vo] " + list);
-//		}
-//		LOG.debug("-----------------------------");
-//		
+	    Object[] args  = { eventSeq };
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT ei.img_seq			\n");
+		sb.append("      ,ei.event_seq            \n");
+		sb.append("      ,i.origin_name         \n");
+		sb.append("      ,i.server_name         \n");
+		sb.append("      ,i.img_type            \n");
+		sb.append("      ,i.img_size            \n");
+		sb.append("      ,i.is_thumbnail        \n");    
+		sb.append("      ,i.reg_dt              \n");
+		sb.append("      ,i.reg_id              \n");
+		sb.append("FROM event_image ei, image i \n");
+		sb.append("WHERE ei.img_seq = i.img_seq \n");
+		sb.append("AND   event_seq= ?           \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + eventSeq);
+		LOG.debug("-----------------------------");			
+		
+		list = (List<EventImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
+		LOG.debug("-----------------------------");
+		for (EventImgVO vo : list) {
+			LOG.debug("[vo] " + list);
+		}
+		LOG.debug("-----------------------------");
+		
 		return list;
 	}
 
 	@Override
-	public int count(EventImgVO eventImgVO) {
+	public int count(int eventSeq) {
 		int  cnt = 0;
-//	    Object[] args  = { regId };
-//		
-//		StringBuilder  sb=new StringBuilder();
-//		sb.append(" SELECT COUNT(*) cnt \n");
-//		sb.append(" FROM IMAGE          \n");
-//		sb.append(" WHERE reg_id = ?    \n");
-//		LOG.debug("-----------------------------");
-//		LOG.debug("[SQL]\n"   + sb.toString());
-//		LOG.debug("[param]\n" + regId);
-//		LOG.debug("-----------------------------");		
-//		
-//		cnt = this.jdbcTemplate.queryForObject(sb.toString(), args, Integer.class);
-//		LOG.debug("-----------------------------");
-//		LOG.debug("[count] "+cnt);
-//		LOG.debug("-----------------------------");
+	    Object[] args  = { eventSeq };
+		
+		StringBuilder  sb=new StringBuilder();
+		sb.append(" SELECT COUNT(*) cnt   \n");
+		sb.append(" FROM event_image      \n");
+		sb.append(" WHERE event_seq = ?   \n");
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + eventSeq);
+		LOG.debug("-----------------------------");		
+		
+		cnt = this.jdbcTemplate.queryForObject(sb.toString(), args, Integer.class);
+		LOG.debug("-----------------------------");
+		LOG.debug("[count] "+cnt);
+		LOG.debug("-----------------------------");
 
     	return cnt;
 	}
