@@ -8,9 +8,29 @@ import com.uver.cmn.DTO;
 
 public class JoinVO extends DTO {
 	
-	private int member_seq;
 	private int event_seq;
+	private int member_seq;
 	private int priority;
+	
+	public JoinVO() {
+		
+	}
+	
+
+	
+	
+	
+	public JoinVO(int event_seq, int member_seq, int priority) {
+		super();
+		this.event_seq = event_seq;
+		this.member_seq = member_seq;
+		this.priority = priority;
+	}
+
+
+
+
+
 	public int getMember_seq() {
 		return member_seq;
 	}
@@ -35,6 +55,7 @@ public class JoinVO extends DTO {
 		return "JoinVO [member_seq=" + member_seq + ", event_seq=" + event_seq + ", priority=" + priority
 				+ ", toString()=" + super.toString() + "]";
 	}
+
 	
 	
 	
