@@ -19,18 +19,21 @@ public class ImgVO extends DTO {
 	}
 
 
-	public ImgVO(String originName, String serverName, String imgType, int imgSize, String isThumbnail,
-			String regId) {
+
+
+	public ImgVO(int imgSeq, String originName, String serverName, String imgType, int imgSize, String isThumbnail,
+			String regDt, String regId) {
 		super();
-//		this.imgSeq = imgSeq;
+		this.imgSeq = imgSeq;
 		this.originName = originName;
 		this.serverName = serverName;
 		this.imgType = imgType;
 		this.imgSize = imgSize;
 		this.isThumbnail = isThumbnail;
-//		this.regDt = regDt;
+		this.regDt = regDt;
 		this.regId = regId;
 	}
+
 
 
 	public int getImgSeq() {
@@ -38,18 +41,9 @@ public class ImgVO extends DTO {
 	}
 
 
-	public void setImgSeq(int imgSeq) {
-		this.imgSeq = imgSeq;
-	}
-
 
 	public String getOriginName() {
 		return originName;
-	}
-
-
-	public void setOriginName(String originName) {
-		this.originName = originName;
 	}
 
 
@@ -58,19 +52,10 @@ public class ImgVO extends DTO {
 	}
 
 
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
-	}
-
-
 	public String getImgType() {
 		return imgType;
 	}
 
-
-	public void setImgType(String imgType) {
-		this.imgType = imgType;
-	}
 
 
 	public int getImgSize() {
@@ -78,19 +63,11 @@ public class ImgVO extends DTO {
 	}
 
 
-	public void setImgSize(int imgSize) {
-		this.imgSize = imgSize;
-	}
-
 
 	public String getIsThumbnail() {
 		return isThumbnail;
 	}
 
-
-	public void setIsThumbnail(String isThumbnail) {
-		this.isThumbnail = isThumbnail;
-	}
 
 
 	public String getRegDt() {
@@ -98,19 +75,11 @@ public class ImgVO extends DTO {
 	}
 
 
-	public void setRegDt(String regDt) {
-		this.regDt = regDt;
-	}
-
 
 	public String getRegId() {
 		return regId;
 	}
 
-
-	public void setRegId(String regId) {
-		this.regId = regId;
-	}
 
 
 	@Override
