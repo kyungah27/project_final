@@ -18,7 +18,7 @@ public class memberVO {
 	private String email;
 	
 	/**휴대폰*/
-	private int cellPhone;
+	private String cellPhone;
 	
 	/**생년월일*/
 	private String birthday;
@@ -36,7 +36,7 @@ public class memberVO {
 		super();
 	}
 
-	public memberVO(String userId, String name, String password, String email, int cellPhone, String birthday,
+	public memberVO(String userId, String name, String password, String email, String cellPhone, String birthday,
 			int auth,String genre) {
 		super();
 		this.userId = userId;
@@ -89,11 +89,11 @@ public class memberVO {
 		this.email = email;
 	}
 
-	public int getCellPhone() {
+	public String getCellPhone() {
 		return cellPhone;
 	}
 
-	public void setCellPhone(int cellPhone) {
+	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
 
