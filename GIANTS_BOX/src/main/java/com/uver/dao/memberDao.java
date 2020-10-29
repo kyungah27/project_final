@@ -26,8 +26,8 @@ public class memberDao {
 	public int doInsert(memberVO member) {
 		int flag = 0;
 		
-		Object[] args = {member.getSeq(),
-						 member.getUserId(),
+		Object[] args = {
+						 member.getUserId(), 
 						 member.getName(),
 						 member.getPassword(),
 						 member.getEmail(),

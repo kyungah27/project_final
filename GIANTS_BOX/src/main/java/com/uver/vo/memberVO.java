@@ -36,10 +36,9 @@ public class memberVO {
 		super();
 	}
 
-	public memberVO(int seq, String userId, String name, String password, String email, int cellPhone, String birthday,
-			int auth, String regDt, String genre) {
+	public memberVO(String userId, String name, String password, String email, int cellPhone, String birthday,
+			int auth,String genre) {
 		super();
-		this.seq = seq;
 		this.userId = userId;
 		this.name = name;
 		this.password = password;
@@ -47,7 +46,6 @@ public class memberVO {
 		this.cellPhone = cellPhone;
 		this.birthday = birthday;
 		this.auth = auth;
-		this.regDt = regDt;
 		this.genre = genre;
 	}
 
