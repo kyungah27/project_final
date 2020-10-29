@@ -20,30 +20,31 @@ public class JoinDaoImpl {
 		super();
 	}
 
-	public int doInsert(JoinVO vo ) {
-		
-		int flag = 0;
-		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("INSERT INTO event_join ( \n");
-		sb.append("    member_seq,        	\n");
-		sb.append("    event_seq,        	\n");
-		sb.append("    priority          	\n");
-		sb.append(") VALUES (               \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?,                   \n");
-		sb.append("    ?                    \n");
-		sb.append(")                        \n");
-		LOG.debug("=param=\n"+vo);
+	public int doInsert(JoinVO vo) {
 
-		LOG.debug("========================");			
-		
-		Object [] args = {vo.getMember_seq() , vo.getEvent_seq() , vo.getPriority()};
-		
+		int flag = 0;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(" INSERT INTO event_join ( \n");
+		sb.append(" 	    event_seq,       \n");
+		sb.append(" 	    member_seq,      \n");
+		sb.append(" 	    priority   		\n");
+		sb.append(" ) VALUES (               \n");
+		sb.append("     ?,                   \n");
+		sb.append("     ?,                	 \n");
+		sb.append("     ?                 	 \n");
+		sb.append(" )                        \n");
+		LOG.debug("=param=\n" + vo);
+
+		LOG.debug("========================");
+
+		Object[] args = { vo.getMember_seq(), vo.getEvent_seq(), vo.getPriority() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag="+flag);
-		
-		return flag;	
+		LOG.debug("=flag=" + flag);
+
+		return flag;
 	}
+	
+	
 
 }
