@@ -1,7 +1,10 @@
 package com.uver.cmn;
-
-
-
+/**
+ * 모든 VO의 아버지: 모든 VO는 DTO를 상속 받아야 한다.
+ * 
+ * @author sist
+ *
+ */
 public class DTO {
 	/**구분 */
 	private String div;
