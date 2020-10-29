@@ -92,11 +92,9 @@ public class ImgDaoImpl implements ImgDao {
 	
 
 	@Override
-	public int doDelete(ImgVO img) {
+	public int doDelete(int imgSeq) {
 		int flag 	  = 0;	    
-	    Object[] args = { 
-	    				  img.getImgSeq()
-	    				};
+	    Object[] args = { imgSeq };
 	    
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM image \n");
@@ -105,7 +103,7 @@ public class ImgDaoImpl implements ImgDao {
 		
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + img);
+		LOG.debug("[param]\n" + imgSeq);
 		LOG.debug("-----------------------------");			
 		
 		flag = this.jdbcTemplate.update(sb.toString(), args);
@@ -145,9 +143,9 @@ public class ImgDaoImpl implements ImgDao {
 	}
 
 	@Override
-	public List<ImgVO> doSelectList(ImgVO img) {
+	public List<ImgVO> doSelectList(String regId) {
 		List<ImgVO> list = null;	    
-	    Object[] args  = { img.getRegId() };
+	    Object[] args  = { regId };
 	    
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT				\n");
@@ -166,7 +164,7 @@ public class ImgDaoImpl implements ImgDao {
 		
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + img);
+		LOG.debug("[param]\n" + regId);
 		LOG.debug("-----------------------------");			
 		
 		list = (List<ImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
@@ -180,9 +178,9 @@ public class ImgDaoImpl implements ImgDao {
 	}
 
 	@Override
-	public int count(ImgVO img) {
+	public int count(String regId) {
 		int  cnt = 0;
-	    Object[] args  = { img.getRegId() };
+	    Object[] args  = { regId };
 		
 		StringBuilder  sb=new StringBuilder();
 		sb.append(" SELECT COUNT(*) cnt \n");
@@ -190,7 +188,7 @@ public class ImgDaoImpl implements ImgDao {
 		sb.append(" WHERE reg_id = ?    \n");
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + img);
+		LOG.debug("[param]\n" + regId);
 		LOG.debug("-----------------------------");		
 		
 		cnt = this.jdbcTemplate.queryForObject(sb.toString(), args, Integer.class);
@@ -201,13 +199,29 @@ public class ImgDaoImpl implements ImgDao {
     	return cnt;
 	}
 	
-	/**
-	 * 화면에서 사용자가 이미지를 삭제하고 업로드(삽입) 하기 때문에 필요x
-	 */
 	@Override
 	public int doUpdate(ImgVO img) {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag 	  = 0;	    
+	    Object[] args = { 	img.getIsThumbnail(),
+	    					img.getImgSeq()
+	    				};
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE image			\n");
+		sb.append("SET                  \n");
+		sb.append("    is_thumbnail = ? \n");
+		sb.append("WHERE                \n");
+		sb.append("    img_seq = ?      \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + img);
+		LOG.debug("-----------------------------");			
+		
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("[flag] "+flag);
+
+		return flag;
 	}
 	
 	
