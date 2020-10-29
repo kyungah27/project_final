@@ -36,7 +36,7 @@ public interface ImgDao {
 	 * @param id
 	 * @return User
 	 */
-	public User doSelectOne(int imgSeq);
+	public ImgVO doSelectOne(int imgSeq);
 
 	
 	/**
