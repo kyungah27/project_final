@@ -19,7 +19,8 @@ import com.uver.vo.memberVO;
 //메소드 수행 순서:
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringJUnit4ClassRunner.class) // 스프링 테스트 컨텍스트 프레임워크의 JUnit 기능 확장
-@ContextConfiguration(locations = "/src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
+								   "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 
 public class TestMemberDao {
 	Logger LOG = Logger.getLogger(TestMemberDao.class);
