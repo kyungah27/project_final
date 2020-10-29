@@ -37,7 +37,7 @@ public class TestJoinDao {
 	WebApplicationContext context;
 
 	@Autowired
-	JoinDaoImpl joinDao;
+	JoinDao joinDao;
 	
 	JoinVO vo01;
 	JoinVO vo02;

@@ -16,7 +16,7 @@ import com.uver.vo.JoinVO;
 import com.uver99.example.UserDaoImpl;
 
 @Repository("joinDaoImpl")
-public class JoinDaoImpl {
+public class JoinDaoImpl implements JoinDao {
 	private static final Logger LOG = LoggerFactory.getLogger(JoinDaoImpl.class);
 
 	@Autowired
@@ -40,7 +40,8 @@ public class JoinDaoImpl {
 
    };
 	
-
+   
+	@Override
 	public int doInsert(JoinVO vo) {
 
 		int flag = 0;
@@ -66,6 +67,7 @@ public class JoinDaoImpl {
 		return flag;
 	}
 
+	@Override
 	public int doDelete(JoinVO vo) {
 
 		int flag = 0;
@@ -84,6 +86,7 @@ public class JoinDaoImpl {
 		return flag;
 	}
 
+	@Override
 	public int doUpdate(JoinVO vo) {
 		int flag = 0;
 
@@ -103,6 +106,7 @@ public class JoinDaoImpl {
 
 	}
 	
+	@Override
 	public JoinVO doSelectOne(JoinVO vo) {
 				
 		JoinVO outVO = null;		
@@ -126,6 +130,7 @@ public class JoinDaoImpl {
     	return outVO;	
 	}
 	
+	@Override
 	public List doSelectList(JoinVO vo) {
 		
 		List<JoinVO> list = null;
