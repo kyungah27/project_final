@@ -40,9 +40,16 @@ public class TestMemberDao {
 	
 	@Test
 	public void test() {
-		dao.doInsert(member01);
-		dao.doInsert(member02);
-		dao.doInsert(member03);
+//		dao.doInsert(member01);
+//		dao.doInsert(member02);
+//		dao.doInsert(member03);
+		
+		dao.doDelete(member01);
+		dao.doDelete(member02);
+		dao.doDelete(member03);
+		dao.doDelete(member01);
+		dao.doDelete(member02);
+		dao.doDelete(member03);
 	}
 
 	
