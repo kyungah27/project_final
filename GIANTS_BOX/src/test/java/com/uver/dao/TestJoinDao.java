@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver.vo.JoinVO;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
@@ -32,15 +34,26 @@ public class TestJoinDao {
 
 	@Autowired
 	JoinDaoImpl joinDao;
+	
+	JoinVO vo01;
 
 	@Before
 	public void setUp() throws Exception {
+		vo01 = new JoinVO(2,3,0);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
+	
 
+
+	@Test
+	public void doInsert() {
+		int flag = joinDao.doInsert(vo01);
+		assertThat(flag, is(1));
+		
+	}
+	
+	
+	
 	@Test
 	public void bean() {
 		
