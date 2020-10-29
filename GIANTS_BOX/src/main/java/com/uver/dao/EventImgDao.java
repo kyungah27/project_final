@@ -14,37 +14,19 @@ public interface EventImgDao {
 	public int doInsert(EventImgVO eventImgVO);
 	
 	/**
-	 * 이미지 삭제
-	 * 
-	 * @param EventImgVO
-	 * @return 1(성공)/0(실패)
-	 */
-	public int doDelete(EventImgVO eventImgVO);
-
-	
-	/**
-	 * 단건 조회
-	 * 
-	 * @param EventImgVO
-	 * @return EventImgVO
-	 */
-	public EventImgVO doSelectOne(EventImgVO eventImgVO);
-
-	
-	/**
 	 * 다건 조회
 	 * 
-	 * @param EventImgVO
+	 * @param int eventSeq
 	 * @return List<EventImgVO>
 	 */
-	public List<EventImgVO> doSelectList(EventImgVO eventImgVO);
+	public List<EventImgVO> doSelectList(int eventSeq);
 
 	/**
 	 * 카운트
 	 * 
-	 * @param cnt
+	 * @param int eventSeq
 	 * @return int
 	 */
-	public int count(EventImgVO eventImgVO);
+	public int count(int eventSeq);
 
 }
