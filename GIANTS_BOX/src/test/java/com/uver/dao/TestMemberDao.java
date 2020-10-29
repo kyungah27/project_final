@@ -55,7 +55,7 @@ public class TestMemberDao {
 		LOG.debug("** setup() **");
 		LOG.debug("***********************************");
 		LOG.debug("context"+context);
-	 
+		LOG.debug("dao" + dao);
 	}
 	
 	
