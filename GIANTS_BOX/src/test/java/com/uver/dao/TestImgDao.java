@@ -41,6 +41,8 @@ public class TestImgDao {
     ImgVO img01;
     ImgVO img02;
     
+    //---테스트 전 시퀀스 번호 확인 (nextval)
+    int seq = 87;
     
     @Before
 	public void setUp() throws Exception {
@@ -48,11 +50,10 @@ public class TestImgDao {
 		LOG.debug("[context] " + context);
 		LOG.debug("[imgDao] " + dao);
     	
-		//---시퀀스, 원래이름, 서버이름, 타입, 크기(int), 썸네일여부, 등록일, 등록id
-		int currSeq = 10;
 		
-    	img01 = new ImgVO(currSeq, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
-    	img02 = new ImgVO(currSeq+1, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		//---시퀀스, 원래이름, 서버이름, 타입, 크기(int), 썸네일여부, 등록일, 등록id
+    	img01 = new ImgVO(seq, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+    	img02 = new ImgVO(seq+1, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
     	
     	LOG.debug("[img01] " + img01);
     	LOG.debug("[img02] " + img02);
@@ -62,25 +63,73 @@ public class TestImgDao {
 	
 	@Test
 	@Ignore
-	public void test() { LOG.debug("---test---"); }
+	public void test() {
+		LOG.debug("---test---");
+		
+//		dao.doInsert(img01);
+//		dao.doDelete(img01.getImgSeq());
+//		LOG.debug("[시퀀스 번호 재설정] " + (seq+1));
+	}
 	
 	@Test
 	@Ignore
 	public void addAndGet() {
 		
-		//---1. 삭제 (seq 설정 필요)
-		int flagDel = dao.doDelete(img01);
-		assertThat(flagDel, is(1));
+		//---추가
+		int flagInsert = dao.doInsert(img01);
+		flagInsert += dao.doInsert(img02);
+		assertThat(flagInsert, is(2));
 		
-		//---2. 추가
-		int flagInsert = dao.doInsert(img02);
-		assertThat(flagInsert, is(1));
+		//---단건조회
+		checkImg(img01, dao.doSelectOne(img01.getImgSeq()));
+		checkImg(img02, dao.doSelectOne(img02.getImgSeq()));
 		
-		//---3. 단건조회
-		ImgVO outVO = dao.doSelectOne(img02.getImgSeq());
-		checkImg(img02, outVO);
+		//---삭제
+		int flagDel = dao.doDelete(img01.getImgSeq());
+		flagDel += dao.doDelete(img02.getImgSeq());
+		assertThat(flagDel, is(2));
 		
+		LOG.debug("[시퀀스 번호 재설정] " + (seq+2));
 	}
+	
+	@Test
+	@Ignore
+	public void getAll() {
+		
+		dao.doInsert(img02);
+		dao.doInsert(img02);
+		
+		List<ImgVO> list = dao.doSelectList(img02.getRegId());
+		checkImg(dao.doSelectOne(img02.getImgSeq()), list.get(0));
+		checkImg(dao.doSelectOne(img02.getImgSeq()-1), list.get(1));
+    	
+		int cnt = dao.count(img02.getRegId());
+		assertThat(list.size(), is(cnt));
+		
+		dao.doDelete(img02.getImgSeq());
+		dao.doDelete(img02.getImgSeq()-1);
+		LOG.debug("[시퀀스 번호 재설정] " + (seq+2));
+	}
+	
+	@Test
+	public void updateImg () {
+		
+		dao.doInsert(img01);
+
+		//---썸네일 여부 변경
+    	ImgVO uImg01 = new ImgVO(seq, "originName01", "serverName01", "png", 10, "n", "2020-08-08", "regId01");
+    	int flag = dao.doUpdate(uImg01);
+    	assertThat(flag, is(1));
+		
+		dao.doDelete(img01.getImgSeq());
+		
+		LOG.debug("[시퀀스 번호 재설정] " + (seq+1));
+	}
+	
+	
+	
+	
+	
 	
 	
 	private void checkImg (ImgVO inVO, ImgVO vsVO) {
@@ -97,5 +146,4 @@ public class TestImgDao {
 	public void tearDown() throws Exception {	
     	LOG.debug("---tearDown()----------------------");
 	}
-
 }

@@ -3,7 +3,6 @@ package com.uver.dao;
 import java.util.List;
 
 import com.uver.vo.ImgVO;
-import com.uver99.example.User;
 
 public interface ImgDao {
 
@@ -20,7 +19,7 @@ public interface ImgDao {
 	 * @param ImgVO
 	 * @return 1(성공)/0(실패)
 	 */
-	public int doDelete(ImgVO imgVO);
+	public int doDelete(int imgSeq);
 	
 	/**
 	 * 이미지 수정
@@ -33,27 +32,27 @@ public interface ImgDao {
 	/**
 	 * 이미지 단건조회
 	 * 
-	 * @param id
-	 * @return User
+	 * @param int imgSeq
+	 * @return ImgVO
 	 */
 	public ImgVO doSelectOne(int imgSeq);
 
 	
 	/**
-	 * 등록자id 기준 이미지 다건조회
+	 * 등록ID 기준 이미지 다건조회
 	 * 
-	 * @param ImgVO
+	 * @param String regId
 	 * @return List<ImgVO>
 	 */
-	public List<ImgVO> doSelectList(ImgVO imgVO);
+	public List<ImgVO> doSelectList(String regId);
 
 	/**
-	 * 카운트
+	 * 등록ID 기준 카운트
 	 * 
-	 * @param cnt
+	 * @param String regId
 	 * @return int
 	 */
-	public int count(ImgVO imgVO);
+	public int count(String regId);
 	
 	
 }

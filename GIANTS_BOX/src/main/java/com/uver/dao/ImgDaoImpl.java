@@ -11,8 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.ImgVO;
-import com.uver99.example.Level;
-import com.uver99.example.User;
 
 
 @Repository("imgDao")
@@ -94,11 +92,9 @@ public class ImgDaoImpl implements ImgDao {
 	
 
 	@Override
-	public int doDelete(ImgVO img) {
+	public int doDelete(int imgSeq) {
 		int flag 	  = 0;	    
-	    Object[] args = { 
-	    				  img.getImgSeq()
-	    				};
+	    Object[] args = { imgSeq };
 	    
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM image \n");
@@ -107,7 +103,7 @@ public class ImgDaoImpl implements ImgDao {
 		
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + img);
+		LOG.debug("[param]\n" + imgSeq);
 		LOG.debug("-----------------------------");			
 		
 		flag = this.jdbcTemplate.update(sb.toString(), args);
@@ -146,44 +142,89 @@ public class ImgDaoImpl implements ImgDao {
 		return outVO;
 	}
 
-	/**
-	 * 중간 조인 단계 테이블에서 가져오므로 필요x
-	 */
 	@Override
-	public List<ImgVO> doSelectList(ImgVO img) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ImgVO> doSelectList(String regId) {
+		List<ImgVO> list = null;	    
+	    Object[] args  = { regId };
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT				\n");
+		sb.append("    img_seq,         \n");
+		sb.append("    origin_name,     \n");
+		sb.append("    server_name,     \n");
+		sb.append("    img_type,        \n");
+		sb.append("    img_size,        \n");
+		sb.append("    is_thumbnail,    \n");
+		sb.append("    reg_dt,          \n");
+		sb.append("    reg_id           \n");
+		sb.append("FROM                 \n");
+		sb.append("    IMAGE            \n");
+		sb.append("WHERE reg_id = ?     \n");
+		sb.append("ORDER BY reg_dt DESC \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + regId);
+		LOG.debug("-----------------------------");			
+		
+		list = (List<ImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
+		LOG.debug("-----------------------------");
+		for (ImgVO vo : list) {
+			LOG.debug("[vo] " + list);
+		}
+		LOG.debug("-----------------------------");
+		
+		return list;
 	}
 
+	@Override
+	public int count(String regId) {
+		int  cnt = 0;
+	    Object[] args  = { regId };
+		
+		StringBuilder  sb=new StringBuilder();
+		sb.append(" SELECT COUNT(*) cnt \n");
+		sb.append(" FROM IMAGE          \n");
+		sb.append(" WHERE reg_id = ?    \n");
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + regId);
+		LOG.debug("-----------------------------");		
+		
+		cnt = this.jdbcTemplate.queryForObject(sb.toString(), args, Integer.class);
+		LOG.debug("-----------------------------");
+		LOG.debug("[count] "+cnt);
+		LOG.debug("-----------------------------");
+
+    	return cnt;
+	}
 	
-	/**
-	 * 화면에서 사용자가 이미지를 삭제하고 업로드(삽입) 하기 때문에 필요x
-	 */
 	@Override
 	public int doUpdate(ImgVO img) {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag 	  = 0;	    
+	    Object[] args = { 	img.getIsThumbnail(),
+	    					img.getImgSeq()
+	    				};
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE image			\n");
+		sb.append("SET                  \n");
+		sb.append("    is_thumbnail = ? \n");
+		sb.append("WHERE                \n");
+		sb.append("    img_seq = ?      \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + img);
+		LOG.debug("-----------------------------");			
+		
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("[flag] "+flag);
+
+		return flag;
 	}
 	
-	/**
-	 * 중간 조인 단계 테이블에서 카운트하므로 필요x
-	 */
-	@Override
-	public int count(ImgVO img) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+	
     
     
     
