@@ -36,7 +36,6 @@ public class UserDaoImpl implements UserDao {
 			outVO.setRegDt(rs.getString("reg_dt"));
 			return outVO;
 		}
-
    };
     
    /**
