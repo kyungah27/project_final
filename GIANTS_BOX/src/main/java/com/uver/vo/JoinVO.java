@@ -8,53 +8,68 @@ import com.uver.cmn.DTO;
 
 public class JoinVO extends DTO {
 	
-	private int event_seq;
-	private int member_seq;
+	private int eventSeq;
+	private int memberSeq;
 	private int priority;
+	private String regDt;
 	
 	public JoinVO() {
 		
 	}
-	
 
-	
-	
-	
-	public JoinVO(int event_seq, int member_seq, int priority) {
+	public JoinVO(int eventSeq, int memberSeq, int priority) {
 		super();
-		this.event_seq = event_seq;
-		this.member_seq = member_seq;
+		this.eventSeq = eventSeq;
+		this.memberSeq = memberSeq;
 		this.priority = priority;
 	}
 
-
-
-
-
-	public int getMember_seq() {
-		return member_seq;
+	public int getEventSeq() {
+		return eventSeq;
 	}
-	public void setMember_seq(int member_seq) {
-		this.member_seq = member_seq;
+
+	public void setEventSeq(int eventSeq) {
+		this.eventSeq = eventSeq;
 	}
-	public int getEvent_seq() {
-		return event_seq;
+
+	public int getMemberSeq() {
+		return memberSeq;
 	}
-	public void setEvent_seq(int event_seq) {
-		this.event_seq = event_seq;
+
+	public void setMemberSeq(int memberSeq) {
+		this.memberSeq = memberSeq;
 	}
+
 	public int getPriority() {
 		return priority;
 	}
+
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
 	
+	public String getRegDt() {
+		return regDt;
+	}
+
+	public void setRegDt(String regDt) {
+		this.regDt = regDt;
+	}
+	
+
 	@Override
 	public String toString() {
-		return "JoinVO [member_seq=" + member_seq + ", event_seq=" + event_seq + ", priority=" + priority
-				+ ", toString()=" + super.toString() + "]";
+		return "JoinVO [eventSeq=" + eventSeq + ", memberSeq=" + memberSeq + ", priority=" + priority + ", regDt="
+				+ regDt + ", toString()=" + super.toString() + "]";
 	}
+
+
+	
+	
+
+	
+	
+	
 
 	
 	
