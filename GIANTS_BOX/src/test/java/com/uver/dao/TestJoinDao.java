@@ -4,9 +4,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -36,21 +40,73 @@ public class TestJoinDao {
 	JoinDaoImpl joinDao;
 	
 	JoinVO vo01;
+	JoinVO vo02;
+	JoinVO vo03;
 
+	List<JoinVO> joinArr;
+	
 	@Before
 	public void setUp() throws Exception {
-		vo01 = new JoinVO(2,3,0);
+		joinArr = Arrays.asList(
+		vo01 = new JoinVO(1001,1001,1),
+		vo02 = new JoinVO(1001,1002,0),
+		vo03 = new JoinVO(1002,1001,1)
+		);
 	}
 
 	
 
-
+	// insert delete update selectOne
 	@Test
-	public void doInsert() {
-		int flag = joinDao.doInsert(vo01);
+	@Ignore
+	public void addAndGet() {		
+		int flag = 0;	
+		// insert delete test
+		for(JoinVO vo : joinArr) {
+			flag = joinDao.doDelete(vo);
+			assertThat(flag, is(1));
+		}		
+		for(JoinVO vo : joinArr) {
+			flag = joinDao.doInsert(vo);
+			assertThat(flag, is(1));
+		}
+		//업데이트 테스트
+		JoinVO updateVO = new JoinVO(1001, 1002 ,1);
+		flag = joinDao.doUpdate(updateVO);
 		assertThat(flag, is(1));
+		//셀렉원 업데이트 검증
+		JoinVO vsVO = joinDao.doSelectOne(updateVO);
+		checkVO(updateVO,vsVO);	
+		JoinVO test = new JoinVO();
+	}
+	
+	@Test
+	public void SelectList() {
+		//event로 검색
+		JoinVO voSeartToEvent = new JoinVO();
+		voSeartToEvent.setEventSeq(1001);
+		List<JoinVO> list01 = joinDao.doSelectList(voSeartToEvent);
+		for(JoinVO vo : list01) {
+			LOG.debug(vo.toString());
+			assertThat(vo.getEventSeq(), is(voSeartToEvent.getEventSeq()));
+		}
+		//member로 검색
+		JoinVO voSeartToMember = new JoinVO();
+		voSeartToMember.setMemberSeq(1001);
+		List<JoinVO> list02 = joinDao.doSelectList(voSeartToMember);
+		for(JoinVO vo : list02) {
+			LOG.debug(vo.toString());
+			assertThat(vo.getMemberSeq(), is(voSeartToMember.getMemberSeq()));
+		}
 		
 	}
+	
+	
+    private void checkVO(JoinVO orgUser, JoinVO vsUser) {
+    	assertThat(orgUser.getPriority(), is(vsUser.getPriority()));
+    	assertThat(orgUser.getEventSeq(), is(vsUser.getEventSeq()));
+    	assertThat(orgUser.getMemberSeq(), is(vsUser.getMemberSeq()));
+    }
 	
 	
 	
