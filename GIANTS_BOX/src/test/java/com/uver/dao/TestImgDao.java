@@ -21,7 +21,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.uver.vo.ImgVO;
-import com.uver99.example.User;
 
   
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
