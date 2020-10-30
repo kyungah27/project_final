@@ -14,7 +14,7 @@ import com.uver.vo.ImgVO;
 
 
 @Repository("imgDao")
-public class ImgDaoImpl implements ImgDao {
+public class ImgDaoImpl {
 	private static final Logger LOG = LoggerFactory.getLogger(ImgDaoImpl.class);
     
     private final JdbcTemplate jdbcTemplate;
@@ -25,7 +25,6 @@ public class ImgDaoImpl implements ImgDao {
     
     //---row mapper------------------------------------------------
     RowMapper<ImgVO> rowMapper= new RowMapper<ImgVO>() {
-		@Override
 		public ImgVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ImgVO outVO = new ImgVO(
 						rs.getInt("img_seq"),
@@ -45,7 +44,6 @@ public class ImgDaoImpl implements ImgDao {
     
     
    //---메서드----------------------------------------------------------
-	@Override
 	public int doInsert(ImgVO img) {
 		int flag 	  = 0;	    
 	    Object[] args = { 
@@ -91,7 +89,6 @@ public class ImgDaoImpl implements ImgDao {
 	
 	
 
-	@Override
 	public int doDelete(int imgSeq) {
 		int flag 	  = 0;	    
 	    Object[] args = { imgSeq };
@@ -112,7 +109,6 @@ public class ImgDaoImpl implements ImgDao {
 		return flag;
 	}
 
-	@Override
 	public ImgVO doSelectOne(int seq) {
 		ImgVO 	 outVO = null;	    
 	    Object[] args  = { seq };
@@ -142,7 +138,6 @@ public class ImgDaoImpl implements ImgDao {
 		return outVO;
 	}
 
-	@Override
 	public List<ImgVO> doSelectList(String regId) {
 		List<ImgVO> list = null;	    
 	    Object[] args  = { regId };
@@ -177,7 +172,6 @@ public class ImgDaoImpl implements ImgDao {
 		return list;
 	}
 
-	@Override
 	public int count(String regId) {
 		int  cnt = 0;
 	    Object[] args  = { regId };
@@ -199,7 +193,6 @@ public class ImgDaoImpl implements ImgDao {
     	return cnt;
 	}
 	
-	@Override
 	public int doUpdate(ImgVO img) {
 		int flag 	  = 0;	    
 	    Object[] args = { 	img.getIsThumbnail(),
