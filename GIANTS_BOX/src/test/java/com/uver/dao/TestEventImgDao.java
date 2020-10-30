@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -72,7 +73,7 @@ public class TestEventImgDao {
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void addAndGet() {
 		
 		//---추가
@@ -93,7 +94,7 @@ public class TestEventImgDao {
 	
 	@After
 	public void tearDown() throws Exception {
-		
+		LOG.debug("---tearDown()---");		
 	}
 
 }
