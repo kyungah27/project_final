@@ -15,7 +15,7 @@ import com.uver.vo.ImgVO;
 
 
 @Repository("eventImgDao")
-public class EventImgDaoImpl implements EventImgDao {
+public class EventImgDaoImpl {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgDaoImpl.class);
     
     private final JdbcTemplate jdbcTemplate;
@@ -48,7 +48,6 @@ public class EventImgDaoImpl implements EventImgDao {
     
     
    //---메서드----------------------------------------------------------
-	@Override
 	public int doInsert(EventImgVO eventImg) {
 		int 	 flag = 0;	    
 	    Object[] args = { eventImg.getImgSeq(),
@@ -73,7 +72,6 @@ public class EventImgDaoImpl implements EventImgDao {
 		return flag;
 	}
 
-	@Override
 	public List<EventImgVO> doSelectList(int eventSeq) {
 		List<EventImgVO> list = null;	    
 	    Object[] args  = { eventSeq };
@@ -107,7 +105,6 @@ public class EventImgDaoImpl implements EventImgDao {
 		return list;
 	}
 
-	@Override
 	public int count(int eventSeq) {
 		int  cnt = 0;
 	    Object[] args  = { eventSeq };
