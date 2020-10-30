@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -34,7 +35,7 @@ public class TestEventImgDao {
     WebApplicationContext  context;
     
     @Autowired
-    EventImgDao dao;
+    EventImgDaoImpl dao;
     
     EventImgVO eventImg01;
     EventImgVO eventImg02;
@@ -64,17 +65,16 @@ public class TestEventImgDao {
 
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void test() {
-		LOG.debug("---test---");
+		LOG.debug("---test()---");
 	}
 	
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void addAndGet() {
-		
 		//---추가
 		int flag = dao.doInsert(eventImg01);
 		flag += dao.doInsert(eventImg02);
@@ -87,13 +87,21 @@ public class TestEventImgDao {
 		assertThat(eventImg02, is(list.get(1)));
 		
 		assertThat(dao.count(eventImg01.getEventSeq()), is(list.size()));
-		
+	}
+	
+	@Test
+//	@Ignore
+	public void doSelectOne() {
+		//---단건 조회
+		dao.doSelectOne(eventImg01.getImgSeq());
+		dao.doSelectOne(eventImg02.getImgSeq());
+		dao.doSelectOne(eventImg03.getImgSeq());
 	}
 	
 	
 	@After
 	public void tearDown() throws Exception {
-		
+		LOG.debug("---tearDown()---");		
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.uver.dao;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -35,13 +36,13 @@ public class TestImgDao {
     WebApplicationContext  context;
     
     @Autowired
-    ImgDao dao;
+    ImgDaoImpl dao;
     
     ImgVO img01;
     ImgVO img02;
     
     //---테스트 전 시퀀스 번호 확인 (nextval)
-    int seq = 92;
+    int seq = 117;
     
     @Before
 	public void setUp() throws Exception {
@@ -61,62 +62,60 @@ public class TestImgDao {
     
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void test() {
 		LOG.debug("---test---");
 		
-//		int flag = 0;
-//		flag += dao.doInsert(img01);
-//		flag += dao.doInsert(img02);
-//		dao.doDelete(img01.getImgSeq());
-//		dao.doDelete(img02.getImgSeq());
-//		LOG.debug("[시퀀스 번호 재설정] " + (seq+flag));
+//		int img01Seq = dao.doInsert(img01);
+//		int img02Seq = dao.doInsert(img02);
+//		int flag = dao.doDelete(img01Seq);
+//		flag += dao.doDelete(img02Seq);
+//		LOG.debug("[시퀀스 번호 재설정] " + (img02Seq + 1));
 	}
 	
 	@Test
 	@Ignore
 	public void addAndGet() {
 		
-		//---추가
-		int flagInsert = dao.doInsert(img01);
-		flagInsert += dao.doInsert(img02);
-		assertThat(flagInsert, is(2));
-		
-		//---단건조회
-		checkImg(img01, dao.doSelectOne(img01.getImgSeq()));
-		checkImg(img02, dao.doSelectOne(img02.getImgSeq()));
+		//---추가 & 단건 조회
+		int img01Seq = dao.doInsert(img01);
+		int img02Seq = dao.doInsert(img02);
+		assertThat(dao.doSelectOne(img01Seq), is(notNullValue()));
+		assertThat(dao.doSelectOne(img02Seq), is(notNullValue()));
 		
 		//---삭제
-		int flagDel = dao.doDelete(img01.getImgSeq());
-		flagDel += dao.doDelete(img02.getImgSeq());
+		int flagDel = dao.doDelete(img01Seq);
+		flagDel += dao.doDelete(img02Seq);
 		assertThat(flagDel, is(2));
 		
-		LOG.debug("[시퀀스 번호 재설정] " + (seq+2));
+		LOG.debug("[시퀀스 번호 재설정] " + (img02Seq+1));
 	}
+	
+	
 	
 	@Test
 	@Ignore
 	public void getAll() {
 		
-		dao.doInsert(img02);
-		dao.doInsert(img02);
+		int img02Seq1 = dao.doInsert(img02);
+		int img02Seq2 = dao.doInsert(img02);
 		
 		List<ImgVO> list = dao.doSelectList(img02.getRegId());
-		checkImg(dao.doSelectOne(img02.getImgSeq()), list.get(0));
-		checkImg(dao.doSelectOne(img02.getImgSeq()-1), list.get(1));
+		checkImg(dao.doSelectOne(img02Seq1), list.get(0));
+		checkImg(dao.doSelectOne(img02Seq2), list.get(1));
     	
 		int cnt = dao.count(img02.getRegId());
 		assertThat(list.size(), is(cnt));
 		
-		dao.doDelete(img02.getImgSeq());
-		dao.doDelete(img02.getImgSeq()-1);
-		LOG.debug("[시퀀스 번호 재설정] " + (seq+2));
+		int flag = dao.doDelete(img02Seq2);
+		flag += dao.doDelete(img02Seq1);
+		
+		LOG.debug("[시퀀스 번호 재설정] " + (seq+flag));
 	}
 	
 	@Test
 	@Ignore
 	public void updateImg () {
-		
 		dao.doInsert(img01);
 
 		//---썸네일 여부 변경
@@ -128,10 +127,6 @@ public class TestImgDao {
 		
 		LOG.debug("[시퀀스 번호 재설정] " + (seq+1));
 	}
-	
-	
-	
-	
 	
 	
 	
