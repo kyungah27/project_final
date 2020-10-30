@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.uver.vo.EventImgVO;
+import com.uver.vo.ImgVO;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)//스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
@@ -38,17 +39,17 @@ public class TestEventImgService {
 		LOG.debug("[context] " + context);
 		LOG.debug("[EventImgService] " + service);
 		
-//		ImgVO img01 = new ImgVO(89, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
-//		ImgVO img02 = new ImgVO(90, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
-//		
-//		//---이미지 시퀀스, 이벤트 시퀀스
-//		eventImg01 = new EventImgVO(89, 2, img01);
-//		eventImg02 = new EventImgVO(90, 2, img02);
-//		eventImg03 = new EventImgVO(91, 3, img01);
-//    	
-//    	LOG.debug("[eventImg01] " + eventImg01);
-//    	LOG.debug("[eventImg02] " + eventImg02);
-//    	LOG.debug("[eventImg03] " + eventImg03);
+		ImgVO img01 = new ImgVO(89, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+		ImgVO img02 = new ImgVO(90, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		
+		//---이미지 시퀀스, 이벤트 시퀀스
+		EventImgVO eventImg01 = new EventImgVO(89, 2, img01);
+		EventImgVO eventImg02 = new EventImgVO(90, 2, img02);
+		EventImgVO eventImg03 = new EventImgVO(91, 3, img01);
+    	
+    	LOG.debug("[eventImg01] " + eventImg01);
+    	LOG.debug("[eventImg02] " + eventImg02);
+    	LOG.debug("[eventImg03] " + eventImg03);
     	LOG.debug("----------------------------------");
     	
     }
