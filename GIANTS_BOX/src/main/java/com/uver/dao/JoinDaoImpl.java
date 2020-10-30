@@ -166,6 +166,31 @@ public class JoinDaoImpl implements JoinDao {
     			                        rowMapper);				
     	return list;	
 	}
+	
+	@Override
+	public int doSelectMinReg(int event_seq) {
+		
+		List<Integer> list = null;
+		JoinVO outVO = null;		
+		StringBuilder  sb=new StringBuilder();
+		sb.append("SELECT member_seq                       \n");
+		sb.append("FROM   event_join                       \n");
+		sb.append("WHERE  event_seq  = ?                   \n");
+		sb.append("AND reg_dt = (Select MIN(reg_dt)        \n");
+		sb.append("                FROM event_join         \n");
+		sb.append("                WHERE event_seq = ?	 ) \n");
+		Object args[] = {event_seq , event_seq};
+		list =  this.jbcTemplate.queryForList(sb.toString(), 
+    			                        args, 
+    			                        Integer.class);		
+		for(int i : list) {
+			LOG.debug("i" + i);
+		}
+    	
+    	return list.get(0);	
+	}
+	
+	
 
 
 }

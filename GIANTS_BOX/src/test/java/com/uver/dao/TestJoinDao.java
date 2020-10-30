@@ -42,6 +42,8 @@ public class TestJoinDao {
 	JoinVO vo01;
 	JoinVO vo02;
 	JoinVO vo03;
+	JoinVO vo04;
+	JoinVO vo05;
 
 	List<JoinVO> joinArr;
 	
@@ -50,7 +52,9 @@ public class TestJoinDao {
 		joinArr = Arrays.asList(
 		vo01 = new JoinVO(1001,28,1),
 		vo02 = new JoinVO(1001,27,0),
-		vo03 = new JoinVO(1002,29,1)
+		vo03 = new JoinVO(1001,29,0),
+		vo04 = new JoinVO(1002,27,0),
+		vo05 = new JoinVO(1002,29,1)
 		);
 	}
 
@@ -61,16 +65,16 @@ public class TestJoinDao {
 	public void addAndGet() {		
 		int flag = 0;	
 		// insert delete test
+
 		for(JoinVO vo : joinArr) {
 			flag = joinDao.doDelete(vo);
-			assertThat(flag, is(1));
 		}		
 		for(JoinVO vo : joinArr) {
 			flag = joinDao.doInsert(vo);
 			assertThat(flag, is(1));
 		}
 		//업데이트 테스트
-		JoinVO updateVO = new JoinVO(1001, 27 ,1);
+		JoinVO updateVO = new JoinVO(1001, 27 ,0);
 		flag = joinDao.doUpdate(updateVO);
 		assertThat(flag, is(1));
 		//셀렉원 업데이트 검증
@@ -99,6 +103,12 @@ public class TestJoinDao {
 			assertThat(vo.getMemberSeq(), is(voSeartToMember.getMemberSeq()));
 		}
 		
+	}
+	
+	@Test
+	public void MinRegTest() {
+		int minRegId = joinDao.doSelectMinReg(1001);
+		LOG.debug(minRegId+"");
 	}
 	
 	
