@@ -65,9 +65,9 @@ public class TestEventImgDao {
 
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void test() {
-		LOG.debug("---test---");
+		LOG.debug("---test()---");
 	}
 	
 	
@@ -75,7 +75,6 @@ public class TestEventImgDao {
 	@Test
 	@Ignore
 	public void addAndGet() {
-		
 		//---추가
 		int flag = dao.doInsert(eventImg01);
 		flag += dao.doInsert(eventImg02);
@@ -88,7 +87,15 @@ public class TestEventImgDao {
 		assertThat(eventImg02, is(list.get(1)));
 		
 		assertThat(dao.count(eventImg01.getEventSeq()), is(list.size()));
-		
+	}
+	
+	@Test
+//	@Ignore
+	public void doSelectOne() {
+		//---단건 조회
+		dao.doSelectOne(eventImg01.getImgSeq());
+		dao.doSelectOne(eventImg02.getImgSeq());
+		dao.doSelectOne(eventImg03.getImgSeq());
 	}
 	
 	
