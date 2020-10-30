@@ -25,7 +25,7 @@ public class EventImgDaoImpl {
     }
     
     //---row mapper------------------------------------------------
-    RowMapper<EventImgVO> rowMapper= new RowMapper<EventImgVO>() {
+    RowMapper<EventImgVO> rowMapperJoin= new RowMapper<EventImgVO>() {
 		@Override
 		public EventImgVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			EventImgVO outVO = new EventImgVO(
@@ -44,8 +44,9 @@ public class EventImgDaoImpl {
 									);
 			return outVO;
 		}
-   }; //---row mapper end
-    
+   };
+   
+   
     
    //---메서드----------------------------------------------------------
 	public int doInsert(EventImgVO eventImg) {
@@ -72,6 +73,38 @@ public class EventImgDaoImpl {
 		return flag;
 	}
 
+	
+	public EventImgVO doSelectOne(int imgSeq){
+	    Object[] args  = { imgSeq };
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT ei.img_seq			\n");
+		sb.append("      ,ei.event_seq            \n");
+		sb.append("      ,i.origin_name         \n");
+		sb.append("      ,i.server_name         \n");
+		sb.append("      ,i.img_type            \n");
+		sb.append("      ,i.img_size            \n");
+		sb.append("      ,i.is_thumbnail        \n");    
+		sb.append("      ,i.reg_dt              \n");
+		sb.append("      ,i.reg_id              \n");
+		sb.append("FROM event_image ei, image i \n");
+		sb.append("WHERE ei.img_seq = i.img_seq \n");
+		sb.append("AND   ei.img_seq= ?           \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + imgSeq);
+		LOG.debug("-----------------------------");			
+		
+		EventImgVO outVO = (EventImgVO) this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapperJoin);
+		LOG.debug("-----------------------------");
+		LOG.debug("[EventImgVO] " + outVO);
+		LOG.debug("-----------------------------");
+		
+		return outVO;
+	}
+	
+	
 	public List<EventImgVO> doSelectList(int eventSeq) {
 		List<EventImgVO> list = null;	    
 	    Object[] args  = { eventSeq };
@@ -95,7 +128,7 @@ public class EventImgDaoImpl {
 		LOG.debug("[param]\n" + eventSeq);
 		LOG.debug("-----------------------------");			
 		
-		list = (List<EventImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
+		list = (List<EventImgVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapperJoin);
 		LOG.debug("-----------------------------");
 		for (EventImgVO vo : list) {
 			LOG.debug("[vo] " + list);
