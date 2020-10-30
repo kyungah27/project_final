@@ -1,5 +1,7 @@
 package com.uver.service;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -40,9 +42,9 @@ public class TestJoinService {
 	@Test
 	public void bean() {
 		LOG.debug("context  :"  + 	context);
-		LOG.debug("joinService  :"  + joinService);
-		
-		
+		LOG.debug("joinService  :"  + joinService);	
+		assertThat(context, is(notNullValue()));
+		assertThat(joinService, is(notNullValue()));
 	}
 
 }

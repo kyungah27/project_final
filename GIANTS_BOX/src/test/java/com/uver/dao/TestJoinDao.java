@@ -48,9 +48,9 @@ public class TestJoinDao {
 	@Before
 	public void setUp() throws Exception {
 		joinArr = Arrays.asList(
-		vo01 = new JoinVO(1001,1001,1),
-		vo02 = new JoinVO(1001,1002,0),
-		vo03 = new JoinVO(1002,1001,1)
+		vo01 = new JoinVO(1001,28,1),
+		vo02 = new JoinVO(1001,27,0),
+		vo03 = new JoinVO(1002,29,1)
 		);
 	}
 
@@ -58,7 +58,6 @@ public class TestJoinDao {
 
 	// insert delete update selectOne
 	@Test
-	@Ignore
 	public void addAndGet() {		
 		int flag = 0;	
 		// insert delete test
@@ -71,7 +70,7 @@ public class TestJoinDao {
 			assertThat(flag, is(1));
 		}
 		//업데이트 테스트
-		JoinVO updateVO = new JoinVO(1001, 1002 ,1);
+		JoinVO updateVO = new JoinVO(1001, 27 ,1);
 		flag = joinDao.doUpdate(updateVO);
 		assertThat(flag, is(1));
 		//셀렉원 업데이트 검증
@@ -81,6 +80,7 @@ public class TestJoinDao {
 	}
 	
 	@Test
+	@Ignore
 	public void SelectList() {
 		//event로 검색
 		JoinVO voSeartToEvent = new JoinVO();

@@ -60,7 +60,7 @@ public class JoinDaoImpl implements JoinDao {
 
 		LOG.debug("========================");
 
-		Object[] args = { vo.getMemberSeq(), vo.getEventSeq(), vo.getPriority() };
+		Object[] args = { vo.getEventSeq(), vo.getMemberSeq(), vo.getPriority() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 
@@ -79,7 +79,7 @@ public class JoinDaoImpl implements JoinDao {
 		sb.append("    event_seq = ?       \n");
 		sb.append("    AND member_seq = ?  \n");
 
-		Object[] args = { vo.getMemberSeq(), vo.getEventSeq() };
+		Object[] args = { vo.getEventSeq(), vo.getMemberSeq() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 

@@ -17,16 +17,35 @@ public class JoinServiceImpl implements JoinService {
 	JoinDao joinDao;
 	
 	@Override
+	public int doDelete(JoinVO vo) {
+		// TODO Auto-generated method stub
+		if(vo.getPriority() == 1) {
+			List<JoinVO> list  = joinDao.doSelectList(vo);  //쿼리하나 짜야하나 싶음 일단.
+			for(int i=0; i<list.size(); i++) {			
+			}
+		}
+		
+		
+		
+		
+		return joinDao.doDelete(vo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//----------------bypass---------------------- 
+	@Override
 	public int doInsert(JoinVO vo) {
 		// TODO Auto-generated method stub
 		return joinDao.doInsert(vo);
 	}
 
-	@Override
-	public int doDelete(JoinVO vo) {
-		// TODO Auto-generated method stub
-		return joinDao.doDelete(vo);
-	}
+
 
 	@Override
 	public int doUpdate(JoinVO vo) {
