@@ -18,7 +18,7 @@ public class memberVO {
 	private String email;
 	
 	/**휴대폰*/
-	private int cellPhone;
+	private String cellPhone;
 	
 	/**생년월일*/
 	private String birthday;
@@ -36,10 +36,9 @@ public class memberVO {
 		super();
 	}
 
-	public memberVO(int seq, String userId, String name, String password, String email, int cellPhone, String birthday,
-			int auth, String regDt, String genre) {
+	public memberVO(String userId, String name, String password, String email, String cellPhone, String birthday,
+			int auth,String genre) {
 		super();
-		this.seq = seq;
 		this.userId = userId;
 		this.name = name;
 		this.password = password;
@@ -47,7 +46,6 @@ public class memberVO {
 		this.cellPhone = cellPhone;
 		this.birthday = birthday;
 		this.auth = auth;
-		this.regDt = regDt;
 		this.genre = genre;
 	}
 
@@ -91,11 +89,11 @@ public class memberVO {
 		this.email = email;
 	}
 
-	public int getCellPhone() {
+	public String getCellPhone() {
 		return cellPhone;
 	}
 
-	public void setCellPhone(int cellPhone) {
+	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
 

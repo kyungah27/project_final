@@ -178,7 +178,6 @@ public class TestUserDao01 {
     	
     	//업는 데이터 조회
     	userDao.doSelectOne("unknown_id");
-    	
     }
     
     @Test
