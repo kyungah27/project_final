@@ -26,14 +26,12 @@ public class EventImgServiceImpl implements EventImgService {
 		this.imgDao 	 = imgDao;
 	}
 
-	
-	
 	@Override
 	public int doInsert(EventImgVO eventImg) {
 		int flag = 0;
 
-		imgDao.doInsert(eventImg.getImgVO());
-		eventImgDao.doInsert(eventImg);
+		int imgSeq = imgDao.doInsert(eventImg.getImgVO());
+		flag = eventImgDao.doInsert(new EventImgVO(imgSeq, eventImg.getEventSeq()));
 		
 		return flag;
 	}
@@ -44,30 +42,27 @@ public class EventImgServiceImpl implements EventImgService {
 		return imgDao.doDelete(imgSeq);
 	}
 	
-	/**
-	 * 썸네일 여부 변경만 일어남
-	 */
 	@Override
 	public int doUpdate(EventImgVO eventImg) {
 		return imgDao.doUpdate(eventImg.getImgVO());
 	}
 
 	@Override
-	public ImgVO doSelectOne(int imgSeq) {
-		return imgDao.doSelectOne(imgSeq);
+	public EventImgVO doSelectOne(int imgSeq) {
+		return eventImgDao.doSelectOne(imgSeq);
 	}
+
+
+	@Override
+	public List<EventImgVO> doSelectAll(int eventSeq) {
+		return eventImgDao.doSelectList(eventSeq);
+	}
+	
+	
 	
 	@Override
 	public List<EventImgVO> doSelectList(Search search) {
 		return null;
-	}
-
-	/**
-	 * 이벤트 기준 모든 이미지 조회
-	 */
-	@Override
-	public List<EventImgVO> doSelectAll(int eventSeq) {
-		return eventImgDao.doSelectList(eventSeq);
 	}
 
 }
