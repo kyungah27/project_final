@@ -4,6 +4,7 @@ import com.uver.cmn.DTO;
 
 public class CommentVO extends DTO {
 
+	
 	/** 댓글 순번 */
 	private int commentSeq;
 	/** 이벤트,후기 순번 */
