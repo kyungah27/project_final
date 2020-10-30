@@ -62,7 +62,6 @@ public class TestJoinService {
 
 	@Test
 	public void priorityDelete() {
-		
 		joinService.doDelete(vo01);
 		JoinVO vo = joinService.doSelectOne(vo02);	
 		assertThat(vo.getPriority(), is(1));

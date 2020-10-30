@@ -2,6 +2,8 @@ package com.uver.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import com.uver.vo.JoinVO;
 
 @Service("JoinServiceImpl")
 public class JoinServiceImpl implements JoinService {
-
+	private static final Logger LOG = LoggerFactory.getLogger(JoinServiceImpl.class);
 	@Autowired
 	JoinDao joinDao;
 
@@ -26,13 +28,16 @@ public class JoinServiceImpl implements JoinService {
 			int deleteFlag = joinDao.doDelete(vo);
 			if (deleteFlag == 1) {
 				int minRegId = joinDao.doSelectMinReg(vo.getEventSeq());
-				joinDao.doUpdate(new JoinVO(vo.getEventSeq(), minRegId, 1));
+				
+				int updateFlag = joinDao.doUpdate(new JoinVO(vo.getEventSeq(), minRegId, 1));
+				LOG.debug("doUpdate() 실행" +updateFlag);
 			} else {
 				throw new RuntimeException("doDelete 실패");
 			}
 		} else {
 			return joinDao.doDelete(vo);
 		}
+		//return flag;
 		return flag;
 	}
 
