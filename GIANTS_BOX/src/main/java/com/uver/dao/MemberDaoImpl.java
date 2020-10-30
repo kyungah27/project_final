@@ -6,16 +6,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-
+import org.springframework.stereotype.Repository;
 
 import com.uver.vo.ImgVO;
 import com.uver.vo.MemberVO;
 
+@Repository("MemberDaoImpl")
 public class MemberDaoImpl implements MemberDao {
 	final static Logger LOG = LoggerFactory.getLogger(MemberDaoImpl.class);
 	
+	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
 	public MemberDaoImpl() {
