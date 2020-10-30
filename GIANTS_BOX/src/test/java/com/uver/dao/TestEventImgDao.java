@@ -34,7 +34,7 @@ public class TestEventImgDao {
     WebApplicationContext  context;
     
     @Autowired
-    EventImgDao dao;
+    EventImgDaoImpl dao;
     
     EventImgVO eventImg01;
     EventImgVO eventImg02;

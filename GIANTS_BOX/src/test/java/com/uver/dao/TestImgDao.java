@@ -35,7 +35,7 @@ public class TestImgDao {
     WebApplicationContext  context;
     
     @Autowired
-    ImgDao dao;
+    ImgDaoImpl dao;
     
     ImgVO img01;
     ImgVO img02;
