@@ -40,6 +40,29 @@ public class JoinServiceImpl implements JoinService {
 		//return flag;
 		return flag;
 	}
+	
+	@Override
+	public int banMember(JoinVO masterVO, JoinVO targetVO) {
+		// TODO Auto-generated method stub
+		int flag = 0;
+		if(masterVO.getPriority() ==1) {
+			targetVO.setPriority(2);
+			joinDao.doUpdate(targetVO);
+			flag = 1;
+		}
+		return flag;
+	}
+	
+	@Override
+	public int kickMember(JoinVO masterVO, JoinVO targetVO) {
+		// TODO Auto-generated method stub
+		int flag = 0;
+		if(masterVO.getPriority() ==1 && targetVO.getPriority() == 0 ){
+			joinDao.doDelete(targetVO);
+			flag = 1;
+		}
+		return flag;
+	}
 
 	// ----------------bypass----------------------
 	@Override
@@ -65,5 +88,11 @@ public class JoinServiceImpl implements JoinService {
 		// TODO Auto-generated method stub
 		return joinDao.doSelectList(vo);
 	}
+
+
+
+
+
+
 
 }

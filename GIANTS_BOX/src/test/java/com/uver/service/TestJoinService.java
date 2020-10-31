@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -61,10 +62,16 @@ public class TestJoinService {
 	}
 
 	@Test
+	@Ignore
 	public void priorityDelete() {
 		joinService.doDelete(vo01);
 		JoinVO vo = joinService.doSelectOne(vo02);	
 		assertThat(vo.getPriority(), is(1));
+	}
+	
+	@Test
+	public void kickAndBen() {
+		//joinService.banMember(masterVO, targetVO)
 	}
 	
 	

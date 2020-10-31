@@ -21,4 +21,19 @@ public interface JoinService {
 	 * @return flag 1 성공 0 실패
 	 */
 	public int doDelete(JoinVO vo);
+	/**
+	 *  이벤트에서 강퇴 후, 참여 거절을 위한 메서드
+	 * @param masterVO 권한이 1 인 VO
+	 * @param targetVO 이벤트에 참여 못하게 하고싶은 VO
+	 * @return flag 1 성공 0 실패
+	 */
+	public int banMember(JoinVO masterVO , JoinVO targetVO );
+	
+	/**
+	 *  이벤트에서 강퇴
+	 * @param masterVO 권한이 1 인 VO
+	 * @param targetVO 이벤트에 참여 못하게 하고싶은 VO
+	 * @return flag 1 성공 0 실패
+	 */
+	public int kickMember(JoinVO masterVO , JoinVO targetVO );
 }
