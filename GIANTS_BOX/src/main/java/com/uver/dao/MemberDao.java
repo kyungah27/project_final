@@ -9,14 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.uver.vo.ImgVO;
-import com.uver.vo.memberVO;
+import com.uver.vo.MemberVO;
 
-public class memberDao {
-	final static Logger LOG = LoggerFactory.getLogger(memberDao.class);
+public class MemberDao {
+	final static Logger LOG = LoggerFactory.getLogger(MemberDao.class);
 	
 	JdbcTemplate jdbcTemplate;
 	
-	public memberDao() {
+	public MemberDao() {
 	}
 	
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -24,10 +24,10 @@ public class memberDao {
 	}
 	
 	/** row mapper */
-	RowMapper<memberVO> rowMapper= new RowMapper<memberVO>() {
+	RowMapper<MemberVO> rowMapper= new RowMapper<MemberVO>() {
 		@Override
-		public memberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-			memberVO outVO = new memberVO(
+		public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			MemberVO outVO = new MemberVO(
 						rs.getString("user_id"),
 						rs.getString("name"),
 						rs.getString("password"),
@@ -43,7 +43,7 @@ public class memberDao {
    }; //---row mapper end
 	
    
-   public int doUpdata(memberVO member) {
+   public int doUpdata(MemberVO member) {
 	   int flag = 0;
 	   
 	   
@@ -54,8 +54,8 @@ public class memberDao {
    
 	
 	
-	public memberVO doSelectOne(String id) {
-		memberVO outVO = null;
+	public MemberVO doSelectOne(String id) {
+		MemberVO outVO = null;
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(" SELECT          \n");
@@ -78,7 +78,7 @@ public class memberDao {
 		LOG.debug("-----------------------------");	
 		
 		Object args[] = {id};
-		outVO = (memberVO)this.jdbcTemplate.queryForObject(sb.toString(), 
+		outVO = (MemberVO)this.jdbcTemplate.queryForObject(sb.toString(), 
 															args, 
 															rowMapper);
 		
@@ -93,7 +93,7 @@ public class memberDao {
 	 * @param member
 	 * @return
 	 */
-	public int doDelete(memberVO member) {
+	public int doDelete(MemberVO member) {
 		int flag = 0;
 
 		StringBuilder sb = new StringBuilder();
@@ -118,7 +118,7 @@ public class memberDao {
 	 * @param member
 	 * @return
 	 */
-	public int doInsert(memberVO member) {
+	public int doInsert(MemberVO member) {
 		int flag = 0;
 		
 		Object[] args = {

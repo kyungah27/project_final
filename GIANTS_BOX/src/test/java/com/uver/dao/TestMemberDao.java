@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.uver.vo.memberVO;
+import com.uver.vo.MemberVO;
 
 //메소드 수행 순서:
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -29,14 +29,14 @@ public class TestMemberDao {
 	Logger LOG = Logger.getLogger(TestMemberDao.class);
 	
 	@Autowired
-	memberDao dao;
+	MemberDao dao;
 	
 	@Autowired
 	ApplicationContext context;
 	
-	memberVO member01;
-	memberVO member02;
-	memberVO member03;
+	MemberVO member01;
+	MemberVO member02;
+	MemberVO member03;
 	
 	@Test
 	public void test() {
@@ -62,9 +62,9 @@ public class TestMemberDao {
 	
 	@Before
 	public void setUp() {
-		member01=new memberVO("H170_01","최현우_01","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
-		member02=new memberVO("H170_02","최현우_02","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
-		member03=new memberVO("H170_03","최현우_03","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
+		member01=new MemberVO("H170_01","최현우_01","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
+		member02=new MemberVO("H170_02","최현우_02","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
+		member03=new MemberVO("H170_03","최현우_03","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
 		LOG.debug("** setup() **");
 		LOG.debug("***********************************");
 		LOG.debug("context"+context);
