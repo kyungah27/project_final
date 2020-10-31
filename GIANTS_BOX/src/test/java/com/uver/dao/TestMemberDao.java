@@ -34,10 +34,7 @@ public class TestMemberDao {
 	Logger LOG = Logger.getLogger(TestMemberDao.class);
 	
 	@Autowired
-<<<<<<< HEAD
-=======
 	@Qualifier("MemberDaoImpl")
->>>>>>> main
 	MemberDao dao;
 	
 	@Autowired
@@ -103,15 +100,9 @@ public class TestMemberDao {
 	
 	@Before
 	public void setUp() {
-<<<<<<< HEAD
-		member01=new MemberVO("H170_01","최현우_01","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
-		member02=new MemberVO("H170_02","최현우_02","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
-		member03=new MemberVO("H170_03","최현우_03","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
-=======
 		member01=new MemberVO("H170_04","최현우_04","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
 		member02=new MemberVO("H170_05","최현우_05","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
 		member03=new MemberVO("H170_06","최현우_06","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
->>>>>>> main
 		LOG.debug("** setup() **");
 		LOG.debug("***********************************");
 		LOG.debug("context"+context);
