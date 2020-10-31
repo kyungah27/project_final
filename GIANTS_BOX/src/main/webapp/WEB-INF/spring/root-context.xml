@@ -48,10 +48,7 @@
 	
 	<!-- [dao, service] -->
 	
-	<!-- memberDao -->
-	<bean id="memberdao" class="com.uver.dao.memberDao">
-		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
-	</bean>
+
 	
 	
 
