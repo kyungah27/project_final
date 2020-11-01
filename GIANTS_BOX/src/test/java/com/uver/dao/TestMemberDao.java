@@ -45,7 +45,6 @@ public class TestMemberDao {
 	MemberVO member03;
 	
 	@Test
-	@Ignore
 	public void test() {
 		//데이터 입력
 //		dao.doInsert(member01);
