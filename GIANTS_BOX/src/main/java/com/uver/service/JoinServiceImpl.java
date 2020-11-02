@@ -19,25 +19,26 @@ public class JoinServiceImpl implements JoinService {
 
 	/**
 	 * priority가 1 인경우 가장 빨리 참여한 id에 priority를 1증가 시킨 후 삭제
+	 * return : flag 1 성공, 0 실패 
 	 */
 	@Override
 	public int doDelete(JoinVO vo) {
 		// TODO Auto-generated method stub
 		int flag = 0;
+		// 삭제하는 Member의 권한 확인 1일 경우 권한을 인가
 		if (vo.getPriority() == 1) {
 			int deleteFlag = joinDao.doDelete(vo);
+			// 삭제가 정상적으로 되면 가장 최근에 참여한 사람의 권한 1 인가 
 			if (deleteFlag == 1) {
 				int minRegId = joinDao.doSelectMinReg(vo.getEventSeq());
-				
-				int updateFlag = joinDao.doUpdate(new JoinVO(vo.getEventSeq(), minRegId, 1));
-				LOG.debug("doUpdate() 실행" +updateFlag);
+				flag = joinDao.doUpdate(new JoinVO(vo.getEventSeq(), minRegId, 1));
 			} else {
+				LOG.debug("doDelete 실패 RuntimeException");
 				throw new RuntimeException("doDelete 실패");
 			}
 		} else {
 			return joinDao.doDelete(vo);
 		}
-		//return flag;
 		return flag;
 	}
 	
@@ -45,7 +46,7 @@ public class JoinServiceImpl implements JoinService {
 	public int banMember(JoinVO masterVO, JoinVO targetVO) {
 		// TODO Auto-generated method stub
 		int flag = 0;
-		if(masterVO.getPriority() ==1) {
+		if(masterVO.getPriority() ==1 && targetVO.getPriority() == 0) {
 			targetVO.setPriority(2);
 			joinDao.doUpdate(targetVO);
 			flag = 1;
@@ -58,8 +59,8 @@ public class JoinServiceImpl implements JoinService {
 		// TODO Auto-generated method stub
 		int flag = 0;
 		if(masterVO.getPriority() ==1 && targetVO.getPriority() == 0 ){
-			joinDao.doDelete(targetVO);
-			flag = 1;
+			flag = joinDao.doDelete(targetVO);
+			
 		}
 		return flag;
 	}

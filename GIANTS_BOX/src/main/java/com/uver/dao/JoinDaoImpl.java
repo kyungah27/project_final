@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.JoinVO;
-import com.uver99.example.UserDaoImpl;
 
 @Repository("joinDaoImpl")
 public class JoinDaoImpl implements JoinDao {
@@ -62,7 +61,7 @@ public class JoinDaoImpl implements JoinDao {
 
 		Object[] args = { vo.getEventSeq(), vo.getMemberSeq(), vo.getPriority() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag=" + flag);
+		LOG.debug("= doInsert flag=" + flag);
 
 		return flag;
 	}
@@ -71,9 +70,7 @@ public class JoinDaoImpl implements JoinDao {
 	public int doDelete(JoinVO vo) {
 
 		int flag = 0;
-
 		StringBuilder sb = new StringBuilder();
-
 		sb.append("DELETE FROM event_join    \n");
 		sb.append("WHERE                     \n");
 		sb.append("    event_seq = ?       \n");
@@ -82,7 +79,6 @@ public class JoinDaoImpl implements JoinDao {
 		Object[] args = { vo.getEventSeq(), vo.getMemberSeq() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
-
 		return flag;
 	}
 
@@ -98,10 +94,8 @@ public class JoinDaoImpl implements JoinDao {
 		sb.append("    event_seq = ?      \n");
 		sb.append("    AND member_seq = ? \n");
 		Object[] args = { vo.getPriority(), vo.getEventSeq(), vo.getMemberSeq() };
-		flag = this.jbcTemplate.update(sb.toString(), args);
-		
+		flag = this.jbcTemplate.update(sb.toString(), args);		
 		LOG.debug("=flag=" + flag);
-
 		return flag;
 
 	}
@@ -162,8 +156,7 @@ public class JoinDaoImpl implements JoinDao {
 			listArg.add(vo.getEventSeq());
 		}	
 		list = this.jbcTemplate.query(sb.toString(), 
-				listArg.toArray(), 
-    			                        rowMapper);				
+				listArg.toArray(),  rowMapper);				
     	return list;	
 	}
 	
@@ -182,9 +175,10 @@ public class JoinDaoImpl implements JoinDao {
 		Object args[] = {event_seq , event_seq};
 		list =  this.jbcTemplate.queryForList(sb.toString(), 
     			                        args, 
-    			                        Integer.class);		
+    			                        Integer.class);	
+		
 		for(int i : list) {
-			LOG.debug("i" + i);
+			LOG.debug("doSelectMinReg" + i);
 		}
     	
     	return list.get(0);	

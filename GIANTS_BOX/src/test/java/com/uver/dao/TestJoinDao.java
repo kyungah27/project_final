@@ -106,9 +106,8 @@ public class TestJoinDao {
 	}
 	
 	@Test
-	@Ignore
 	public void MinRegTest() {
-		int minRegId = joinDao.doSelectMinReg(1001);
+		int minRegId = joinDao.doSelectMinReg(1002);
 		LOG.debug(minRegId+"");
 	}
 	
