@@ -62,7 +62,6 @@ public class TestJoinDao {
 
 	// insert delete update selectOne
 	@Test
-	@Ignore
 	public void addAndGet() {		
 		int flag = 0;	
 		// insert delete test

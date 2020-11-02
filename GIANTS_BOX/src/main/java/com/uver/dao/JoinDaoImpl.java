@@ -61,7 +61,7 @@ public class JoinDaoImpl implements JoinDao {
 
 		Object[] args = { vo.getEventSeq(), vo.getMemberSeq(), vo.getPriority() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag=" + flag);
+		LOG.debug("= doInsert flag=" + flag);
 
 		return flag;
 	}
@@ -70,9 +70,7 @@ public class JoinDaoImpl implements JoinDao {
 	public int doDelete(JoinVO vo) {
 
 		int flag = 0;
-
 		StringBuilder sb = new StringBuilder();
-
 		sb.append("DELETE FROM event_join    \n");
 		sb.append("WHERE                     \n");
 		sb.append("    event_seq = ?       \n");
@@ -81,7 +79,6 @@ public class JoinDaoImpl implements JoinDao {
 		Object[] args = { vo.getEventSeq(), vo.getMemberSeq() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
-
 		return flag;
 	}
 
@@ -97,10 +94,8 @@ public class JoinDaoImpl implements JoinDao {
 		sb.append("    event_seq = ?      \n");
 		sb.append("    AND member_seq = ? \n");
 		Object[] args = { vo.getPriority(), vo.getEventSeq(), vo.getMemberSeq() };
-		flag = this.jbcTemplate.update(sb.toString(), args);
-		
+		flag = this.jbcTemplate.update(sb.toString(), args);		
 		LOG.debug("=flag=" + flag);
-
 		return flag;
 
 	}
@@ -161,8 +156,7 @@ public class JoinDaoImpl implements JoinDao {
 			listArg.add(vo.getEventSeq());
 		}	
 		list = this.jbcTemplate.query(sb.toString(), 
-				listArg.toArray(), 
-    			                        rowMapper);				
+				listArg.toArray(),  rowMapper);				
     	return list;	
 	}
 	
@@ -182,13 +176,9 @@ public class JoinDaoImpl implements JoinDao {
 		list =  this.jbcTemplate.queryForList(sb.toString(), 
     			                        args, 
     			                        Integer.class);	
-		if(list.size() == 0) {
-			//throw new RuntimeException("doSelectMinReg == 0");
-			return 0;
-		}
 		
 		for(int i : list) {
-			LOG.debug("i" + i);
+			LOG.debug("doSelectMinReg" + i);
 		}
     	
     	return list.get(0);	

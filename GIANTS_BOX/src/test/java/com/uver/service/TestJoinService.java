@@ -51,26 +51,8 @@ public class TestJoinService {
 		joinArr = Arrays.asList(
 		vo01 = new JoinVO(1001,28,1),
 		vo02 = new JoinVO(1001,27,0),
-		vo03 = new JoinVO(1001,29,0),
-		vo04 = new JoinVO(1002,27,0),
-		vo05 = new JoinVO(1002,29,1)
+		vo03 = new JoinVO(1001,29,0)
 		);
-//		for(JoinVO vo : joinArr) {
-//			joinService.doInsert(vo);
-//		}
-//		for(JoinVO vo : joinArr) {
-//			LOG.debug("joinService.doDelete(vo) flag"+joinService.doDelete(vo));
-//			
-//		}
-		
-		joinService.doDelete(vo05);
-
-		
-		
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test
@@ -82,16 +64,18 @@ public class TestJoinService {
 	}
 	
 	@Test
-	@Ignore
-	public void kickAndBen() {
+	public void kickAndBen() {	
 		
-		joinService.banMember(vo01, vo03);
-		JoinVO vo = joinService.doSelectOne(vo03);
+		joinService.banMember(vo01, vo02);
+		JoinVO vo = joinService.doSelectOne(vo02);
+		assertThat(vo.getPriority(), is(2));
+		
+		joinService.kickMember(vo01, vo03);
+		vo = joinService.doSelectOne(vo03);
 		assertThat(vo, is(nullValue()));
-		
+
 	}
-	
-	
+		
 	@Test
 	public void bean() {
 		LOG.debug("context  :"  + 	context);
