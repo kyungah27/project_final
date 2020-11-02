@@ -1,6 +1,9 @@
 package com.uver.service;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,29 @@ public void setMemberDaoImpl(MemberDaoImpl memberDaoImpl) {
 }
 
 
+/**
+ * 회원가입
+ * @throws SQLException 
+ * @throws ClassNotFoundException 
+ */
+public int regPw(MemberVO inputuser) throws ClassNotFoundException, SQLException {
+	int flag = 0;
+
+	String pwPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$";
+	
+	Matcher matcher = Pattern.compile(pwPattern).matcher(inputuser.getPassword());
+	if(matcher.matches() == true) {
+		LOG.debug("회원등록이 완료되었습니다.");
+
+		flag = 1;
+	}else {
+		LOG.debug("영문자,숫자,특수문자를 조합해주세요");
+	}
+	
+	return flag;
+	
+
+}
 
 /**
  * 로그인

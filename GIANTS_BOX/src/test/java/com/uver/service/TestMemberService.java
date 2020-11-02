@@ -1,6 +1,9 @@
 package com.uver.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+
+import java.sql.SQLException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-
 
 import com.uver.vo.MemberVO;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -55,6 +57,19 @@ public class TestMemberService {
 	public void tearDown() throws Exception {
 	}
 
+	@Test
+	public void regTest() throws ClassNotFoundException, SQLException {
+		
+		//비밀번호 조건 테스트
+		MemberVO regPwUser = new MemberVO();
+		regPwUser.setUserId("H170_07");
+		regPwUser.setPassword("@d923f25");
+		int resultUser01 = memberServiceImpl.regPw(regPwUser);
+		assertThat(1, is(resultUser01));
+		
+	}
+	
+	
 	@Test
 	public void test() {
 		//로그인 테스트
