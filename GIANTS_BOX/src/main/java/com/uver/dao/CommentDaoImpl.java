@@ -67,4 +67,19 @@ public class CommentDaoImpl {
 		return flag;
 	}
 
+	public int doDelete(CommentVO vo) {
+		int flag = 0;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM comment_tb  \n");
+		sb.append("WHERE                   \n");
+		sb.append("    comment_seq = ?     \n");
+
+		Object[] args = { vo.getCommentSeq() };
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("=flag=" + flag);
+
+		return flag;
+	}
+
 }
