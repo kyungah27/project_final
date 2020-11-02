@@ -1,6 +1,6 @@
 package com.uver.vo;
 
-public class memberVO {
+public class MemberVO {
 
 	/**순번*/
 	private int seq;
@@ -32,11 +32,11 @@ public class memberVO {
 	/**영화장르*/
 	private String genre;
 
-	public memberVO() {
+	public MemberVO() {
 		super();
 	}
 
-	public memberVO(String userId, String name, String password, String email, String cellPhone, String birthday,
+	public MemberVO(String userId, String name, String password, String email, String cellPhone, String birthday,
 			int auth,String genre) {
 		super();
 		this.userId = userId;

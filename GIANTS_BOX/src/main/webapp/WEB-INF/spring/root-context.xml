@@ -48,14 +48,29 @@
 	
 	<!-- [dao, service] -->
 	
-	<!-- memberDao -->
-	<bean id="memberdao" class="com.uver.dao.memberDao">
-		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+
+	
+	
+
+
+
+
+
+	<!-- JoinService transaction  -->
+	<bean id="JointransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
-	
-
-
+	<tx:advice id="JoinTxAdvice" transaction-manager="JointransactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="true" />
+			<tx:method name="doDel*" read-only="false" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.uver..service.Join*.*(..))" id="joinTxPointCut" />
+		<aop:advisor advice-ref="JoinTxAdvice" pointcut-ref="joinTxPointCut" />
+	</aop:config>
+	<!-- //JoinService transaction  -->
 
 
 

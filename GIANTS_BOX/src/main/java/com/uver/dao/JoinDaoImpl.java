@@ -16,7 +16,7 @@ import com.uver.vo.JoinVO;
 import com.uver99.example.UserDaoImpl;
 
 @Repository("joinDaoImpl")
-public class JoinDaoImpl {
+public class JoinDaoImpl implements JoinDao {
 	private static final Logger LOG = LoggerFactory.getLogger(JoinDaoImpl.class);
 
 	@Autowired
@@ -40,7 +40,8 @@ public class JoinDaoImpl {
 
    };
 	
-
+   
+	@Override
 	public int doInsert(JoinVO vo) {
 
 		int flag = 0;
@@ -59,13 +60,14 @@ public class JoinDaoImpl {
 
 		LOG.debug("========================");
 
-		Object[] args = { vo.getMemberSeq(), vo.getEventSeq(), vo.getPriority() };
+		Object[] args = { vo.getEventSeq(), vo.getMemberSeq(), vo.getPriority() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 
 		return flag;
 	}
 
+	@Override
 	public int doDelete(JoinVO vo) {
 
 		int flag = 0;
@@ -77,13 +79,14 @@ public class JoinDaoImpl {
 		sb.append("    event_seq = ?       \n");
 		sb.append("    AND member_seq = ?  \n");
 
-		Object[] args = { vo.getMemberSeq(), vo.getEventSeq() };
+		Object[] args = { vo.getEventSeq(), vo.getMemberSeq() };
 		flag = this.jbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 
 		return flag;
 	}
 
+	@Override
 	public int doUpdate(JoinVO vo) {
 		int flag = 0;
 
@@ -103,6 +106,7 @@ public class JoinDaoImpl {
 
 	}
 	
+	@Override
 	public JoinVO doSelectOne(JoinVO vo) {
 				
 		JoinVO outVO = null;		
@@ -126,6 +130,7 @@ public class JoinDaoImpl {
     	return outVO;	
 	}
 	
+	@Override
 	public List doSelectList(JoinVO vo) {
 		
 		List<JoinVO> list = null;
@@ -161,6 +166,31 @@ public class JoinDaoImpl {
     			                        rowMapper);				
     	return list;	
 	}
+	
+	@Override
+	public int doSelectMinReg(int event_seq) {
+		
+		List<Integer> list = null;
+		JoinVO outVO = null;		
+		StringBuilder  sb=new StringBuilder();
+		sb.append("SELECT member_seq                       \n");
+		sb.append("FROM   event_join                       \n");
+		sb.append("WHERE  event_seq  = ?                   \n");
+		sb.append("AND reg_dt = (Select MIN(reg_dt)        \n");
+		sb.append("                FROM event_join         \n");
+		sb.append("                WHERE event_seq = ?	 ) \n");
+		Object args[] = {event_seq , event_seq};
+		list =  this.jbcTemplate.queryForList(sb.toString(), 
+    			                        args, 
+    			                        Integer.class);		
+		for(int i : list) {
+			LOG.debug("i" + i);
+		}
+    	
+    	return list.get(0);	
+	}
+	
+	
 
 
 }
