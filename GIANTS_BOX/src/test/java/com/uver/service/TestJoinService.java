@@ -56,14 +56,14 @@ public class TestJoinService {
 	}
 
 	@Test
-	@Ignore
 	public void Delete() {
 		joinService.doDelete(vo01);
-		JoinVO vo = joinService.doSelectOne(vo02);	
+		JoinVO vo = joinService.doSelectOne(vo01);	
 		assertThat(vo.getPriority(), is(1));
 	}
 	
 	@Test
+	@Ignore
 	public void kickAndBen() {	
 		
 		joinService.banMember(vo01, vo02);
@@ -74,6 +74,12 @@ public class TestJoinService {
 		vo = joinService.doSelectOne(vo03);
 		assertThat(vo, is(nullValue()));
 
+	}
+	
+	@Test
+	@Ignore
+	public void update() {
+		joinService.doUpdate(vo01);
 	}
 		
 	@Test
