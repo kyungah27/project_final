@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.CommentVO;
-import com.uver.vo.ImgVO;
-import com.uver99.example.User;
 
 @Repository("commentDao")
 public class CommentDaoImpl {
