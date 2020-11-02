@@ -183,7 +183,8 @@ public class JoinDaoImpl implements JoinDao {
     			                        args, 
     			                        Integer.class);	
 		if(list.size() == 0) {
-			throw new RuntimeException("doSelectMinReg == 0");
+			//throw new RuntimeException("doSelectMinReg == 0");
+			return 0;
 		}
 		
 		for(int i : list) {

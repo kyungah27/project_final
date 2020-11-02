@@ -28,7 +28,11 @@ public class JoinServiceImpl implements JoinService {
 			int deleteFlag = joinDao.doDelete(vo);
 			if (deleteFlag == 1) {
 				int minRegId = joinDao.doSelectMinReg(vo.getEventSeq());
+				if(minRegId ==0) {
+					flag = 2;
+				}
 				int updateFlag = joinDao.doUpdate(new JoinVO(vo.getEventSeq(), minRegId, 1));
+
 				flag = 1;
 			} else {
 				LOG.debug("doDelete 실패 RuntimeException");
@@ -39,7 +43,6 @@ public class JoinServiceImpl implements JoinService {
 		}
 		return flag;
 	}
-	
 	@Override
 	public int banMember(JoinVO masterVO, JoinVO targetVO) {
 		// TODO Auto-generated method stub
