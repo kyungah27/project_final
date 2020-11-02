@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.JoinVO;
-import com.uver99.example.UserDaoImpl;
 
 @Repository("joinDaoImpl")
 public class JoinDaoImpl implements JoinDao {
