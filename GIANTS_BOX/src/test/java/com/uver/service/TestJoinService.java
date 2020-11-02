@@ -2,6 +2,7 @@ package com.uver.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -54,6 +55,17 @@ public class TestJoinService {
 		vo04 = new JoinVO(1002,27,0),
 		vo05 = new JoinVO(1002,29,1)
 		);
+//		for(JoinVO vo : joinArr) {
+//			joinService.doInsert(vo);
+//		}
+//		for(JoinVO vo : joinArr) {
+//			LOG.debug("joinService.doDelete(vo) flag"+joinService.doDelete(vo));
+//			
+//		}
+		
+		joinService.doDelete(vo05);
+
+		
 		
 	}
 
@@ -63,15 +75,20 @@ public class TestJoinService {
 
 	@Test
 	@Ignore
-	public void priorityDelete() {
+	public void Delete() {
 		joinService.doDelete(vo01);
 		JoinVO vo = joinService.doSelectOne(vo02);	
 		assertThat(vo.getPriority(), is(1));
 	}
 	
 	@Test
+	@Ignore
 	public void kickAndBen() {
-		//joinService.banMember(masterVO, targetVO)
+		
+		joinService.banMember(vo01, vo03);
+		JoinVO vo = joinService.doSelectOne(vo03);
+		assertThat(vo, is(nullValue()));
+		
 	}
 	
 	

@@ -62,6 +62,7 @@ public class TestJoinDao {
 
 	// insert delete update selectOne
 	@Test
+	@Ignore
 	public void addAndGet() {		
 		int flag = 0;	
 		// insert delete test
@@ -106,9 +107,8 @@ public class TestJoinDao {
 	}
 	
 	@Test
-	@Ignore
 	public void MinRegTest() {
-		int minRegId = joinDao.doSelectMinReg(1001);
+		int minRegId = joinDao.doSelectMinReg(1002);
 		LOG.debug(minRegId+"");
 	}
 	

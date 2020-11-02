@@ -182,7 +182,11 @@ public class JoinDaoImpl implements JoinDao {
 		Object args[] = {event_seq , event_seq};
 		list =  this.jbcTemplate.queryForList(sb.toString(), 
     			                        args, 
-    			                        Integer.class);		
+    			                        Integer.class);	
+		if(list.size() == 0) {
+			throw new RuntimeException("doSelectMinReg == 0");
+		}
+		
 		for(int i : list) {
 			LOG.debug("i" + i);
 		}
