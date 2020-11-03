@@ -17,7 +17,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="context" value="${pageContext.request.contextPath }"></c:set>
+
+<c:set var="context" value="${pageContext.request.contextPath }" />
 
 <!DOCTYPE html>
 <html>
@@ -110,6 +111,13 @@
 				</div>
 			</form>
 			<!-- //이미지 업로드 -->
+			
+			
+			<!-- 히든 폼 -->
+			<form id="move_img_list" action="${context}/img/doSelectList.do" method="get">
+				<input type="hidden" />
+			</form>
+			<!-- //히든 폼 -->
 			
 			
 			
@@ -301,7 +309,7 @@
 				}
 			}
 
-			console.log("imgArr: "+imgArr);
+			//console.log("imgArr: "+imgArr);
 			
 			imgAreaTxt();
 			count();
@@ -337,7 +345,14 @@
 				processData: false,
 				contentType: false,
 				success: function(data){
-					alert("이미지가 등록되었습니다.");
+					if(null != data && data.msgId==imgLen){
+		                alert(data.msgContents);
+						
+						moveToImgList();
+		                
+					} else{
+		                alert(data.msgId+"|"+data.msgContents);
+		            }
 				},
 				err: function(err){
 					alert(err.status);
@@ -345,6 +360,13 @@
 
 			});
 		}
+
+		function moveToImgList(){
+			document.getElementById("move_img_list").submit();
+		}
+
+
+		
 		
 		</script>
     

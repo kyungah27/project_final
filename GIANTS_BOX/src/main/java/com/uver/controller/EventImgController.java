@@ -12,10 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.uver.cmn.Message;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
 import com.uver.vo.EventImgVO;
@@ -33,9 +36,8 @@ public class EventImgController {
 	}
 	
 	
-	
 	// 외부 경로 설정 필요
-	final String UPLOAD_FILE_DIR = "D:\\upload_img";
+	final String UPLOAD_FILE_DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
 	
 	
 	/**
@@ -58,12 +60,30 @@ public class EventImgController {
 	
 	
 	
+	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
+	public ModelAndView doSelectList(ModelAndView mav) {
+		
+		List<EventImgVO> list = new ArrayList<>();
+		
+		//event seq
+		list = eventImgService.doSelectAll(2);
+		
+		mav.addObject("list", list);
+		mav.setViewName("img_view");
+		
+		return mav;
+	}
 	
 	
 	
 	
-	@RequestMapping(value="doInsert.do", method=RequestMethod.POST)
-	public ModelAndView doInsert(MultipartHttpServletRequest mReg, ModelAndView modelAndView) throws IllegalStateException, IOException {
+	
+	
+	
+	@RequestMapping(value="doInsert.do", method=RequestMethod.POST
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doInsert(MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
 		
 		LOG.debug("-----------------------");
 		LOG.debug("doInsert()");
@@ -77,8 +97,8 @@ public class EventImgController {
 		}
 		
 		List<EventImgVO> list = new ArrayList<>();
-		
 		List<MultipartFile> imgList = mReg.getFiles("images[]");
+		int flag = 0;
 		
 		for (MultipartFile mf : imgList) {
 			
@@ -122,7 +142,7 @@ public class EventImgController {
 			EventImgVO eventImgVO = new EventImgVO(126, 2, imgVO);
 			LOG.debug("[eventImgVO] " + eventImgVO);
 			
-			eventImgService.doInsert(eventImgVO);
+			flag += eventImgService.doInsert(eventImgVO);
 			
 			
 			//저장 파일 full path
@@ -135,15 +155,22 @@ public class EventImgController {
 		}
 		
 		
-		modelAndView.addObject("list",list);
-		modelAndView.setViewName("img_upload"); //WEB-INF/views/img.jsp
+		Message message=new Message();
+        message.setMsgId(String.valueOf(flag));
+        
+        if(flag > 0) {
+        	message.setMsgContents("이미지가 등록되었습니다.");
+        }else {
+        	message.setMsgContents("이미지 등록을 실패했습니다.");
+        }
 		
-		return modelAndView;
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+        LOG.debug("[json] "+json);
+		return json;
 	}
 	
 	
-	
-	//--- 통신 테스트
 	@RequestMapping(value="view.do")
 	public String view() {
 		LOG.debug("-------------------");
