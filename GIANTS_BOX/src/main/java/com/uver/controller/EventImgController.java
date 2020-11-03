@@ -3,7 +3,6 @@ package com.uver.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,7 +75,7 @@ public class EventImgController {
 		
 		List<EventImgVO> list = new ArrayList<>();
 		
-		List<MultipartFile> imgList = mReg.getFiles("image");
+		List<MultipartFile> imgList = mReg.getFiles("images[]");
 		
 		for (MultipartFile mf : imgList) {
 			
@@ -133,16 +132,8 @@ public class EventImgController {
 		modelAndView.addObject("list",list);
 		modelAndView.setViewName("img"); //WEB-INF/views/img.jsp
 		
-		
 		return modelAndView;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
