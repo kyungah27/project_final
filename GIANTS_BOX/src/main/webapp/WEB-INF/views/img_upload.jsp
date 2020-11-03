@@ -41,18 +41,27 @@
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 
 
-	<style type="text/css">
-.flex_container {
-	display: flex;
-	justify-content: flex-start;
-	max-width: 100%;
-	flex-wrap: wrap;
-	align-items: center;
-}
+<style type="text/css">
+	.flex_container {
+		display: flex;
+		justify-content: flex-start;
+		max-width: 96%;
+		flex-wrap: wrap;
+		/* align-items: center; */
+		padding: 15px 25px;
+		
+		outline: 2px dashed #92b0b3 ;
+	    text-align: center;
+	    transition: all .15s ease-in-out;
+	    height: 550px;
+	    overflow-y: scroll;
+	}
 
 .flex_item {
 	flex: 0 1 auto;
-	margin: 5px;
+	margin: 5px 5px;
+	height: fit-content;
+	background-color: inherit;
 }
 
 .btn_img_picker {
@@ -64,11 +73,12 @@
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 15px;
+	font-size: 12px;
 	margin: 4px;
 	cursor: pointer;
 	border-radius:10px;
 }
+
 
 
 </style>
@@ -86,6 +96,7 @@
 			</div>
 			<!--// 제목 -->
 			
+			
 			<!-- 이미지 업로드 -->
 			<input type="file" id="image_picker" name="images[]" style="display:none;" accept="image/jpg, image/png, image/jpeg, image/gif" onchange="preview(this.files);" multiple/>
 			<label class="btn_img_picker" for="image_picker">파일 선택</label>
@@ -94,9 +105,12 @@
 			<form class="form-horizontal" id="save_frm" action="${context}/img/doInsert.do" method="post" enctype="multipart/form-data">
 				<input type="button" class="btn btn-primary btn-sm" onclick="javascript:uploadImg()" value="등록"/>
 				<div id="img_preview" class="flex_container" >
+					<p id="img_area_txt">Drag & Drop</p>
 				</div>
 			</form>
 			<!-- //이미지 업로드 -->
+			
+			
 			
 		</div>
 		<!--// container -->
@@ -120,18 +134,99 @@
 		
 		var imgArr = [];
 		var idx;
+
+		$('.flex_container')
+		.on("dragover", dragOver)
+		.on("dragleave", dragOver)
+		.on("drop", uploadFiles);
+
+		function dragOver(e){
+			//현재 이벤트가 상위 DOM으로 전파되지 않도록 중단
+			e.stopPropagation();
+
+			//현재 이벤트의 기본 동장 중단
+			e.preventDefault();
+
+			//시각적 효과
+			if (e.type == "dragover") {
+				$(e.target).css({
+					"background-color": "#eee",
+					"outline-offset": "-30px"
+				});
+				$('.flex_item').css({
+					"background-color": "#eee",
+				});
+				
+			} else {
+				$(e.target).css({
+					"background-color": "white",
+					"outline-offset": "0px"
+				});
+				$('.flex_item').css({
+					"background-color": "white"
+				});
+			}
+		}
+
+
+
 		
-		// onchange 이벤트
+		function uploadFiles(e){
+			e.stopPropagation();
+			e.preventDefault();
+
+			//시각적 효과
+			dragOver(e);
+
+			e.dataTransfer = e.originalEvent.dataTransfer;
+			let files = e.target.files || e.dataTransfer.files;
+			console.log(files);
+
+			//이미지 타입체크
+			for(let i = 0; i < files.length; i++){
+				if (!files[i].type.startsWith('image/')){
+					alert("이미지 파일을 업로드해 주세요");
+					return;
+				}
+			}
+
+			// 이미지 미리보기
+			preview(files);
+		}
+
+		// Drag & Drop 텍스트 나타내기
+		function imgAreaTxt(){
+			let imgAreaTxt = $("#img_area_txt");
+			if(!Array.isArray(imgArr) || imgArr.length <= 0){
+				console.log("없음");
+				imgAreaTxt.css({
+					"display": "",
+					"margin": "0 auto"
+				});
+			} else {
+				console.log("있음");
+				imgAreaTxt.css({
+					"display": "none"
+				});
+			}
+		}
+
+		
+		// 이미지 미리보기
 		function preview(files){
-			const target = document.getElementsByName('images[]');
-			Array.prototype.push.apply(imgArr, target[0].files);
+			
+			//console.log("files: "+files);
+			
+			//const target = document.getElementsByName('images[]');
+			/* Array.prototype.push.apply(imgArr, target[0].files); */
+			Array.prototype.push.apply(imgArr, files);
 
 			for(let i = 0; i < files.length; i++){
 				const file = files[i];
-				
 
 				if (!file.type.startsWith('image/')){
-					 continue;
+					alert("이미지 파일을 업로드해 주세요");
+					return;
 				};
 
 
@@ -163,21 +258,24 @@
 					flexDiv.setAttribute("class", "flex_item");
 				};
 
-				//console.log(file);
 				reader.readAsDataURL(file);
+				console.log("imgArr: " + imgArr);
+
+
+				imgAreaTxt();
 			}
 		}
 
-
 		
+
+
+		// 목록에서 이미지 제거
 		function remove(idx){
 			let index;
 			let elements = document.getElementsByName(idx.name);
 
 			for (let i = 0; i < elements.length; i++){
 				if(elements[i]==idx){
-					//console.log(i+"번째");
-					//console.log(imgArr);
 
 					let div = elements[i].parentNode;
 					let divParent = div.parentNode;
@@ -186,10 +284,13 @@
 					imgArr.splice(i, 1);
 				}
 			}
+
+			console.log("imgArr: "+imgArr);
+			imgAreaTxt();
 		}
 
 
-
+		// 이미지 업로드하기
 		function uploadImg(){
 			//console.log(imgArr);
 			

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.uver.cmn.StringUtil;
+import com.uver.service.EventImgService;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
 
@@ -25,14 +26,16 @@ import com.uver.vo.ImgVO;
 public class EventImgController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 	
-	private static final String UPLOAD_FILE_DIR="D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
+	private final EventImgService eventImgService;
 	
-//	@Resource(name = "downloadView")
-//	View download;
+	public EventImgController(EventImgService eventImgService) {
+		this.eventImgService = eventImgService;
+	}
 	
 	
 	
-	
+	// 외부 경로 설정 필요
+	final String UPLOAD_FILE_DIR = "D:\\upload_img";
 	
 	
 	/**
@@ -93,7 +96,7 @@ public class EventImgController {
 			//확장자
 			String ext = "";
 			if(orgImgNm.indexOf(".") > -1) {
-				ext = orgImgNm.substring(orgImgNm.indexOf(".") + 1);
+				ext = orgImgNm.substring(orgImgNm.lastIndexOf(".")+1);
 				LOG.debug("[확장자] " + ext);
 				//saveImgNm += "." + ext;
 			}
@@ -119,6 +122,9 @@ public class EventImgController {
 			EventImgVO eventImgVO = new EventImgVO(126, 2, imgVO);
 			LOG.debug("[eventImgVO] " + eventImgVO);
 			
+			eventImgService.doInsert(eventImgVO);
+			
+			
 			//저장 파일 full path
 			File fullPathFile = new File(fileRootDir, saveImgNm + "." + ext);
 			LOG.debug("[fullPathFile] " + fullPathFile);
@@ -130,7 +136,7 @@ public class EventImgController {
 		
 		
 		modelAndView.addObject("list",list);
-		modelAndView.setViewName("img"); //WEB-INF/views/img.jsp
+		modelAndView.setViewName("img_upload"); //WEB-INF/views/img.jsp
 		
 		return modelAndView;
 	}
@@ -144,7 +150,7 @@ public class EventImgController {
 		LOG.debug("view()");
 		LOG.debug("-------------------");
 		
-		return "img";
+		return "img_upload";
 	}
 
 }
