@@ -219,9 +219,19 @@
 		function preview(files){
 			//console.log("files: "+files);
 			
+			let filesLen = files.length;
+			
+			// 최대 이미지 등록 제한 수 체크
+			if(imgArr.length > 100 || filesLen > 100) {
+				alert("100개를 초과하는 이미지는 등록할 수 없습니다.");
+				return;
+			}
+
 			Array.prototype.push.apply(imgArr, files);
 
-			for(let i = 0; i < files.length; i++){
+			
+
+			for(let i = 0; i < filesLen; i++){
 				const file = files[i];
 
 				if (!file.type.startsWith('image/')){
@@ -267,13 +277,12 @@
 			}
 		}
 
+		//이미지 갯수
 		function count() {
 			let cnt = document.getElementById("img_totalCnt");
 			console.log(cnt);
 			cnt.textContent = imgArr.length;
 		}
-		
-		
 
 
 		// 목록에서 이미지 제거
