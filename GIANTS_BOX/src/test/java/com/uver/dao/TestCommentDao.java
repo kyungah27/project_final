@@ -20,8 +20,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.uver.vo.CommentVO;
 
-import sun.security.mscapi.CPublicKey.CECPublicKey;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class) // 스프랭 테스트 컨텍스트 프레임워크의 JUnit기능 확장
@@ -79,17 +77,17 @@ public class TestCommentDao {
 		// CommentVO test = new CommentVO();
 
 		// 단건조회 성공
-		//dao.doSelectOne(comment01.getCommentSeq());
-		
+		// dao.doSelectOne(comment01.getCommentSeq());
+
 		// 리스트 조회
-		CommentVO comment=new CommentVO();
+		CommentVO comment = new CommentVO();
 		comment.setSeq(2);
 		comment.setDiv("10");
-		
-		List<CommentVO> list=dao.doSelectList(comment);
+
+		List<CommentVO> list = dao.doSelectList(comment);
 		assertThat(list.size(), is(3));
-		
-		//입력데이터와 비교>>>질문,굳이 없어도 되는듯
+
+		// 입력데이터와 비교>>>질문,굳이 없어도 되는듯
 		checkComment(comment01, list.get(0));
 		checkComment(comment02, list.get(1));
 	}
@@ -105,8 +103,8 @@ public class TestCommentDao {
 		assertThat(inVO.getSeq(), is(vsVO.getSeq()));
 		assertThat(inVO.getDiv(), is(vsVO.getDiv()));
 		assertThat(inVO.getContent(), is(vsVO.getContent()));
-		//assertThat(inVO.getRegDt(), is(vsVO.getRegDt()));
+		// assertThat(inVO.getRegDt(), is(vsVO.getRegDt()));
 		assertThat(inVO.getRegId(), is(vsVO.getRegId()));
-		//assertThat(inVO.getModDt(), is(vsVO.getModDt()));
+		// assertThat(inVO.getModDt(), is(vsVO.getModDt()));
 	}
 }
