@@ -104,6 +104,7 @@
 			
 			<form class="form-horizontal" id="save_frm" action="${context}/img/doInsert.do" method="post" enctype="multipart/form-data">
 				<input type="button" class="btn btn-primary btn-sm" onclick="javascript:uploadImg()" value="등록"/>
+				<strong id="img_totalCnt">0</strong>개 이미지를 등록합니다.
 				<div id="img_preview" class="flex_container" >
 					<p id="img_area_txt">Drag & Drop</p>
 				</div>
@@ -134,6 +135,8 @@
 		
 		var imgArr = [];
 		var idx;
+
+
 
 		$('.flex_container')
 		.on("dragover", dragOver)
@@ -210,15 +213,12 @@
 				});
 			}
 		}
-
+		
 		
 		// 이미지 미리보기
 		function preview(files){
-			
 			//console.log("files: "+files);
 			
-			//const target = document.getElementsByName('images[]');
-			/* Array.prototype.push.apply(imgArr, target[0].files); */
 			Array.prototype.push.apply(imgArr, files);
 
 			for(let i = 0; i < files.length; i++){
@@ -263,9 +263,16 @@
 
 
 				imgAreaTxt();
+				count();
 			}
 		}
 
+		function count() {
+			let cnt = document.getElementById("img_totalCnt");
+			console.log(cnt);
+			cnt.textContent = imgArr.length;
+		}
+		
 		
 
 
