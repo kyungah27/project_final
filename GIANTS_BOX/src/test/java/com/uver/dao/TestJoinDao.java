@@ -84,7 +84,6 @@ public class TestJoinDao {
 	}
 	
 	@Test
-	@Ignore
 	public void SelectList() {
 		//event로 검색
 		JoinVO voSeartToEvent = new JoinVO();
