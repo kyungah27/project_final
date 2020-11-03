@@ -293,7 +293,9 @@
 			}
 
 			console.log("imgArr: "+imgArr);
+			
 			imgAreaTxt();
+			count();
 		}
 
 
