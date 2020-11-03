@@ -26,9 +26,6 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
-
-	
 	
 	<!-- servlet-mapping -->	
 	<servlet-mapping>
@@ -36,6 +33,10 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
+	<!-- welcome file setting -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 	
 	
 	<!-- Encoding Filter UTF-8 -->
