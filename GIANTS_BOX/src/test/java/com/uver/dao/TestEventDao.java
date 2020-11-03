@@ -56,16 +56,16 @@ public class TestEventDao {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void addAndGet() {
 		
-		//eventDao.doDelete(event01);
-		//eventDao.doDelete(event02);
-		//eventDao.doDelete(event03);
+		eventDao.doDelete(event01);
+		eventDao.doDelete(event02);
+		eventDao.doDelete(event03);
 		
-		//eventDao.doInsert(event01);
-		//eventDao.doInsert(event02);
-		//eventDao.doInsert(event03);
+		eventDao.doInsert(event01);
+		eventDao.doInsert(event02);
+		eventDao.doInsert(event03);
 		
 		
 	}
@@ -79,7 +79,7 @@ public class TestEventDao {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doUpdate() {
 		eventDao.doDelete(event01);
 		eventDao.doDelete(event02);
@@ -104,15 +104,11 @@ public class TestEventDao {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doSelectOne() {
 		eventDao.doSelectOne(event01.getEventSeq());
 	}
 	
-	@Test
-	@Ignore
-	public void bean() {
-		fail("Not yet implemented");
-	}
+	
 
 }
