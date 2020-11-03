@@ -5,7 +5,7 @@
 	<groupId>com.uver</groupId>
 	<artifactId>giants_box</artifactId>
 	<name>GIANTS_BOX</name>
-	
+	<packaging>war</packaging> 
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
 	
