@@ -41,5 +41,7 @@ public interface JoinDao {
 	 * @return 조건에 부합하는 member_seq
 	 */
 	public int doSelectMinReg(int event_seq);
+	
+	List currentJoinList(JoinVO vo);
 
 }

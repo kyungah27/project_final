@@ -13,6 +13,7 @@ public interface JoinService {
 	public JoinVO doSelectOne(JoinVO vo);
 	public List doSelectList(JoinVO vo);
 	public int doUpdate(JoinVO vo);	
+	public List currentJoinList(JoinVO vo);
 	//--------------bypass---------------------- 
 	
 	/**

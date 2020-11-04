@@ -31,11 +31,15 @@
 <div id="wrap">
 	   <div class="table-responsive">
 	    <!-- table -->
-		<table id="userTable" class="table table-striped table-bordered table-hover table-condensed">
+		<table border="1" id="joinTable" class="table table-striped table-bordered table-hover table-condensed">
 			<thead class="bg-primary">  
+				<th class="text-center col-lg-2 col-md-2  col-xs-2">EventSeq(hidden할거)</th>
+				<th class="text-center col-lg-2 col-md-2  col-xs-2">memberSeq(hidden할거)</th>
 				<th class="text-center col-lg-2 col-md-2  col-xs-2">이름</th>
+				<th class="text-center col-lg-2 col-md-2  col-xs-2">아이디</th>
+				<th class="text-center col-lg-2 col-md-2  col-xs-2">권한</th>
 			</thead>
-		    <tbody></tbody>
+		    <tbody id = "joinTablebody"></tbody>
 		
 		</table>
 		<!--// table -->
@@ -55,7 +59,31 @@
 				    },
 				    success:function(data){ //성공
 				       console.log("data="+data);
-				       alert("data:"+data);
+				       var obj = JSON.parse(data);
+			          	  $("#joinTablebody").empty();
+		                  var html = "";
+		                  //Data가 없으면     
+			              if(obj.length>0){
+			                  <!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 --> 
+							  $.each(obj, function(i, value) {  
+								  if(value.priority ==1){
+									html += "<tr bgcolor=red>";
+								}else{  
+									html += "<tr>";
+								}		
+								  html += "<td class='text-center'>"+value.eventSeq+"</td>";
+								  html += "<td class='text-center'>"+value.memberSeq+"</td>";
+								  html += "<td class='text-center'>"+value.name+"</td>";
+								  html += "<td class='text-center'>"+value.memberSeq+"</td>";
+								  html += "<td class='text-center'>"+value.priority+"</td>";
+								  html += "</tr>";
+							  });		  
+					      }else{
+					    	  html += "<tr>";
+							  html += "<td class='text-center' colspan='99'>이벤트에 참여한 사람이 없습니다..</td>";
+							  html += "</tr>";
+						  }
+			              $("#joinTablebody").append(html);	
 				    },
 				    error:function(xhr,status,error){
 				     alert("error:"+error);

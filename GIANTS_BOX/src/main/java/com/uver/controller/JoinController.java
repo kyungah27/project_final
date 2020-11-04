@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.uver.service.JoinService;
+import com.uver.vo.JoinMemberVO;
 import com.uver.vo.JoinVO;
 
 @Controller("JoinController")
@@ -23,7 +24,8 @@ public class JoinController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 	
 	@Autowired
-	JoinService service;
+	JoinService joinService;
+	
 	
 	public JoinController() {
 		
@@ -43,16 +45,30 @@ public class JoinController {
 			)
 	@ResponseBody
 	public String doSelectList(JoinVO vo) {
-		List<JoinVO> list = new ArrayList<JoinVO>();
+//		List<JoinVO> list = new ArrayList<JoinVO>();
+//		
+//		LOG.debug(vo.toString());
+//		list = joinService.doSelectList(vo);
+//		for(JoinVO tmpVO : list) {
+//			LOG.debug("controller doSelectList  : "  +  tmpVO.toString());
+//		}
+//		
+//		Gson gson=new Gson();    
+//		String json = gson.toJson(list);
+//		return json;
+		
+		List<JoinMemberVO> list = new ArrayList<JoinMemberVO>();
 		
 		LOG.debug(vo.toString());
-		list = service.doSelectList(vo);
-		for(JoinVO tmpVO : list) {
+		list = joinService.currentJoinList(vo);
+		for(JoinMemberVO tmpVO : list) {
 			LOG.debug("controller doSelectList  : "  +  tmpVO.toString());
 		}
+		
 		Gson gson=new Gson();    
 		String json = gson.toJson(list);
 		return json;
+		
 	}
 	
 	
