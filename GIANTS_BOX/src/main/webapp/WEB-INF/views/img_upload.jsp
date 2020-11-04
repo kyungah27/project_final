@@ -113,11 +113,17 @@
 			<!-- //이미지 업로드 -->
 			
 			
-			<!-- 히든 폼 -->
+			
+			
+			<!-- 히든 폼 : 목록 이동하기-->
 			<form id="move_img_list" action="${context}/img/doSelectList.do" method="get">
 				<input type="hidden" />
 			</form>
 			<!-- //히든 폼 -->
+			
+			
+			
+			
 			
 			
 			
@@ -360,6 +366,9 @@
 
 			});
 		}
+
+
+		
 
 		function moveToImgList(){
 			document.getElementById("move_img_list").submit();
