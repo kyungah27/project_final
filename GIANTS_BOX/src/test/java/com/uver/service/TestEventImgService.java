@@ -39,7 +39,7 @@ public class TestEventImgService {
     
     private List<EventImgVO> eventImgList;
     
-    private int seq = 123;
+    private int seq = 214;
     
     @Before
     public void setUp() {
@@ -83,11 +83,13 @@ public class TestEventImgService {
     
     
     @Test
-//    @Ignore
+    @Ignore
     public void add() {
+    	
     	assertThat(eventImgList.get(0), is(service.doSelectOne(seq)));
     	service.doSelectAll(2);
     	deleteAll();
+
     	
     	int flag = 0;
     	flag = service.doInsert(eventImgList.get(0));
@@ -95,10 +97,11 @@ public class TestEventImgService {
     	flag += service.doInsert(eventImgList.get(2));
     	assertThat(flag, is(eventImgList.size()));
     	
-    	
-    	
     }
     
+    
+    @Test
+    @Ignore
     private void deleteAll() {
     	for (EventImgVO vo : eventImgList) {
     		this.service.doDelete(vo.getImgSeq());
