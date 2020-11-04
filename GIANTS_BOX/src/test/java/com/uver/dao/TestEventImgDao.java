@@ -37,64 +37,71 @@ public class TestEventImgDao {
     @Autowired
     EventImgDaoImpl dao;
     
+    @Autowired
+    ImgDaoImpl imgDao;
+    
     EventImgVO eventImg01;
     EventImgVO eventImg02;
-    EventImgVO eventImg03;
+    ImgVO img01;
+    ImgVO img02;
 
 	@Before
 	public void setUp() throws Exception {
 		LOG.debug("---setup()---------------------------");
 		LOG.debug("[context] " + context);
 		LOG.debug("[EventImgDao] " + dao);
-    	
 		
-		
-		ImgVO img01 = new ImgVO(214, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
-		ImgVO img02 = new ImgVO(215, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
-		ImgVO img03 = new ImgVO(216, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		img01 = new ImgVO(240, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+		img02 = new ImgVO(241, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
 		
 		//---이미지 시퀀스, 이벤트 시퀀스
-		eventImg01 = new EventImgVO(214, 2, img01);
-		eventImg02 = new EventImgVO(215, 2, img02);
-		eventImg03 = new EventImgVO(216, 3, img03);
+		
     	
     	LOG.debug("[eventImg01] " + eventImg01);
     	LOG.debug("[eventImg02] " + eventImg02);
-    	LOG.debug("[eventImg03] " + eventImg03);
     	LOG.debug("----------------------------------");
 	}
 
-
-	@Test
-	@Ignore
+//	@Test
+//	@Ignore
 	public void test() {
 		LOG.debug("---test()---");
 	}
 	
-	
-	
 	@Test
 //	@Ignore
 	public void addAndGet() {
+		//---[전체 테스트]
+		int img01Seq = imgDao.doInsert(img01);
+		int img02Seq = imgDao.doInsert(img02);
+		
+		eventImg01 = new EventImgVO(img01Seq, 2, img01);
+		eventImg02 = new EventImgVO(img02Seq, 2, img02);
 		
 		//---추가
 		int flag = dao.doInsert(eventImg01);
 		flag += dao.doInsert(eventImg02);
-		flag += dao.doInsert(eventImg03);
-		assertThat(flag, is(3));
+		assertThat(flag, is(2));
+		
+		//---단건 조회
+		doSelectOne();
 		
 		//---다건 조회
 		List<EventImgVO> list = dao.doSelectList(2);
 		assertThat(dao.count(eventImg01.getEventSeq()), is(list.size()));
+		
+		
+		//---삭제
+		imgDao.doDelete(img01Seq);
+		imgDao.doDelete(img02Seq);
+		
 	}
 	
-	@Test
-	@Ignore
+	
 	public void doSelectOne() {
 		//---단건 조회
 		dao.doSelectOne(eventImg01.getImgSeq());
 		dao.doSelectOne(eventImg02.getImgSeq());
-		dao.doSelectOne(eventImg03.getImgSeq());
 	}
 	
 	

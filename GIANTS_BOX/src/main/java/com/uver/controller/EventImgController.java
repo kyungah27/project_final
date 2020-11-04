@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
@@ -31,13 +33,14 @@ public class EventImgController {
 	
 	private final EventImgService eventImgService;
 	
+	@Resource(name="downloadView")
+	View downloadView;
+	
 	public EventImgController(EventImgService eventImgService) {
 		this.eventImgService = eventImgService;
 	}
 	
-	
-	// 외부 경로 설정 필요
-	final String UPLOAD_FILE_DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
+	private final String UPLOAD_FILE_DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
 	
 	
 	/**
