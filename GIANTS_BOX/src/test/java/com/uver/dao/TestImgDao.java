@@ -42,7 +42,7 @@ public class TestImgDao {
     ImgVO img02;
     
     //---테스트 전 시퀀스 번호 확인 (nextval)
-    int seq = 117;
+    int seq = 221;
     
     @Before
 	public void setUp() throws Exception {
@@ -74,7 +74,7 @@ public class TestImgDao {
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void addAndGet() {
 		
 		//---추가 & 단건 조회
@@ -90,6 +90,8 @@ public class TestImgDao {
 		
 		LOG.debug("[시퀀스 번호 재설정] " + (img02Seq+1));
 	}
+	
+	
 	
 	
 	
@@ -112,6 +114,9 @@ public class TestImgDao {
 		
 		LOG.debug("[시퀀스 번호 재설정] " + (seq+flag));
 	}
+	
+	
+	
 	
 	@Test
 	@Ignore
