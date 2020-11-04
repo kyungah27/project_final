@@ -46,9 +46,10 @@ public class JoinController {
 		List<JoinVO> list = new ArrayList<JoinVO>();
 		
 		LOG.debug(vo.toString());
-		
-		
-		
+		list = service.doSelectList(vo);
+		for(JoinVO tmpVO : list) {
+			LOG.debug("controller doSelectList  : "  +  tmpVO.toString());
+		}
 		Gson gson=new Gson();    
 		String json = gson.toJson(list);
 		return json;
