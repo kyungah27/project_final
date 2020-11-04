@@ -47,22 +47,22 @@ public class TestMemberDao {
 	@Test
 	public void test() {
 		//데이터 입력
-//		dao.doInsert(member01);
-//		dao.doInsert(member02);
-//		dao.doInsert(member03);
+		dao.doInsert(member01);
+		dao.doInsert(member02);
+		dao.doInsert(member03);
 		
 		//데이터삭제
-//		int flag = dao.doDelete(31);
-//		assertThat(flag, is(1));
-//		dao.doDelete(member02.getSeq());
-//		dao.doDelete(member03.getSeq());
+		int flag = dao.doDelete(31);
+		assertThat(flag, is(1));
+		dao.doDelete(member02.getSeq());
+		dao.doDelete(member03.getSeq());
 		
 //		//단건조회
-//		memberVO resultVO = dao.doSelectOneById("H170_04");
-//		memberVO member02 = dao.doSelectOneById("H170_02");
-//		memberVO member03 = dao.doSelectOneById("H170_03");
-//		memberVO seqResultVO = dao.doSelectOne(35);
-//		LOG.debug(seqResultVO.toString());
+		MemberVO resultVO = dao.doSelectOneById("H170_04");
+		MemberVO member02 = dao.doSelectOneById("H170_02");
+		MemberVO member03 = dao.doSelectOneById("H170_03");
+		MemberVO seqResultVO = dao.doSelectOne(35);
+		LOG.debug(seqResultVO.toString());
 		
 		//다건조회(아이디(10),이름(20))
 		List<MemberVO> list = dao.doSelectList("20", "최");
@@ -78,6 +78,7 @@ public class TestMemberDao {
 	}
 	
 	@Test
+	@Ignore
 	public void update() {
 		
 		MemberVO updateVO = new MemberVO("H170_04","최현우_04_UU","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
