@@ -5,13 +5,24 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.uver.vo.LikeVO;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class) // application context 공유를 위함
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/*.xml" })
 
 public class TestLikeDao {
 	final Logger LOG = LoggerFactory.getLogger(TestLikeDao.class);
@@ -30,8 +41,8 @@ public class TestLikeDao {
 
 	@Test
 	public void doInsert() {
-		// int flag = likeDaoImpl.doInsert(like01);
-		// assertThat(flag, is(1));
+		int flag = likeDaoImpl.doInsert(like01);
+		assertThat(flag, is(1));
 	}
 
 	@Test

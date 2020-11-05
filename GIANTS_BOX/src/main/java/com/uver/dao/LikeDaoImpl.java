@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.uver.vo.CommentVO;
+import com.uver.vo.LikeVO;
 
 
 @Repository
@@ -16,7 +17,7 @@ public class LikeDaoImpl {
 	SqlSessionTemplate sqlSessionTemplate;
 	private final String NAMESPACE = "com.uver";
 
-	public int doInsert(CommentVO commentVO) {
+	public int doInsert(LikeVO likeVO) {
 		LOG.debug("==================");
 		LOG.debug("doInsert");
 		LOG.debug("==================");
@@ -24,8 +25,8 @@ public class LikeDaoImpl {
 		// .중요
 		String statement = NAMESPACE + ".doInsert";
 		LOG.debug("statement" + statement);
-		LOG.debug("commentVO" + commentVO);
-		int flag = sqlSessionTemplate.insert(statement, commentVO);
+		LOG.debug("likeVO" + likeVO);
+		int flag = sqlSessionTemplate.insert(statement, likeVO);
 
 		return flag;
 	}
