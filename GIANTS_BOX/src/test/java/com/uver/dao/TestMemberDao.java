@@ -52,7 +52,7 @@ public class TestMemberDao {
 		dao.doInsert(member03);
 		
 		//데이터삭제
-		int flag = dao.doDelete(31);
+		int flag = dao.doDelete(32);
 		assertThat(flag, is(1));
 		dao.doDelete(member02.getSeq());
 		dao.doDelete(member03.getSeq());
@@ -81,7 +81,7 @@ public class TestMemberDao {
 	@Ignore
 	public void update() {
 		
-		MemberVO updateVO = new MemberVO("H170_04","최현우_04_UU","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
+		MemberVO updateVO = new MemberVO("H170_04","최현우_04_UUU","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
 		updateVO.setSeq(35);
 		
 		dao.doUpdata(updateVO);
