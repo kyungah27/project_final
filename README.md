@@ -31,11 +31,13 @@
 ### 7. 개발아키텍쳐 : Spring MVC
 ![image](https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png)
 
+### 8. 개발기술
+![image](https://user-images.githubusercontent.com/70499031/98212630-38dd3800-1f87-11eb-846a-c25c1df5d6e7.png)
 
-### 8. 개발 목록
+### 9. 개발 목록
 [개발목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5492628/UVER_.xlsx)
 
-### 9. 단위테스트
-### 10. 통합테스트
-### 11. 이행
+### 10. 단위테스트
+### 11. 통합테스트
+### 12. 이행
 ### 12. 개발 URL  
