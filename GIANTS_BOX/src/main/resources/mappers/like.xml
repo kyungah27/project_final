@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uver">
-	<insert id="insert" parameterType="GoodVO"></insert>
+	<insert id="insert" parameterType="GoodVO">
+		INSERT INTO good (
+		c_seq,
+		u_seq
+		) VALUES (
+		#{commentSeq},
+		#{userSeq}
+		);
+	</insert>
 </mapper>
