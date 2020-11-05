@@ -23,6 +23,7 @@
 [기획서.pdf](https://github.com/HYKim8/GIANTS_BOX/files/5450115/UVER_.pdf)
 
 ### 5. 요구사항정의서
+![요구사항정의서](https://user-images.githubusercontent.com/70499031/98210460-f5cd9580-1f83-11eb-9a34-707a8e4a5d0a.png)
 
 ### 6. WBS
 ![image](https://user-images.githubusercontent.com/70499031/97402388-d1dfd380-1935-11eb-8727-2892a24927b3.png)
@@ -33,7 +34,6 @@
 
 
 ### 8. 개발 목록
-![개발목록](https://user-images.githubusercontent.com/70499031/98210460-f5cd9580-1f83-11eb-9a34-707a8e4a5d0a.png)
 
 ### 9. 단위테스트
 ### 10. 통합테스트
