@@ -23,17 +23,21 @@
 [기획서.pdf](https://github.com/HYKim8/GIANTS_BOX/files/5450115/UVER_.pdf)
 
 ### 5. 요구사항정의서
+![요구사항정의서](https://user-images.githubusercontent.com/70499031/98210460-f5cd9580-1f83-11eb-9a34-707a8e4a5d0a.png)
 
 ### 6. WBS
 ![image](https://user-images.githubusercontent.com/70499031/97402388-d1dfd380-1935-11eb-8727-2892a24927b3.png)
 
-### 7. 개발아키텍쳐 : MVC
-#### 7-1. 백엔드
-#### 7-2. 프론트엔드
+### 7. 개발아키텍쳐 : Spring MVC
+![image](https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png)
 
+### 8. 개발기술
+![image](https://user-images.githubusercontent.com/70499031/98215405-16e5b480-1f8b-11eb-96f5-f75c6f445c70.png)
 
-### 8. 개발 목록
-### 9. 단위테스트
-### 10. 통합테스트
-### 11. 이행
+### 9. 개발 목록
+[개발목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5492628/UVER_.xlsx)
+
+### 10. 단위테스트
+### 11. 통합테스트
+### 12. 이행
 ### 12. 개발 URL  

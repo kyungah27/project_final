@@ -9,8 +9,11 @@
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="false" />
 	</settings>
-	<!-- <typeAliases>
-		<typeAlias type="com.sist.ehr.board.domain.BoardVO" alias="BoardVO"/>
-	</typeAliases> -->
+	<typeAliases>
+		<!-- <typeAlias type="com.sist.ehr.board.domain.BoardVO" alias="BoardVO"/> -->
+	<typeAlias type="com.uver.vo.LikeVO" alias="Like"/>
+	<typeAlias type="com.uver.vo.CommentVO" alias="CommentVO"/>
+	
+	</typeAliases>
 </configuration>
 
