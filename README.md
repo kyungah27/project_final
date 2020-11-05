@@ -32,7 +32,7 @@
 ![image](https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png)
 
 ### 8. 개발기술
-![image](https://user-images.githubusercontent.com/70499031/98212630-38dd3800-1f87-11eb-846a-c25c1df5d6e7.png)
+![image](https://user-images.githubusercontent.com/70499031/98213948-2cf27580-1f89-11eb-8667-d07f1fac7689.png)
 
 ### 9. 개발 목록
 [개발목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5492628/UVER_.xlsx)
