@@ -34,6 +34,7 @@
 
 
 ### 8. 개발 목록
+[개발목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5492628/UVER_.xlsx)
 
 ### 9. 단위테스트
 ### 10. 통합테스트
