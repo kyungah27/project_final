@@ -28,11 +28,8 @@
 ### 6. WBS
 ![image](https://user-images.githubusercontent.com/70499031/97402388-d1dfd380-1935-11eb-8727-2892a24927b3.png)
 
-### 7. 개발아키텍쳐 : MVC
-#### 7-1. 백엔드
+### 7. 개발아키텍쳐 : Spring MVC
 ![image](https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png)
-
-#### 7-2. 프론트엔드
 
 
 ### 8. 개발 목록
