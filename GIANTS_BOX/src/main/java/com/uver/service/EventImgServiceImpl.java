@@ -1,5 +1,6 @@
 package com.uver.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import com.uver.cmn.Search;
 import com.uver.dao.EventImgDaoImpl;
 import com.uver.dao.ImgDaoImpl;
 import com.uver.vo.EventImgVO;
-import com.uver.vo.ImgVO;
 
 @Service("eventImgService")
 public class EventImgServiceImpl implements EventImgService {
@@ -58,11 +58,16 @@ public class EventImgServiceImpl implements EventImgService {
 		return eventImgDao.doSelectList(eventSeq);
 	}
 	
-	
-	
 	@Override
 	public List<EventImgVO> doSelectList(Search search) {
 		return null;
 	}
+
+	@Override
+	public int count(int eventSeq) {
+		return eventImgDao.count(eventSeq);
+	}
+	
+	
 
 }

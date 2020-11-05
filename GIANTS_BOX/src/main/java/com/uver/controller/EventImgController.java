@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
+import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
@@ -32,46 +32,56 @@ public class EventImgController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 	
 	private final EventImgService eventImgService;
+//	private final View downloadView;
 	
-	@Resource(name="downloadView")
-	View downloadView;
+	/**
+	 * 파일 시스템에 있는 이미지 파일 응답으로 돌려주기
+	 */
+	private final View imgView;
 	
-	public EventImgController(EventImgService eventImgService) {
+	public EventImgController(EventImgService eventImgService, View imgView) {
 		this.eventImgService = eventImgService;
+		this.imgView = imgView;
 	}
 	
-	private final String UPLOAD_FILE_DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
+	private final String UPLOAD_FILE_DIR = ImgVO.DIR;
 	
 	
 	/**
-	 * 이미지 다운로드
-	 * 
-	 * @param req
-	 * @param model
+	 * 이미지 객체 받아서 화면에 이미지 뿌리기
+	 * @param imgSeq
+	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping(value="download.do", method = RequestMethod.POST)
-	public ModelAndView download(HttpServletRequest req, ModelAndView modelAndView) {
+	@RequestMapping("{imgSeq}.do")
+	private ImgView getImg(@PathVariable int imgSeq, ModelMap modelMap) {
 		
-		LOG.debug("download()");
+		EventImgVO eventImg = eventImgService.doSelectOne(imgSeq);
+		ImgVO img = eventImg.getImgVO();
+		modelMap.put("img", img);
 		
-		return modelAndView;
+		return (ImgView) imgView;
 	}
 	
 	
-	
-	
-	
-	
+
+	/**
+	 * 이미지 업로드 -> 이미지 목록 페이지로 맵핑
+	 * 
+	 * @param ModelAndView
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
 	public ModelAndView doSelectList(ModelAndView mav) {
-		
 		List<EventImgVO> list = new ArrayList<>();
-		
+
 		//event seq
 		list = eventImgService.doSelectAll(2);
 		
+		int cnt = eventImgService.count(2);
+		
 		mav.addObject("list", list);
+		mav.addObject("cnt", cnt);
 		mav.setViewName("img_view");
 		
 		return mav;
@@ -79,10 +89,14 @@ public class EventImgController {
 	
 	
 	
-	
-	
-	
-	
+	/**
+	 * 이미지 업로드 후 json으로 응답
+	 * 
+	 * @param mReg
+	 * @return json
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@RequestMapping(value="doInsert.do", method=RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -151,6 +165,7 @@ public class EventImgController {
 			//저장 파일 full path
 			File fullPathFile = new File(fileRootDir, saveImgNm + "." + ext);
 			LOG.debug("[fullPathFile] " + fullPathFile);
+			LOG.debug("[full Path] " + fullPathFile.getAbsoluteFile());
 			
 			list.add(eventImgVO);
 			mf.transferTo(new File(fullPathFile.getAbsolutePath()));
@@ -174,6 +189,11 @@ public class EventImgController {
 	}
 	
 	
+	/**
+	 * view.do -> 이미지 업로드 페이지 맵핑
+	 * 
+	 * @return img_upload.jsp
+	 */
 	@RequestMapping(value="view.do")
 	public String view() {
 		LOG.debug("-------------------");

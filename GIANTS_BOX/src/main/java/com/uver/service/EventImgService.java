@@ -57,5 +57,13 @@ public interface EventImgService {
 	 * @return List<EventImgVO>
 	 */
 	public List<EventImgVO> doSelectAll(int eventSeq);
+	
+	/**
+	 * 이벤트seq 기반 총 갯수
+	 * 
+	 * @param eventSeq
+	 * @return int
+	 */
+	public int count(int eventSeq); 
 
 }

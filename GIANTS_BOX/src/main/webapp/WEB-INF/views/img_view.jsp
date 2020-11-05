@@ -52,13 +52,15 @@
 				<h2>사진 보기</h2>
 			</div>
 			<!--// 제목 -->
-
+			
+			<p> 총 ${cnt}개의 사진</p>
 				<c:choose>
 					<c:when test="${list.size()>0 }">
 						<c:forEach var="vo" items="${list}">
 
 							<!-- 등록정보 -->
 							<div>
+								
 								<p>
 									등록일: <strong>${vo.imgVO.regDt}</strong>
 								</p>
@@ -66,25 +68,17 @@
 									등록자: <strong>${vo.imgVO.regId}</strong>
 								</p>
 								<p>
-									이미지명: <strong>${vo.imgVO.originName}</strong>
+									사진명: <strong>${vo.imgVO.originName}</strong>
 								</p>
 							</div>
 							<!-- //등록정보 -->
 							<div>
-								<img src="../upload_img/${vo.imgVO.serverName}.${vo.imgVO.imgType}" />							
+								<img src="${pageContext.request.contextPath}/img/${vo.imgVO.imgSeq}.do">
 							</div>
 							
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-							<div>
-								<p>
-									등록일: 
-								</p>
-								<p>
-									등록자: 
-								</p>
-							</div>
 						<div>
 							등록된 데이터가 없습니다.
 						</div>

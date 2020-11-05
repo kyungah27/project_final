@@ -4,14 +4,17 @@ import com.uver.cmn.DTO;
 
 public class ImgVO extends DTO {
 
-	private int 	imgSeq;			/** 이미지 순번 */
-	private String 	originName;		/** 첨부이름 */
-	private String 	serverName;		/** 서버저장이름 */
-	private String 	imgType;			/** 확장자 */
-	private int 	imgSize;			/** 크기 */
-	private String	isThumbnail;	/** 썸네일여부 */
-	private String 	regDt;			/** 등록일 */
-	private String 	regId;			/** 등록자 */
+	/** 저장 경로 */
+	public static final String DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
+
+	private int 	      imgSeq;			/** 이미지 순번 */
+	private String 	      originName;		/** 첨부이름 */
+	private String 	      serverName;		/** 서버저장이름 */
+	private String 	      imgType;			/** 확장자 */
+	private int 	      imgSize;			/** 크기 */
+	private String	      isThumbnail;		/** 썸네일여부 */
+	private String 	      regDt;			/** 등록일 */
+	private String 	      regId;			/** 등록자 */
 	
 	
 	public ImgVO() {
@@ -30,8 +33,6 @@ public class ImgVO extends DTO {
 		this.regDt = regDt;
 		this.regId = regId;
 	}
-
-
 
 	public int getImgSeq() {
 		return imgSeq;
