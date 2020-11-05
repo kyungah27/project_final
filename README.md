@@ -33,6 +33,8 @@
 
 
 ### 8. 개발 목록
+![개발목록](https://user-images.githubusercontent.com/70499031/98210460-f5cd9580-1f83-11eb-9a34-707a8e4a5d0a.png)
+
 ### 9. 단위테스트
 ### 10. 통합테스트
 ### 11. 이행
