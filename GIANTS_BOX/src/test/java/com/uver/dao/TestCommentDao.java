@@ -43,7 +43,7 @@ public class TestCommentDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** CommentDaoImpl **" + dao);
-		comment01 = new CommentVO(12, 2, "10", "재밌었어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", "");
+		comment01 = new CommentVO(14, 2, "10", "재밌었어요", "", "ehgml", "");
 		comment02 = new CommentVO(10, 2, "10", "재밌었어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", "");
 
 		LOG.debug("[comment01] " + comment01);
@@ -66,8 +66,7 @@ public class TestCommentDao {
 		// assertThat(flag, is(1));
 
 		// 수정
-		// CommentVO updateVO = new CommentVO(12, 2, "10", "재밌었어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml",
-		// "");
+		// CommentVO updateVO = new CommentVO(14, 2, "10", "재밌었어요", "", "ehgml", "");
 		// flag = dao.doUpdate(updateVO);
 		// assertThat(flag, is(1));
 
@@ -85,7 +84,7 @@ public class TestCommentDao {
 		comment.setDiv("10");
 
 		List<CommentVO> list = dao.doSelectList(comment);
-		assertThat(list.size(), is(3));
+		assertThat(list.size(), is(5));
 
 		// 입력데이터와 비교>>>질문,굳이 없어도 되는듯
 		checkComment(comment01, list.get(0));
@@ -99,7 +98,7 @@ public class TestCommentDao {
 	}
 
 	private void checkComment(CommentVO inVO, CommentVO vsVO) {
-		assertThat(inVO.getCommentSeq(), is(vsVO.getCommentSeq()));
+		// assertThat(inVO.getCommentSeq(), is(vsVO.getCommentSeq()));
 		assertThat(inVO.getSeq(), is(vsVO.getSeq()));
 		assertThat(inVO.getDiv(), is(vsVO.getDiv()));
 		assertThat(inVO.getContent(), is(vsVO.getContent()));

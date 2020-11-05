@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver.vo.JoinMemberVO;
 import com.uver.vo.JoinVO;
 
 
@@ -103,6 +104,17 @@ public class TestJoinDao {
 			assertThat(vo.getMemberSeq(), is(voSeartToMember.getMemberSeq()));
 		}
 		
+	}
+	
+	@Test
+	public void MemberJoin() {
+		JoinVO voSeartToEvent = new JoinVO();
+		voSeartToEvent.setEventSeq(1001);
+		List<JoinMemberVO> list = joinDao.currentJoinList(voSeartToEvent);
+		joinDao.currentJoinList(voSeartToEvent);
+		for(JoinMemberVO vo : list) {
+			LOG.debug(vo.toString());
+		}
 	}
 	
 	@Test

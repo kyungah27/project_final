@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.uver.vo.JoinMemberVO;
 import com.uver.vo.JoinVO;
 
 @Repository("joinDaoImpl")
@@ -182,6 +183,40 @@ public class JoinDaoImpl implements JoinDao {
 		}
     	
     	return list.get(0);	
+	}
+
+	@Override
+	public List currentJoinList(JoinVO vo) {
+		// TODO Auto-generated method stub
+		List<JoinMemberVO> list = null;
+		StringBuilder  whereSb=new StringBuilder();
+		LOG.debug("inVO"+vo);
+		
+		StringBuilder  sb=new StringBuilder();
+		sb.append("SELECT t2.user_id as id, t2.name as name , t1.event_seq as eventSeq , t1.member_seq as MemberSeq , t1.priority as priority, t1.reg_dt AS regDt \n");
+		sb.append("FROM event_join t1 , member t2                                           \n");
+		sb.append("WHERE t1.member_seq = t2.seq                                             \n");
+		sb.append("AND t1.event_seq = ?                                                     \n");
+		List<Object> listArg = new ArrayList<Object>();		
+			listArg.add(vo.getEventSeq());
+		list = this.jbcTemplate.query(sb.toString(), 
+				listArg.toArray(), new RowMapper<JoinMemberVO>(){
+
+					@Override
+					public JoinMemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+						// TODO Auto-generated method stub
+						JoinMemberVO vo = new JoinMemberVO();
+						vo.setUserId(rs.getString("id"));
+						vo.setName(rs.getString("name"));
+						vo.setEventSeq(rs.getInt("eventSeq"));
+						vo.setMemberSeq(rs.getInt("MemberSeq"));
+						vo.setPriority(rs.getInt("priority"));
+						vo.setRegDt(rs.getString("regDt"));	
+						return vo;
+					}
+			
+		});				
+    	return list;	
 	}
 	
 	

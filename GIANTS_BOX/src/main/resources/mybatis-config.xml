@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+	<!-- 데이터 컬럼명 A_COLUMN을 CamelCase 형태로 매핑 aColumn -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+	</settings>
+	<!-- <typeAliases>
+		<typeAlias type="com.sist.ehr.board.domain.BoardVO" alias="BoardVO"/>
+	</typeAliases> -->
+</configuration>
+
