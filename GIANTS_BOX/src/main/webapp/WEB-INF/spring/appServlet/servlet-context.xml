@@ -33,9 +33,6 @@
 	<!-- View 이름과 동일한 빈 객체를 View 객체로 사용: 커스텀 View 클래스를 뷰로 사용해야 하는 경우 사용-->
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1" />
 	
-	<!-- fileDownload View -->
-	<beans:bean id="downloadView" class="com.uver.cmn.DownloadView" />
-	<beans:bean id="imgView" class="com.uver.cmn.ImgView" />
 	
 	<!-- multipart uploader -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
