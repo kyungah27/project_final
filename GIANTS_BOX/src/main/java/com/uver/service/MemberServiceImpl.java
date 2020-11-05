@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +84,10 @@ public MemberVO login(MemberVO inputUser) {
 	return resultVO;
 }
 
+	public void logout(HttpSession session) {
+		
+		
+		session.invalidate();
+	}
 
 }
