@@ -30,6 +30,8 @@
 
 ### 7. 개발아키텍쳐 : MVC
 #### 7-1. 백엔드
+(https://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/_images/RequestLifecycle.png)
+
 #### 7-2. 프론트엔드
 
 
