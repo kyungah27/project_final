@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -36,12 +37,31 @@ public class TestLikeDao {
 	@Before
 	public void setUp() throws Exception {
 		like01 = new LikeVO(28, 7);
-		like01 = new LikeVO(29, 11);
+		like02 = new LikeVO(29, 11);
 	}
 
 	@Test
+	public void doSelectOne() {
+		like02.setCommentSeq(29);
+		LikeVO outVO = likeDaoImpl.doSelectOne(like02);
+		//checkLike(like02, outVO);
+	}
+
+	@Test
+	@Ignore
+	public void doDelete() {
+		like01.setCommentSeq(29);
+		;
+		int flag = likeDaoImpl.doDelete(like01);
+
+		assertThat(flag, is(1));
+	}
+
+	@Test
+	@Ignore
 	public void doInsert() {
 		int flag = likeDaoImpl.doInsert(like01);
+		flag = likeDaoImpl.doInsert(like02);
 		assertThat(flag, is(1));
 	}
 
