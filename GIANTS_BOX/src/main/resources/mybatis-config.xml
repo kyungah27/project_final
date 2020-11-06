@@ -11,7 +11,7 @@
 	</settings>
 	<typeAliases>
 		<!-- <typeAlias type="com.sist.ehr.board.domain.BoardVO" alias="BoardVO"/> -->
-	<typeAlias type="com.uver.vo.LikeVO" alias="Like"/>
+	<typeAlias type="com.uver.vo.LikeVO" alias="LikeVO"/>
 	<typeAlias type="com.uver.vo.CommentVO" alias="CommentVO"/>
 	
 	</typeAliases>
