@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver.cmn.Search;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
 
@@ -37,40 +38,76 @@ public class TestEventImgService {
     @Autowired
     EventImgService service;
     
+    ImgVO img01;
+    ImgVO img02;
     private List<EventImgVO> eventImgList;
-    
-    private int seq = 214;
+    Search search;
+    Search searchById;
     
     @Before
     public void setUp() {
     	LOG.debug("---setup()---------------------------");
 		
-		ImgVO img01 = new ImgVO(seq, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
-		ImgVO img02 = new ImgVO(seq+1, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		img01 = new ImgVO(1, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+		img02 = new ImgVO(2, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
 		
 		eventImgList = Arrays.asList(
-							new EventImgVO(seq, 2, img01),
-							new EventImgVO(seq+1, 2, img02),
-							new EventImgVO(seq+2, 3, img01)
-						);
+				new EventImgVO(1, 2, img01),
+				new EventImgVO(2, 2, img02),
+				new EventImgVO(3, 3, img01)
+		);
+		
+		search = new Search(2, 1, 5);
+		searchById = new Search("regId01", 1, 10);
 		
 		for (EventImgVO vo : eventImgList) {
 			LOG.debug("[List] " + vo);
 		}
     	LOG.debug("----------------------------------");
     }
-    
-    
-    
-    @Test
-	@Ignore
-	public void test() {
+
+//    @Test
+//    @Ignore
+    public void test() {
 		LOG.debug("---test---");
 	}
     
+    
+    
+    
+    
     @Test
-    @Ignore
-    public void bean() {
+//    @Ignore
+    public void add() {
+    	
+    	//---등록
+    	int flagIn = service.doInsert(eventImgList.get(0));
+		LOG.debug("[flagIn] " + flagIn);
+		assertThat(flagIn, is(1));
+		
+		//---등록 후 객체 얻기
+		EventImgVO outVO = service.addAndGet(eventImgList.get(0));
+		int imgSeq = outVO.getImgSeq();
+		
+		//---수정
+		int flagUp = service.doUpdate(imgSeq);
+		assertThat(flagUp, is(1));
+		assertThat(service.doSelectOne(imgSeq).getImgVO().getIsThumbnail(), is("n"));
+
+		//---삭제
+		int flagDel = service.doDelete(outVO.getImgSeq());
+		assertThat(flagDel, is(1));
+		
+		//---다건조회 by eventSeq
+		List<EventImgVO> list = service.doSelectList(search);
+    	
+    	//---다건조회 by regId
+		List<ImgVO> listById = service.doSelectListById(searchById);
+    }
+
+    
+    
+    private void bean() {
     	LOG.debug("----------------------------------");
     	LOG.debug("bean()");
     	LOG.debug("[context] " + context);
@@ -81,37 +118,11 @@ public class TestEventImgService {
 		assertThat(service, is(notNullValue()));
     }
     
-    
-    @Test
-    @Ignore
-    public void add() {
-    	
-    	assertThat(eventImgList.get(0), is(service.doSelectOne(seq)));
-    	service.doSelectAll(2);
-    	deleteAll();
-
-    	
-    	int flag = 0;
-    	flag = service.doInsert(eventImgList.get(0));
-    	flag += service.doInsert(eventImgList.get(1));
-    	flag += service.doInsert(eventImgList.get(2));
-    	assertThat(flag, is(eventImgList.size()));
-    	
-    }
-    
-    
-    @Test
-    @Ignore
-    private void deleteAll() {
-    	for (EventImgVO vo : eventImgList) {
-    		this.service.doDelete(vo.getImgSeq());
-    	}
-    }
-    
-    
     @After
 	public void tearDown() throws Exception {
 		LOG.debug("---tearDown()---");		
 	}
+    
+    
 	
 }
