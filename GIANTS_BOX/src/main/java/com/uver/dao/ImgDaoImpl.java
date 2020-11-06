@@ -1,35 +1,167 @@
 package com.uver.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.uver.cmn.Search;
 import com.uver.vo.ImgVO;
 
 
 @Repository("imgDao")
 public class ImgDaoImpl {
 	private static final Logger LOG = LoggerFactory.getLogger(ImgDaoImpl.class);
+	
+	private final String NAMESPACE = "com.uver.img";
+	private final SqlSessionTemplate sqlSessionTemplate;
     
-    private final JdbcTemplate jdbcTemplate;
+   private ImgDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
+		super();
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+
+
+//---메서드----------------------------------------------------------
+   /**
+	* 이미지 등록
+	* 생성된 seq 값 돌려받음
+	* 
+	* @param ImgVO
+	* @return int imgSeq
+	*/
+   public int doInsert(ImgVO img) {
+	   String statement = NAMESPACE + ".doInsert";
+	   LOG.debug("[statement]" + statement);
+	   
+	   int flag = sqlSessionTemplate.insert(statement, img);
+	   int seq = img.getImgSeq();
+
+	   LOG.debug("[flag] " + flag);
+	   LOG.debug("[seq] " + seq);
+	   
+	   return seq;
+   }
+   
+   
+   /**
+    * 이미지 삭제
+    * 
+    * @param int imgSeq
+    * @return flag (1:성공 / 0: 실패)
+    */
+	public int doDelete(int imgSeq) {
+		int flag = 0;
+		
+		String statement = NAMESPACE + ".doDelete";
+		LOG.debug("[imgSeq] " + imgSeq);
+		LOG.debug("[statement] " + statement);
+		
+		flag = sqlSessionTemplate.delete(statement, imgSeq);
+
+		return flag;
+	}
+	
+	/**
+	 * (테스트용) 이미지 전체 삭제
+	 * 
+	 * @return flag (1:성공 / 0: 실패)
+	 */
+	public int doDeleteAll() {
+		int flag = 0;
+		String statement = NAMESPACE +".doDeleteAll";
+		LOG.debug("=statement="+statement);	
+		
+		flag = sqlSessionTemplate.delete(statement);
+		LOG.debug("=flag="+flag);
+		
+		return flag;
+	}
+	
+	/**
+	 * 이미지 단건 조회
+	 * 
+	 * @param int imgSeq
+	 * @return ImgVO
+	 */
+	public ImgVO doSelectOne(int imgSeq) {
+		
+		String statement = NAMESPACE +".doSelectOne";	
+		LOG.debug("[statement] " + statement);
+		LOG.debug("[imgSeq] " + imgSeq);
+		
+		ImgVO outVO = this.sqlSessionTemplate.selectOne(statement, imgSeq);
+		LOG.debug("[outVO]" + outVO);
+		
+		return outVO;
+	}
+   
+	
+	/**
+	 * 이미지 수정 (썸네일 여부만)
+	 * 
+	 * @param img
+	 * @return flag (1: 성공 / 0: 실패)
+	 */
+	public int doUpdate(ImgVO img) {
+		int flag = 0;
+		
+		String statement = NAMESPACE +".doUpdate";
+		LOG.debug("[statement] "+statement);	
+		LOG.debug("[param: img] "+statement);	
+		
+		flag = sqlSessionTemplate.update(statement, img);
+		LOG.debug("[flag] "+flag);
+
+		return flag;
+	}
+	
+	/**
+	 * 등록자ID 기준 이미지 다건 조회
+	 * 
+	 * @param String regId
+	 * @return List<ImgVO>
+	 */
+	public List<ImgVO> doSelectList(Search search) {
+		
+		LOG.debug("[search] " + search);
+		
+		String statement = NAMESPACE + ".doSelectList";
+		List<ImgVO> list = this.sqlSessionTemplate.selectList(statement, search);
+		LOG.debug("[statement] " + statement);
+		
+		for (ImgVO vo : list) {
+			LOG.debug("[vo] " + vo);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//---이하 jdbcTemplate 이용한 dao 처리
+
+	/*
+	 *  
+   private final JdbcTemplate jdbcTemplate;
     
     public ImgDaoImpl(JdbcTemplate jdbcTemplate) {
     	this.jdbcTemplate = jdbcTemplate;
     }
-    
-    //---row mapper------------------------------------------------
-    RowMapper<ImgVO> rowMapper= new RowMapper<ImgVO>() {
+   
+   RowMapper<ImgVO> rowMapper= new RowMapper<ImgVO>() {
 		public ImgVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ImgVO outVO = new ImgVO(
 						rs.getInt("img_seq"),
@@ -45,17 +177,8 @@ public class ImgDaoImpl {
 			return outVO;
 		}
    }; //---row mapper end
-    
-    
-    
-   //---메서드----------------------------------------------------------
-	/**
-	 * 이미지 등록
-	 * 생성된 seq 값 돌려받음
-	 * 
-	 * @param ImgVO
-	 * @return int imgSeq
-	 */
+   
+   
    public int doInsert(ImgVO img) {
 		int   flag 	  			  = 0;	    
 	    final KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -114,12 +237,6 @@ public class ImgDaoImpl {
 	}
 	
 	
-   /**
-    * 이미지 삭제
-    * 
-    * @param int imgSeq
-    * @return flag (1:성공 / 0: 실패)
-    */
 	public int doDelete(int imgSeq) {
 		int flag 	  = 0;	    
 	    Object[] args = { imgSeq };
@@ -142,12 +259,7 @@ public class ImgDaoImpl {
 	
 	
 	
-	/**
-	 * 이미지 단건 조회
-	 * 
-	 * @param int imgSeq
-	 * @return ImgVO
-	 */
+	
 	public ImgVO doSelectOne(int seq) {
 		ImgVO 	 outVO = null;	    
 	    Object[] args  = { seq };
@@ -176,14 +288,31 @@ public class ImgDaoImpl {
 
 		return outVO;
 	}
+
+	public int doUpdate(ImgVO img) {
+		int flag 	  = 0;	    
+	    Object[] args = { 	img.getIsThumbnail(),
+	    					img.getImgSeq()
+	    				};
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE image			\n");
+		sb.append("SET                  \n");
+		sb.append("    is_thumbnail = ? \n");
+		sb.append("WHERE                \n");
+		sb.append("    img_seq = ?      \n");
+		
+		LOG.debug("-----------------------------");
+		LOG.debug("[SQL]\n"   + sb.toString());
+		LOG.debug("[param]\n" + img);
+		LOG.debug("-----------------------------");			
+		
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("[flag] "+flag);
+
+		return flag;
+	}
 	
-	
-	/**
-	 * 등록자ID 기준 이미지 다건 조회
-	 * 
-	 * @param String regId
-	 * @return List<ImgVO>
-	 */
 	public List<ImgVO> doSelectList(String regId) {
 		List<ImgVO> list = null;	    
 	    Object[] args  = { regId };
@@ -217,13 +346,12 @@ public class ImgDaoImpl {
 		
 		return list;
 	}
-
-	/**
-	 * 등록자 ID 기준 count
-	 * 
-	 * @param String regId
-	 * @return int cnt
-	 */
+	
+	
+	
+	
+	
+	
 	public int count(String regId) {
 		int  cnt = 0;
 	    Object[] args  = { regId };
@@ -245,35 +373,11 @@ public class ImgDaoImpl {
     	return cnt;
 	}
 	
-	/**
-	 * 이미지 수정 (썸네일 여부만)
-	 * 
-	 * @param img
-	 * @return flag (1: 성공 / 0: 실패)
-	 */
-	public int doUpdate(ImgVO img) {
-		int flag 	  = 0;	    
-	    Object[] args = { 	img.getIsThumbnail(),
-	    					img.getImgSeq()
-	    				};
-	    
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE image			\n");
-		sb.append("SET                  \n");
-		sb.append("    is_thumbnail = ? \n");
-		sb.append("WHERE                \n");
-		sb.append("    img_seq = ?      \n");
-		
-		LOG.debug("-----------------------------");
-		LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + img);
-		LOG.debug("-----------------------------");			
-		
-		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("[flag] "+flag);
+	
+	
+	*/
+	
 
-		return flag;
-	}
 	
 	
     

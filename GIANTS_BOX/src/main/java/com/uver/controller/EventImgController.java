@@ -21,10 +21,15 @@ import org.springframework.web.servlet.View;
 import com.google.gson.Gson;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
+import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 @Controller("EventImgController")
 @RequestMapping("img/")
@@ -63,7 +68,6 @@ public class EventImgController {
 		return (ImgView) imgView;
 	}
 	
-	
 
 	/**
 	 * 이미지 업로드 -> 이미지 목록 페이지로 맵핑
@@ -73,12 +77,12 @@ public class EventImgController {
 	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
 	public ModelAndView doSelectList(ModelAndView mav) {
-		List<EventImgVO> list = new ArrayList<>();
+		Search search = new Search(2, 1, 10);
 
 		//event seq
-		list = eventImgService.doSelectAll(2);
+		List<EventImgVO> list = eventImgService.doSelectList(search);
 		
-		int cnt = eventImgService.count(2);
+		int cnt = list.get(0).getTotalCnt();
 		
 		mav.addObject("list", list);
 		mav.addObject("cnt", cnt);
@@ -87,6 +91,27 @@ public class EventImgController {
 		return mav;
 	}
 	
+	
+	
+	@RequestMapping(value="fetchList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String fetchList() throws ParseException {
+		Search search = new Search(2, 1, 10);
+
+		List<EventImgVO> list = eventImgService.doSelectList(search);
+		
+		// vo list -> JSON Array
+		Gson gson = new Gson();
+		
+		@SuppressWarnings("deprecation")
+		JSONParser jParser = new JSONParser();
+		JSONArray jArr = new JSONArray();
+		jArr = (JSONArray) jParser.parse(gson.toJson(list));
+		LOG.debug("jArr: " + jArr);
+		
+				
+		return jArr.toJSONString();
+	}
 	
 	
 	/**
