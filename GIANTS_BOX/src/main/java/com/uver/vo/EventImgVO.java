@@ -8,6 +8,11 @@ public class EventImgVO extends DTO {
 	private int 		eventSeq;	/** 이벤트 순번 */
 	private ImgVO 		imgVO;		/** ImgVO */
 	
+	
+	private EventImgVO() {
+		super();
+	}
+	
 	public EventImgVO(int imgSeq, int eventSeq) {
 		super();
 		this.imgSeq = imgSeq;
