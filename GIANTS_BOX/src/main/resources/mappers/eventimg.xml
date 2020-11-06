@@ -26,7 +26,13 @@
 
 
 
-
+	<!-- [THE LATEST imgSeq] -->
+	<select id="getMaxImgSeq" parameterType="int" resultType="int">
+		 SELECT MAX(i.img_seq) as minImgSeq
+		 FROM event_image ei, image i
+		 WHERE ei.img_seq = i.img_seq
+		 AND ei.event_seq = #{eventSeq}
+	</select>
 
 	
 	<!-- [SELECT LIST: regId] -->
@@ -61,7 +67,8 @@
 		                    FROM event_image ei, image i
 		                    WHERE ei.img_seq = i.img_seq
 		                    AND   ei.event_seq = #{searchSeq}
-		                    ORDER BY reg_dt DESC
+		                    AND   ei.img_seq <![CDATA[ <= ]]> #{searchSeqSub}
+		                    ORDER BY ei.img_seq DESC
 		            ) A
 		        WHERE rownum <![CDATA[ <= ]]> #{pageSize} * #{pageNum}
 		        ) B
@@ -70,7 +77,8 @@
 		(
 		    SELECT COUNT(*) as totalCnt
 		    From event_image
-		    WHERE event_seq = #{searchSeq}
+		    WHERE img_seq <![CDATA[ <= ]]> #{searchSeqSub}
+		    AND event_seq = #{searchSeq}
 		) T2
 	</select>
 	

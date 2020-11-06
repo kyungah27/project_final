@@ -60,7 +60,7 @@ public class TestEventImgDao {
 		eventImg01 = new EventImgVO(img01.getImgSeq(), 3, img01);
 		eventImg02 = new EventImgVO(img02.getImgSeq(), 3, img02);
 		
-		search = new Search(2, 2, 5);
+		search = new Search(2, 1, 5);
 		
 		//---이미지 시퀀스, 이벤트 시퀀스
     	LOG.debug("[eventImg01] " + eventImg01);
@@ -68,10 +68,11 @@ public class TestEventImgDao {
     	LOG.debug("----------------------------------");
 	}
 
-//	@Test
-//	@Ignore
+	@Test
+	@Ignore
 	public void test() {
 		LOG.debug("---test()---");
+		
 	}
 	
 	
@@ -110,6 +111,7 @@ public class TestEventImgDao {
 	
 	
 	private void doSelectList() {
+		search.setSearchSeqSub(dao.getMaxImgSeq(2));
 		List<EventImgVO> list = dao.doSelectList(search);
 	}
 	

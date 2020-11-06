@@ -58,6 +58,7 @@ public class TestEventImgService {
 		);
 		
 		search = new Search(2, 1, 5);
+		search.setSearchSeqSub(service.getMaxImgSeq(2));
 		searchById = new Search("regId01", 1, 10);
 		
 		for (EventImgVO vo : eventImgList) {
@@ -66,10 +67,11 @@ public class TestEventImgService {
     	LOG.debug("----------------------------------");
     }
 
-//    @Test
-//    @Ignore
+    @Test
+    @Ignore
     public void test() {
 		LOG.debug("---test---");
+		
 	}
     
     

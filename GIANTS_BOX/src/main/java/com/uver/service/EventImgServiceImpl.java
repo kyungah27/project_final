@@ -24,6 +24,8 @@ public class EventImgServiceImpl implements EventImgService {
 		this.eventImgDao = eventImgDao;
 		this.imgDao 	 = imgDao;
 	}
+	
+	
 
 	@Override
 	public int doInsert(EventImgVO eventImg) {
@@ -70,6 +72,12 @@ public class EventImgServiceImpl implements EventImgService {
 	@Override
 	public List<ImgVO> doSelectListById(Search search) {
 		return imgDao.doSelectList(search);
+	}
+
+
+	@Override
+	public int getMaxImgSeq(int eventSeq) {
+		return eventImgDao.getMaxImgSeq(eventSeq);
 	}
 	
 	

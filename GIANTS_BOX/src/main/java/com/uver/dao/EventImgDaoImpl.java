@@ -25,6 +25,17 @@ public class EventImgDaoImpl {
 
 
 //---메서드----------------------------------------------------------
+   public int getMaxImgSeq(int eventSeq) {
+	   String statement = NAMESPACE + ".getMaxImgSeq";
+	   LOG.debug("[statement]" + statement);
+	   
+	   int imgSeq = sqlSessionTemplate.selectOne(statement, eventSeq);
+	   LOG.debug("[imgSeq] " + imgSeq);
+	   
+	   return imgSeq;
+   }
+   
+   
    /**
     * 등록
     * 

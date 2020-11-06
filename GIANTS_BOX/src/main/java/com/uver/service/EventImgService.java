@@ -70,5 +70,14 @@ public interface EventImgService {
 	public List<ImgVO> doSelectListById(Search search);
 	
 	
+	/**
+	 * eventSeq 검색 후 가장 최근 등록된 객체 imgSeq 구하기
+	 * 
+	 * @param eventSeq
+	 * @return imgSeq
+	 */
+	public int getMaxImgSeq(int eventSeq);
+	
+	
 
 }
