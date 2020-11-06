@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.img">
+	<sql id="imgColumns">
+		img_seq as imgSeq
+		,origin_name as originName
+		,server_name as serverName
+		,img_type as imgType
+		,img_size as imgSize
+		,is_thumbnail as isThumbnail
+		,TO_CHAR(reg_dt,'yyyy/mm/dd hh24:mi:ss') as regDt
+		,reg_id as regId
+	</sql>
+	
+	<!-- [SELECT LIST: regId] -->
+	<select id="doSelectList" parameterType="Search" resultType="ImgVO">
+		SELECT T1.*, T2.*
+		FROM (
+		    SELECT B.rnum as num,
+		               B.img_seq as imgSeq,
+		                B.origin_name as originName,
+		                B.server_name as serverName,
+		                B.img_type as imgType,
+		                B.img_size as imgSize,
+		                B.is_thumbnail as isThumbnail,
+		                DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.reg_dt,'yyyy/mm/dd')      
+		                              ,TO_CHAR(B.reg_dt,'hh24:mi')                                      
+		                              ,TO_CHAR(B.reg_dt,'yyyy/mm/dd')) as regDt,
+		                B.reg_id as regId
+		    FROM (
+		        SELECT rownum as rnum,
+		                    A.*
+		        FROM (
+		            SELECT
+		                img_seq,
+		                origin_name,
+		                server_name,
+		                img_type,
+		                img_size,
+		                is_thumbnail,
+		                reg_dt,
+		                reg_id
+		            FROM
+		                image
+		            WHERE reg_id = #{searchWord}
+		            ORDER BY reg_dt DESC
+		        ) A
+		        WHERE rownum <![CDATA[ <= ]]> #{pageSize} * #{pageNum}
+			    ) B
+				WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )     
+			) T1 NATURAL JOIN
+			(
+			    SELECT COUNT(*) as totalCnt
+			    FROM image
+			    WHERE reg_id = #{searchWord}
+			) T2
+	</select>
+	
+		
+	<!-- [SELECT ONE] -->
+	<select id="doSelectOne" parameterType="int" resultType="ImgVO">
+		SELECT <include refid="imgColumns"/>
+		FROM image
+		WHERE img_seq = #{imgSeq}
+	</select>
+	
+	<!-- [UPDATE] -->
+	<select id="doUpdate" parameterType="ImgVO">
+		UPDATE image
+		<choose>
+			<when test=' "n".equals(isThumbnail) '>
+				SET is_thumbnail = 'y'
+			</when>
+			<otherwise>
+				SET is_thumbnail = 'n'
+			</otherwise>
+		</choose>
+		WHERE img_seq = #{imgSeq}
+	</select>
+	
+	<!-- [DELETE All : TEST용] -->
+	<delete id="doDeleteAll">
+		DELETE FROM image	
+	</delete>
+	
+	<!-- [DELETE] -->
+	<delete id="doDelete" parameterType="ImgVO">
+		DELETE FROM image
+		WHERE img_seq = #{imgSeq}	
+	</delete>
+	
+	<!-- [INSERT] -->
+	<insert id="doInsert" parameterType="ImgVO">
+		<selectKey keyProperty="imgSeq" resultType="int" order="BEFORE">
+			SELECT IMAGE_SEQ.NEXTVAL As imgSeq FROM DUAL
+		</selectKey>
+		INSERT INTO image (
+			img_seq
+			, origin_name
+			, server_name
+			, img_type
+			, img_size
+			, is_thumbnail
+			, reg_dt
+			, reg_id
+		) VALUES (
+		    ${imgSeq},
+		    #{originName},
+		    #{serverName},
+		    #{imgType},
+		    #{imgSize},
+		    #{isThumbnail},
+		    SYSDATE,
+		    #{regId}
+		)        
+	</insert>
+	
+</mapper>

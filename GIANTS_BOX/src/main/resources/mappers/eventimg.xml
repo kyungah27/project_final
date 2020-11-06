@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.eventimg">
+	
+	<!-- [resultMap 매핑] -->
+	<resultMap id="eventImgResultMap" type="EventImgVO">
+		<id property="imgSeq" column="imgSeq" javaType="int" />
+		<result property="eventSeq" column="eventSeq" />
+		<result property="num" column="num" />
+		<result property="totalCnt" column="totalCnt" />
+		<association property="imgVO" javaType="ImgVO" resultMap="imgResultMap"/>
+	</resultMap>
+
+	<resultMap type="ImgVO" id="imgResultMap">
+		<id property="imgSeq" column="imgSeq" javaType="int"/>
+		<result property="originName" column="originName" />
+		<result property="serverName" column="serverName" />
+		<result property="imgType" column="imgType" />
+		<result property="imgSize" column="imgSize" />
+		<result property="isThumbnail" column="isThumbnail" />
+		<result property="regDt" column="regDt" />
+		<result property="regId" column="regId" />
+		<result property="num" column="num" />
+		<result property="totalCnt" column="totalCnt" />
+	</resultMap>
+
+
+
+
+
+	
+	<!-- [SELECT LIST: regId] -->
+	<select id="doSelectList" parameterType="Search" resultMap="eventImgResultMap">
+		SELECT T1.*, T2.*
+		FROM (
+		    SELECT B.rnum as num,
+		           B.img_seq as imgSeq,
+		           B.event_seq as eventSeq,
+		           B.origin_name as originName,
+		           B.server_name as serverName,
+		           B.img_type as imgType,
+		           B.img_size as imgSize,
+		           B.is_thumbnail as isThumbnail,
+		           DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.reg_dt,'yyyy/mm/dd')      
+		                              ,TO_CHAR(B.reg_dt,'hh24:mi')                                      
+		                              ,TO_CHAR(B.reg_dt,'yyyy/mm/dd')) as regDt,
+		           B.reg_id as regId
+		    FROM (
+		        SELECT rownum as rnum,
+		                  A.*
+		        FROM (
+		            SELECT ei.img_seq
+		                   ,ei.event_seq
+		                          ,i.origin_name
+		                          ,i.server_name
+		                          ,i.img_type
+		                          ,i.img_size
+		                          ,i.is_thumbnail
+		                          ,reg_dt
+		                          ,i.reg_id
+		                    FROM event_image ei, image i
+		                    WHERE ei.img_seq = i.img_seq
+		                    AND   ei.event_seq = #{searchSeq}
+		                    ORDER BY reg_dt DESC
+		            ) A
+		        WHERE rownum <![CDATA[ <= ]]> #{pageSize} * #{pageNum}
+		        ) B
+			WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )     
+		) T1 NATURAL JOIN
+		(
+		    SELECT COUNT(*) as totalCnt
+		    From event_image
+		    WHERE event_seq = #{searchSeq}
+		) T2
+	</select>
+	
+	
+	
+		
+	<!-- [SELECT ONE] -->
+	<select id="doSelectOne" parameterType="int" resultMap="eventImgResultMap">
+		SELECT ei.img_seq as imgSeq
+		      ,ei.event_seq as eventSeq
+		      ,i.origin_name as originName
+		      ,i.server_name as serverName
+		      ,i.img_type as imgType
+		      ,i.img_size as imgSize
+		      ,i.is_thumbnail as isThumbnail
+		      ,TO_CHAR(i.reg_dt,'yyyy/mm/dd hh24:mi:ss') as regDt
+		      ,i.reg_id as regId
+		FROM event_image ei, image i
+		WHERE ei.img_seq = i.img_seq
+		AND   ei.img_seq = #{imgSeq}
+	</select>
+	
+	<!-- [UPDATE] -->
+	<select id="doUpdate" parameterType="EventImgVO">
+	</select>
+	
+	<!-- [DELETE] -->
+	<!-- img에서 삭제해야 함 -->
+	
+	<!-- [INSERT] -->
+	<insert id="doInsert" parameterType="EventImgVO">
+		INSERT INTO event_image (
+		    img_seq,
+		    event_seq
+		) VALUES (
+		    #{imgSeq},
+		    #{eventSeq}
+		)
+	</insert>
+	
+</mapper>

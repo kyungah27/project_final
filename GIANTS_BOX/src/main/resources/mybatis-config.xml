@@ -10,9 +10,12 @@
 		<setting name="mapUnderscoreToCamelCase" value="false" />
 	</settings>
 	<typeAliases>
-		<!-- <typeAlias type="com.sist.ehr.board.domain.BoardVO" alias="BoardVO"/> -->
+	<!-- type별징 VO이름을 간략히 사용 -->
+	<typeAlias type="com.uver.cmn.Search" alias="Search"/>
 	<typeAlias type="com.uver.vo.LikeVO" alias="LikeVO"/>
 	<typeAlias type="com.uver.vo.CommentVO" alias="CommentVO"/>
+	<typeAlias type="com.uver.vo.ImgVO" alias="ImgVO"/>
+	<typeAlias type="com.uver.vo.EventImgVO" alias="EventImgVO"/>
 	
 	</typeAliases>
 </configuration>
