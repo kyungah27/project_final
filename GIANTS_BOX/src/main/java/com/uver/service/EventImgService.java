@@ -16,6 +16,16 @@ public interface EventImgService {
 	 */
 	public int doInsert(EventImgVO eventImg);
 	
+	
+	/**
+	 * 이미지, 이벤트_이미지 테이블 등록 후 등록한 객체 얻기
+	 * 
+	 * @param eventImg
+	 * @return eventImg
+	 */
+	public EventImgVO addAndGet(EventImgVO eventImg);
+	
+	
 	/**
 	 * 이미지, 이벤트_이미지 테이블 삭제
 	 * 
@@ -25,13 +35,13 @@ public interface EventImgService {
 	public int doDelete(int imgSeq);
 	
 	/**
-	 * 이미지 수정
-	 * 썸네일 여부만 변경
+	 * 이미지 썸네일 여부 변경
+	 * (y->n, n->y)
 	 * 
-	 * @param EventImgVO
+	 * @param imgSeq
 	 * @return int(1:성공 / 0: 실패)
 	 */
-	public int doUpdate(EventImgVO eventImg);
+	public int doUpdate(int imgSeq);
 	
 	/**
 	 * 이미지seq 기반 단건 조회
@@ -43,27 +53,31 @@ public interface EventImgService {
 	
 	
 	/**
-	 * 검색 기반 다건 조회
+	 * eventSeq로 검색하는 다건 조회
 	 * 
 	 * @param Search search
-	 * @return
+	 * @return List<EventImgVO> 
 	 */
 	public List<EventImgVO> doSelectList(Search search);
-
-	/**
-	 * 이벤트seq 기반 다건 조회
-	 * 
-	 * @param int eventSeq
-	 * @return List<EventImgVO>
-	 */
-	public List<EventImgVO> doSelectAll(int eventSeq);
+	
 	
 	/**
-	 * 이벤트seq 기반 총 갯수
+	 * regId로 검색하는 다건 조회
+	 * 
+	 * @param Search search
+	 * @return List<ImgVO> 
+	 */
+	public List<ImgVO> doSelectListById(Search search);
+	
+	
+	/**
+	 * eventSeq 검색 후 가장 최근 등록된 객체 imgSeq 구하기
 	 * 
 	 * @param eventSeq
-	 * @return int
+	 * @return imgSeq
 	 */
-	public int count(int eventSeq); 
+	public int getMaxImgSeq(int eventSeq);
+	
+	
 
 }

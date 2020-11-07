@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -21,10 +22,15 @@ import org.springframework.web.servlet.View;
 import com.google.gson.Gson;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
+import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 @Controller("EventImgController")
 @RequestMapping("img/")
@@ -63,7 +69,6 @@ public class EventImgController {
 		return (ImgView) imgView;
 	}
 	
-	
 
 	/**
 	 * 이미지 업로드 -> 이미지 목록 페이지로 맵핑
@@ -72,21 +77,57 @@ public class EventImgController {
 	 * @return ModelAndView
 	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
-	public ModelAndView doSelectList(ModelAndView mav) {
-		List<EventImgVO> list = new ArrayList<>();
+	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
+		Search search = new Search(eventSeq, 1, 5);
+		
+		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
+		search.setSearchSeqSub(maxImgSeq);
 
 		//event seq
-		list = eventImgService.doSelectAll(2);
+		List<EventImgVO> list = eventImgService.doSelectList(search);
 		
-		int cnt = eventImgService.count(2);
+		int cnt = list.get(0).getTotalCnt();
 		
 		mav.addObject("list", list);
 		mav.addObject("cnt", cnt);
+		mav.addObject("maxImgSeq", maxImgSeq);
+		mav.addObject("num", 1);
+		
 		mav.setViewName("img_view");
 		
 		return mav;
 	}
 	
+	
+	/**
+	 * 스크롤 할 때 데이터 가져오기
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value="fetchList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String fetchList(
+			@RequestParam(value="eventSeq") int eventSeq,
+			@RequestParam(value="maxImgSeq") int maxImgSeq,
+			@RequestParam(value="num") int num
+			) throws ParseException {
+		Search search = new Search(eventSeq, num, 5);
+		search.setSearchSeqSub(maxImgSeq);
+
+		List<EventImgVO> list = eventImgService.doSelectList(search);
+		
+		// vo list -> JSON Array
+		Gson gson = new Gson();
+		
+		@SuppressWarnings("deprecation")
+		JSONParser jParser = new JSONParser();
+		JSONArray jArr = new JSONArray();
+		jArr = (JSONArray) jParser.parse(gson.toJson(list));
+		LOG.debug("jArr: " + jArr);
+				
+		return jArr.toJSONString();
+	}
 	
 	
 	/**

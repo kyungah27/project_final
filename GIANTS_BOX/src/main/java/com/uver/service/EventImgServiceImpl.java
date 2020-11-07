@@ -1,6 +1,5 @@
 package com.uver.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,11 +10,11 @@ import com.uver.cmn.Search;
 import com.uver.dao.EventImgDaoImpl;
 import com.uver.dao.ImgDaoImpl;
 import com.uver.vo.EventImgVO;
+import com.uver.vo.ImgVO;
 
 @Service("eventImgService")
 public class EventImgServiceImpl implements EventImgService {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgServiceImpl.class);
-	
 	
 	private final EventImgDaoImpl eventImgDao;
 	private final ImgDaoImpl 	  imgDao;
@@ -25,6 +24,8 @@ public class EventImgServiceImpl implements EventImgService {
 		this.eventImgDao = eventImgDao;
 		this.imgDao 	 = imgDao;
 	}
+	
+	
 
 	@Override
 	public int doInsert(EventImgVO eventImg) {
@@ -37,14 +38,25 @@ public class EventImgServiceImpl implements EventImgService {
 	}
 	
 	@Override
+	public EventImgVO addAndGet(EventImgVO eventImg) {
+
+		int imgSeq = imgDao.doInsert(eventImg.getImgVO());
+		eventImgDao.doInsert(new EventImgVO(imgSeq, eventImg.getEventSeq()));
+		
+		EventImgVO outVO = eventImgDao.doSelectOne(imgSeq);
+		
+		return outVO;
+	}
+	
+	@Override
 	public int doDelete(int imgSeq) {
 		//---EventImg 테이블 데이터 동시에 삭제됨
 		return imgDao.doDelete(imgSeq);
 	}
 	
 	@Override
-	public int doUpdate(EventImgVO eventImg) {
-		return imgDao.doUpdate(eventImg.getImgVO());
+	public int doUpdate(int imgSeq) {
+		return imgDao.doUpdate(imgDao.doSelectOne(imgSeq));
 	}
 
 	@Override
@@ -52,20 +64,20 @@ public class EventImgServiceImpl implements EventImgService {
 		return eventImgDao.doSelectOne(imgSeq);
 	}
 
-
-	@Override
-	public List<EventImgVO> doSelectAll(int eventSeq) {
-		return eventImgDao.doSelectList(eventSeq);
-	}
-	
 	@Override
 	public List<EventImgVO> doSelectList(Search search) {
-		return null;
+		return eventImgDao.doSelectList(search);
 	}
 
 	@Override
-	public int count(int eventSeq) {
-		return eventImgDao.count(eventSeq);
+	public List<ImgVO> doSelectListById(Search search) {
+		return imgDao.doSelectList(search);
+	}
+
+
+	@Override
+	public int getMaxImgSeq(int eventSeq) {
+		return eventImgDao.getMaxImgSeq(eventSeq);
 	}
 	
 	

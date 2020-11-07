@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver.cmn.Search;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
 
@@ -44,6 +45,8 @@ public class TestEventImgDao {
     EventImgVO eventImg02;
     ImgVO img01;
     ImgVO img02;
+    Search search;
+    
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,22 +54,30 @@ public class TestEventImgDao {
 		LOG.debug("[context] " + context);
 		LOG.debug("[EventImgDao] " + dao);
 		
-		img01 = new ImgVO(240, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
-		img02 = new ImgVO(241, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		img01 = new ImgVO(396, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+		img02 = new ImgVO(397, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
+		
+		eventImg01 = new EventImgVO(img01.getImgSeq(), 3, img01);
+		eventImg02 = new EventImgVO(img02.getImgSeq(), 3, img02);
+		
+		search = new Search(2, 1, 5);
 		
 		//---이미지 시퀀스, 이벤트 시퀀스
-		
-    	
     	LOG.debug("[eventImg01] " + eventImg01);
     	LOG.debug("[eventImg02] " + eventImg02);
     	LOG.debug("----------------------------------");
 	}
 
-//	@Test
-//	@Ignore
+	@Test
+	@Ignore
 	public void test() {
 		LOG.debug("---test()---");
+		
 	}
+	
+	
+	
+	
 	
 	@Test
 //	@Ignore
@@ -75,8 +86,8 @@ public class TestEventImgDao {
 		int img01Seq = imgDao.doInsert(img01);
 		int img02Seq = imgDao.doInsert(img02);
 		
-		eventImg01 = new EventImgVO(img01Seq, 2, img01);
-		eventImg02 = new EventImgVO(img02Seq, 2, img02);
+		eventImg01 = new EventImgVO(img01Seq, 3, img01);
+		eventImg02 = new EventImgVO(img02Seq, 3, img02);
 		
 		//---추가
 		int flag = dao.doInsert(eventImg01);
@@ -84,25 +95,26 @@ public class TestEventImgDao {
 		assertThat(flag, is(2));
 		
 		//---단건 조회
-		doSelectOne();
+		EventImgVO outVO = dao.doSelectOne(img01Seq);
+		ImgVO vsImg01 = new ImgVO(img01Seq, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
+		EventImgVO vsVO = new EventImgVO(img01Seq, 3, vsImg01);
+		assertThat(vsVO, is(outVO));
 		
 		//---다건 조회
-		List<EventImgVO> list = dao.doSelectList(2);
-		assertThat(dao.count(eventImg01.getEventSeq()), is(list.size()));
-		
+		doSelectList();
 		
 		//---삭제
 		imgDao.doDelete(img01Seq);
 		imgDao.doDelete(img02Seq);
-		
 	}
 	
 	
-	public void doSelectOne() {
-		//---단건 조회
-		dao.doSelectOne(eventImg01.getImgSeq());
-		dao.doSelectOne(eventImg02.getImgSeq());
+	
+	private void doSelectList() {
+		search.setSearchSeqSub(dao.getMaxImgSeq(2));
+		List<EventImgVO> list = dao.doSelectList(search);
 	}
+	
 	
 	
 	@After

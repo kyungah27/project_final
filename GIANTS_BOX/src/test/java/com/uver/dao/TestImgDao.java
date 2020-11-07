@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.uver.cmn.Search;
 import com.uver.vo.ImgVO;
 
   
@@ -41,6 +42,8 @@ public class TestImgDao {
     ImgVO img01;
     ImgVO img02;
     
+    Search search;
+    
     @Before
 	public void setUp() throws Exception {
     	LOG.debug("---setup()---------------------------");
@@ -52,17 +55,21 @@ public class TestImgDao {
     	img01 = new ImgVO(1, "originName01", "serverName01", "png", 10, "y", "2020-08-08", "regId01");
     	img02 = new ImgVO(2, "originName02", "serverName02", "png", 10, "y", "2020-08-08", "regId02");
     	
+    	search = new Search("regId01", 2, 5);
+    	
+    	LOG.debug("---parameters---------------------");
     	LOG.debug("[img01] " + img01);
     	LOG.debug("[img02] " + img02);
-    	LOG.debug("----------------------------------");
+    	LOG.debug("[search] " + search);
+    	LOG.debug("-----------------------");
 	}
     
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void test() {
 		LOG.debug("---test---");
-		
+
 //		int img01Seq = dao.doInsert(img01);
 //		int img02Seq = dao.doInsert(img02);
 //		int flag = dao.doDelete(img01Seq);
@@ -70,8 +77,10 @@ public class TestImgDao {
 //		LOG.debug("[시퀀스 번호 재설정] " + (img02Seq + 1));
 	}
 	
+	
+	
 	@Test
-//	@Ignore
+	@Ignore
 	public void addAndGet() {
 		//---[전체 테스트]
 		
@@ -84,8 +93,7 @@ public class TestImgDao {
 		assertThat(dao.doSelectOne(img02Seq), is(notNullValue()));
 		
 		//---전체 목록 조회
-		ImgVO vo = dao.doSelectOne(img01Seq);
-		getAll(vo);
+		doSelectList();
 		
 		//---수정		
 		updateImg();
@@ -97,32 +105,29 @@ public class TestImgDao {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	public void getAll(ImgVO vo) {
-		List<ImgVO> list = dao.doSelectList(vo.getRegId());
-		checkImg(dao.doSelectOne(vo.getImgSeq()), list.get(0));
-    	
-		int cnt = dao.count(vo.getRegId());
-		assertThat(list.size(), is(cnt));
+	private void doSelectList() {
+		List<ImgVO> list = dao.doSelectList(search);
 	}
 	
-	public void updateImg () {
+	private void updateImg() {
 		int seq = dao.doInsert(img01);
-
+		
 		//---썸네일 여부 변경
-    	ImgVO uImg01 = new ImgVO(seq, "originName01", "serverName01", "png", 10, "n", "2020-08-08", "regId01");
-    	int flag = dao.doUpdate(uImg01);
+    	int flag = dao.doUpdate(img01);
     	assertThat(flag, is(1));
 		
-		dao.doDelete(uImg01.getImgSeq());
+		dao.doDelete(seq);
+	}
+	
+			
+	@After
+	public void tearDown() throws Exception {	
+    	LOG.debug("---tearDown()----------------------");
 	}
 	
 	
+	
+	/*
 	private void checkImg (ImgVO inVO, ImgVO vsVO) {
     	assertThat(inVO.getOriginName(), is(vsVO.getOriginName()));
     	assertThat(inVO.getServerName(), is(vsVO.getServerName()));
@@ -131,9 +136,5 @@ public class TestImgDao {
     	assertThat(inVO.getIsThumbnail(), is(vsVO.getIsThumbnail()));
     	assertThat(inVO.getRegId(), is(vsVO.getRegId()));
     }
-			
-	@After
-	public void tearDown() throws Exception {	
-    	LOG.debug("---tearDown()----------------------");
-	}
+    */
 }

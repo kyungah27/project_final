@@ -17,10 +17,10 @@ public class ImgVO extends DTO {
 	private String 	      regId;			/** 등록자 */
 	
 	
-	public ImgVO() {
+	private ImgVO() {
 		super();
 	}
-
+	
 	public ImgVO(int imgSeq, String originName, String serverName, String imgType, int imgSize, String isThumbnail,
 			String regDt, String regId) {
 		super();

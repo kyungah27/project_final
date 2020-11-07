@@ -1,24 +1,111 @@
 package com.uver.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.uver.cmn.Search;
 import com.uver.vo.EventImgVO;
-import com.uver.vo.ImgVO;
 
 
 @Repository("eventImgDao")
 public class EventImgDaoImpl {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgDaoImpl.class);
+	
+	private final String NAMESPACE = "com.uver.eventimg";
+	private final SqlSessionTemplate sqlSessionTemplate;
     
-    private final JdbcTemplate jdbcTemplate;
+   private EventImgDaoImpl(SqlSessionTemplate sqlSessionTemplate) {
+		super();
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+
+
+//---메서드----------------------------------------------------------
+   public int getMaxImgSeq(int eventSeq) {
+	   String statement = NAMESPACE + ".getMaxImgSeq";
+	   LOG.debug("[statement]" + statement);
+	   
+	   int imgSeq = sqlSessionTemplate.selectOne(statement, eventSeq);
+	   LOG.debug("[imgSeq] " + imgSeq);
+	   
+	   return imgSeq;
+   }
+   
+   
+   /**
+    * 등록
+    * 
+    * @param eventImg
+    * @return flag (1: 성공 / 0: 실패)
+    */
+   public int doInsert(EventImgVO eventImg) {
+	   String statement = NAMESPACE + ".doInsert";
+	   LOG.debug("[statement]" + statement);
+	   
+	   int flag = sqlSessionTemplate.insert(statement, eventImg);
+	   LOG.debug("[flag] " + flag);
+	   
+	   return flag;
+	}
+   
+   
+   /**
+    * 단건 조회
+    * 
+    * @param imgSeq
+    * @return EventImgVO
+    */
+   public EventImgVO doSelectOne(int imgSeq){
+	   String statement = NAMESPACE +".doSelectOne";	
+		LOG.debug("[statement] " + statement);
+		LOG.debug("[imgSeq] " + imgSeq);
+		
+		EventImgVO outVO = this.sqlSessionTemplate.selectOne(statement, imgSeq);
+		LOG.debug("[outVO]" + outVO);
+		
+		return outVO;
+	}
+   
+   
+   /**
+    * 다건 조회
+    * 
+    * @param search
+    * @return List<EventImgVO>
+    */
+   public List<EventImgVO> doSelectList(Search search) {
+	   LOG.debug("[search] " + search);
+		
+		String statement = NAMESPACE + ".doSelectList";
+		List<EventImgVO> list = this.sqlSessionTemplate.selectList(statement, search);
+		LOG.debug("[statement] " + statement);
+		
+		for (EventImgVO vo : list) {
+			LOG.debug("[vo] " + vo);
+		}
+		
+		return list;
+	}
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   //---jdbcTemplate 이용한 dao 처리
+	/*
+	
+	
+	private final JdbcTemplate jdbcTemplate;
     
     public EventImgDaoImpl(JdbcTemplate jdbcTemplate) {
     	this.jdbcTemplate = jdbcTemplate;
@@ -45,10 +132,13 @@ public class EventImgDaoImpl {
 			return outVO;
 		}
    };
-   
-   
-    
-   //---메서드----------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
 	public int doInsert(EventImgVO eventImg) {
 		int 	 flag = 0;	    
 	    Object[] args = { eventImg.getImgSeq(),
@@ -71,9 +161,10 @@ public class EventImgDaoImpl {
 		LOG.debug("[flag] "+flag);
 
 		return flag;
-	}
-
-	
+		
+		}
+		
+		
 	public EventImgVO doSelectOne(int imgSeq){
 	    Object[] args  = { imgSeq };
 	    
@@ -103,7 +194,6 @@ public class EventImgDaoImpl {
 		
 		return outVO;
 	}
-	
 	
 	public List<EventImgVO> doSelectList(int eventSeq) {
 		List<EventImgVO> list = null;	    
@@ -138,6 +228,8 @@ public class EventImgDaoImpl {
 		return list;
 	}
 
+
+
 	public int count(int eventSeq) {
 		int  cnt = 0;
 	    Object[] args  = { eventSeq };
@@ -160,7 +252,7 @@ public class EventImgDaoImpl {
 	}
 	
 	
-	
+	 */
     
     
     
