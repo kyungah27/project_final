@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.uver.cmn.Message;
 import com.uver.service.JoinService;
 import com.uver.vo.JoinMemberVO;
 import com.uver.vo.JoinVO;
@@ -45,18 +46,7 @@ public class JoinController {
 			)
 	@ResponseBody
 	public String doSelectList(JoinVO vo) {
-//		List<JoinVO> list = new ArrayList<JoinVO>();
-//		
-//		LOG.debug(vo.toString());
-//		list = joinService.doSelectList(vo);
-//		for(JoinVO tmpVO : list) {
-//			LOG.debug("controller doSelectList  : "  +  tmpVO.toString());
-//		}
-//		
-//		Gson gson=new Gson();    
-//		String json = gson.toJson(list);
-//		return json;
-		
+
 		List<JoinMemberVO> list = new ArrayList<JoinMemberVO>();
 		
 		LOG.debug(vo.toString());
@@ -68,7 +58,61 @@ public class JoinController {
 		Gson gson=new Gson();    
 		String json = gson.toJson(list);
 		return json;
+	}
+	
+	@RequestMapping(value="join/Kick.do",method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String Kick(JoinVO vo) {
+
+		LOG.debug("join/Kick.do");
 		
+		Message message=new Message();
+		//세션에서 가져올 예정
+		JoinVO loginedVO = new JoinVO(1001,27,1);
+		
+		int flag = joinService.kickMember(loginedVO, vo);
+        message.setMsgId(String.valueOf(flag));
+        
+        if(flag > 0) {
+        	message.setMsgContents("추방 되었습니다.");
+        }else {
+        	message.setMsgContents("추방 실패했습니다.");
+        }
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+        LOG.debug("[json] "+json);
+		return json;
+	}
+	
+	
+	@RequestMapping(value="join/Ban.do",method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String Ban(JoinVO vo) {
+
+		LOG.debug("join/Ban.do");
+		
+		Message message=new Message();
+		//세션에서 가져올 예정
+		JoinVO loginedVO = new JoinVO(1001,27,1);
+		
+		int flag = joinService.banMember(loginedVO, vo);
+        message.setMsgId(String.valueOf(flag));
+        
+        if(flag > 0) {
+        	message.setMsgContents("차단 되었습니다.");
+        }else {
+        	message.setMsgContents("차단 실패했습니다.");
+        }
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+        LOG.debug("[json] "+json);
+		return json;
 	}
 	
 	

@@ -36,9 +36,9 @@
 				name="selected_mseq" id="selected_mseq" value="히든으로 바꿀거 smseq" /> <input
 				type="text" name="selected_eseq" id="selected_eseq"
 				value="히든으로 바꿀거 seseq" />
-			<div class="table-responsive">
+			<div class="table-responsive" style=" verflow:scroll;  height:200px;" >
 				<!-- table -->
-				<table border="1" id="joinTable"
+				<!-- <table border="1" id="joinTable"
 					class="table table-striped table-bordered table-hover table-condensed">
 					<thead class="bg-primary">
 						<th class="text-center col-lg-2 col-md-2  col-xs-2">EventSeq(hidden)</th>
@@ -48,7 +48,7 @@
 						<th class="text-center col-lg-2 col-md-2  col-xs-2">권한</th>
 					</thead>
 					<tbody id="joinTablebody"></tbody>
-				</table>
+				</table> -->
 				<!--// table -->
 
 				<table class="table table-bordered" id="joinToggleTable">
@@ -78,31 +78,31 @@
 	});
 
 
-
-
 	
 
 	
 	    //모든 컨트롤(element)가 로딩이 완료되면
 		$(document).ready(function(){   
 			console.log("document ready"); 
-			
-	
-			
 			//이벤트 리스트 뽑기 
 			doSelectList(1001);
 
+			// 추방 차단 버튼 이벤트 
+	
+			 $("#ban_btn1").on("click", function(e) {
+				 alert($(this).val());
 
-			// 강퇴, 삭제를 위한 
-			   $("#joinTablebody").on("click", "tr", function(e) {				
-					var tds = $(this).children();
-	                var eSeq = tds.eq(0).text();
-	                var mSeq = tds.eq(1).text();
-				   alert("eSeq  :" + eSeq + "mSeq   :"+ mSeq);
-				   $("#selected_mseq").val(mSeq);
-				   $("#selected_eseq").val(eSeq);
-				   //$(tds).parent().after('<tr><td><input type="password" id ="toggle" /></td></tr>');
-				});
+				 });		
+			 $(document).on("click","button[name=ban_btn]",function(){
+					var memberSeq = $(this).val();
+					KickOrBan(2 , memberSeq);
+				}) ;
+			 $(document).on("click","button[name=kick_btn]",function(){
+				 	var memberSeq = $(this).val();
+					 KickOrBan(1 , memberSeq);
+				}) ;
+			
+	
 		});//document ready   
 
 
@@ -117,31 +117,8 @@
 					    success:function(data){ //성공
 					       console.log("data="+data);
 					       var obj = JSON.parse(data);
-				          	  $("#joinTablebody").empty();
-				          	  drawTable(obj);
-			                  var html = "";
-			                  //Data가 없으면     
-				              if(obj.length>0){
-				                  <!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 --> 
-								  $.each(obj, function(i, value) {  
-									  if(value.priority ==1){
-										html += "<tr bgcolor=red>";
-									}else{  
-										html += "<tr>";
-									}		
-									  html += "<td class='text-center'>"+value.eventSeq+"</td>";
-									  html += "<td class='text-center'>"+value.memberSeq+"</td>";
-									  html += "<td class='text-center'>"+value.userId+"</td>";
-									  html += "<td class='text-center'>"+value.memberSeq+"</td>";
-									  html += "<td class='text-center'>"+value.priority+"</td>";
-									  html += "</tr>";
-								  });		  
-						      }else{
-						    	  html += "<tr>";
-								  html += "<td class='text-center' colspan='99'>이벤트에 참여한 사람이 없습니다..</td>";
-								  html += "</tr>";
-							  }
-				              $("#joinTablebody").append(html);	
+				          	  $("#joinToggleTable").empty();
+				          	  drawTable(obj);   
 					    },
 					    error:function(xhr,status,error){
 					     alert("error:"+error);
@@ -152,7 +129,48 @@
 
 			}
 
+		function KickOrBan(num , memberSeq){
+			
+			var urlString = "";
+			var warnString = "";
+			if(num ==1){
+				urlString = "${context}/join/Kick.do";
+				warnString = "추방";			
+			}else{
+				urlString = "${context}/join/Ban.do"
+				warnString = "차단";		
+			}
+			if( false==confirm(warnString+ "하시겠습니까?"))return;
+			  $.ajax({
+				    type:"POST",
+				    url: urlString,
+				    dataType:"html", 
+				    data:{"memberSeq":memberSeq,
+				    	  "eventSeq":1001	//임시값, 이벤트에서 줄거라고 가정         
+				    },
+				    success:function(data){ //성공
+				    	var obj = JSON.parse(data);
+				       console.log("obj="+obj); 
+				       if(obj.msgId ==1){
+				    	   alert(warnString+ "에 성공했습니다.");
+				    	   doSelectList(1001);
+					   }else{
+							alert(warnString+ "에 실패했습니다.");
+					   }
+				    },
+				    error:function(xhr,status,error){
+				     alert("error:"+error);
+				    },
+				    complete:function(data){		    
+				    }   			  
+			});//--ajax		
 
+		}
+
+
+		
+
+		//테이블 그리기
 		function drawTable(obj){
 			var html  = "";		
 			$.each(obj, function(i, value) {
@@ -161,9 +179,10 @@
 				}else{
 					html += '<tr>'
 				}
-					html += '<td><span class= "glyphicon glyphicon-plus plusIcon"></span> <span class= "glyphicon glyphicon-minus plusIcon" style= "display: none"></span>'
+					html += '<td><span class= "glyphicon glyphicon-plus plusIcon"></span> <span class= "glyphicon glyphicon-minus plusIcon" style= "display: none"></span>';
 					html +=	"   "+value.name+'( '+ value.userId+' )';
-					html +=	 '</td></tr><tr style="display: none"><td><button class="btn btn-info btn-sm"  value= '+value.memberSeq+' id="detail_btn'+i+' name="detail_btn">추방<btn></td></tr>';
+					html +=	 '</td></tr><tr style="display: none"><td><button class="btn btn-info btn-sm"  value= "'+value.memberSeq+'"name= "kick_btn">추방<btn>';
+					html +=	 '<button class="btn btn-info btn-sm"  value= "'+value.memberSeq+'" name= "ban_btn">차단<btn></td></tr>';
 			});
 			$("#joinToggleTable").append(html);				  
 		}
