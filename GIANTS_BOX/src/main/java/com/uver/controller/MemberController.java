@@ -29,7 +29,7 @@ import com.uver.vo.MemberVO;
 	
 		@RequestMapping("login_view.do")
 		public String login() {
-			return "login_view";
+			return "join/login_view";
 		}
 
 
