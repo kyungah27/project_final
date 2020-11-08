@@ -2,6 +2,7 @@ package com.uver.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,10 +12,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.uver.vo.CommentVO;
 import com.uver.vo.ReviewVO;
 
-@Repository("ReviewDaoImpl")
-public class ReviewDaoImpl implements ReviewDao {
+	@Repository("ReviewDaoImpl")
+	public class ReviewDaoImpl implements ReviewDao {
 	final static Logger LOG = LoggerFactory.getLogger(ReviewDaoImpl.class);
 	
 	@Autowired
@@ -26,50 +28,34 @@ public class ReviewDaoImpl implements ReviewDao {
 	@Override
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-	}
+	}	
 	
-	/*
 	
+	//rowMapper
 	RowMapper<ReviewVO> rowMapper= new RowMapper<ReviewVO>() {
-		@Override
-		public ReviewVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+	@Override
+	public ReviewVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ReviewVO outVO = new ReviewVO(
 						rs.getInt("review_seq"),
-						rs.getString("title"),
+						rs.getInt("div"),
 						rs.getString("context"),
 						rs.getString("writer"),
 						rs.getString("reg_dt"),
-						rs.getInt("div"),						
+						rs.getString("title"),						
 						rs.getString("mod_dt")
 						);
-			outVO.setSeq(rs.getInt("seq"));
+			outVO.setReview_seq(rs.getInt("review_seq"));
 			
 			return outVO;
 		}
    }; //---row mapper end
-   */
-	
-	
    
+   
+   
+   //CREATE
    @Override
-		public int doUpdate(ReviewVO review) {
-	   	int flag = 0;
-		StringBuilder sb = new StringBuilder();
-		sb.append(" UPDATE review       \n");
-	    sb.append(" SET                 \n");
-		sb.append("	    review_seq = 	  	?,  \n");
-		sb.append("	    div =  ?,  \n");
-		sb.append("	    title =	  	?,  \n");
-		sb.append("	    context =?,  \n");
-		sb.append("	    writer =  ?,  \n");
-		sb.append("	    reg_dt = 	?, 	\n");
-		sb.append("	    mod_dt = 	  	?   \n");
-	    sb.append(" WHERE  review_seq =    ?   \n");
-
-		LOG.debug("==========================");
-		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + review);
-		LOG.debug("==========================");
+	public int doInsert(ReviewVO review) {
+		int flag = 0;
 		
 		Object[] args = {
 				review.getReview_seq(), 
@@ -79,13 +65,59 @@ public class ReviewDaoImpl implements ReviewDao {
 				review.getWriter(),
 				review.getReg_dt(),
 				review.getMod_dt()
+				
 		};
 		
+		StringBuilder sb = new StringBuilder();
+		   
+		sb.append(" INSERT INTO review ( \n");
+		sb.append("     review_seq,             \n");
+		sb.append("     div,         \n");
+		sb.append("     title,            \n");
+		sb.append("     context,        \n");
+		sb.append("     writer,           \n");
+		sb.append("     reg_dt,      \n");
+		sb.append("     mod_dt,        \n");		
+		sb.append(" ) VALUES (           \n");
+		sb.append("  review_seq.NEXTVAL, \n");
+		sb.append("     ?,               \n");//?
+		sb.append("     ?,               \n");
+		sb.append("     ?,               \n");
+		sb.append("     ?,               \n");
+		sb.append("     sysdate,               \n");
+		sb.append("     sysdate               \n");		
+		sb.append(" )                    \n");
+		
+		LOG.debug("==========================");
+		LOG.debug("=sql=\n"+sb.toString());
+		LOG.debug("=param=\n"+review);
+		LOG.debug("==========================");
+		
 		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag:"+flag);
-	   
-	   return flag;
-   }
+		LOG.debug("=flag="+flag);
+		
+		return flag;
+	}
+	
+   
+   @Override
+   public int doUpdate(ReviewVO vo) {
+		int flag = 0;
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE comment_tb	 \n");
+		sb.append("SET                   \n");
+		sb.append("    content = ?,      \n");
+		sb.append("    mod_dt = SYSDATE  \n");
+		sb.append("WHERE                 \n");
+		sb.append("    review_seq = ?   \n");
+		LOG.debug("=param=" + vo);
+		LOG.debug("========================");
+
+		Object[] args = { vo.getContext(), vo.getReview_seq() };
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("=flag=" + flag);
+		return flag;
+	}
    
 	
 	
@@ -154,15 +186,20 @@ public class ReviewDaoImpl implements ReviewDao {
 
 		return outVO;
 	}
+	
+	
+	
+	
+	
 	/**
 	 * 
 	 * @param div
 	 * @param searchWord
 	 * @return
 	 */
+	
 	@Override
 	public List<ReviewVO> doSelectList(String div , String searchWord) {		
-
 		
 		StringBuilder sbWhere=new StringBuilder();
 		//검색구분!= null !"".equals(검색구분)
@@ -202,13 +239,15 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 	
+	
+	
 	/**
 	 * 삭제
 	 * @param ?
 	 * @return
 	 */
 	@Override
-	public int doDelete(int seq) {
+	public int doDelete(ReviewVO review) {
 		int flag = 0;
 
 		StringBuilder sb = new StringBuilder();
@@ -217,70 +256,16 @@ public class ReviewDaoImpl implements ReviewDao {
 
 		LOG.debug("==========================");
 		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + seq);
+		LOG.debug("=param=\n" + review);
 		LOG.debug("==========================");
 
-		Object[] args = { seq };
+		Object[] args = { review };
 		flag = this.jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("flag:"+flag);
 		
 		return flag;
 	}
 
-	
-	
-	/**
-	 * 사용자등록
-	 * 아직 수정중
-	 * @param review
-	 * @return
-	 */	
-	
-	@Override
-	public int doInsert(ReviewVO review) {
-		int flag = 0;
-		
-		Object[] args = {
-				review.getReview_seq(), 
-				review.getDiv(),
-				review.getTitle(),
-				review.getContext(),
-				review.getWriter(),
-				review.getReg_dt(),
-				review.getMod_dt()
-				
-		};
-		
-		StringBuilder sb = new StringBuilder();
-		   
-		sb.append(" INSERT INTO review ( \n");
-		sb.append("     review_seq,             \n");
-		sb.append("     div,         \n");
-		sb.append("     title,            \n");
-		sb.append("     context,        \n");
-		sb.append("     writer,           \n");
-		sb.append("     reg_dt,      \n");
-		sb.append("     mod_dt,        \n");		
-		sb.append(" ) VALUES (           \n");
-		sb.append("  review_seq.NEXTVAL, \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     sysdate,               \n");
-		sb.append("     sysdate               \n");		
-		sb.append(" )                    \n");
-		
-		LOG.debug("==========================");
-		LOG.debug("=sql=\n"+sb.toString());
-		LOG.debug("=param=\n"+review);
-		LOG.debug("==========================");
-		
-		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag="+flag);
-		
-		return flag;
-	}
 	
 	
 	

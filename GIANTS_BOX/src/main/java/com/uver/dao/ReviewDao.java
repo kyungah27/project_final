@@ -8,36 +8,19 @@ import com.uver.vo.ReviewVO;
 
 public interface ReviewDao {
 
-	void setJdbcTemplate(JdbcTemplate jdbcTemplate);
-
-	int doUpdate(ReviewVO review);
-
-	ReviewVO doSelectOne(int seq);
+	void setJdbcTemplate(JdbcTemplate jdbcTemplate);	
 
 	ReviewVO doSelectOneById(String id);
 
-	/**
-	 * 
-	 * @param div
-	 * @param searchWord
-	 * @return
-	 */
-	List<ReviewVO> doSelectList(String div, String searchWord);
-
-	/**
-	 * 삭제
-	 * 
-	 * @param member
-	 * @return
-	 */
-	int doDelete(int seq);
-
-	/**
-	 * 사용자등록
-	 * 
-	 * @param member
-	 * @return
-	 */
+		
 	int doInsert(ReviewVO review);
+	
+	int doDelete(ReviewVO review);
+	
+	int doUpdate(ReviewVO review);
+	
+	ReviewVO doSelectOne(int review_seq);
+	
+	List<ReviewVO> doSelectList(String div, String searchWord);
 
 }
