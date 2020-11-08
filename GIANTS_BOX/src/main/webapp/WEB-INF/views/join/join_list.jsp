@@ -51,8 +51,8 @@
 				</table>
 				<!--// table -->
 
-				<table class="table table-bordered" id="joinToggleTable">
-	
+				<table class="table table-bordered" id ="joinToggleTable">
+
 				</table>
 			</div>
 		</div>
@@ -63,24 +63,21 @@
 
 
 
-	$("#joinToggleTable").on("click","span" ,function(){
+	$(".plusIcon").on("click",function(){
 	  var obj = $(this);
-	  if(obj.hasClass("glyphicon glyphicon-plus plusIcon")){
-		  obj.hide();
-		  obj.next().show();
-		  obj.parent().parent().next().show();
-		}
-		else{
-		  obj.hide();
-		  obj.prev().show();
-		  obj.parent().parent().next().hide(); 
-		}
+	  if( obj.hasClass("glyphicon-plus") ){
+	    obj.hide();
+	    obj.next().show();            
+	    obj.parent().parent().next().show();
+	  }else{
+	     obj.hide();
+	     obj.prev().show();
+	     obj.parent().parent().next().hide();
+	  }
 	});
 
+			
 
-
-
-	
 
 	
 	    //모든 컨트롤(element)가 로딩이 완료되면
@@ -91,6 +88,9 @@
 			
 			//이벤트 리스트 뽑기 
 			doSelectList(1001);
+			$("button").click(function(){
+				  $("ul").toggle();
+				});
 
 
 			// 강퇴, 삭제를 위한 
@@ -118,7 +118,6 @@
 					       console.log("data="+data);
 					       var obj = JSON.parse(data);
 				          	  $("#joinTablebody").empty();
-				          	  drawTable(obj);
 			                  var html = "";
 			                  //Data가 없으면     
 				              if(obj.length>0){
@@ -131,7 +130,7 @@
 									}		
 									  html += "<td class='text-center'>"+value.eventSeq+"</td>";
 									  html += "<td class='text-center'>"+value.memberSeq+"</td>";
-									  html += "<td class='text-center'>"+value.userId+"</td>";
+									  html += "<td class='text-center'>"+value.name+"</td>";
 									  html += "<td class='text-center'>"+value.memberSeq+"</td>";
 									  html += "<td class='text-center'>"+value.priority+"</td>";
 									  html += "</tr>";
@@ -154,19 +153,27 @@
 
 
 		function drawTable(obj){
-			var html  = "";		
-			$.each(obj, function(i, value) {
-				if(value.priority ==1){
-					html += '<tr bgcolor=red>';	  
-				}else{
-					html += '<tr>'
-				}
-					html += '<td><span class= "glyphicon glyphicon-plus plusIcon"></span> <span class= "glyphicon glyphicon-minus plusIcon" style= "display: none"></span>'
-					html +=	"   "+value.name+'( '+ value.userId+' )';
-					html +=	 '</td></tr><tr style="display: none"><td><button class="btn btn-info btn-sm"  value= '+value.memberSeq+' id="detail_btn'+i+' name="detail_btn">추방<btn></td></tr>';
-			});
-			$("#joinToggleTable").append(html);				  
-		}
+
+
+		<tr><td><span class="glyphicon glyphicon-plus plusIcon"></span> <span class="glyphicon glyphicon-minus plusIcon" style="display: none"></span> test</td>
+		</tr>
+		<tr style="display: none">
+			<td>
+				<table class="table table-bordered">
+					<tr>
+						<td><input type="button" class="btn btn-primary btn-sm"  id="doExcelDown"  value="삭제"  /></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+
+
+			
+				html += "<tr bgcolor=red>";
+
+
+			}
 
 
 
