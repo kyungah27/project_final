@@ -2,7 +2,6 @@ package com.uver.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.uver.vo.CommentVO;
 import com.uver.vo.ReviewVO;
 
 	@Repository("ReviewDaoImpl")
@@ -104,9 +102,11 @@ import com.uver.vo.ReviewVO;
    public int doUpdate(ReviewVO vo) {
 		int flag = 0;
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE comment_tb	 \n");
+		sb.append("UPDATE review	 \n");
 		sb.append("SET                   \n");
-		sb.append("    content = ?,      \n");
+		sb.append("    title = ?,      \n");
+		sb.append("    context = ?,      \n");		
+		sb.append("    writer = ?,      \n");
 		sb.append("    mod_dt = SYSDATE  \n");
 		sb.append("WHERE                 \n");
 		sb.append("    review_seq = ?   \n");
@@ -120,7 +120,7 @@ import com.uver.vo.ReviewVO;
 	}
    
 	
-	
+	/*
 	@Override
 	public ReviewVO doSelectOne(int seq) {
 		ReviewVO outVO = null;
@@ -153,7 +153,9 @@ import com.uver.vo.ReviewVO;
 
 		return outVO;
 	}
-	
+	*/ 
+   
+   
 	@Override
 	public ReviewVO doSelectOneById(String id) {
 		ReviewVO outVO = null;
@@ -187,17 +189,64 @@ import com.uver.vo.ReviewVO;
 		return outVO;
 	}
 	
+	@Override
+	public ReviewVO doSelectOne(int review_seq) {
+		ReviewVO outVO = null;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT			   \n");
+		sb.append("    review_seq,    \n");		
+		sb.append("    div,            \n");
+		sb.append("    title,            \n");
+		sb.append("    context,        \n");
+		sb.append("    writer,            \n");
+		sb.append("    TO_CHAR(reg_dt, 'YY/MM/DD HH24:MI:SS') AS reg_dt,         \n");		
+		sb.append("    TO_CHAR(mod_dt, 'YY/MM/DD HH24:MI:SS') AS mod_dt          \n");
+		sb.append("FROM                \n");
+		sb.append("    review      \n");
+		sb.append("WHERE review_seq=? \n");
+
+		Object[] args = { review_seq };
+		outVO = (ReviewVO) this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
+
+		LOG.debug("=====================================");
+		LOG.debug("=outVO=" + outVO);
+		LOG.debug("=====================================");
+
+		return outVO;
+
+	}
 	
+	@Override
+	public List<ReviewVO> doSelectList(ReviewVO vo) {
+		List<ReviewVO> list = null;
+		Object[] args = { vo.getReview_seq(), vo.getDiv() };
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT												\n");
+		sb.append("    review_seq,                                     \n");		
+		sb.append("    div,                                             \n");
+		sb.append("    title,                                             \n");
+		sb.append("    context,                                         \n");
+		sb.append("    writer,                                             \n");
+		sb.append("    TO_CHAR(reg_dt, 'YY/MM/DD HH24:MI:SS') AS reg_dt,  \n");		
+		sb.append("    TO_CHAR(mod_dt, 'YY/MM/DD HH24:MI:SS') AS mod_dt   \n");
+		sb.append("FROM                                                 \n");
+		sb.append("    review                                       \n");
+		sb.append("WHERE review_seq=?                                          \n");
+		sb.append("AND div=?                                            \n");
+		sb.append("ORDER BY mod_dt desc                                \n");
+
+		list = (List<ReviewVO>) this.jdbcTemplate.query(sb.toString(), args, rowMapper);
+
+		for (ReviewVO review : list) {
+			LOG.debug("[review] " + review);
+		}
+
+		return list;
+	}
+
 	
-	
-	
-	/**
-	 * 
-	 * @param div
-	 * @param searchWord
-	 * @return
-	 */
-	
+	/*
 	@Override
 	public List<ReviewVO> doSelectList(String div , String searchWord) {		
 		
@@ -238,7 +287,7 @@ import com.uver.vo.ReviewVO;
 		
 		return list;
 	}
-	
+	*/
 	
 	
 	/**

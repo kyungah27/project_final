@@ -48,7 +48,7 @@ import com.uver.vo.ReviewVO;
 
 	@Override
 	public List<ReviewVO> doSelectList(ReviewVO reviewVO) {
-		return reviewDao.doSelectList(review);
+		return reviewDao.doSelectList(reviewVO);
 	}
 
 }
