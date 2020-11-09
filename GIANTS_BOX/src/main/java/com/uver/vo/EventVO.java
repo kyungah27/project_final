@@ -24,13 +24,17 @@ public class EventVO extends DTO {
 	private String location;
 	/**등록일*/
 	private String regDt;
-	/**수정일*/
+	/**모집일*/
 	private String targetDt;
+	/**작성자*/
+	private String regId;
 	
+	
+
 	public EventVO() {}
 
 	public EventVO(int eventSeq, String userId, String eventNm, String content, int capacity, String movieInfo,
-			String startDt, String endDt, String location, String regDt, String targetDt) {
+			String startDt, String endDt, String location, String regDt, String targetDt, String regId) {
 		super();
 		this.eventSeq = eventSeq;
 		this.userId = userId;
@@ -43,6 +47,7 @@ public class EventVO extends DTO {
 		this.location = location;
 		this.regDt = regDt;
 		this.targetDt = targetDt;
+		this.regId = regId;
 	}
 
 	public int getEventSeq() {
@@ -132,13 +137,21 @@ public class EventVO extends DTO {
 	public void setTargetDt(String targetDt) {
 		this.targetDt = targetDt;
 	}
+	
+	public String getRegId() {
+		return regId;
+	}
 
+	public void setRegId(String regId) {
+		this.regId = regId;
+	}
+	
 	@Override
 	public String toString() {
 		return "EventVO [eventSeq=" + eventSeq + ", userId=" + userId + ", eventNm=" + eventNm + ", content=" + content
 				+ ", capacity=" + capacity + ", movieInfo=" + movieInfo + ", startDt=" + startDt + ", endDt=" + endDt
-				+ ", location=" + location + ", regDt=" + regDt + ", targetDt=" + targetDt + ", toString()="
-				+ super.toString() + "]";
+				+ ", location=" + location + ", regDt=" + regDt + ", targetDt=" + targetDt + ", regId=" + regId
+				+ ", toString()=" + super.toString() + "]";
 	}
 	
 	

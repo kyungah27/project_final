@@ -50,9 +50,9 @@ public class TestEventDao {
     	LOG.debug("** context **"+context);
     	LOG.debug("** userDao **"+eventDao);
 		
-		event01 = new EventVO(100, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13");
-		event02 = new EventVO(200, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13");
-		event03 = new EventVO(300, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13");
+		event01 = new EventVO(100, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01");
+		event02 = new EventVO(200, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02");
+		event03 = new EventVO(300, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03");
 	}
 	
 	@Test
@@ -97,6 +97,7 @@ public class TestEventDao {
 		event01.setEndDt("20/11/03");
 		event01.setLocation(event01.getLocation()+"_up");
 		event01.setTargetDt("20/11/13");
+		event01.setRegId(event01.getRegId()+"_up");
 		
 		flag = eventDao.doUpdate(event01);
 		assertThat(1, is(1));
