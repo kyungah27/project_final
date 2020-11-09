@@ -41,6 +41,15 @@ public class JoinController {
 		return "join/join_list";
 	}
 	
+	@RequestMapping(value = "movieInfo/movie_info.do")
+	public String movieInfoView() {
+		LOG.debug("===================");
+		LOG.debug("==fileView() ==");
+		LOG.debug("===================");
+		
+		return "movieInfo/movie_info";
+	}
+	
 	@RequestMapping(value="join/doSelectList.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
 			)
