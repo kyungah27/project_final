@@ -12,13 +12,35 @@ public class MainController {
 	
 	//--- 메인페이지로 이동
 		@RequestMapping(value="main.do")
-		public String fileView() {
+		public String goMain() {
 			LOG.debug("-------------------");
 			LOG.debug("main page()");
 			LOG.debug("-------------------");
 			
 			//--- 추후 views 폴더에 main.jsp 페이지 설정
-			return "test_page";
+			return "index";
 		}
+		
+	//--- 로그인 페이지로 이동
+			@RequestMapping(value="login.do")
+			public String goLogin() {
+				LOG.debug("-------------------");
+				LOG.debug("login()");
+				LOG.debug("-------------------");
+				
+				//--- 추후 views 폴더에 main.jsp 페이지 설정
+				return "login";
+			}
+			
+	//--- 회원가입 페이지로 이동
+	@RequestMapping(value="signup.do")
+	public String goSignup() {
+		LOG.debug("-------------------");
+		LOG.debug("signup()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "signup";
+	}
 
 }

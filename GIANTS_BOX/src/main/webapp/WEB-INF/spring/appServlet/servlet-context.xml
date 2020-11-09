@@ -26,13 +26,16 @@
 		<beans:property name="order"  value="2"/>
 	</beans:bean>
 	
+	<!-- database.properties 읽기: img dir -->
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+	p:location="classpath:resources/config/database.properties" name="propertiesBean" />
+	
 	
 	
 	
 	<!-- [File Down & Upload] -->
 	<!-- View 이름과 동일한 빈 객체를 View 객체로 사용: 커스텀 View 클래스를 뷰로 사용해야 하는 경우 사용-->
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1" />
-	
 	
 	<!-- multipart uploader -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -43,13 +46,14 @@
 	</beans:bean>
 	
 	
-	
-	
-
-	
-	<!-- [컴포넌트 스캔 범위: controller] -->
+	<!-- [스캔 범위: component, controller] -->
 	<context:component-scan base-package="com.uver" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	
+	<!-- [스캔 범위: resource.config] -->
+	<context:component-scan base-package="resources.config" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,19 +39,19 @@ public class EventImgController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 	
 	private final EventImgService eventImgService;
-//	private final View downloadView;
 	
 	/**
 	 * 파일 시스템에 있는 이미지 파일 응답으로 돌려주기
 	 */
 	private final View imgView;
 	
+	@Value("${file.path}")
+	private String UPLOAD_FILE_DIR;
+	
 	public EventImgController(EventImgService eventImgService, View imgView) {
 		this.eventImgService = eventImgService;
 		this.imgView = imgView;
 	}
-	
-	private final String UPLOAD_FILE_DIR = ImgVO.DIR;
 	
 	
 	/**
@@ -78,7 +79,7 @@ public class EventImgController {
 	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
 	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
-		Search search = new Search(eventSeq, 1, 5);
+		Search search = new Search(eventSeq, 2, 5);
 		
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
 		search.setSearchSeqSub(maxImgSeq);
@@ -92,6 +93,7 @@ public class EventImgController {
 		mav.addObject("cnt", cnt);
 		mav.addObject("maxImgSeq", maxImgSeq);
 		mav.addObject("num", 1);
+		mav.addObject("eventSeq", search.getSearchSeq());
 		
 		mav.setViewName("img_view");
 		
@@ -112,6 +114,7 @@ public class EventImgController {
 			@RequestParam(value="maxImgSeq") int maxImgSeq,
 			@RequestParam(value="num") int num
 			) throws ParseException {
+		
 		Search search = new Search(eventSeq, num, 5);
 		search.setSearchSeqSub(maxImgSeq);
 

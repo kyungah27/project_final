@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.join">
+
+	<sql id="searchCondition">
+		<choose>
+			<when test=" 0 != eventSeq ">
+				<where>
+					event_seq = #{eventSeq}
+				</where>
+			</when>
+			<when test=" 0 != memberSeq ">
+				<where>
+					member_seq = #{memberSeq}
+				</where>
+			</when>
+			<otherwise>
+				1 = 0
+			</otherwise>
+		</choose>
+	</sql>
+	<select id="doSelectList" parameterType="JoinVO"
+		resultType="JoinVO">
+		SELECT
+		event_seq AS eventSeq,
+		member_seq AS memberSeq,
+		priority,
+		TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS regDt
+		FROM event_join
+		<include refid="searchCondition" />
+	</select>
+
+
+	<insert id="doInsert" parameterType="JoinVO">
+		INSERT INTO event_join (
+		event_seq,
+		member_seq,
+		priority
+		) VALUES (
+		#{eventSeq},
+		#{memberSeq},
+		#{priority}
+		)
+	</insert>
+
+	<delete id="doDelete" parameterType="JoinVO">
+		DELETE FROM event_join
+		WHERE
+		event_seq = ${eventSeq}
+		AND member_seq = #{memberSeq}
+	</delete>
+
+	<update id="doUpdate" parameterType="JoinVO">
+		UPDATE event_join
+		SET
+		priority = #{priority}
+		WHERE
+		event_seq =#{eventSeq}
+		AND member_seq =
+		#{memberSeq}
+	</update>
+
+	<select id="doSelectOne" parameterType="JoinVO"
+		resultType="JoinVO">
+		SELECT
+		event_seq AS eventSeq,
+		member_seq AS memberSeq,
+		priority,
+		TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS regDt
+		FROM event_join
+		WHERE event_seq = #{eventSeq}
+		AND member_seq = #{memberSeq}
+	</select>
+
+	<select id="doSelectMinReg" parameterType="int" resultType="int">
+		SELECT member_seq
+		FROM event_join
+		WHERE event_seq = #{id}
+		AND reg_dt =
+		(Select MIN(reg_dt)
+		FROM event_join
+		WHERE event_seq = #{id} )
+	</select>
+
+	<select id="currentJoinList" parameterType="JoinVO"
+		resultType="com.uver.vo.JoinMemberVO">
+		SELECT t2.user_id as id,
+			   t2.name as name , 
+			   t1.event_seq as eventSeq ,
+			   t1.member_seq as MemberSeq ,
+			   t1.priority as priority,
+			   t1.reg_dt AS regDt
+		FROM event_join t1 , member t2
+		WHERE t1.member_seq = t2.seq
+		AND t1.event_seq = #{eventSeq}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

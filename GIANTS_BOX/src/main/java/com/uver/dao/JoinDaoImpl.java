@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,14 @@ import com.uver.vo.JoinVO;
 @Repository("joinDaoImpl")
 public class JoinDaoImpl implements JoinDao {
 	private static final Logger LOG = LoggerFactory.getLogger(JoinDaoImpl.class);
-
+	final String NAME_SPACE ="com.uver.join";
+	
 	@Autowired
 	private JdbcTemplate jbcTemplate;
 
+	 @Autowired
+	 SqlSessionTemplate sqlSessionTemplate;
+	
 	public JoinDaoImpl() {
 		super();
 	}
@@ -44,25 +49,14 @@ public class JoinDaoImpl implements JoinDao {
 	@Override
 	public int doInsert(JoinVO vo) {
 
-		int flag = 0;
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(" INSERT INTO event_join ( \n");
-		sb.append(" 	    event_seq,       \n");
-		sb.append(" 	    member_seq,      \n");
-		sb.append(" 	    priority   		\n");
-		sb.append(" ) VALUES (               \n");
-		sb.append("     ?,                   \n");
-		sb.append("     ?,                	 \n");
-		sb.append("     ?                 	 \n");
-		sb.append(" )                        \n");
-		LOG.debug("=param=\n" + vo);
-
 		LOG.debug("========================");
-
-		Object[] args = { vo.getEventSeq(), vo.getMemberSeq(), vo.getPriority() };
-		flag = this.jbcTemplate.update(sb.toString(), args);
-		LOG.debug("= doInsert flag=" + flag);
+		LOG.debug("=doInsert=");
+		LOG.debug("========================");
+		String statement = NAME_SPACE+".doInsert";
+		LOG.debug("=statement=\n"+statement);
+	    LOG.debug("=param=\n"+vo);
+	    int flag = sqlSessionTemplate.insert(statement,vo);
+		LOG.debug("=flag="+flag);
 
 		return flag;
 	}
@@ -70,114 +64,83 @@ public class JoinDaoImpl implements JoinDao {
 	@Override
 	public int doDelete(JoinVO vo) {
 
-		int flag = 0;
-		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM event_join    \n");
-		sb.append("WHERE                     \n");
-		sb.append("    event_seq = ?       \n");
-		sb.append("    AND member_seq = ?  \n");
+		LOG.debug("========================");
+		LOG.debug("=doDelete=");
+		LOG.debug("========================");
+		String statement = NAME_SPACE+".doDelete";
+		LOG.debug("=statement=\n"+statement);
+	    LOG.debug("=param=\n"+vo);
+	    int flag = sqlSessionTemplate.delete(statement,vo);
+		LOG.debug("=flag="+flag);
 
-		Object[] args = { vo.getEventSeq(), vo.getMemberSeq() };
-		flag = this.jbcTemplate.update(sb.toString(), args);
-		LOG.debug("=flag=" + flag);
 		return flag;
 	}
 
 	@Override
 	public int doUpdate(JoinVO vo) {
-		int flag = 0;
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE event_join      \n");
-		sb.append("SET                    \n");
-		sb.append("    priority = ?       \n");
-		sb.append("WHERE                  \n");
-		sb.append("    event_seq = ?      \n");
-		sb.append("    AND member_seq = ? \n");
-		Object[] args = { vo.getPriority(), vo.getEventSeq(), vo.getMemberSeq() };
-		flag = this.jbcTemplate.update(sb.toString(), args);		
-		LOG.debug("=flag=" + flag);
+
+		LOG.debug("========================");
+		LOG.debug("=doUpdate=");
+		LOG.debug("========================");
+		String statement = NAME_SPACE+".doUpdate";
+		LOG.debug("=statement=\n"+statement);
+	    LOG.debug("=param=\n"+vo);
+	    int flag = sqlSessionTemplate.update(statement,vo);
+		LOG.debug("=flag="+flag);
 		return flag;
-
 	}
 	
 	@Override
 	public JoinVO doSelectOne(JoinVO vo) {
+		
+		LOG.debug("========================");
+		LOG.debug("=doSelectOne=");
+		LOG.debug("========================");
+		String statement = this.NAME_SPACE+".doSelectOne";
+		LOG.debug("=statement="+statement);    	
+		JoinVO outVO= this.sqlSessionTemplate.selectOne(statement, vo);
 				
-		JoinVO outVO = null;		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("SELECT                  \n");
-		sb.append("    event_seq,          \n");
-		sb.append("    member_seq,         \n");
-		sb.append("    priority,           \n");
-		sb.append("    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS reg_dt      \n");
-		sb.append("FROM event_join         \n");
-		sb.append("WHERE event_seq = ?	   \n");
-		sb.append("AND member_seq = ?	   \n");
-		Object args[] = {vo.getEventSeq() , vo.getMemberSeq()};
-		outVO = (JoinVO) this.jbcTemplate.queryForObject(sb.toString(), 
-    			                        args, 
-    			                        rowMapper);		
 		LOG.debug("========================");
 		LOG.debug("=outVO="+outVO);
 		LOG.debug("========================");			
     	
+
     	return outVO;	
 	}
 	
 	@Override
 	public List doSelectList(JoinVO vo) {
 		
-		List<JoinVO> list = null;
-		StringBuilder  whereSb=new StringBuilder();
-		LOG.debug("inVO"+vo);
-		if(vo.getEventSeq()!=0 && vo.getMemberSeq()!=0) {
-			return list;
-		}else if(vo.getEventSeq()!=0) {
-			whereSb.append("WHERE event_seq =?");
-		}else if(vo.getMemberSeq()!=0) {
-			whereSb.append("WHERE member_seq =?");
-		}else {
-			whereSb.append("WHERE 1 = 0");
+	    LOG.debug("========================");
+		String statement = this.NAME_SPACE +".doSelectList";
+		
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+vo);
+		LOG.debug("========================");			
+		
+		List<JoinVO> list =this.sqlSessionTemplate.selectList(statement, vo);
+		
+		for(JoinVO resultVO: list) {
+			LOG.debug("=vo="+vo);
 		}
 		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("SELECT                  \n");
-		sb.append("    event_seq,          \n");
-		sb.append("    member_seq,         \n");
-		sb.append("    priority,           \n");
-		sb.append("    TO_CHAR(reg_dt,'YYYY-MM-DD HH24MISS') AS reg_dt      \n");
-		sb.append("FROM event_join         \n");
-		sb.append(whereSb.toString());
-		sb.append("ORDER BY event_seq \n");
-		List<Object> listArg = new ArrayList<Object>();
-		if(vo.getMemberSeq()!=0) {
-			listArg.add(vo.getMemberSeq());
-		}else if(vo.getEventSeq()!=0) {
-			listArg.add(vo.getEventSeq());
-		}	
-		list = this.jbcTemplate.query(sb.toString(), 
-				listArg.toArray(),  rowMapper);				
-    	return list;	
+		
+		
+		return list;
 	}
 	
 	@Override
 	public int doSelectMinReg(int event_seq) {
 		
-		List<Integer> list = null;
-		JoinVO outVO = null;		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("SELECT member_seq                       \n");
-		sb.append("FROM   event_join                       \n");
-		sb.append("WHERE  event_seq  = ?                   \n");
-		sb.append("AND reg_dt = (Select MIN(reg_dt)        \n");
-		sb.append("                FROM event_join         \n");
-		sb.append("                WHERE event_seq = ?	 ) \n");
-		Object args[] = {event_seq , event_seq};
-		list =  this.jbcTemplate.queryForList(sb.toString(), 
-    			                        args, 
-    			                        Integer.class);	
+	    LOG.debug("========================");
+		String statement = this.NAME_SPACE +".doSelectMinReg";
 		
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+event_seq);
+		LOG.debug("========================");			
+		
+		List<Integer> list =this.sqlSessionTemplate.selectList(statement, event_seq);
 		for(int i : list) {
 			LOG.debug("doSelectMinReg" + i);
 		}
@@ -186,37 +149,22 @@ public class JoinDaoImpl implements JoinDao {
 	}
 
 	@Override
-	public List currentJoinList(JoinVO vo) {
+	public List<JoinMemberVO> currentJoinList(JoinVO vo) {
 		// TODO Auto-generated method stub
-		List<JoinMemberVO> list = null;
-		StringBuilder  whereSb=new StringBuilder();
-		LOG.debug("inVO"+vo);
+	    LOG.debug("========================");
+		String statement = this.NAME_SPACE +".currentJoinList";
 		
-		StringBuilder  sb=new StringBuilder();
-		sb.append("SELECT t2.user_id as id, t2.name as name , t1.event_seq as eventSeq , t1.member_seq as MemberSeq , t1.priority as priority, t1.reg_dt AS regDt \n");
-		sb.append("FROM event_join t1 , member t2                                           \n");
-		sb.append("WHERE t1.member_seq = t2.seq                                             \n");
-		sb.append("AND t1.event_seq = ?                                                     \n");
-		List<Object> listArg = new ArrayList<Object>();		
-			listArg.add(vo.getEventSeq());
-		list = this.jbcTemplate.query(sb.toString(), 
-				listArg.toArray(), new RowMapper<JoinMemberVO>(){
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+vo);
+		LOG.debug("========================");			
+		
+		List<JoinMemberVO> list =this.sqlSessionTemplate.selectList(statement, vo);
+		
+		for(JoinMemberVO resultVO: list) {
+			LOG.debug("=resultVO="+resultVO);
+		}
 
-					@Override
-					public JoinMemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-						// TODO Auto-generated method stub
-						JoinMemberVO vo = new JoinMemberVO();
-						vo.setUserId(rs.getString("id"));
-						vo.setName(rs.getString("name"));
-						vo.setEventSeq(rs.getInt("eventSeq"));
-						vo.setMemberSeq(rs.getInt("MemberSeq"));
-						vo.setPriority(rs.getInt("priority"));
-						vo.setRegDt(rs.getString("regDt"));	
-						return vo;
-					}
-			
-		});				
-    	return list;	
+		return list;	
 	}
 	
 	
