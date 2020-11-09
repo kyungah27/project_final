@@ -17,7 +17,7 @@ public interface CommentService {
 	 * @param commentVO
 	 * @return
 	 */
-	public int doDelte(CommentVO commentVO);
+	public int doDelete(CommentVO commentVO);
 
 	/**
 	 * 

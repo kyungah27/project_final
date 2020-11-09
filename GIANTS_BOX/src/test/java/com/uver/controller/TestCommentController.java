@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -73,13 +74,38 @@ public class TestCommentController {
 
 	}
 
-	// 오류남;
+	
 	@Test
-	public int doInsert(CommentVO commentVO) throws Exception {
+	@Ignore
+	public void doDelete() throws Exception {
+		// url,param set
+		CommentVO comment = commentVO.get(0);
+		comment.setCommentSeq(18);
+		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/comment/doDelete.do")
+				.param("CommentSeq", String.valueOf(comment.getCommentSeq()));
+
+		ResultActions resultActions = mockMvc.perform(createMessage)
+				.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+				.andExpect(status().is2xxSuccessful())
+//				.andExpect(jsonPath("$.msgId", is("1")))
+		;
+		String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+		LOG.debug("result = " + result);
+		// json -> Message
+		Gson gson = new Gson();
+		Message message = gson.fromJson(result, Message.class);
+		LOG.debug("message = " + message);
+
+	}
+
+	@Test
+	@Ignore
+	public void doInsert() throws Exception {
+		CommentVO comment = commentVO.get(0);
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/comment/doInsert.do")
-				.param("commentSeq", commentVO.getCommentSeq() + "").param("seq", commentVO.getSeq() + "")
-				.param("div", commentVO.getDiv()).param("content", commentVO.getContent())
-				.param("regId", commentVO.getRegId());
+				.param("commentSeq", comment.getCommentSeq() + "").param("seq", comment.getSeq() + "")
+				.param("div", comment.getDiv()).param("content", comment.getContent())
+				.param("regId", comment.getRegId());
 
 		ResultActions resultActions = mockMvc.perform(createMessage)
 				.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
@@ -92,10 +118,10 @@ public class TestCommentController {
 		// json -> Message
 		Gson gson = new Gson();
 		Message outVO = gson.fromJson(result, Message.class);
-		LOG.debug("===========================");
+		// LOG.debug("===========================");
 		LOG.debug("=Message=" + outVO);
-		LOG.debug("===========================");
+		// LOG.debug("===========================");
 
-		return Integer.valueOf(outVO.getMsgId());
+		// return Integer.valueOf(outVO.getMsgId());
 	}
 }

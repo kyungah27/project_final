@@ -1,6 +1,7 @@
 package com.uver.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,4 +60,75 @@ public class CommentController {
 
 		return json;
 	}
+
+	@RequestMapping(value = "comment/doDelete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doDelete(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+		LOG.debug("==================");
+		LOG.debug("=commentVO=" + commentVO);
+		LOG.debug("==================");
+
+		int flag = this.commentservice.doDelete(commentVO);
+		LOG.debug("==================");
+		LOG.debug("=flag=" + flag);
+		LOG.debug("==================");
+
+		// 메시지 처리 합니다
+		Message message = new Message();
+		message.setMsgId(flag + "");
+
+		if (flag == 1) {
+			message.setMsgContents(commentVO.getContent() + " 이 삭제 되었습니다.");
+		} else {
+			message.setMsgContents(commentVO.getContent() + " 이 삭제 실패되었습니다.");
+		}
+
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+
+	@RequestMapping(value = "comment/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doUpdate(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+		LOG.debug("==================");
+		LOG.debug("=commentVO=" + commentVO);
+		LOG.debug("==================");
+
+		int flag = this.commentservice.doUpdate(commentVO);
+		LOG.debug("==================");
+		LOG.debug("=flag=" + flag);
+		LOG.debug("==================");
+
+		// 메시지 처리 합니다
+		Message message = new Message();
+		message.setMsgId(flag + "");
+
+		if (flag == 1) {
+			message.setMsgContents(commentVO.getContent() + " 이 수정 되었습니다.");
+		} else {
+			message.setMsgContents(commentVO.getContent() + " 이 수정 실패되었습니다.");
+		}
+
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+
+	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET)
+	@ResponseBody
+	public List<CommentVO> doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+
+		return commentservice.doSelectList(commentVO);
+	}
+
+	// 업데이트 테스트 못짜겠고 리스트는 컨트롤러 맞게 짯는지 모르겠음
 }
