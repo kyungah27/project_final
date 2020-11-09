@@ -37,20 +37,7 @@
 				type="text" name="selected_eseq" id="selected_eseq"
 				value="히든으로 바꿀거 seseq" />
 			<div class="table-responsive" style=" verflow:scroll;  height:200px;" >
-				<!-- table -->
-				<!-- <table border="1" id="joinTable"
-					class="table table-striped table-bordered table-hover table-condensed">
-					<thead class="bg-primary">
-						<th class="text-center col-lg-2 col-md-2  col-xs-2">EventSeq(hidden)</th>
-						<th class="text-center col-lg-2 col-md-2  col-xs-2">memberSeq(hidden)</th>
-						<th class="text-center col-lg-2 col-md-2  col-xs-2">이름</th>
-						<th class="text-center col-lg-2 col-md-2  col-xs-2">아이디</th>
-						<th class="text-center col-lg-2 col-md-2  col-xs-2">권한</th>
-					</thead>
-					<tbody id="joinTablebody"></tbody>
-				</table> -->
-				<!--// table -->
-
+				<!-- 현재 이벤트 구성원 -->
 				<table class="table table-bordered" id="joinToggleTable">
 	
 				</table>
