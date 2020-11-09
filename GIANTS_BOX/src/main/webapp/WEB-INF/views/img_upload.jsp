@@ -117,7 +117,7 @@
 			
 			<!-- 히든 폼 : 목록 이동하기-->
 			<form id="move_img_list" action="${context}/img/doSelectList.do" method="get">
-				<input type="hidden" />
+				<input type="hidden" name="eventSeq" value="2" />
 			</form>
 			<!-- //히든 폼 -->
 			
