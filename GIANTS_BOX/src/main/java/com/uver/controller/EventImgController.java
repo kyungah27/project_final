@@ -79,7 +79,7 @@ public class EventImgController {
 	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
 	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
-		Search search = new Search(eventSeq, 2, 5);
+		Search search = new Search(eventSeq, 1, 5);
 		
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
 		search.setSearchSeqSub(maxImgSeq);
@@ -92,7 +92,6 @@ public class EventImgController {
 		mav.addObject("list", list);
 		mav.addObject("cnt", cnt);
 		mav.addObject("maxImgSeq", maxImgSeq);
-		mav.addObject("num", 1);
 		mav.addObject("eventSeq", search.getSearchSeq());
 		
 		mav.setViewName("img_view");
