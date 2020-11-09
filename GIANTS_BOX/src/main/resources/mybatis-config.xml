@@ -16,6 +16,7 @@
 	<typeAlias type="com.uver.vo.CommentVO" alias="CommentVO"/>
 	<typeAlias type="com.uver.vo.ImgVO" alias="ImgVO"/>
 	<typeAlias type="com.uver.vo.EventImgVO" alias="EventImgVO"/>
+	<typeAlias type="com.uver.vo.JoinVO" alias="JoinVO"/>
 	
 	</typeAliases>
 </configuration>
