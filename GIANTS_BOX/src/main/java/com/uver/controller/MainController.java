@@ -42,5 +42,8 @@ public class MainController {
 		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "signup";
 	}
+	
+	
+	
 
 }

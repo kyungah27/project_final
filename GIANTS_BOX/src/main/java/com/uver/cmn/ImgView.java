@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -20,6 +21,11 @@ import com.uver.vo.ImgVO;
 @Component("imgView")
 public class ImgView extends AbstractView {
 	private static final Logger LOG = LoggerFactory.getLogger(ImgView.class);
+	
+	@Value("${file.path}")
+	private String UPLOAD_FILE_DIR;
+	
+
 
 //	View 렌더링 구현
 //	1. request 준비 -> jsp: 모델 객체를 request attributes로 셋팅
@@ -51,7 +57,7 @@ public class ImgView extends AbstractView {
 	 */
 	private byte[] readFile(ImgVO img) throws IOException {
 		
-		String path = ImgVO.DIR + "\\" +img.getServerName() + "." + img.getImgType();
+		String path = UPLOAD_FILE_DIR + "\\" +img.getServerName() + "." + img.getImgType();
 		LOG.debug("[path] " + path);
 		
 		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));

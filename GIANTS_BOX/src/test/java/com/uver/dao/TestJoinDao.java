@@ -63,6 +63,7 @@ public class TestJoinDao {
 
 	// insert delete update selectOne
 	@Test
+	@Ignore
 	public void addAndGet() {		
 		int flag = 0;	
 		// insert delete test
@@ -81,7 +82,7 @@ public class TestJoinDao {
 		//셀렉원 업데이트 검증
 		JoinVO vsVO = joinDao.doSelectOne(updateVO);
 		checkVO(updateVO,vsVO);	
-		JoinVO test = new JoinVO();
+		
 	}
 	
 	@Test
@@ -118,6 +119,7 @@ public class TestJoinDao {
 	}
 	
 	@Test
+	@Ignore
 	public void MinRegTest() {
 		int minRegId = joinDao.doSelectMinReg(1002);
 		LOG.debug(minRegId+"");
