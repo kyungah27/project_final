@@ -122,7 +122,7 @@
         data:{
        }, 
      success: function(data){
-       console.log("data:"+data);    
+       console.log("data1:"+data);    
        
        var parseData = JSON.parse(data);
      
