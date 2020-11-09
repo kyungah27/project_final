@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
 import com.uver.cmn.Search;
@@ -79,7 +80,7 @@ public class EventImgController {
 	 */
 	@RequestMapping(value="doSelectList.do", method=RequestMethod.GET)
 	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
-		Search search = new Search(eventSeq, 2, 5);
+		Search search = new Search(eventSeq, 1, 5);
 		
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
 		search.setSearchSeqSub(maxImgSeq);
@@ -92,7 +93,6 @@ public class EventImgController {
 		mav.addObject("list", list);
 		mav.addObject("cnt", cnt);
 		mav.addObject("maxImgSeq", maxImgSeq);
-		mav.addObject("num", 1);
 		mav.addObject("eventSeq", search.getSearchSeq());
 		
 		mav.setViewName("img_view");
@@ -145,7 +145,40 @@ public class EventImgController {
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
+		int flag = filesInsert(mReg);
+		return responseJson(flag);
+	}
+	
+	/**
+	 * 회원 등록할 때 이미지 업로드
+	 * 
+	 * @param mReg
+	 * @return json (1: 성공 / 0: 실패)
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="doInsertMember.do", method=RequestMethod.POST
+			,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doInsertMember(MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
+		int flag = filesInsert(mReg);
 		
+		JsonObject obj = new JsonObject(); 
+		if(flag == 1) {
+        	obj.addProperty("flag", "1");
+        }else {
+        	obj.addProperty("flag", "0");
+        }
+		
+		return new Gson().toJson(obj); 
+	}
+	
+	
+	
+	
+	
+	
+	private int filesInsert (MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
 		LOG.debug("-----------------------");
 		LOG.debug("doInsert()");
 		LOG.debug("-----------------------");
@@ -216,7 +249,11 @@ public class EventImgController {
 			LOG.debug("[full path]" + fullPathFile.getAbsolutePath());
 		}
 		
-		
+		return flag;
+	}
+	
+	
+	private String responseJson(int flag) {
 		Message message=new Message();
         message.setMsgId(String.valueOf(flag));
         
@@ -231,6 +268,10 @@ public class EventImgController {
         LOG.debug("[json] "+json);
 		return json;
 	}
+	
+	
+	
+	
 	
 	
 	/**
