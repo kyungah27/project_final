@@ -10,17 +10,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Login - Giants Box</title>
-    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${context}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="/resources/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/resources/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="${context}/resources/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="${context}/resources/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="/resources/css/styles.min.css">
+    <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white d-flex d-sm-flex align-content-center clean-navbar" style="height: 65px;background-color: rgba(24,109,128,0.58);filter: brightness(100%);opacity: 1;">
-        <div class="container"><a href="main.do"><img src="/resources/img/logo.png" style="width: 174px;filter: blur(0px);"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a href="main.do"><img src="${context}/resources/img/logo.png" style="width: 174px;filter: blur(0px);"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div
                 class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
