@@ -10,6 +10,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Login - Giants Box</title>
+    
+    <!-- favicon -->
+    <link rel=" shortcut icon" href="${context}/resources/img/favicon.ico">
+	<link rel="icon" href="${context}/resources/img/favicon.ico">
+    
+    
     <link rel="stylesheet" href="${context}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="${context}/resources/fonts/font-awesome.min.css">
