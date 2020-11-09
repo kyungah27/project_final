@@ -9,9 +9,7 @@ import com.uver.vo.ReviewVO;
 
 public interface ReviewDao {
 
-	void setJdbcTemplate(JdbcTemplate jdbcTemplate);	
-
-	ReviewVO doSelectOneById(String id);
+	void setJdbcTemplate(JdbcTemplate jdbcTemplate);		
 
 		
 	int doInsert(ReviewVO review);
@@ -21,6 +19,8 @@ public interface ReviewDao {
 	int doUpdate(ReviewVO review);
 	
 	ReviewVO doSelectOne(int review_seq);
+	
+	ReviewVO doSelectOneById(String writer);
 	
 	//List<ReviewVO> doSelectList(String div, String searchWord);
 	
