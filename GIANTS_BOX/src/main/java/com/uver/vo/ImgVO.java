@@ -4,9 +4,6 @@ import com.uver.cmn.DTO;
 
 public class ImgVO extends DTO {
 
-	/** 저장 경로 */
-	public static final String DIR = "D:\\Spring\\GIANTS_BOX\\GIANTS_BOX\\src\\main\\webapp\\upload_img";
-
 	private int 	      imgSeq;			/** 이미지 순번 */
 	private String 	      originName;		/** 첨부이름 */
 	private String 	      serverName;		/** 서버저장이름 */

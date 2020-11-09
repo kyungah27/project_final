@@ -1,0 +1,65 @@
+package com.uver.controller;
+
+import java.sql.SQLException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.uver.cmn.Message;
+import com.uver.service.ReviewService;
+import com.uver.vo.ReviewVO;
+
+	@Controller("ReviewController")
+	public class ReviewController {
+	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
+
+	@Autowired
+	ReviewService reviewservice;
+
+	public ReviewController() {
+	}
+
+	public ReviewController(ReviewService reviewservice) {
+		this.reviewservice = reviewservice;
+	}
+
+	
+	
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doInsert(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
+		LOG.debug("==================");
+		LOG.debug("=reviewVO=" + reviewVO);
+		LOG.debug("==================");
+
+		int flag = this.reviewservice.doInsert(reviewVO);
+		LOG.debug("==================");
+		LOG.debug("=flag=" + flag);
+		LOG.debug("==================");
+
+		// 메시지 처리
+		Message message = new Message();
+		message.setMsgId(flag + "");
+
+		//제목으로 등록 알아보기
+		if (flag == 1) {
+			message.setMsgContents(reviewVO.getTitle() + " 이 등록 되었습니다.");
+		} else {
+			message.setMsgContents(reviewVO.getTitle() + " 이 등록 실패되었습니다.");
+		}
+
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+}

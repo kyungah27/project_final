@@ -35,11 +35,11 @@ import com.uver.vo.ReviewVO;
 	public ReviewVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ReviewVO outVO = new ReviewVO(
 						rs.getInt("review_seq"),
-						rs.getInt("div"),
-						rs.getString("context"),
 						rs.getString("writer"),
+						rs.getString("title"),		
+						rs.getString("context"),
 						rs.getString("reg_dt"),
-						rs.getString("title"),						
+						rs.getInt("div"),										
 						rs.getString("mod_dt")
 						);
 			outVO.setReview_seq(rs.getInt("review_seq"));
@@ -56,13 +56,13 @@ import com.uver.vo.ReviewVO;
 		int flag = 0;
 		
 		Object[] args = {
-				review.getReview_seq(), 
-				review.getDiv(),
+				//sreview.getReview_seq(), 
+				review.getWriter(),				
 				review.getTitle(),
-				review.getContext(),
-				review.getWriter(),
-				review.getReg_dt(),
-				review.getMod_dt()
+				review.getContext(),				
+				//review.getReg_dt(),
+				review.getDiv(),
+				//review.getMod_dt()
 				
 		};
 		
@@ -70,19 +70,19 @@ import com.uver.vo.ReviewVO;
 		   
 		sb.append(" INSERT INTO review ( \n");
 		sb.append("     review_seq,             \n");
-		sb.append("     div,         \n");
+		sb.append("     writer,         \n");
 		sb.append("     title,            \n");
 		sb.append("     context,        \n");
-		sb.append("     writer,           \n");
-		sb.append("     reg_dt,      \n");
-		sb.append("     mod_dt,        \n");		
+		sb.append("     reg_dt,           \n");
+		sb.append("     div,      \n");
+		sb.append("     mod_dt        \n");		
 		sb.append(" ) VALUES (           \n");
 		sb.append("  review_seq.NEXTVAL, \n");
 		sb.append("     ?,               \n");//?
 		sb.append("     ?,               \n");
 		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
 		sb.append("     sysdate,               \n");
+		sb.append("     ?,               \n");
 		sb.append("     sysdate               \n");		
 		sb.append(" )                    \n");
 		
@@ -157,7 +157,7 @@ import com.uver.vo.ReviewVO;
    
    
 	@Override
-	public ReviewVO doSelectOneById(String id) {
+	public ReviewVO doSelectOneById(String writer) {
 		ReviewVO outVO = null;
 		
 		StringBuilder sb = new StringBuilder();
@@ -174,10 +174,10 @@ import com.uver.vo.ReviewVO;
 		
 		LOG.debug("-----------------------------");
 		//LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + id);
+		LOG.debug("[param]\n" + writer);
 		LOG.debug("-----------------------------");	
 		
-		Object args[] = {id};
+		Object args[] = {writer};
 		outVO = (ReviewVO)this.jdbcTemplate.queryForObject(sb.toString(), 
 															args, 
 															rowMapper);
