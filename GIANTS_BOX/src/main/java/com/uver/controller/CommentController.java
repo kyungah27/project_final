@@ -41,7 +41,7 @@ public class CommentController {
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
 
-		// 메시지 처리
+		// 메시지 처리 합니다
 		Message message = new Message();
 		message.setMsgId(flag + "");
 
