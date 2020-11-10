@@ -23,6 +23,7 @@ import com.uver.vo.JoinVO;
 @Controller("JoinController")
 public class JoinController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
+	private static final int DEFAULT_PRIORITY = 0;
 	
 	@Autowired
 	JoinService joinService;
@@ -69,6 +70,35 @@ public class JoinController {
 		return json;
 	}
 	
+	@RequestMapping(value="join/doInsert.do",method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String doInsert(JoinVO vo) {
+
+		LOG.debug("doInsert");
+		int flag = 0;
+		Message message=new Message();
+	
+		if(vo.getPriority() == 2) {
+			message.setMsgContents("차단된 아이디 입니다.");
+			flag = 2;
+		}else {
+			flag = joinService.doInsert(vo);
+			message.setMsgId(String.valueOf(flag));
+	        if(flag > 0) {
+	        	message.setMsgContents("등록 되었습니다.");
+	        }else {
+	        	message.setMsgContents("등록 실패했습니다.");
+	        }
+		}
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+        LOG.debug("[json] "+json);
+		return json;
+	}
+	
+	
 	@RequestMapping(value="join/Kick.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
@@ -96,7 +126,7 @@ public class JoinController {
 		return json;
 	}
 	
-	
+
 	@RequestMapping(value="join/Ban.do",method = RequestMethod.POST
 			,produces = "application/json;charset=UTF-8"
 			)
