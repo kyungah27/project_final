@@ -78,6 +78,8 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>   
     
+     <script src="${hContext}/resources/js/bootstrap.min.js"></script>
+    
     <script type="text/javascript">
 
   	//모든 컨트롤(element)가 로딩이 완료되면.
@@ -89,32 +91,44 @@
     
 	//--이벤트 등록하기
 	$("#doInsert").on("click", function() {
-		//alert("#doInsert");
+		console.log("doInsert");
 		
 		//모임명 체크
-		if($("#event_nm").val()==false || $("#event_nm").val() ==""){
-			alert("모임 이름을 입력해주세요.");
+		var event_nm = $("#event_nm").val();
+		console.log("event_nm:"+event_nm);
+		if(null == event_nm || event_nm.trim().length==0){
+			$("#event_nm").focus();
+			alert("모임명을 입력해주세요.");
 			return ;
 		}
 
 		//정원 체크
-		if($("#capacity").val()==false || $("#capacity").val() ==""){
+		var capacity = $("#capacity").val();
+		console.log("capacity:"+capacity);
+		if(null == capacity || capacity.trim().length==0){
+			$("#capacity").focus();
 			alert("정원을 입력해주세요.");
 			return ;
-		}				
+		}			
 
 			
 
 		//주최일 체크
-		if($("#target_dt").val()==null || $("#target_dt").val() ==""){
+		var target_dt = $("#target_dt").val();
+		console.log("target_dt:"+target_dt);
+		if(null == target_dt || target_dt.trim().length==0){
+			$("#target_dt").focus();
 			alert("일정을 입력해주세요.");
 			return ;
 		}
 
 
 		//모임 소개
-		if($("#content").val()==false || $("#content").val() ==""){
-			alert("모임 소개를 작성해주세요.");
+		var content = $("#content").val();
+		console.log("content:"+content);
+		if(null == content || content.trim().length==0){
+			$("#content").focus();
+			alert("소개를 작성해주세요.");
 			return ;
 		}
 														
@@ -126,36 +140,37 @@
 	           url:"${hContext}/event/doInsert.do",
 	           dataType:"html",
 	           data:{
-	           "event_nm":$("#event_nm").val().trim(),
-	           "user_id":$("#user_id").val().trim(),
-	           "capacity":$("#capacity").val().trim(),
+	           "event_nm":$("#event_nm").val(),
+	           "user_id":$("#user_id").val(),
+	           "capacity":$("#capacity").val(),
 	           "target_dt":$("#target_dt").val(),
-	           "start_dt":$("#start_dt").val().trim(),
-	           "end_dt":$("#end_dt").val().trim(),
-	           "location":$("#location").val().trim(),
-	           "content":$("#content").val().trim()
+	           "start_dt":$("#start_dt").val(),
+	           "end_dt":$("#end_dt").val(),
+	           "location":$("#location").val(),
+	           "content":$("#content").val()
 	          }, 
 	        success: function(data){
-	          var jData = JSON.parse(data);
-	          if(null != jData && jData.msgId=="1"){
-	            alert(jData.msgContents);
+
+	        	var jsonObj = JSON.parse(data);
+			       console.log("msgId="+jsonObj.msgId);
+			       console.log("msgContents="+jsonObj.msgContents);
+	          if(null != jsonObj && jsonObj.msgId=="1"){
+	            alert(jsonObj.msgContents);
 	            //다시조회
-	            doSelectList(1);
-	          }else{
-	            alert(jData.msgId+"|"+jData.msgContents);
+	            moveToListView;
 	          }
 	        },
-	        complete:function(data){
-	         
-	        },
+	        
 	        error:function(xhr,status,error){
 	            alert("error:"+error);
-	        }
-	
-	        }); 
-	       //--ajax 	
+	        },
+			complete:function(data){     
+
+		     }
+	        
+	       }); //--ajax 	
         
-	})//update_btn
+	})//doInsert
     
 	</script>
   </body>

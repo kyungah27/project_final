@@ -20,6 +20,11 @@ import com.uver.vo.ImgVO;
 @Controller("EventController")
 public class EventController {
 
+	//event_reg.jsp -> 이벤트 등록
+	//event_list.jsp -> 이벤트 목록
+	//event_view.jsp -> 이벤트 상세조회
+	//event_mng.jsp -> 이벤트 수정/삭제/단건조회..!
+	
 	private static final Logger LOG = LoggerFactory.getLogger(EventController.class);
 
 	@Autowired
@@ -137,14 +142,14 @@ public class EventController {
 //        LOG.debug("=event="+event);
 //        LOG.debug("==================");		
 //        
-//       //EventVO outVO =eventService.doSelectOne(event.getEventSeq());
+//      // EventVO outVO =eventService.doSelectOne(event.getUserId());
 //        
 //        LOG.debug("==================");
 //        LOG.debug("=outVO="+event);
 //        LOG.debug("==================");
 //        
 //        Gson gson=new Gson();
-//        //String json = gson.toJson(outVO);
+//        String json = gson.toJson(outVO);
 //        LOG.debug("==================");
 //        LOG.debug("=json="+json);
 //        LOG.debug("==================");

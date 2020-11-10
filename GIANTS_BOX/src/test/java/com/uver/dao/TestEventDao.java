@@ -74,9 +74,24 @@ public class TestEventDao {
 	@Test
 	@Ignore
 	public void doSeletList() {
+		
+//		int flag = eventDao.doInsert(event01);
+//		assertThat(flag, is(1));
+//		
+//		flag = eventDao.doInsert(event02);
+//		assertThat(flag, is(1));
+//		
+//		flag = eventDao.doInsert(event03);
+//		assertThat(flag, is(1));
+		
 		Search search = new Search("10", "새모임01", 10, 1);
+		search.setDiv("10");
+		
 		List<EventVO> list = eventDao.doSelectList(search);
-		LOG.debug("list.size():"+list.size());
+		
+		assertThat(list.size(), is(9));
+		
+		//LOG.debug("list.size():"+list.size());
 	}
 	
 	@Test
@@ -98,7 +113,7 @@ public class TestEventDao {
 		event01.setEndDt("20/11/03");
 		event01.setLocation(event01.getLocation()+"_up");
 		event01.setTargetDt("20/11/13");
-		event01.setRegId(event01.getRegId()+"_up");
+		//event01.setRegId(event01.getRegId()+"_up");
 		
 		flag = eventDao.doUpdate(event01);
 		assertThat(1, is(1));
