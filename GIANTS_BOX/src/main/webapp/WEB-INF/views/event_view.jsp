@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp" %>
 
-
     <main class="page"  style="padding-top: 65px;">
         <section class="clean-block clean-product dark">
             <div class="container">
