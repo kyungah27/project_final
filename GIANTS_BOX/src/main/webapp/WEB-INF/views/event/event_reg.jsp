@@ -54,17 +54,18 @@
 
             <div class="container">
                 <div class="flex-item-center">
-                <form action="" name="event_reg" method="post" class="form-horizontal"> 
-                    <div class="form-group"><input class="form-control item" type="button" id="origin_name" value="이미지 첨부"></div>
-                    <div class="form-group"><label for="event_nm">모임 이름</label><input class="form-control item" type="text" id="event_nm"></div>
+                <form class="form-horizontal" action="" name="event_reg" method="post" > 
+                    <div class="form-group"><input class="form-control item" type="button" id="originName" value="이미지 첨부"></div>
+                    <div class="form-group"><label for="event_nm">모임명</label><input class="form-control item" type="text" id="event_nm"></div>
                     <div class="form-group"><label for="user_id">호스트</label><input class="form-control item" type="text" id="user_id"></div>
                     <div class="form-group"><label for="capacity">정원</label><input class="form-control item" type="text" id="capacity">
-                    <div class="form-group"><label for="target_dt">주최일</label><input class="form-control item" type="text" id="target_dt"></div>
+                    <div class="form-group"><label for="target_dt">일정</label><input class="form-control item" type="text" id="target_dt"></div>
                     <div class="form-group"><label for="start_dt">모집 시작일</label><input class="form-control item" type="text" id="start_dt"></div>
 					<div class="form-group"><label for="end_dt">모집 종료일</label><input class="form-control item" type="text" id="end_dt"></div>
 					<div class="form-group"><label for="location">장소</label><input class="form-control item" type="text" id="location"></div>
 					<div class="form-group"><label for="content">소개</label><input class="form-control item" type="text" id="content"></div>
-                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록하기" id="doInsert"/>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록하기" id="doInsert"/></div>
 				</div>	
 				</form>
     		</div>
@@ -76,10 +77,17 @@
 </div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>   
+    
     <script type="text/javascript">
 
+  	//모든 컨트롤(element)가 로딩이 완료되면.
+	$(document).ready(function(){   
+		console.log("document ready");   		
+		
+	});//document ready 
+
     
-	//등록
+	//--이벤트 등록하기
 	$("#doInsert").on("click", function() {
 		//alert("#doInsert");
 		
@@ -99,27 +107,10 @@
 
 		//주최일 체크
 		if($("#target_dt").val()==null || $("#target_dt").val() ==""){
-			alert("주최일을 입력해주세요.");
+			alert("일정을 입력해주세요.");
 			return ;
 		}
 
-		//모집 시작일 체크
-		if($("#start_dt").val()==false || $("#start_dt").val() ==""){
-			alert("모집 시작일을 지정하세요.");
-			return ;
-		}
-
-		//모집 종료일 체크
-		if($("#end_dt").val()==false || $("#end_dt").val() ==""){
-			alert("모집 종료일을 지정하세요.");
-			return ;
-		}
-
-		//장소 체크
-		if($("#location").val()==false || $("#location").val() ==""){
-			alert("장소를 입력해주세요.");
-			return ;
-		}
 
 		//모임 소개
 		if($("#content").val()==false || $("#content").val() ==""){
@@ -129,39 +120,42 @@
 														
 		if(confirm("모임을 등록하시겠습니까?") ==false)return;
 
-		//ajax
-        $.ajax({
-           type:"POST",
-           url:"${hContext}/event/doInsert.do",
-           dataType:"html",
-           data:{
-           "event_nm":$("#event_nm").val().trim(),
-           "user_id":$("#user_id").val().trim(),
-           "capacity":$("#capacity").val().trim(),
-           "target_dt":$("#target_dt").val(),
-           "start_dt":$("#start_dt").val().trim(),
-           "end_dt":$("#end_dt").val().trim(),
-           "location":$("#location").val().trim(),
-           "content":$("#content").val().trim()
-          }, 
-        success: function(data){
-          var jData = JSON.parse(data);
-          if(null != jData && jData.msgId=="1"){
-            alert(jData.msgContents);
-            //다시조회
-            doSelectList(1);
-          }else{
-            alert(jData.msgId+"|"+jData.msgContents);
-          }
-        },
-        complete:function(data){
-         
-        },
-        error:function(xhr,status,error){
-            alert("error:"+error);
-        }
-       }); 
-       //--ajax 	
+			//ajax
+	        $.ajax({
+	           type:"POST",
+	           url:"${hContext}/event/doInsert.do",
+	           dataType:"html",
+	           data:{
+	           "event_nm":$("#event_nm").val().trim(),
+	           "user_id":$("#user_id").val().trim(),
+	           "capacity":$("#capacity").val().trim(),
+	           "target_dt":$("#target_dt").val(),
+	           "start_dt":$("#start_dt").val().trim(),
+	           "end_dt":$("#end_dt").val().trim(),
+	           "location":$("#location").val().trim(),
+	           "content":$("#content").val().trim()
+	          }, 
+	        success: function(data){
+	          var jData = JSON.parse(data);
+	          if(null != jData && jData.msgId=="1"){
+	            alert(jData.msgContents);
+	            //다시조회
+	            doSelectList(1);
+	          }else{
+	            alert(jData.msgId+"|"+jData.msgContents);
+	          }
+	        },
+	        complete:function(data){
+	         
+	        },
+	        error:function(xhr,status,error){
+	            alert("error:"+error);
+	        }
+	
+	        }); 
+	       //--ajax 	
+        
+	})//update_btn
     
 	</script>
   </body>

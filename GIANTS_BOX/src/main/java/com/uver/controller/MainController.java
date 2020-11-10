@@ -43,6 +43,18 @@ public class MainController {
 		return "signup";
 	}
 	
+	//--- 이벤트 view 페이지로 이동
+		@RequestMapping(value="eventView.do")
+		public String goEventView() {
+			LOG.debug("-------------------");
+			LOG.debug("eventView()");
+			LOG.debug("-------------------");
+			
+			//--- 추후 views 폴더에 main.jsp 페이지 설정
+			return "event_view";
+		}
+		
+	
 	
 	
 

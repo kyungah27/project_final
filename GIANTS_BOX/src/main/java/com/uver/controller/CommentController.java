@@ -30,6 +30,12 @@ public class CommentController {
 		this.commentservice = commentservice;
 	}
 
+	@RequestMapping(value = "comment/comment_view.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String comment_view() {
+		LOG.debug("comment_view");
+		return "comment/comment_view";
+	}
+
 	@RequestMapping(value = "comment/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(CommentVO commentVO) throws ClassNotFoundException, SQLException {

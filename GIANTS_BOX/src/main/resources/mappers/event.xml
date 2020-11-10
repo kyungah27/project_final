@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.event">
+	<sql id="eventColumns">
+		 event_seq AS eventSeq,								  
+		 user_id AS userId,										  
+		 event_nm AS eventNm,                                       
+		 content,                                       
+		 capacity,                                      
+		 movie_info AS movieInfo,                                    
+		 start_dt AS startDt,                                      
+		 end_dt AS endDt,                                        
+		 location,                                      
+		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
+		 target_dt AS targetDt,                              
+		 reg_id AS regId                                	
+	</sql>
+
+	<sql id="searchCondition">
+		<choose>
+			<when test=" '10' == searchDiv">
+				AND event_nm like #{searchWord} || '%'
+			</when>
+		
+			<when test=" '20' == searchDiv">
+				AND content like #{searchWord} || '%'
+			</when>
+		</choose>
+	</sql>
+
+
+
+	<!-- 목록조회 -->
+	<select id="doSelectList" parameterType="Search" resultType="EventVO">
+		SELECT T1.*,
+			   T2.*                                                            
+		FROM (                                                                        (                                                                          
+		     SELECT B.rnum as num,                                                         
+		            B.event_seq,                                                    
+		            B.user_id,                                                      
+		            B.event_nm,                                                     
+		            B.content,                                                      
+		            B.capacity,                                                     
+		            B.movie_info,                                                   
+		            B.start_dt,                                                     
+		            B.end_dt,                                                       
+		            B.location,                             
+		            DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.reg_dt,'yyyy/mm/dd') 
+		                  ,TO_CHAR(B.reg_dt,'hh24:mi')                              
+		                  ,TO_CHAR(B.reg_dt,'yyyy/mm/dd'))reg_dt,                   
+		            B.target_dt,                                                    
+		            B.reg_id                                                        
+		     FROM (                                                                 
+		         SELECT rownum as rnum, 
+		         		A.*                                            
+		         FROM(                                                              
+		             SELECT *                                                       
+		             FROM event  
+		        	 ORDER BY reg_dt DESC                                          
+		     )A                                                                
+		       WHERE rownum  <![CDATA[ <= ]]>  ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})                         
+		
+		 )B                                                   
+		   WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )                  
+		 )T1                                                  
+		 CROSS JOIN                                                                                    
+		 (SELECT COUNT(*) total_cnt                                            
+		  FROM  event                                                          
+		)T2                                                    \
+	</select>
+
+
+
+	<!-- 단건조회 -->
+	<select id="doSelectOne" parameterType="EventVO" resultType="EventVO">
+		SELECT <include refid="eventColumns"/>
+		FROM event
+		WHERE event_seq = #{eventSeq}
+	</select>
+
+
+
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="EventVO">
+		UPDATE event			
+		SET user_id = #{userId}    
+		    ,event_nm = #{eventNm}   
+		    ,content = #{content}    
+		    ,capacity = #{capacity}   
+		    ,movie_info = #{movieInfo} 
+		    ,start_dt = #{startDt}   
+		    ,end_dt = #{endDt}     
+		    ,location = #{location}   
+		    ,target_dt = #{targetDt}  
+		    ,reg_id = #{regId}
+		WHERE event_seq = #{eventSeq} 
+	</update>
+	
+	
+	
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="EventVO">
+		DELETE FROM event	
+		WHERE event_seq = #{eventSeq} 
+	</delete>
+	
+	
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="EventVO">
+		
+		INSERT INTO event (		
+		    event_seq,         
+		    user_id,           
+		    event_nm,          
+		    content,           
+		    capacity,          
+		    movie_info,        
+		    start_dt,          
+		    end_dt,            
+		    location,          
+		    reg_dt,            
+		    target_dt,         
+		    reg_id             
+		) VALUES (             
+		    #{eventSeq},                 
+		    #{userId},                 
+		    #{eventNm},                 
+		    #{content},                 
+		    #{capacity},                 
+		    #{movieInfo},                 
+		    #{startDt},                 
+		    #{endDt},                 
+		    #{location},                 
+		    SYSDATE,           
+		    #{targetDt},                 
+		    #{regId}                 
+		)                      
+	
+	</insert>
+
+</mapper>

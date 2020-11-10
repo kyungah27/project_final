@@ -19,7 +19,7 @@ public interface EventService {
 	 * @param event
 	 * @return
 	 */
-	public int doDelte(EventVO event);
+	public int doDelete(EventVO event);
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public interface EventService {
 	 * @param eventSeq
 	 * @return
 	 */
-	public EventVO doSelectOne(int eventSeq);
+	public EventVO doSelectOne(EventVO event);
 	
 	/**
 	 * 
