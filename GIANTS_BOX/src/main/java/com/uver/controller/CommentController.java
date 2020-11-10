@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
@@ -34,6 +35,15 @@ public class CommentController {
 	public String comment_view() {
 		LOG.debug("comment_view");
 		return "comment/comment_view";
+	}
+
+	// 댓글 리스트를 호출 할 때 맵핑 되는 메소드
+	@RequestMapping(value = "comment/list.do")
+	public ModelAndView list(CommentVO commentVO, ModelAndView mav) {
+		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		mav.setViewName("comment/comment_view");
+		mav.addObject("list", list);
+		return mav;
 	}
 
 	@RequestMapping(value = "comment/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
