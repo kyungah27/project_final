@@ -52,7 +52,7 @@ import com.uver.vo.MemberVO;
 		      if (outVO != null) {
 		         message.setMsgContents("로그인에 성공하였습니다.");
 		      } else {
-		         message.setMsgContents("로그인에 실패했습니다.");
+		         message.setMsgContents("로그인에 실패했습니다..");
 		      }
 		      Gson gson = new Gson();
 		      String json = gson.toJson(message);
