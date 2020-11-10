@@ -2,7 +2,7 @@
 <%@include file="cmn/header.jsp" %>
 
 
-    <main class="page">
+       <main class="page"  style="padding-top: 65px;">
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
