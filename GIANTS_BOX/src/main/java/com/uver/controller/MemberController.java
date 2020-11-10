@@ -27,49 +27,39 @@ import com.uver.vo.MemberVO;
 	}
 	
 	
-		@RequestMapping(value = "join/login_view.do")
-		public String login() {
-			LOG.debug("ssss");
-			return "join/login_view";
-		}
+//		@RequestMapping(value = "loginn.do")
+//		public String login() {
+//			LOG.debug("ssss");
+//			return "login";
+//		}
 
 
-		@RequestMapping(value="login.do", method=RequestMethod.POST
-				,produces = "application/json;charset=UTF-8")
-		@ResponseBody
-		public String login(MemberVO membervo, MemberVO inputUser) {
-			int flag = 0;
-			
-			LOG.debug("-----------------------");
-			LOG.debug("login()");
-			LOG.debug("-----------------------");
-			
-			MemberVO outVO = memberService.login(inputUser);
-			
-			ModelAndView mav = new ModelAndView();
-			if(outVO == null) {
-				mav.setViewName("test_page");
-				flag = 1;
-			}else{
-				mav.setViewName("login_view");
-				flag = 0;
-			};
-			
-			
-			Message message=new Message();
-	        message.setMsgId(String.valueOf(flag));
-	        
-	        if(flag > 0) {
-	        	message.setMsgContents("로그인에 성공하였습니다.");
-	        }else {
-	        	message.setMsgContents("로그인에 실패했습니다.");
-	        }
-	
-			Gson gson = new Gson();
-			String json = gson.toJson(message);
-			LOG.debug("[json] "+json);
-			return json;
-		}
+		   /**
+		    * 로그인
+		    * @param inputUser
+		    * @return
+		    */
+		   @RequestMapping(value = "loginn.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @ResponseBody
+		   public String login(MemberVO inputUser) {
+
+		      LOG.debug("-----------------------");
+		      LOG.debug("login()");
+		      LOG.debug("-----------------------");
+
+		      MemberVO outVO = memberService.login(inputUser);
+		      Message message = new Message();
+		      if (outVO != null) {
+		         message.setMsgContents("로그인에 성공하였습니다.");
+		      } else {
+		         message.setMsgContents("로그인에 실패했습니다.");
+		      }
+		      Gson gson = new Gson();
+		      String json = gson.toJson(message);
+		      LOG.debug("[json] " + json);
+		      return json;
+		   }
+
 
 
 }

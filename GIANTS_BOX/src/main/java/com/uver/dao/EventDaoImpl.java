@@ -43,6 +43,7 @@ public class EventDaoImpl {
 			outVO.setLocation(rs.getString("location"));
 			outVO.setRegDt(rs.getString("reg_dt"));
 			outVO.setTargetDt(rs.getString("target_dt"));
+			outVO.setRegId(rs.getString("reg_id"));
 			
 			return outVO;
 		}
@@ -52,7 +53,7 @@ public class EventDaoImpl {
 	/**
 	 * 등록
 	 * @param event
-	 * @return 1(성공) / 0(실패)
+	 * @return 1(성공) / 0(실패) 
 	 */
 	public int doInsert(EventVO event) {
 		
@@ -66,7 +67,8 @@ public class EventDaoImpl {
 						  event.getStartDt(),
 						  event.getEndDt(),
 						  event.getLocation(),
-						  event.getTargetDt()
+						  event.getTargetDt(),
+						  event.getRegId()
 						};
  		
 		StringBuilder sb = new StringBuilder();
@@ -81,7 +83,8 @@ public class EventDaoImpl {
 		sb.append("    end_dt,              \n");
 		sb.append("    location,            \n");
 		sb.append("    reg_dt,              \n");
-		sb.append("    target_dt               \n");
+		sb.append("    target_dt,              \n");
+		sb.append("    reg_id              \n");
 		sb.append(") VALUES (               \n");
 		sb.append("    ?,                 \n");
 		sb.append("    ?,                 \n");
@@ -93,6 +96,7 @@ public class EventDaoImpl {
 		sb.append("    ?,                 \n");
 		sb.append("    ?,                 \n");
 		sb.append("    sysdate,                 \n");
+		sb.append("    ?,                 \n");
 		sb.append("    ?                 \n");
 		sb.append(")                        \n");
 		
@@ -147,7 +151,8 @@ public class EventDaoImpl {
 		sb.append("    start_dt = ?,     \n");
 		sb.append("    end_dt = ?,       \n");
 		sb.append("    location = ?,     \n");
-		sb.append("    target_dt = ?  \n");
+		sb.append("    target_dt = ?,  \n");
+		sb.append("    reg_id = ?  \n");
 		sb.append("WHERE event_seq = ?     \n");
 		
 		LOG.debug("=====================================");
@@ -165,6 +170,7 @@ public class EventDaoImpl {
 						  event.getEndDt(),
 						  event.getLocation(),
 						  event.getTargetDt(),
+						  event.getRegId(),
 						  event.getEventSeq()
 				};
 		flag = this.jdbcTemplate.update(sb.toString(), args);
@@ -192,7 +198,8 @@ public class EventDaoImpl {
 		sb.append("	   end_dt,                                          \n");
 		sb.append("	   location,                                        \n");
 		sb.append("	   TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') AS reg_dt,   \n");
-		sb.append("	   target_dt   \n");
+		sb.append("	   target_dt,   \n");
+		sb.append("	   reg_id   \n");
 		sb.append("FROM event                                           \n");
 		sb.append("WHERE event_seq = ?                                  \n");
 		
@@ -241,7 +248,8 @@ public class EventDaoImpl {
 		sb.append("             DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')     \n");
 		sb.append("                   ,TO_CHAR(B.reg_dt,'HH24:MI')                                  \n");
 		sb.append("                   ,TO_CHAR(B.reg_dt,'YYYY-MM-DD'))reg_dt,                        \n");
-		sb.append("             B.target_dt                                                             \n");
+		sb.append("             B.target_dt,                                                             \n");
+		sb.append("             B.reg_id                                                             \n");
 		sb.append("      FROM (                                                                     \n");
 		sb.append("          SELECT ROWNUM rnum, A.*                                                \n");
 		sb.append("          FROM(                                                                  \n");

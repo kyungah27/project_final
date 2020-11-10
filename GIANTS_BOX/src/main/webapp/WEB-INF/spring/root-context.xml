@@ -12,10 +12,15 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<!-- [컴포넌트 스캔 범위: dao, service] -->
+	<!-- [스캔 범위: repository, service, component] -->
 	<context:component-scan base-package="com.uver" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+	
+	<!-- [스캔 범위: component] -->
+	<context:component-scan base-package="com.uver.cmn" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	
@@ -39,6 +44,7 @@
 		<!-- 버려진 연결로 인식할 기본 시간(초) -->
 		<property name="removeAbandonedTimeout" value="60"/>
 	</bean>
+	
 	
 	<!-- [jdbcTemplate] -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

@@ -1,5 +1,6 @@
 package com.uver.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int doDelte(CommentVO commentVO) {
+	public int doDelete(CommentVO commentVO) {
 		return commentDao.doDelete(commentVO);
 	}
 
@@ -46,9 +47,19 @@ public class CommentServiceImpl implements CommentService {
 		return commentDao.doSelectOne(comment_seq);
 	}
 
+	// 게시글 댓글이 1개 이상이면 댓글목록 반환
 	@Override
 	public List<CommentVO> doSelectList(CommentVO commentVO) {
-		return commentDao.doSelectList(commentVO);
+		List<CommentVO> commentList = Collections.emptyList();
+
+		int commentTotalCount = commentList.size();
+		if (commentTotalCount > 0) {
+			commentList = commentDao.doSelectList(commentVO);
+		}
+		return commentList;
+		
+		// 원래 리턴
+		// return commentDao.doSelectList(commentVO);
 	}
 
 }
