@@ -20,10 +20,15 @@ public interface ReviewDao {
 	
 	ReviewVO doSelectOne(int review_seq);
 	
-	ReviewVO doSelectOneById(String writer);
+	//int doSelectOneByTitle(String title);
+	
+	//ReviewVO doSelectOneById(String writer);
 	
 	//List<ReviewVO> doSelectList(String div, String searchWord);
 	
 	List<ReviewVO> doSelectList(ReviewVO vo);
+
+
+	
 
 }

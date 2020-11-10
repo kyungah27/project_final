@@ -17,7 +17,7 @@ import com.uver.dao.MemberDaoImpl;
 import com.uver.vo.MemberVO;
 
 	@Service("MemberServiceImpl")
-	public class MemberServiceImpl {
+	public class MemberServiceImpl implements MemberService {
 		final Logger LOG = LoggerFactory.getLogger(MemberServiceImpl.class);
 		@Autowired
 		MemberDaoImpl memberDaoImpl;
@@ -25,11 +25,26 @@ import com.uver.vo.MemberVO;
 		public MemberServiceImpl() {
 		}
 	
+		@Override
 		public void setMemberDaoImpl(MemberDaoImpl memberDaoImpl) {
 			this.memberDaoImpl = memberDaoImpl;
 		}
 		
 		
+		
+		/**
+		 * 회원가입
+		 * @param inputuser
+		 * @return
+		 */
+		@Override
+		public int regMember(MemberVO inputUser) {
+			int flag = 0;
+			
+			flag = memberDaoImpl.doInsert(inputUser);
+			
+			return flag;
+		}
 	
 		/**
 		 * 비밀번호조건
@@ -37,12 +52,13 @@ import com.uver.vo.MemberVO;
 		 * @throws SQLException
 		 * @throws ClassNotFoundException
 		 */
-		public int regPw(MemberVO inputuser) throws ClassNotFoundException, SQLException {
+		@Override
+		public int regPw(MemberVO inputUser) throws ClassNotFoundException, SQLException {
 			int flag = 0;
 	
 			String pwPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$";
 	
-			Matcher matcher = Pattern.compile(pwPattern).matcher(inputuser.getPassword());
+			Matcher matcher = Pattern.compile(pwPattern).matcher(inputUser.getPassword());
 			if (matcher.matches() == true) {
 				LOG.debug("회원등록이 완료되었습니다.");
 	
@@ -65,6 +81,7 @@ import com.uver.vo.MemberVO;
 	
 		MemberVO inputUser = new MemberVO();
 	
+		@Override
 		public MemberVO login(MemberVO inputUser) {
 			MemberVO resultVO = null;
 			MemberVO searchMember = new MemberVO();
@@ -85,6 +102,7 @@ import com.uver.vo.MemberVO;
 			return resultVO;
 		}
 	
+		@Override
 		public void logout(HttpSession session) {
 	
 			session.invalidate();

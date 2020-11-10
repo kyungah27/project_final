@@ -13,14 +13,14 @@
 </head>
 <body>
 	<div class="container">
-		<label for="content">comment</label>
+		<b>comment</b>
 		<form name="commentInsertForm">
 			<div class="input-group">
-				<input type="text" class="form-control" id="content" name="content"
-					placeholder="내용을 입력하세요."> <span class="input-group-btn">
-					<buttn class="btn btn-default" type="button"
-						name="commentInsertBtn">등록 
-				</span>
+				<textarea style="resize: none;" rows="5" cols="80" name="contents"
+					id="contents" class="form-control" placeholder="내용을 입력해주세요"></textarea>
+				<br /> <input type="button" class="btn btn-primary btn-sm"
+					value="등록" /> </span>
+
 			</div>
 		</form>
 	</div>
