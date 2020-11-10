@@ -26,9 +26,6 @@ public class EventController {
 	EventService eventService;
 	
 	@Autowired
-	EventImgService eventImgService;
-	
-	@Autowired
 	MessageSource messageSource;
 	
 	public EventController() {}
@@ -132,28 +129,28 @@ public class EventController {
 		return json;
 	}
 	
-	@RequestMapping(value="event/doSelectOne.do",method=RequestMethod.GET
-					,produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doSelectOne(EventVO event) {
-        LOG.debug("==================");
-        LOG.debug("=event="+event);
-        LOG.debug("==================");		
-        
-        EventVO outVO =eventService.doSelectOne(event.getEventSeq());
-        
-        LOG.debug("==================");
-        LOG.debug("=outVO="+event);
-        LOG.debug("==================");
-        
-        Gson gson=new Gson();
-        String json = gson.toJson(outVO);
-        LOG.debug("==================");
-        LOG.debug("=json="+json);
-        LOG.debug("==================");
-         
-        return json;
-	}
+//	@RequestMapping(value="event/doSelectOne.do",method=RequestMethod.GET
+//					,produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public String doSelectOne(EventVO event) {
+//        LOG.debug("==================");
+//        LOG.debug("=event="+event);
+//        LOG.debug("==================");		
+//        
+//       //EventVO outVO =eventService.doSelectOne(event.getEventSeq());
+//        
+//        LOG.debug("==================");
+//        LOG.debug("=outVO="+event);
+//        LOG.debug("==================");
+//        
+//        Gson gson=new Gson();
+//        //String json = gson.toJson(outVO);
+//        LOG.debug("==================");
+//        LOG.debug("=json="+json);
+//        LOG.debug("==================");
+//         
+//        return json;
+//	}
 
 	
 }

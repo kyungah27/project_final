@@ -31,9 +31,9 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public EventVO doSelectOne(int eventSeq) {
+	public EventVO doSelectOne(EventVO event) {
 		// TODO Auto-generated method stub
-		return eventDaoImpl.doSelectOne(eventSeq);
+		return eventDaoImpl.doSelectOne(event);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public interface EventService {
 	 * @param eventSeq
 	 * @return
 	 */
-	public EventVO doSelectOne(int eventSeq);
+	public EventVO doSelectOne(EventVO event);
 	
 	/**
 	 * 
