@@ -33,9 +33,9 @@ public class JoinController {
 		
 	}
 	@RequestMapping(value = "join/join_view.do")
-	public String fileView() {
+	public String joinView() {
 		LOG.debug("===================");
-		LOG.debug("==fileView() ==");
+		LOG.debug("==joinView() ==");
 		LOG.debug("===================");
 		
 		return "join/join_list";
@@ -44,7 +44,7 @@ public class JoinController {
 	@RequestMapping(value = "movieInfo/movie_info.do")
 	public String movieInfoView() {
 		LOG.debug("===================");
-		LOG.debug("==fileView() ==");
+		LOG.debug("==movieInfoView() ==");
 		LOG.debug("===================");
 		
 		return "movieInfo/movie_info";
