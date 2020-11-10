@@ -49,6 +49,8 @@ import com.uver.vo.ReviewVO;
    }; //---row mapper end
    
    
+
+
    
    //CREATE
    @Override
@@ -113,7 +115,7 @@ import com.uver.vo.ReviewVO;
 		LOG.debug("=param=" + vo);
 		LOG.debug("========================");
 
-		Object[] args = { vo.getContext(), vo.getReview_seq() };
+		Object[] args = { vo.getTitle(),vo.getContext(), vo.getWriter(), vo.getReview_seq() };
 		flag = this.jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 		return flag;
@@ -156,8 +158,10 @@ import com.uver.vo.ReviewVO;
 	*/ 
    
    
+	/*
 	@Override
-	public ReviewVO doSelectOneById(String writer) {
+	public int ReviewVO doSelectOneByTitle(String title) {
+		int flag = 0;
 		ReviewVO outVO = null;
 		
 		StringBuilder sb = new StringBuilder();
@@ -170,14 +174,14 @@ import com.uver.vo.ReviewVO;
 	    sb.append(" reg_dt,     \n");
 	    sb.append(" mod_dt,       \n");	   
 		sb.append(" FROM review     \n");
-		sb.append(" WHERE writer = ?   \n");
+		sb.append(" WHERE title = ?   \n");
 		
 		LOG.debug("-----------------------------");
 		//LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + writer);
+		LOG.debug("[param]\n" + title);
 		LOG.debug("-----------------------------");	
 		
-		Object args[] = {writer};
+		Object args[] = {title};
 		outVO = (ReviewVO)this.jdbcTemplate.queryForObject(sb.toString(), 
 															args, 
 															rowMapper);
@@ -186,9 +190,12 @@ import com.uver.vo.ReviewVO;
 		LOG.debug("=outVO="+outVO);
 		LOG.debug("==========================");
 
-		return outVO;
+		//return outVO;
+		return flag;
 	}
-	
+	*/
+   
+   
 	@Override
 	public ReviewVO doSelectOne(int review_seq) {
 		ReviewVO outVO = null;
@@ -217,6 +224,7 @@ import com.uver.vo.ReviewVO;
 
 	}
 	
+	//div 조회?
 	@Override
 	public List<ReviewVO> doSelectList(ReviewVO vo) {
 		List<ReviewVO> list = null;

@@ -46,9 +46,19 @@ import com.uver.vo.ReviewVO;
 		return reviewDao.doSelectOne(review_seq);
 	}
 
+	/*
+	@Override
+	public ReviewVO doSelectOneById(String writer) {
+		return reviewDao.doSelectOneById(writer);
+	}
+	*/
+	
 	@Override
 	public List<ReviewVO> doSelectList(ReviewVO reviewVO) {
 		return reviewDao.doSelectList(reviewVO);
 	}
-
+	
+	
+	
+	
 }

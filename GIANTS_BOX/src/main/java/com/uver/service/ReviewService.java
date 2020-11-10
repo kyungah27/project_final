@@ -10,5 +10,6 @@ import com.uver.vo.ReviewVO;
 	public int doDelete(ReviewVO reviewVO);	
 	public int doUpdate(ReviewVO reviewVO);	
 	public ReviewVO doSelectOne(int review_seq);	
+	//public ReviewVO doSelectOneById(String writer);
 	public List<ReviewVO> doSelectList(ReviewVO reviewVO);
 }

@@ -60,15 +60,15 @@ public class TestReviewDao {
 		// dao.doDelete(review02);
 
 		// 삽입
-		 flag = dao.doInsert(review01);
-		 assertThat(flag, is(1));
-		 flag = dao.doInsert(review02);
-		 assertThat(flag, is(1));
+		 //flag = dao.doInsert(review01);
+		 //assertThat(flag, is(1));
+		 //flag = dao.doInsert(review02);
+		 //assertThat(flag, is(1));
 
 		// 수정		 
-		// ReviewVO updateVO = new ReviewVO(24, 2, "신과함께 본 후", "재밌었다", "곽호정", "", "");
-		// flag = dao.doUpdate(updateVO);
-		// assertThat(flag, is(1));
+		//ReviewVO updateVO = new ReviewVO(1, "곽호정", "제목:블랙미러 본 후기(수정)", "내용:sf(수정)", "", 10, "");
+		//flag = dao.doUpdate(updateVO);
+		//assertThat(flag, is(1));
 		 
 		 
 		 //@Test
@@ -109,8 +109,9 @@ public class TestReviewDao {
 		// ReviewVO test = new ReviewVO();
 
 		// 단건조회 성공
-		// dao.doSelectOne(review01.getReview_seq());
-
+		 dao.doSelectOne(review01.getReview_seq());
+		 
+		 
 		// 리스트 조회
 		//ReviewVO review = new ReviewVO();
 		//review.setReview_seq(2);
