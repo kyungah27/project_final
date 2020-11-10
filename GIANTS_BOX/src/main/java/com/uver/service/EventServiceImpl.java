@@ -21,7 +21,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public int doDelte(EventVO event) {
+	public int doDelete(EventVO event) {
 		return eventDaoImpl.doDelete(event);
 	}
 

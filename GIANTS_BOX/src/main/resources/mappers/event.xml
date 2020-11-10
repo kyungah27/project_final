@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.event">
+
+	
+	<update id="doUpdate" parameterType="EventVO">
+		UPDATE event			
+		SET user_id = #{userId}    
+		    ,event_nm = #{eventNm}   
+		    ,content = #{content}    
+		    ,capacity = #{capacity}   
+		    ,movie_info = #{movieInfo} 
+		    ,start_dt = #{startDt}   
+		    ,end_dt = #{endDt}     
+		    ,location = #{location}   
+		    ,target_dt = #{targetDt}  
+		    ,reg_id = #{regId}
+		WHERE event_seq = #{eventSeq} 
+	</update>
+	
+	<delete id="doDelete" parameterType="EventVO">
+		DELETE FROM event	
+		WHERE event_seq = #{eventSeq} 
+	</delete>
+	
+	
+	<insert id="doInsert" parameterType="EventVO">
+		
+		INSERT INTO event (		
+		    event_seq,         
+		    user_id,           
+		    event_nm,          
+		    content,           
+		    capacity,          
+		    movie_info,        
+		    start_dt,          
+		    end_dt,            
+		    location,          
+		    reg_dt,            
+		    target_dt,         
+		    reg_id             
+		) VALUES (             
+		    #{eventSeq},                 
+		    #{userId},                 
+		    #{eventNm},                 
+		    #{content},                 
+		    #{capacity},                 
+		    #{movieInfo},                 
+		    #{startDt},                 
+		    #{endDt},                 
+		    #{location},                 
+		    SYSDATE,           
+		    #{targetDt},                 
+		    #{regId}                 
+		)                      
+	
+	</insert>
+
+</mapper>

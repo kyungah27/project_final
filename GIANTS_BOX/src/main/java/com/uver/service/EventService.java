@@ -19,7 +19,7 @@ public interface EventService {
 	 * @param event
 	 * @return
 	 */
-	public int doDelte(EventVO event);
+	public int doDelete(EventVO event);
 	
 	/**
 	 * 
