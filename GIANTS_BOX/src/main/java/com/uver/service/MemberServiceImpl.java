@@ -31,6 +31,24 @@ import com.uver.vo.MemberVO;
 			this.memberDaoImpl = memberDaoImpl;
 		}
 		
+		/**
+		 * 회원정보 수정
+		 * @param inputUser
+		 * @return
+		 */
+		public int myUpdate(MemberVO inputUser) {
+			int flag = 0;
+			
+			flag = memberDaoImpl.doUpdata(inputUser);
+			
+			if(flag == 1) {
+				LOG.debug("회원정보가 수정되었습니다.");
+			}else{
+				LOG.debug("회원정보를 다시 확인해주세요.");
+			}
+			
+			return flag;
+		}
 		
 		/**
 		 * 아이디 중복 확인
