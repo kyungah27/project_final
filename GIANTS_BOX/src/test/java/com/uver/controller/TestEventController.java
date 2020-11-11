@@ -65,9 +65,9 @@ public class TestEventController {
 	public void setUp() throws Exception {
 		LOG.debug("=================");
 		LOG.debug("=setUp()=");
-		events = Arrays.asList(new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01")
-		 					  ,new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02")
-		 					  ,new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03")
+		events = Arrays.asList(new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01","공포")
+		 					  ,new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02","드라마")
+		 					  ,new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03","코미디")
 		 );
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		LOG.debug("=mockMvc=" + mockMvc);
