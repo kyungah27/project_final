@@ -4,24 +4,20 @@
 <c:set var="context" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <title>Home - Giants Box</title>
-
 <!-- favicon -->
 <link rel=" shortcut icon" href="${context}/resources/img/favicon.ico">
 <link rel="icon" href="${context}/resources/img/favicon.ico">
 <!-- //favicon -->
-
 <link rel="stylesheet" href="${context}/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
 <link rel="stylesheet" href="${context}/resources/fonts/font-awesome.min.css">
 <link rel="stylesheet" href="${context}/resources/fonts/simple-line-icons.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
 <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
-
 <!--calendar-->
 <link href="${context}/resources/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <!--//calendar-->
@@ -121,16 +117,32 @@
 						<div class="datepicker-here" data-language="en"></div>
 					</div>
 
-					<div class="col-lg-8 col-md-7">
+					<div class="col-lg-9 col-md-7">
 						<div class="card clean-card text-left">
 							<div class="card-body">
 								<p class="text-left card-text">
 									<strong>10월 31일 6:30PM</strong>
 								</p>
-								<p class="text-left">@강남역 CGV</p>
 								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-								<p class="card-text text-truncate" style="display: inline-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-								<small>59명 참여</small>
+								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+							</div>
+
+							<!-- 이벤트 반복 -->
+							<hr/>
+							<div class="card-body">
+								<p class="text-left card-text">
+									<strong>10월 31일 6:30PM</strong>
+								</p>
+								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
+								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+							</div>
+							
+							<!-- 참여 이벤트 없을 경우 -->
+							<hr/>
+							<div class="card-body">
+								<h4 class="card-title">참여하는 이벤트가 없습니다.</h4>
 							</div>
 						</div>
 					</div>
@@ -406,8 +418,7 @@
 					<h5>Get started</h5>
 					<ul>
 						<li><a href="#">Home</a></li>
-						<li><a href="#">Sign up</a></li>
-						<li><a href="#">Log in</a></li>
+						<li><a href="#">Log out</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-3">
@@ -415,9 +426,9 @@
 						<strong>Event</strong><br>
 					</h5>
 					<ul>
-						<li><a href="#">Events</a></li>
-						<li><a href="#">Movies</a></li>
-						<li><a href="#">Reviews</a></li>
+						<li><a href="#">Explore</a></li>
+						<li><a href="#">Today's Events</a></li>
+						<li><a href="#">My Events</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-3">
@@ -462,5 +473,4 @@
 
 
 </body>
-
 </html>
