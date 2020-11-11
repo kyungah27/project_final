@@ -131,4 +131,6 @@
 	});
 </script>
 
-<%@ include file="cmn/footer.jsp"%>
+<%@ include file="cmn/footer1.jsp" %>
+<!-- 자바스크립트 자리 -->
+<%@ include file="cmn/footer2.jsp" %>

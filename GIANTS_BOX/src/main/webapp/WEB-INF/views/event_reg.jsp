@@ -10,13 +10,21 @@
                 <div class="block-content pb-1">
                     <form class="product-info">
                         <div class="row">
+                        
                             <div class="col-lg-5 col-md-12 col-sm-12">
                                 <img src="assets/img/main.jpg" class="img-fluid" />
+                                <div id="img_preview" class="flex_container" >
+									<p id="img_area_txt">Drag & Drop</p>
+								</div>
+                                
                                 <div class="custom-file mt-2 mb-3">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">대표 이미지 업로드하기</label>
+	                                <form id="save_frm" action="${context}/img/doInsert.do" method="post" enctype="multipart/form-data">
+	                                  <input type="file" class="custom-file-input" id="img_picker" onclick="javascript:preview(this.file);" accept="image/jpg, image/png, image/jpeg, image/gif"  />
+	                                  <label class="custom-file-label" id="img_label" for="customFile">대표 이미지 업로드하기</label>
+	                                </form>
                                 </div>
                             </div>
+                            
                             <div class="col-lg-7 col-md-12 col-sm-12">
                                 <div class="input-group mb-3">
                                     <label for="event_nm" class="col-form-label col-lg-3">모임명</label>
@@ -61,5 +69,54 @@
             </div>
         </section>
     </main>
+    
    
-<%@ include file="cmn/footer.jsp" %>
+<%@ include file="cmn/footer1.jsp" %>
+ <!-- javascript -->
+    <script type="text/javascript">
+    
+    //모든 컨트롤(element)가 로딩이 완료시
+	$(document).ready(function(){   
+		console.log("document ready"); 
+	});//document ready
+
+	let preview = document.querySelector("#img_preview");
+
+	preview.addEventListener('change', function(e){
+
+
+		})
+	
+	
+    /* function preview(file){
+		console.log("file: "+file);
+
+		// FileReader 객체 생성
+		let reader = new FileReader();
+				
+		// FileReader onload 시 이벤트 발생
+		reader.onload = function(file) {
+			const img = document.createElement("img");
+			img.setAttribute("src", this.result);
+			img.setAttribute("height", "150px");
+
+			const flexDiv = document.createElement("div");
+
+			const a = document.createElement("a");
+			a.setAttribute("href", "#");
+			a.setAttribute("name", "removeImg");
+			
+			flexDiv.appendChild(img);
+			flexDiv.appendChild(a);
+
+			document.querySelector("div#img_preview")
+						.appendChild(flexDiv);
+
+			flexDiv.setAttribute("class", "flex_item");
+		};
+
+		//reader.readAsDataURL(file);
+	} */
+
+	</script>
+<%@ include file="cmn/footer2.jsp" %>
