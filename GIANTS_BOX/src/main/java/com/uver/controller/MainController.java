@@ -11,6 +11,7 @@ public class MainController {
 
 	
 	//--- 메인페이지로 이동
+	//------ 세션ID 여부에 따라 분기 main.jsp or main_user.jsp로 분기
 		@RequestMapping(value="main.do")
 		public String goMain() {
 			LOG.debug("-------------------");
