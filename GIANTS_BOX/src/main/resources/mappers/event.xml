@@ -32,41 +32,41 @@
 
 	<!-- 목록조회 -->
 	<select id="doSelectList" parameterType="Search" resultType="EventVO">
-		SELECT T1.*,
-			   T2.*                                                            
-		FROM (                                                                        (                                                                          
-		     SELECT B.rnum as num,                                                         
-		            B.event_seq,                                                    
-		            B.user_id,                                                      
-		            B.event_nm,                                                     
-		            B.content,                                                      
-		            B.capacity,                                                     
-		            B.movie_info,                                                   
-		            B.start_dt,                                                     
-		            B.end_dt,                                                       
-		            B.location,                             
-		            DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.reg_dt,'yyyy/mm/dd') 
-		                  ,TO_CHAR(B.reg_dt,'hh24:mi')                              
-		                  ,TO_CHAR(B.reg_dt,'yyyy/mm/dd'))reg_dt,                   
-		            B.target_dt,                                                    
-		            B.reg_id                                                        
-		     FROM (                                                                 
-		         SELECT rownum as rnum, 
-		         		A.*                                            
-		         FROM(                                                              
-		             SELECT *                                                       
-		             FROM event  
-		        	 ORDER BY reg_dt DESC                                          
-		     )A                                                                
-		       WHERE rownum  <![CDATA[ <= ]]>  ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})                         
-		
-		 )B                                                   
-		   WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )                  
-		 )T1                                                  
-		 CROSS JOIN                                                                                    
-		 (SELECT COUNT(*) total_cnt                                            
-		  FROM  event                                                          
-		)T2                                                    \
+ SELECT T1.*,
+		T2.*                                                           
+ FROM                                                                       
+  (                                                                         
+      SELECT B.rnum as num,                                                        
+             B.event_seq AS eventSeq,                                                   
+             B.user_id AS userId,                                                     
+             B.event_nm AS eventNm,                                                    
+             B.content,                                                     
+             B.capacity,                                                    
+             B.movie_info AS movieInfo,                                                  
+             B.start_dt AS startDt,                                                    
+             B.end_dt AS end_Dt,                                                      
+             B.location,                                                    
+             DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
+                   ,TO_CHAR(B.reg_dt,'HH24:MI')                             
+                   ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
+             B.target_dt AS targetDt,                                                   
+             B.reg_id AS regId                                                       
+      FROM (                                                                
+          SELECT ROWNUM rnum, A.*                                           
+          FROM(                                                             
+              SELECT *                                                      
+              FROM event                                                    
+              ORDER BY reg_dt DESC                                          
+          )A                                                                
+          WHERE ROWNUM <![CDATA[ <= ]]>  ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})              
+
+      )B                                                                    
+      WHERE b.rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )                              
+      )T1                                                                   
+      CROSS JOIN                                                           
+      (SELECT COUNT(*) total_cnt                                            
+       FROM  event                         
+      )T2                                                   
 	</select>
 
 
@@ -83,17 +83,17 @@
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="EventVO">
 		UPDATE event			
-		SET user_id = #{userId}    
-		    ,event_nm = #{eventNm}   
-		    ,content = #{content}    
-		    ,capacity = #{capacity}   
-		    ,movie_info = #{movieInfo} 
-		    ,start_dt = #{startDt}   
-		    ,end_dt = #{endDt}     
-		    ,location = #{location}   
-		    ,target_dt = #{targetDt}  
-		    ,reg_id = #{regId}
-		WHERE event_seq = #{eventSeq} 
+		SET user_id = #{userId,jdbcType=VARCHAR}    
+		    ,event_nm = #{eventNm,jdbcType=VARCHAR}   
+		    ,content = #{content,jdbcType=VARCHAR}    
+		    ,capacity = #{capacity,jdbcType=INTEGER}   
+		    ,movie_info = #{movieInfo,jdbcType=VARCHAR} 
+		    ,start_dt = #{startDt,jdbcType=VARCHAR}   
+		    ,end_dt = #{endDt,jdbcType=VARCHAR}     
+		    ,location = #{location,jdbcType=VARCHAR}   
+		    ,target_dt = #{targetDt,jdbcType=VARCHAR}  
+		    ,reg_id = #{regId,jdbcType=VARCHAR}
+		WHERE event_seq = #{eventSeq,jdbcType=INTEGER} 
 	</update>
 	
 	

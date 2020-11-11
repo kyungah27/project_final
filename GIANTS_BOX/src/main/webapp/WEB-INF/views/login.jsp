@@ -47,8 +47,5 @@
 		
 
         });
-
-
-    
 		</script>
 <%@ include file="cmn/footer.jsp" %>

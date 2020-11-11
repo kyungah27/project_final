@@ -35,7 +35,7 @@ public class TestMemberService {
 	WebApplicationContext context;
 	
 	@Autowired
-	MemberServiceImpl memberServiceImpl;
+	MemberService memberServiceImpl;
 	
 	MemberVO member01;
 	MemberVO member02;
