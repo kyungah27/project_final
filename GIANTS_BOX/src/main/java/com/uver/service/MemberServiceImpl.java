@@ -1,6 +1,7 @@
 package com.uver.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +31,34 @@ import com.uver.vo.MemberVO;
 			this.memberDaoImpl = memberDaoImpl;
 		}
 		
+		
+		/**
+		 * 아이디 중복 확인
+		 * @param inputUser
+		 * @return
+		 */
+		public int idCheck(MemberVO inputUser) {
+			int flag = 0;
+			ArrayList<MemberVO> arrayList = (ArrayList<MemberVO>) memberDaoImpl.doSelectList("10", "");
+			ArrayList<Integer> arrayIndexList = new ArrayList<Integer>();
+			
+			LOG.debug(inputUser.getUserId());
+			for(MemberVO memberAll:arrayList) {
+			
+			
+				if(memberAll.getUserId().equals(inputUser.getUserId()) ) {
+					LOG.debug("이미 가입된 아이디 입니다.");
+					flag = 0;
+					return flag;
+				}else{	
+					flag = 1;
+				}
+				
+			}
+			LOG.debug("사용할 수 있는 아이디 입니다.");
+			
+			return flag;
+		}
 		
 		
 		/**
@@ -107,5 +136,7 @@ import com.uver.vo.MemberVO;
 	
 			session.invalidate();
 		}
+
+
 	
 	}

@@ -10,12 +10,19 @@
 				<h2 class="text-primary">Sign up</h2>
 			</div>
 			<form onsubmit="return false;">
-				<div class="form-group">
-					<label for="id">Id</label><input class="form-control item"
-						type="text" id="id">
+				<div class="form-group row" >
+					<label class="col-lg-12" for="id" id ="id_label">Id</label>
+					
+					<div class="col-lg-9">
+						<input class="form-control item" type="text" id="id" >
+					</div>
+						<input class="btn btn-sm btn-primary" type="button" value="ID중복확인" id="id_check" />
+					
 				</div>
+				
+				
 				<div class="form-group">
-					<label for="name">Name</label><input class="form-control item"
+					<label for="name" id ="name_label">Name</label><input class="form-control item"
 						type="text" id="name">
 				</div>
 				<div class="form-group" >
@@ -23,14 +30,14 @@
 						class="form-control item" type="password" id="password">
 				</div>
 				<div class="form-group">
-					<label for="email">Email</label><input class="form-control item"
+					<label for="email" id ="email_label">Email</label><input class="form-control item"
 						type="email" id="email">
 					<div class="form-group">(ex. -없이 번호만 입력해주세요)
-						<label for="phone">Phone</label><input class="form-control item"
+						<label for="phone" id ="phone_label">Phone</label><input class="form-control item"
 							type="text" id="phone">
 					</div>
 					<div class="form-group">
-						<label for="birthday">Birthday(ex.970123)</label><input
+						<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
 							class="form-control item" type="text" id="birthday">
 					</div>
 				</div>
@@ -43,15 +50,15 @@
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
+    //회원가입
 	$("#doReg").on("click", function() {
-		alert("doInsert");
 		
 		var id = $("#id").val();
 		id = id.trim();
-
 		if (null == id || id.length == 0) {
 			$("#id").focus();
-			alert("아이디를 입력 하세요.");//{0} 입력하세요. 
+			alert("아이디를 입력 하세요.");//{0} 입력하세요.
+			$("#Id_label").css("color","red"); 
 			return;
 		}
 
@@ -60,6 +67,7 @@
 		if (null == name || name.length == 0) {
 			$("#name").focus();
 			alert("이름을 입력 하세요.");//{0} 입력하세요. 
+			$("#name_label").css("color","red");
 			return;
 		}
 
@@ -75,7 +83,8 @@
 		email = email.trim();
 		if (null == email || email.length == 0) {
 			$("#email").focus();
-			alert("이메일을 입력 하세요.");//{0} 입력하세요. 
+			alert("이메일을 입력 하세요.");//{0} 입력하세요.
+			$("#email_label").css("color","red"); 
 			return;
 		}
 
@@ -84,6 +93,7 @@
 		if (null == phone || phone.length == 0) {
 			$("#phone").focus();
 			alert("폰 번호를 입력 하세요.");//{0} 입력하세요. 
+			$("#phone_label").css("color","red");
 			return;
 		}
 
@@ -91,7 +101,8 @@
 		birthday = birthday.trim();
 		if (null == birthday || birthday.length == 0) {
 			$("#birthday").focus();
-			alert("생년월일을 입력 하세요.");//{0} 입력하세요. 
+			alert("생년월일을 입력 하세요.");//{0} 입력하세요.
+			$("#birthday_label").css("color","red"); 
 			return;
 		}
 
@@ -118,6 +129,42 @@
 				}else{
 					$("#password_label").css("color","red");
 				}
+				
+			},
+			error : function(xhr, status, error) {
+				alert("error:" + error);
+			},                    
+			complete : function(data) {
+			}
+
+		});//--ajax
+
+	});
+
+
+	//id 중복체크
+	$("#id_check").on("click", function() {
+
+		var id = $("#id").val();
+		id = id.trim();
+		if (null == id || id.length == 0) {
+			$("#id").focus();
+			alert("아이디를 입력 하세요.");//{0} 입력하세요.
+			return;
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : "${context}/checkId.do",
+			dataType : "html",
+			data : {
+				"userId" : $("#id").val(),
+			},
+			success : function(data) { //성공
+
+				var obj = JSON.parse(data);
+				//alert(obj.msgContents);
+				alert(obj.msgContents);
 				
 			},
 			error : function(xhr, status, error) {
