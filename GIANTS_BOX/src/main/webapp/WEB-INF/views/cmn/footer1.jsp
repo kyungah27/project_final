@@ -43,6 +43,7 @@
         </div>
     </footer>
 
+    
     <!-- End: Footer Dark -->
     <script src="${context}/resources/js/jquery.min.js"></script>
     <script src="${context}/resources/bootstrap/js/bootstrap.min.js"></script>
@@ -53,6 +54,3 @@
 	<script src="${context}/resources/js/datepicker.min.js"></script>
     <script src="${context}/resources/js/datepicker.en.js"></script>
     <!-- //calendar -->
-</body>
-
-</html>

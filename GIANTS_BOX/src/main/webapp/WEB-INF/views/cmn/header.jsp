@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
     
      <!--calendar-->
-    <link href="assets/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="${context}/resources/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <!--//calendar-->
     
     

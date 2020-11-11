@@ -37,7 +37,14 @@
         </nav>
         <div class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex flex-column align-items-start align-items-sm-start align-items-md-start align-items-lg-start justify-content-xl-center align-items-xl-start text" style="width: 100%;padding-top: 104px;padding-left: 100px;">
             <h2 class="text-left d-md-flex d-xl-flex justify-content-md-start justify-content-xl-center" style="font-size: 50px;">Discover events<br>for movies you love</h2>
-            <p class="d-lg-flex justify-content-lg-start" style="font-size: 22px;">Meet new people and make friends</p><button class="btn btn-primary btn-lg" type="button" style="background-color: #0078ff;">Join Event</button></div>
+            <p class="d-lg-flex justify-content-lg-start" style="font-size: 22px;">Meet new people and make friends</p>
+            
+            
+            <a href="event_reg.do">
+            	<button class="btn btn-primary btn-lg" type="button" style="background-color: #0078ff;">Make Event</button>
+            </a>
+            
+            </div>
     </section>
     <main class="page landing-page" style="padding: 0;">
         <section>
