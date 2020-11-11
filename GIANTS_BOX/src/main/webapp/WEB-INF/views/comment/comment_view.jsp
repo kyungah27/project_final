@@ -6,6 +6,12 @@
 
 <!DOCTYPE html>
 <html>
+<style>
+.button:like {
+	border: 0;
+	outline: 0;
+}
+</style>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,14 +43,33 @@
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
-			<b>Reply list</b> <br /> <br />
+			<b>comment list</b>
+			<hr />
+			<div>
+				<b>ehgml</b>&nbsp;
+				<button class="love" id="like"
+					style="background-color: #ffffff; float: right; border: none;">
+					<img src="${context}/resources/img/comment/heart.png"
+						style="width: 20px;">
+				</button>
+				<br />
+				<div>진짜 너무재밌네요~~ㅋㅋㅋㅋㅋㅋzz</div>
+				<br /> <br /> <span>2020.11.11</span> <input type="button"
+					class="btn btn-primary btn-sm" value="삭제" id="doDelete"
+					style="float: right"><input type="button"
+					class="btn btn-primary btn-sm" value="수정" id="doUpdate"
+					style="float: right">
+			</div>
 			<div id="commentList" class="commentList">
 				<!--  그리기 -->
-
-
 			</div>
+			<!-- commentList -->
 		</div>
+		<!-- 댓글리스트  -->
 	</div>
+	<!-- 흰색배경 -->
+	</div>
+	<!-- container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -105,10 +130,13 @@
 				success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
 					var commentList = JSON.parse(data);
 					console.log("commentList=" + commentList);
-					var htmls = "";
+					var html = "";
 
 					if (null != commentList && commentList.length > 0) {
+						$.each(commentList, function(i, value) {
+							console.log(value.commentSeq);
 
+						});
 					}
 					// $("#commentList").html(htmls);
 				},
