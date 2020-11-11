@@ -87,12 +87,21 @@
                                         <p>강남 CGV에서 도굴 조조로 함께 보러 가실 분 구합니다 :) <br/>2차 관람 이벤트고 처음 보시는 분들 환영합니다. <br/> 영화 끝나고 시간 괜찮으신 분들은 점심 함께 해요.</p>
                                     </div>
                                     <hr/>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <!-- [영진님] 이벤트 참여자 목록 작업 필요 -->
                                     <div>
+                                    
                                         <div>
                                             <h3>참석자(<strong>5</strong>)</h3>
                                         </div>
                                         
-                            
+                            			
                                         <div class="row justify-content-center">    
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
@@ -136,6 +145,13 @@
                                             <a href="#">더보기</a>
                                         </div>
                                     </div>
+                                    <!-- //이벤트 참여자 목록 작업 필요 -->
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                 </div>
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos">
                                    <div class="row mt-4 mb-4">

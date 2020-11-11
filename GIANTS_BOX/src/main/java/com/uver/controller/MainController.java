@@ -65,6 +65,17 @@ public class MainController {
 		return "event_reg";
 	}
 	
+	//--- 로그인 후 이벤트 페이지로 이동
+	@RequestMapping(value="mainUser.do")
+	public String goMainUser() {
+		LOG.debug("-------------------");
+		LOG.debug("mainUser()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "index_after_login";
+	}
+	
 	
 	
 	
