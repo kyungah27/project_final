@@ -14,7 +14,7 @@
     <!-- favicon -->
     <link rel=" shortcut icon" href="${context}/resources/img/favicon.ico">
 	<link rel="icon" href="${context}/resources/img/favicon.ico">
-    
+    <!-- //favicon -->
     
     <link rel="stylesheet" href="${context}/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="${context}/resources/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
     <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
+    
+     <!--calendar-->
+    <link href="assets/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <!--//calendar-->
+    
+    
 </head>
 
 <body>
