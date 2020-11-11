@@ -11,6 +11,7 @@ public class MainController {
 
 	
 	//--- 메인페이지로 이동
+	//------ 세션ID 여부에 따라 분기 main.jsp or main_user.jsp로 분기
 		@RequestMapping(value="main.do")
 		public String goMain() {
 			LOG.debug("-------------------");
@@ -44,16 +45,38 @@ public class MainController {
 	}
 	
 	//--- 이벤트 view 페이지로 이동
-		@RequestMapping(value="eventView.do")
-		public String goEventView() {
-			LOG.debug("-------------------");
-			LOG.debug("eventView()");
-			LOG.debug("-------------------");
-			
-			//--- 추후 views 폴더에 main.jsp 페이지 설정
-			return "event_view";
-		}
+	@RequestMapping(value="event_view.do")
+	public String goEventView() {
+		LOG.debug("-------------------");
+		LOG.debug("eventView()");
+		LOG.debug("-------------------");
 		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "event_view";
+	}
+	
+	//--- 이벤트 등록 페이지로 이동
+	@RequestMapping(value="event_reg.do")
+	public String goEventReg() {
+		LOG.debug("-------------------");
+		LOG.debug("eventReg()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "event_reg";
+	}
+	
+	//--- 로그인 후 이벤트 페이지로 이동
+	@RequestMapping(value="main_user.do")
+	public String goMainUser() {
+		LOG.debug("-------------------");
+		LOG.debug("mainUser()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "index_after_login";
+	}
+	
 	
 	
 	

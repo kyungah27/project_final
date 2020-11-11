@@ -4,6 +4,8 @@ public class ReviewVO {
 	
 	private int review_seq;	
 	
+	private int eventSeq;	
+	
 	private String writer;
 	
 	private String title;	
@@ -20,10 +22,11 @@ public class ReviewVO {
 		super();
 	}
 
-	public ReviewVO(int review_seq, String writer, String title, String context, String reg_dt, int div,
+	public ReviewVO(int review_seq, int eventSeq, String writer, String title, String context, String reg_dt, int div,
 			String mod_dt) {
 		super();
 		this.review_seq = review_seq;
+		this.eventSeq = eventSeq;
 		this.writer = writer;
 		this.title = title;
 		this.context = context;
@@ -38,6 +41,14 @@ public class ReviewVO {
 
 	public void setReview_seq(int review_seq) {
 		this.review_seq = review_seq;
+	}
+
+	public int getEventSeq() {
+		return eventSeq;
+	}
+
+	public void setEventSeq(int eventSeq) {
+		this.eventSeq = eventSeq;
 	}
 
 	public String getWriter() {
@@ -90,9 +101,11 @@ public class ReviewVO {
 
 	@Override
 	public String toString() {
-		return "ReviewVO [review_seq=" + review_seq + ", writer=" + writer + ", title=" + title + ", context=" + context
-				+ ", reg_dt=" + reg_dt + ", div=" + div + ", mod_dt=" + mod_dt + "]";
+		return "ReviewVO [review_seq=" + review_seq + ", eventSeq=" + eventSeq + ", writer=" + writer + ", title="
+				+ title + ", context=" + context + ", reg_dt=" + reg_dt + ", div=" + div + ", mod_dt=" + mod_dt + "]";
 	}
+
+	
 
 	
 	
