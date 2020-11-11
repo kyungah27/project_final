@@ -21,13 +21,15 @@
 			<form name="commentInsertForm">
 				<div>
 
-					<input style="text-align: center; width: 150px;" " id="user_id"
+					<input style="text-align: center; width: 150px;" id="user_id"
 						name="user_id" type="text" class="form-control" value=""
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="contents"
-						id="contents" class="form-control" placeholder="내용을 입력해주세요""></textarea>
-					<br /> <input type="button" class="btn btn-primary btn-sm"
-						value="등록" id="doInsert" /> </span>
+						id="contents" class="form-control" placeholder="내용을 입력해주세요"></textarea>
+					<br />
+					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
+					<input type="button" class="btn btn-primary btn-sm" value="등록"
+						id="doInsert" />
 				</div>
 			</form>
 		</div>
@@ -36,7 +38,11 @@
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
 			<b>Reply list</b> <br /> <br />
-			<div id="commentList" class="commentList"></div>
+			<div id="commentList" class="commentList">
+				<!--  그리기 -->
+
+
+			</div>
 		</div>
 	</div>
 	<script
@@ -60,8 +66,8 @@
 				url : "${hContext}/comment/doInsert.do",//데이터를 보낼 url
 				dataType : "html",
 				data : {
-					"seq" : $("#seq").val(),
-					"div" : $("#div").val(),
+					/* 	 "seq" : $("#seq").val(),
+						"div" : $("#div").val(),  */
 					"contents" : $("#contents").val()
 				},//보낼 데이터
 				success : function(data) { //성공
@@ -72,7 +78,7 @@
 					// 둘 중 하나 삭제하기
 					alert("댓글이 등록되었습니다")
 					if (data == 1)
-						commentList(seq);
+						commentList();
 
 					//moveToListView()
 
@@ -84,30 +90,39 @@
 			});//--ajax
 		});
 
-
 		//수정,삭제 기능 추가
 		//commentlist do.?이후 부분+출력부분
-		function commentList(seq,div) {//10:이벤트 20:이벤트 후기
+		function commentList() {//10:이벤트 20:이벤트 후기
 
-				var url = "${path}/comment/doSeleectList.do?seq="
-				url += seq;
-			    $.ajax({
-			        type: "get", //get방식으로 자료를 전달한다
-			        url: "${path}/comment/doSeleectList.do?seq=", //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
-			        success: function(result){ //자료를 보내는것이 성공했을때 출력되는 메시지
-			            //result : responseText 응답텍스트(html)
-			            $("#commentList").html(result);
-			        
-			    });
-			}
+			var url = "${context}/comment/doSelectList.do"
+			$.ajax({
+				type : "get", //get방식으로 자료를 전달한다
+				url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
+				data : {
+					"seq" : "2",
+					"div" : "10"
+				},
+				success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
+					var commentList = JSON.parse(data);
+					console.log("commentList=" + commentList);
+					var htmls = "";
+
+					if (null != commentList && commentList.length > 0) {
+
+					}
+					// $("#commentList").html(htmls);
+				},
+				error : function(xhr, status, error) {
+					alert("error:" + error);
+				}
+			});
 
 		}
 
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
-			commentList(2,10);
-
-			
+			console.log("document ready");
+			commentList();
 		})
 	</script>
 </body>

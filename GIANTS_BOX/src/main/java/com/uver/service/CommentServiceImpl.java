@@ -50,16 +50,16 @@ public class CommentServiceImpl implements CommentService {
 	// 게시글 댓글이 1개 이상이면 댓글목록 반환
 	@Override
 	public List<CommentVO> doSelectList(CommentVO commentVO) {
-		List<CommentVO> commentList = Collections.emptyList();
+		//List<CommentVO> commentList = Collections.emptyList();
 
-		int commentTotalCount = commentList.size();
-		if (commentTotalCount > 0) {
-			commentList = commentDao.doSelectList(commentVO);
-		}
-		return commentList;
+		/*
+		 * int commentTotalCount = commentList.size(); if (commentTotalCount > 0) {
+		 * commentList = commentDao.doSelectList(commentVO); }
+		 */
+		//return commentList;
 		
 		// 원래 리턴
-		// return commentDao.doSelectList(commentVO);
+		 return commentDao.doSelectList(commentVO);
 	}
 
 }

@@ -106,6 +106,8 @@ public class CommentController {
 		LOG.debug("==================");
 
 		return json;
+
+		// *************삭제 되었을때 list뽑도록 return url 바꿔주기
 	}
 
 	@RequestMapping(value = "comment/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -141,9 +143,16 @@ public class CommentController {
 
 	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET)
 	@ResponseBody
-	public List<CommentVO> doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+	public String doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+		LOG.debug("===doSelectList=====");
+		LOG.debug("===seq=====" + commentVO.getSeq());
+		LOG.debug("===div===" + commentVO.getDiv());
 
-		return commentservice.doSelectList(commentVO);
+		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		Gson gson = new Gson();
+		String json = gson.toJson(list);
+		LOG.debug("json" + json);
+		return json;
 	}
 
 	// 업데이트 테스트 못짜겠고 리스트는 컨트롤러 맞게 짯는지 모르겠음
