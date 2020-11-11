@@ -58,7 +58,7 @@ import com.uver.vo.MemberVO;
 			    	  
 			    	  
 			      }else{
-			    	  message.setMsgContents("입력하신 정보를 확인해주세요.");
+			    	  message.setMsgContents("비밀번호를 확인해주세요.");
 			    	  
 			    	  
 		   		  }  

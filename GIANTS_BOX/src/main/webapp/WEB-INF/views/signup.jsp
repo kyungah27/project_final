@@ -9,7 +9,7 @@
 			<div class="block-heading">
 				<h2 class="text-primary">Sign up</h2>
 			</div>
-			<form>
+			<form onsubmit="return false;">
 				<div class="form-group">
 					<label for="id">Id</label><input class="form-control item"
 						type="text" id="id">
@@ -18,8 +18,8 @@
 					<label for="name">Name</label><input class="form-control item"
 						type="text" id="name">
 				</div>
-				<div class="form-group">
-					<label for="password">Password(대문자,소문자,특수문자,숫자를 조합해 8자리 이상 작성해주세요)</label><input
+				<div class="form-group" >
+					<label for="password"  id ="password_label">Password(대문자,소문자,특수문자,숫자를 조합해 8자리 이상 작성해주세요)</label><input
 						class="form-control item" type="password" id="password">
 				</div>
 				<div class="form-group">
@@ -34,9 +34,10 @@
 							class="form-control item" type="text" id="birthday">
 					</div>
 				</div>
-				<button class="btn btn-primary btn-block" type="submit" id="doReg">Sign
+				<button class="btn btn-primary btn-block"  id="doReg">Sign
 					Up</button>
 			</form>
+			
 		</div>
 	</section>
 </main>
@@ -44,7 +45,7 @@
 <script type="text/javascript">
 	$("#doReg").on("click", function() {
 		alert("doInsert");
-
+		
 		var id = $("#id").val();
 		id = id.trim();
 
@@ -66,7 +67,7 @@
 		password = password.trim();
 		if (null == password || password.length == 0) {
 			$("#password").focus();
-			alert("비밀번호를 입력 하세요.");//{0} 입력하세요. 
+			alert("비밀번호를 입력 하세요.");//{0} 입력하세요.
 			return;
 		}
 
@@ -111,16 +112,17 @@
 
 				var obj = JSON.parse(data);
 				//alert(obj.msgContents);
-				alert(obj.msgId);
-				$("#msgContents").val(obj.msgContents);
-				window.location.href="${context}/login.do";
-
-
+				alert(obj.msgContents);
+				if(obj.msgId == 1){
+					window.location.href="${context}/login.do";
+				}else{
+					$("#password_label").css("color","red");
+				}
 				
 			},
 			error : function(xhr, status, error) {
 				alert("error:" + error);
-			},
+			},                    
 			complete : function(data) {
 			}
 
