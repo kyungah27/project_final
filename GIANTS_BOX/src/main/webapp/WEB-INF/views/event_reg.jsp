@@ -7,19 +7,18 @@
                 <div class="block-heading">
                     <h2 class="text-primary"><strong id="user_id">testId01</strong>님의 이벤트를 시작하세요.</h2>
                 </div>
-                <div class="block-content pb-1">
+                <div class="block-content">
                     <form class="product-info">
                         <div class="row">
                         
                             <div class="col-lg-5 col-md-12 col-sm-12">
-                                <img src="assets/img/main.jpg" class="img-fluid" />
                                 <div id="img_preview" class="flex_container" >
 									<p id="img_area_txt">Drag & Drop</p>
 								</div>
                                 
                                 <div class="custom-file mt-2 mb-3">
-	                                <form id="save_frm" action="${context}/img/doInsert.do" method="post" enctype="multipart/form-data">
-	                                  <input type="file" class="custom-file-input" id="img_picker" onclick="javascript:preview(this.file);" accept="image/jpg, image/png, image/jpeg, image/gif"  />
+	                                <form id="save_frm" action="${context}/img/doInsert.do" method="post">
+	                                  <input type="file" class="custom-file-input" id="img_picker" accept="image/jpg, image/png, image/jpeg, image/gif"  />
 	                                  <label class="custom-file-label" id="img_label" for="customFile">대표 이미지 업로드하기</label>
 	                                </form>
                                 </div>
@@ -80,12 +79,37 @@
 		console.log("document ready"); 
 	});//document ready
 
+	let picker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
 
-	preview.addEventListener('change', function(e){
+	picker.addEventListener('change', function(e){
+		let getFile = e.target.files;
+		let image = document.createElement("img");
+		image.setAttribute("class", "img-fluid");
+		console.log(getFile);
 
+		// FileReader 객체 생성
+		let reader = new FileReader();
+		
+		// FileReader onload 시 이벤트 발생
+		reader.onload = (function(file) {
+			return function (e) {
+				/* base64-encoded String data */
+				console.log("result file");
+				file.src = e.target.result;
+			}
+		})(image)
+		
+		if(getFile){
+			console.log("getFile ()");
+			reader.readAsDataURL(getFile[0]);
+			
+		}
 
-		})
+		console.log("img append");
+		preview.appendChild(image);
+		
+	})
 	
 	
     /* function preview(file){
