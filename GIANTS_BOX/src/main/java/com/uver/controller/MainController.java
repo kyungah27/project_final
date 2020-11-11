@@ -44,7 +44,7 @@ public class MainController {
 	}
 	
 	//--- 이벤트 view 페이지로 이동
-	@RequestMapping(value="eventView.do")
+	@RequestMapping(value="event_view.do")
 	public String goEventView() {
 		LOG.debug("-------------------");
 		LOG.debug("eventView()");
@@ -55,7 +55,7 @@ public class MainController {
 	}
 	
 	//--- 이벤트 등록 페이지로 이동
-	@RequestMapping(value="eventReg.do")
+	@RequestMapping(value="event_reg.do")
 	public String goEventReg() {
 		LOG.debug("-------------------");
 		LOG.debug("eventReg()");
@@ -66,7 +66,7 @@ public class MainController {
 	}
 	
 	//--- 로그인 후 이벤트 페이지로 이동
-	@RequestMapping(value="mainUser.do")
+	@RequestMapping(value="main_user.do")
 	public String goMainUser() {
 		LOG.debug("-------------------");
 		LOG.debug("mainUser()");
