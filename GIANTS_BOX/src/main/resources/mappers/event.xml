@@ -19,11 +19,21 @@
 	<sql id="searchCondition">
 		<choose>
 			<when test=" '10' == searchDiv">
-				AND event_nm like #{searchWord} || '%'
+				<where>
+				 user_id like '%' || #{searchWord} || '%'
+				</where>
 			</when>
 		
 			<when test=" '20' == searchDiv">
-				AND content like #{searchWord} || '%'
+				<where>
+				event_nm like '%' || #{searchWord} || '%'
+				</where>
+			</when>
+			
+			<when test=" '30' == searchDiv">
+				<where>
+				genre like '%' || #{searchWord} || '%'
+				</where>
 			</when>
 		</choose>
 	</sql>
@@ -32,41 +42,40 @@
 
 	<!-- 목록조회 -->
 	<select id="doSelectList" parameterType="Search" resultType="EventVO">
- SELECT T1.*,
-		T2.*                                                           
- FROM                                                                       
-  (                                                                         
-      SELECT B.rnum as num,                                                        
-             B.event_seq AS eventSeq,                                                   
-             B.user_id AS userId,                                                     
-             B.event_nm AS eventNm,                                                    
-             B.content,                                                     
-             B.capacity,                                                    
-             B.movie_info AS movieInfo,                                                  
-             B.start_dt AS startDt,                                                    
-             B.end_dt AS end_Dt,                                                      
-             B.location,                                                    
-             DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
-                   ,TO_CHAR(B.reg_dt,'HH24:MI')                             
-                   ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
-             B.target_dt AS targetDt,                                                   
-             B.reg_id AS regId                                                       
-      FROM (                                                                
-          SELECT ROWNUM rnum, A.*                                           
-          FROM(                                                             
-              SELECT *                                                      
-              FROM event                                                    
-              ORDER BY reg_dt DESC                                          
-          )A                                                                
-          WHERE ROWNUM <![CDATA[ <= ]]>  ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize})              
-
-      )B                                                                    
-      WHERE b.rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )                              
-      )T1                                                                   
-      CROSS JOIN                                                           
-      (SELECT COUNT(*) total_cnt                                            
-       FROM  event                         
-      )T2                                                   
+SELECT T1.*,T2.*                                                            
+		FROM                                                                        
+		 (                                                                          
+		     SELECT B.rnum AS num,                                   
+		            B.event_seq AS eventSeq,                        
+					B.user_id AS userId,                                 
+					B.event_nm AS eventNm,                     
+					B.content,                                                     
+					B.capacity,                                                    
+					B.movie_info AS movieInfo, 
+					B.location,                                                    
+					DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
+						  ,TO_CHAR(B.reg_dt,'HH24:MI')                             
+					      ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
+					B.target_dt AS targetDt,                                  
+					B.reg_id AS regId,
+					B.genre                   
+		     FROM (                                                                 
+		         SELECT ROWNUM rnum, A.*                                            
+		         FROM(                                                              
+		             SELECT *                                                       
+		             FROM  event 
+		             <include refid="searchCondition"/>                                               
+		             ORDER BY reg_dt DESC                                           
+		         )A                                                                 
+		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
+		     )B                                                                     
+		     WHERE B.rnum <![CDATA[ >= ]]> (#{pageSize} *(#{pageNum}-1)+1)                           
+		     )T1                                                                    
+		     CROSS JOIN                                                             
+		     (SELECT COUNT(*) totalCnt                                             
+		      FROM  event
+		      <include refid="searchCondition"/>                                                       
+		     )T2    
 	</select>
 
 
@@ -93,6 +102,7 @@
 		    ,location = #{location,jdbcType=VARCHAR}   
 		    ,target_dt = #{targetDt,jdbcType=VARCHAR}  
 		    ,reg_id = #{regId,jdbcType=VARCHAR}
+		    ,genre = #{genre,jdbcType=VARCHAR}
 		WHERE event_seq = #{eventSeq,jdbcType=INTEGER} 
 	</update>
 	
@@ -121,7 +131,8 @@
 		    location,          
 		    reg_dt,            
 		    target_dt,         
-		    reg_id             
+		    reg_id,
+		    genre             
 		) VALUES (             
 		    #{eventSeq},                 
 		    #{userId},                 
@@ -134,7 +145,8 @@
 		    #{location},                 
 		    SYSDATE,           
 		    #{targetDt},                 
-		    #{regId}                 
+		    #{regId},
+		    #{genre}                 
 		)                      
 	
 	</insert>
