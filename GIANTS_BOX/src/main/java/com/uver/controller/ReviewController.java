@@ -19,7 +19,7 @@ import com.uver.vo.ReviewVO;
 	public class ReviewController {
 	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
-	@Autowired
+	
 	ReviewService reviewservice;
 
 	public ReviewController() {
@@ -31,7 +31,8 @@ import com.uver.vo.ReviewVO;
 
 	
 	
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, 
+			produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");

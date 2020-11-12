@@ -26,6 +26,13 @@ public interface MemberService {
 	 */
 	int regPw(MemberVO inputUser) throws ClassNotFoundException, SQLException;
 	
+	/**
+	 * 아이디 하나 조회
+	 * @param inputUser
+	 * @return
+	 */
+	public MemberVO selectOne(MemberVO inputUser);
+	
 	
 	/**
 	 * 아이디 중복 확인

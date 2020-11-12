@@ -32,8 +32,8 @@
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
 						type="email" id="email">
-					<div class="form-group">(ex. -없이 번호만 입력해주세요)
-						<label for="phone" id ="phone_label">Phone</label><input class="form-control item"
+					<div class="form-group">
+						<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
 							type="text" id="phone">
 					</div>
 					<div class="form-group">
@@ -52,6 +52,7 @@
 <script type="text/javascript">
     //회원가입
 	$("#doReg").on("click", function() {
+		
 		
 		var id = $("#id").val();
 		id = id.trim();
