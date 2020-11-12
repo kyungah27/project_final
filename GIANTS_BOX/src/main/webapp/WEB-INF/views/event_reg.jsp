@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="movie_info" class="col-form-label col-lg-3">영화</label>
-                                    <input type="text" class="form-control form-control" id="movie_code" placeholder="영화" aria-label="movie_info" />
+                                    <input type="text" class="form-control form-control" id="movie_code" placeholder="영화" aria-label="movie_info" readonly />
                                     <button type="button" id="search_movie" class="btn btn-outline-primary btn-sm" type="button">영화검색</button>
                                 </div>
                                 <div class="input-group mb-3">
