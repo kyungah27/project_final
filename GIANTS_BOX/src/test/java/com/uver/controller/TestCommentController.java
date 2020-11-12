@@ -61,7 +61,7 @@ public class TestCommentController {
 	public void setUp() throws Exception {
 		LOG.debug("=========================");
 		LOG.debug("=setUp()=");
-		commentVO = Arrays.asList(new CommentVO(1, 2, "10", "재밌어요", "", "ehgml", ""),
+		commentVO = Arrays.asList(new CommentVO(1, 2, "10", "재밌어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", ""),
 				new CommentVO(2, 4, "10", "재밌어요ㅋㅋ", "", "ehgml", ""));
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		LOG.debug("=mockMvc=" + mockMvc);
@@ -78,7 +78,7 @@ public class TestCommentController {
 	public void doDelete() throws Exception {
 		// url,param set
 		CommentVO comment = commentVO.get(0);
-		comment.setCommentSeq(18);
+		comment.setCommentSeq(20);
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/comment/doDelete.do")
 				.param("CommentSeq", String.valueOf(comment.getCommentSeq()));
 
