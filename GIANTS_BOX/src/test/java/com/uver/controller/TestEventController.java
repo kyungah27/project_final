@@ -149,9 +149,16 @@ public class TestEventController {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doInsert() throws Exception {
+		
+		eventDaoImpl.doDelete(events.get(0));
+		eventDaoImpl.doDelete(events.get(1));
+		eventDaoImpl.doDelete(events.get(2));
+		
 		EventVO event = events.get(0);
+		
+		
 		
 		MockHttpServletRequestBuilder createMessage = 
 				 MockMvcRequestBuilders.post("/event/doInsert.do")
