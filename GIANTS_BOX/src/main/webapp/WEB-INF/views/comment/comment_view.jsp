@@ -20,14 +20,17 @@
 			style="padding-top: 10px">
 			<b>comment</b>
 			<hr />
-			<form name="commentInsertForm">
+			<form name="commentInsertForm" id="commentInsertForm">  
 				<div>
-
-					<input style="text-align: center; width: 150px;" id="user_id"
+					<input type="hidden" name="regId" id="regId"
+						value="${vo.regId}" /> <input type="hidden"
+						name="seq" id="seq" value="${vo.seq}" /> <input
+						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
+						style="text-align: center; width: 150px;" id="user_id"
 						name="user_id" type="text" class="form-control" value=""
 						readonly="readonly" /><br />
-					<textarea style="resize: none;" rows="5" cols="80" name="contents"
-						id="contents" class="form-control" placeholder="내용을 입력해주세요"></textarea>
+					<textarea style="resize: none;" rows="5" cols="80" name="content"
+						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 					<br />
 					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
 					<input type="button" class="btn btn-primary btn-sm" value="등록"
@@ -78,7 +81,7 @@
 		$("#doInsert").on("click", function() {
 			console.log("#doInsert");
 			var url = "${context}/comment/doInsert.do"
-		
+
 			var contents = $("#contents").val();//댓글 내용
 			console.log("contents:" + contents);
 			if (null == contents || contents.trim().length == 0) {
@@ -95,18 +98,18 @@
 				data : {
 					/* 	 "seq" : $("#seq").val(),
 						"div" : $("#div").val(),  */
-					"contents" : $("#contents").val()
+					//"contents" : $("#contents").val()
+					"regId" : "yeji"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
-					var message = JSON.parse(data);
-
-					alert(meesage.msgContents);
 					// 둘 중 하나 삭제하기
 					alert("댓글이 등록되었습니다")
-					if (data == 1)
+					if (data != null) {
+						alert("댓글이 삭제되었습니다");
+						$("#commentList").empty();
 						commentList();
-
+					}
 					//moveToListView()
 
 				},
@@ -122,7 +125,8 @@
 		function commentList() {//10:이벤트 20:이벤트 후기
 
 			var url = "${context}/comment/doSelectList.do"
-			$.ajax({
+			$
+					.ajax({
 						type : "get", //get방식으로 자료를 전달한다
 						url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
 						data : {
@@ -136,9 +140,11 @@
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$.each(commentList,function(i, vo) {
+								$
+										.each(
+												commentList,
+												function(i, vo) {
 
-												
 													console.log(vo.commentSeq);
 													console.log(vo.content);
 													console.log(vo.modDt);
@@ -158,7 +164,9 @@
 													html += '<p>';
 													html += '<span>';
 													html += vo.modDt;
-													html += '<input type="button" onclick="commentdelete('+vo.commentSeq+');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
+													html += '<input type="button" onclick="commentdelete('
+															+ vo.commentSeq
+															+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
 													html += '<input type="button" class="btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
 
@@ -177,34 +185,33 @@
 
 		}
 		function commentdelete(commentSeq) {
-			console.log("commentdelete"+commentSeq);
-			
-			var url = "${context}/comment/doDelete.do"
-		$.ajax({
-			type : "POST",//데이터를 보낼 방식
-			url : url,//데이터를 보낼 url
-			dataType : "html",
-			data : {
-				 	 "commentSeq" : commentSeq
-			},//보낼 데이터
-			success : function(data) { //성공
-				console.log("data=" + data);
-				console.log("commentSeq=" + commentSeq);
-				if(data != null){
-					alert("댓글이 삭제되었습니다");
-					$("#commentList").empty();
-					commentList();
-				}else{
-					alert("실패 삭제되었습니다");
-				}
-			
-				
-			},
-			error : function(xhr, status, error) {
-				alert(meesage.msgContents);
-			}
+			console.log("commentdelete" + commentSeq);
 
-		});//--ajax
+			var url = "${context}/comment/doDelete.do"
+			$.ajax({
+				type : "POST",//데이터를 보낼 방식
+				url : url,//데이터를 보낼 url
+				dataType : "html",
+				data : {
+					"commentSeq" : commentSeq
+				},//보낼 데이터
+				success : function(data) { //성공
+					console.log("data=" + data);
+					console.log("commentSeq=" + commentSeq);
+					if (data != null) {
+						alert("댓글이 삭제되었습니다");
+						$("#commentList").empty();
+						commentList();
+					} else {
+						alert("실패 삭제되었습니다");
+					}
+
+				},
+				error : function(xhr, status, error) {
+					alert(meesage.msgContents);
+				}
+
+			});//--ajax
 		}
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
