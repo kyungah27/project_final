@@ -23,7 +23,7 @@
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
-			<b>comment</b> <br /> <br />
+			<b>comment</b> <hr/>
 			<form name="commentInsertForm">
 				<div>
 
@@ -35,7 +35,7 @@
 					<br />
 					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
 					<input type="button" class="btn btn-primary btn-sm" value="등록"
-						id="doInsert" />
+						id="doInsert" style="float: right" /> <br />
 				</div>
 			</form>
 		</div>
@@ -45,21 +45,26 @@
 			style="padding-top: 10px">
 			<b>comment list</b>
 			<hr />
+			<!-- json에 추가해주기 -->
 			<div>
-				<b>ehgml</b>&nbsp;
-				<button class="love" id="like"
+				<span><b>ehgml</b></span>
+				<button id="like"
 					style="background-color: #ffffff; float: right; border: none;">
 					<img src="${context}/resources/img/comment/heart.png"
 						style="width: 20px;">
 				</button>
 				<br />
 				<div>진짜 너무재밌네요~~ㅋㅋㅋㅋㅋㅋzz</div>
-				<br /> <br /> <span>2020.11.11</span> <input type="button"
-					class="btn btn-primary btn-sm" value="삭제" id="doDelete"
-					style="float: right"><input type="button"
-					class="btn btn-primary btn-sm" value="수정" id="doUpdate"
-					style="float: right">
+				<br /> <br />
+				<p>
+					<span>2020.11.11</span> <input type="button"
+						class="btn btn-primary btn-sm" value="삭제" id="doDelete"
+						style="float: right"> <input type="button"
+						class="btn btn-primary btn-sm" value="수정" id="doUpdate"
+						style="float: right"> <br />
+				</p>
 			</div>
+			<!-- //제이슨 추가 -->
 			<div id="commentList" class="commentList">
 				<!--  그리기 -->
 			</div>
@@ -68,7 +73,7 @@
 		<!-- 댓글리스트  -->
 	</div>
 	<!-- 흰색배경 -->
-	</div>
+
 	<!-- container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -120,30 +125,56 @@
 		function commentList() {//10:이벤트 20:이벤트 후기
 
 			var url = "${context}/comment/doSelectList.do"
-			$.ajax({
-				type : "get", //get방식으로 자료를 전달한다
-				url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
-				data : {
-					"seq" : "2",
-					"div" : "10"
-				},
-				success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
-					var commentList = JSON.parse(data);
-					console.log("commentList=" + commentList);
-					var html = "";
+			$
+					.ajax({
+						type : "get", //get방식으로 자료를 전달한다
+						url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
+						data : {
+							"seq" : "2",
+							"div" : "10"
+						},
+						success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
 
-					if (null != commentList && commentList.length > 0) {
-						$.each(commentList, function(i, value) {
-							console.log(value.commentSeq);
+							var commentList = data;//JSON.parse(data);
+							console.log("commentList=" + commentList);
+							var html = "";
 
-						});
-					}
-					// $("#commentList").html(htmls);
-				},
-				error : function(xhr, status, error) {
-					alert("error:" + error);
-				}
-			});
+							if (null != commentList && commentList.length > 0) {
+								$.each(
+												commentList,
+												function(i, vo) {
+													console.log(vo.commentSeq);
+													console.log(vo.content);
+													console.log(vo.modDt);
+													html += '<span>'
+													html += '[' + vo.regId
+															+ ']';
+													html += '<button id="like" style="background-color: #ffffff; float: right; border: none;">';
+													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;">'
+													html += '</button>'
+													html += '</span>'
+													html += '<br/>';
+													html += '<div>'
+															+ vo.content
+													'</div>';
+													html += '<br/>';
+													html += '<p>';
+													html += '<span>';
+													html += vo.modDt;
+													html += '<input type="button" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
+													html += '<input type="button"class="btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
+													html += '</p>';
+
+												});
+								console.log(html);
+								$("#commentList").append(html);
+							}
+							// $("#commentList").html(htmls);
+						},
+						error : function(xhr, status, error) {
+							alert("error:" + error);
+						}
+					});
 
 		}
 

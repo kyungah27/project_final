@@ -1,7 +1,11 @@
 package com.uver.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,9 +145,9 @@ public class CommentController {
 		return json;
 	}
 
-	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+	public String doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException, IOException {
 		LOG.debug("===doSelectList=====");
 		LOG.debug("===seq=====" + commentVO.getSeq());
 		LOG.debug("===div===" + commentVO.getDiv());
@@ -151,6 +155,7 @@ public class CommentController {
 		List<CommentVO> list = commentservice.doSelectList(commentVO);
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
+		// res.setContentType("text/html; charset=UTF-8");
 		LOG.debug("json" + json);
 		return json;
 	}
