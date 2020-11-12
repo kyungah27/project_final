@@ -1,58 +1,6 @@
 /**
  * 
  */
-	function searchOneToNameKM(movieNm) {
-			console.log("searchOneToNameKM");
-			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
-			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
-			url += movieNm;
-			console.log(url);
-			$.ajax({
-				url : url,
-				type : 'GET',
-				dataType : 'html',
-				success : function(s) {
-					var item = JSON.parse(s);
-					console.log(item);
-					data = item.Data[0];
-					result = data.Result[0];		
-					//제목
-					var title = result.title;
-					console.log(title);										
-					//감독
-					var director = result.directors.director[0].directorNm;
-					console.log(director);
-					//출연
-					$.each(result.actors.actor, function(i,actor) {
-						if(i == 3) return false;
-						var actors = "";
-						actors += actor.actorNm+"  ";
-						console.log(actors);
-					})							
-					//장르
-					var genre = result.genre;
-					console.log(genre); 								
-					//코드
-					var DOCID = result.DOCID;
-					console.log(DOCID); 
-					//포스터 url
-					var poster = result.posters;
-					poster = poster.split("|");
-					var posterUrl = poster[0];
-					console.log(posterUrl); 
-					// 줄거리
-					var plot = result.plots.plot[0].plotText;
-					console.log(plot); 				
-				 			
-				},
-				error : function(xhr, status, error) {
-					alert("error:" + error);
-				},
-				complete : function(data) {
-				}
-			})
-		}
-
 
 		function searchToNameKM(movieNm) {
 			console.log("searchToNameKM");
@@ -122,6 +70,61 @@
 				}
 			})
 		}
+		
+		function searchOneToNameKM(movieNm) {
+			console.log("searchOneToNameKM");
+			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
+			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
+			url += movieNm;
+			console.log(url);
+			$.ajax({
+				url : url,
+				type : 'GET',
+				dataType : 'html',
+				success : function(s) {
+					var item = JSON.parse(s);
+					console.log(item);
+					data = item.Data[0];
+					result = data.Result[0];		
+					//제목
+					var title = result.title;
+					console.log(title);										
+					//감독
+					var director = result.directors.director[0].directorNm;
+					console.log(director);
+					//출연
+					$.each(result.actors.actor, function(i,actor) {
+						if(i == 3) return false;
+						var actors = "";
+						actors += actor.actorNm+"  ";
+						console.log(actors);
+					})							
+					//장르
+					var genre = result.genre;
+					console.log(genre); 								
+					//코드
+					var DOCID = result.DOCID;
+					console.log(DOCID); 
+					//포스터 url
+					var poster = result.posters;
+					poster = poster.split("|");
+					var posterUrl = poster[0];
+					console.log(posterUrl); 
+					// 줄거리
+					var plot = result.plots.plot[0].plotText;
+					console.log(plot); 				
+				 			
+				},
+				error : function(xhr, status, error) {
+					alert("error:" + error);
+				},
+				complete : function(data) {
+				}
+			})
+		}
+
+
+
 
 
 
@@ -224,3 +227,5 @@
 				}
 			})
 		}
+		
+		
