@@ -35,7 +35,8 @@
                                 </div>
                                  <div class="input-group mb-3">
                                     <label for="target_dt" class="col-form-label  col-lg-3">이벤트 일시</label>
-                                    <input type='text' class="form-control" name='target_dt' />
+                                    <input type='text' class="form-control" id='target_dt_form' />
+                                    <input type='text' class="form-control" id='target_dt' />
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="start_dt" class="col-form-label col-lg-3">모집 시작일</label>
@@ -70,6 +71,8 @@
     
    
 <%@ include file="cmn/footer1.jsp" %>
+
+
  <!-- javascript -->
     <script type="text/javascript">
     
@@ -121,7 +124,7 @@
     start.setHours(5);
     start.setMinutes(0);
 
-    $('#target_dt').datepicker({
+    $('#target_dt_form').datepicker({
         timepicker: true,
         language: 'en',
         startDate: start,
@@ -134,15 +137,30 @@
             var day = d.getDay();
 
             // Trigger only if date is changed
-            if (prevDay != undefined && prevDay == day) return;
-            prevDay = day;
+            if (prevDay != undefined && prevDay == day) {
+            	formatDt(fd);
+            	formatDt(d);
+            	
+            	return;
+            	
+                }
+            formatDt(fd);
         },
 		
     	dateFormat: 'yyyy-mm-dd',
     	timeFormat: 'hh:ii AA'
     })
     
-    //$('#target_dt')
+    var date = parse('2016-04-18');
+	function parse(str) {
+	    var y = str.substr(0, 4);
+	    var m = str.substr(4, 2);
+	    var d = str.substr(6, 2);
+	    return new Date(y, m-1, d);
+	}
+	
+
+   
     
     //---[datetime picker]---------------------------------------
 
