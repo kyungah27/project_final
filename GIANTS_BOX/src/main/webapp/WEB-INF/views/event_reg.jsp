@@ -116,12 +116,18 @@
 											this.aListener = listener;
 						}
 		};
-		
+
+		//---[성공여부 listener]
 		flag.registerListener(function(val) {
 			if(flag.a==1){
 				moveToList();
 			}
 		});
+
+		//---[redirect]
+		function moveToList(){
+			window.location.href="main.do";
+		}
 				
 		//---[img insert]
 		const form = $("#img_frm")[0];
@@ -158,9 +164,7 @@
 
 
 	
-	function moveToList(){
-		window.location.href="main.do";
-	}
+	
 	
 	
 	
