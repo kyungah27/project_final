@@ -14,6 +14,7 @@
                             <div class="col-lg-5 col-md-12 col-sm-12">
                                 <div id="img_preview" class="flex_container" >
 									<p id="img_area_txt">Drag & Drop</p>
+									<img id="img_area_img"></img>
 								</div>
                                 
                                 <div class="custom-file mt-2 mb-3">
@@ -126,7 +127,7 @@
 
 		//---[redirect]
 		function moveToList(){
-			window.location.href="main.do";
+			window.location.href="event_view.do";
 		}
 				
 		//---[img insert]
@@ -176,7 +177,7 @@
 	//---[img preview]----------------------------------------
 	picker.addEventListener('change', function(e){
 		let getFile = e.target.files;
-		let image = document.createElement("img");
+		let image = document.getElementById('img_area_img');
 		image.setAttribute("class", "img-fluid");
 
 		// FileReader 객체 생성
@@ -193,7 +194,7 @@
 			reader.readAsDataURL(getFile[0]);
 		}
 
-		preview.appendChild(image);
+		//preview.appendChild(image);
 	})
 	//---//[img preview]----------------------------------------
 	
