@@ -21,18 +21,21 @@
 			<when test=" '10' == searchDiv">
 				<where>
 				 user_id like '%' || #{searchWord} || '%'
+				 AND target_dt like '%' || #{searchDate} || '%'
 				</where>
 			</when>
 		
 			<when test=" '20' == searchDiv">
 				<where>
 				event_nm like '%' || #{searchWord} || '%'
+				AND target_dt like '%' || #{searchDate} || '%'
 				</where>
 			</when>
 			
 			<when test=" '30' == searchDiv">
 				<where>
 				genre like '%' || #{searchWord} || '%'
+				AND target_dt like '%' || #{searchDate} || '%'
 				</where>
 			</when>
 		</choose>

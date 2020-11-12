@@ -45,8 +45,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + dao);
-		review01 = new ReviewVO(45, 1002,"이벤트펭수", "이벤트", "추가", "", 10, "");
-		review02 = new ReviewVO(71, 2, "이벤트 김펭수", "이벤트 날씨", "이벤트 모올라", "",20, "");
+		review01 = new ReviewVO(87, 1002,"검사1", "이벤트", "추가", "20/11/15", 10, "20/11/15");
+		review02 = new ReviewVO(71, 2, "검사2", "이벤트 날씨", "이벤트 모올라", "20/11/15",20, "20/11/15");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -69,22 +69,23 @@ public class TestReviewDao {
 	
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void test() {
 		int flag = 0;
 		// 삭제
-		// dao.doDelete(review01);
+		 flag = dao.doDelete(review01);
+		 LOG.debug("flag:"+flag);
 		// dao.doDelete(review02);
 
 		// 삽입
-		// flag = dao.doInsert(review01);
+		//flag = dao.doInsert(review01);
 		//assertThat(flag, is(1));
 		// flag = dao.doInsert(review02);
 		// assertThat(flag, is(1));
 
 		// 수정		 		
 		//flag = dao.doUpdate(review01);		
-		//ReviewVO updateVO = new ReviewVO(70, 2, "김펭수_U", "이벤트 날씨U", "이벤트 모올라U", "",20, "");
+		//ReviewVO updateVO = new ReviewVO(47, 100, "수수정_U", "이벤트 날씨U", "이벤트 모올라U", "",20, "");
 		//flag = dao.doUpdate(updateVO);
 		//assertThat(flag, is(1));
 		
@@ -99,22 +100,23 @@ public class TestReviewDao {
 	}//test
 		 
 		 @Test
-		  //@Ignore
+		  @Ignore
 		    public void doUpdate() throws ClassNotFoundException, SQLException {			 
 			 
 		    	//1.기존데이터 삭제
-			 dao.doDelete(review01);
+			 //dao.doDelete(review01);
 			 //dao.doDelete(review02);
 		    	
 		    	
 		    	//2.단건입력
-		    	int flag =dao.doInsert(review01);
+		    	//int flag =dao.doInsert(review01);
+			 	int flag =dao.doUpdate(review01);
 		    	assertThat(1, is(1));
 		    	//3.수정
-				review01=new ReviewVO(45, 2, "김펭수_U", "이벤트 날씨U", "이벤트 모올라U", "",20, "");//BASIC
+				review01=new ReviewVO(49, 1002, "저장해요", "이벤트 날씨U", "이벤트 모올라U", "",20, "");//BASIC
 				//review01=new ReviewVO((review01.getReview_seq()), (review01.getEventSeq()), "", "", "", "","","");
 				//review01.setReview_seq(review01.getReview_seq());
-				//review01.setEventSeq(review01.getEventSeq());
+				review01.setEventSeq(review01.getEventSeq());
 		    	review01.setWriter(review01.getWriter()+"_U");
 		    	review01.setTitle(review01.getTitle()+"_U(title)");
 		    	review01.setContext(review01.getContext()+"_U(context)");
@@ -122,6 +124,7 @@ public class TestReviewDao {
 		    	
 		    	
 		    	flag = dao.doUpdate(review01);
+		    	LOG.debug("flag:"+flag);
 		    	assertThat(1, is(1));	    	 	
 		    	
 		    }
