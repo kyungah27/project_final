@@ -54,7 +54,9 @@
 
             <div class="container">
                 <div class="flex-item-center">
-                <form class="form-horizontal" action="" name="event_reg" method="post" > 
+                <form class="form-horizontal" action="${hContext}/event/event_view.do" name="event_reg" method="post" > 
+                    <input type="hidden" name="event_seq" id="event_seq"/>
+                    
                     <div class="form-group"><input class="form-control item" type="button" id="originName" value="이미지 첨부"></div>
                     <div class="form-group"><label for="event_nm">모임명</label><input class="form-control item" type="text" id="event_nm"></div>
                     <div class="form-group"><label for="user_id">호스트</label><input class="form-control item" type="text" id="user_id"></div>
@@ -65,11 +67,12 @@
 					<div class="form-group"><label for="location">장소</label><input class="form-control item" type="text" id="location"></div>
 					<div class="form-group"><label for="content">소개</label><input class="form-control item" type="text" id="content"></div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록하기" id="doInsert"/></div>
+                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록" id="insert_btn"/>
+                    <input type="button" class="btn btn-default btn-block btn-sm" value="취소" id="main_btn"/></div>
 				</div>	
 				</form>
     		</div>
-   
+  
     		</div>
     	</div> 
     	<!--// div container -->
@@ -77,6 +80,8 @@
 </div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>   
+    
+     <script src="${hContext}/resources/js/bootstrap.min.js"></script>
     
     <script type="text/javascript">
 
@@ -86,35 +91,54 @@
 		
 	});//document ready 
 
+	$("#main_btn").on("click", function(){
+		moveToMain();
+	});
+
+	function moveToMain(){
+		window.location.href = "${hContext}/main.do";
+	}
     
 	//--이벤트 등록하기
-	$("#doInsert").on("click", function() {
-		//alert("#doInsert");
+	$("#insert_btn").on("click", function() {
+		console.log("insert_btn");
 		
 		//모임명 체크
-		if($("#event_nm").val()==false || $("#event_nm").val() ==""){
-			alert("모임 이름을 입력해주세요.");
+		var event_nm = $("#event_nm").val();
+		console.log("event_nm:"+event_nm);
+		if(null == event_nm || event_nm.trim().length==0){
+			$("#event_nm").focus();
+			alert("모임명을 입력해주세요.");
 			return ;
 		}
 
 		//정원 체크
-		if($("#capacity").val()==false || $("#capacity").val() ==""){
+		var capacity = $("#capacity").val();
+		console.log("capacity:"+capacity);
+		if(null == capacity || capacity.trim().length==0){
+			$("#capacity").focus();
 			alert("정원을 입력해주세요.");
 			return ;
-		}				
+		}			
 
 			
 
 		//주최일 체크
-		if($("#target_dt").val()==null || $("#target_dt").val() ==""){
+		var target_dt = $("#target_dt").val();
+		console.log("target_dt:"+target_dt);
+		if(null == target_dt || target_dt.trim().length==0){
+			$("#target_dt").focus();
 			alert("일정을 입력해주세요.");
 			return ;
 		}
 
 
 		//모임 소개
-		if($("#content").val()==false || $("#content").val() ==""){
-			alert("모임 소개를 작성해주세요.");
+		var content = $("#content").val();
+		console.log("content:"+content);
+		if(null == content || content.trim().length==0){
+			$("#content").focus();
+			alert("소개를 작성해주세요.");
 			return ;
 		}
 														
@@ -126,36 +150,41 @@
 	           url:"${hContext}/event/doInsert.do",
 	           dataType:"html",
 	           data:{
-	           "event_nm":$("#event_nm").val().trim(),
-	           "user_id":$("#user_id").val().trim(),
-	           "capacity":$("#capacity").val().trim(),
-	           "target_dt":$("#target_dt").val(),
-	           "start_dt":$("#start_dt").val().trim(),
-	           "end_dt":$("#end_dt").val().trim(),
-	           "location":$("#location").val().trim(),
-	           "content":$("#content").val().trim()
-	          }, 
+	        	   "event_nm":$("#event_nm").val(),
+	        	   "user_id":$("#user_id").val(),
+	        	   "capacity":$("#capacity").val(),    
+	        	   "target_dt":$("#target_dt").val(),
+	        	   "start_dt":$("#start_dt").val(),
+	        	   "end_dt":$("#end_dt").val(),
+	        	   "location":$("#location").val(),
+	        	   "content":$("#content").val()
+		           },
+	            
 	        success: function(data){
-	          var jData = JSON.parse(data);
-	          if(null != jData && jData.msgId=="1"){
-	            alert(jData.msgContents);
+	        	console.log("data="+data);
+			    alert("data:"+data);
+
+				
+	        	var jsonObj = JSON.parse(data);
+			       console.log("msgId="+jsonObj.msgId);
+			       console.log("msgContents="+jsonObj.msgContents);
+	          if(null != jsonObj && jsonObj.msgId=="1"){
+	            alert(jsonObj.msgContents);
 	            //다시조회
-	            doSelectList(1);
-	          }else{
-	            alert(jData.msgId+"|"+jData.msgContents);
+	            moveToMain();
 	          }
 	        },
-	        complete:function(data){
-	         
-	        },
+	        
 	        error:function(xhr,status,error){
 	            alert("error:"+error);
-	        }
-	
-	        }); 
-	       //--ajax 	
+	        },
+			complete:function(data){     
+
+		     }
+	        
+	       }); //--ajax 	
         
-	})//update_btn
+	});//doInsert
     
 	</script>
   </body>

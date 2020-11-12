@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -35,7 +36,7 @@ public class TestMemberService {
 	WebApplicationContext context;
 	
 	@Autowired
-	MemberServiceImpl memberServiceImpl;
+	MemberService memberServiceImpl;
 	
 	MemberVO member01;
 	MemberVO member02;
@@ -58,6 +59,7 @@ public class TestMemberService {
 	}
 
 	@Test
+	@Ignore
 	public void regTest() throws ClassNotFoundException, SQLException {
 		
 		//비밀번호 조건 테스트
@@ -69,8 +71,18 @@ public class TestMemberService {
 		
 	}
 	
+	@Test
+	public void idCheckTest() {
+		
+		MemberVO regIdUser = new MemberVO();
+		regIdUser.setUserId("H170_02");
+		int resultIdCheck = memberServiceImpl.idCheck(regIdUser);
+		assertThat(0, is(resultIdCheck));
+		
+	}
 	
 	@Test
+	@Ignore
 	public void test() {
 		//로그인 테스트
 				MemberVO loginUser = new MemberVO(); // 사용자가 입력해줄 값 

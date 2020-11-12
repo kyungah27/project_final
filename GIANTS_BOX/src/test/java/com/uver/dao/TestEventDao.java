@@ -50,9 +50,9 @@ public class TestEventDao {
     	LOG.debug("** context **"+context);
     	LOG.debug("** eventDao **"+eventDao);
 		
-		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01");
-		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02");
-		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03");
+		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01","코미디");
+		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02","공포");
+		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03","드라마");
 	}
 	
 	@Test
@@ -72,11 +72,26 @@ public class TestEventDao {
 	
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doSeletList() {
-		Search search = new Search("10", "새모임01", 10, 1);
+		
+//		int flag = eventDao.doInsert(event01);
+//		assertThat(flag, is(1));
+//		
+//		flag = eventDao.doInsert(event02);
+//		assertThat(flag, is(1));
+//		
+//		flag = eventDao.doInsert(event03);
+//		assertThat(flag, is(1));
+		
+		Search search = new Search("30", "코미디", 10, 1);
+		//search.setDiv("20");
+		
 		List<EventVO> list = eventDao.doSelectList(search);
-		LOG.debug("list.size():"+list.size());
+		
+		//assertThat(list.size(), is(9));
+		
+		//LOG.debug("list.size():"+list.size());
 	}
 	
 	@Test
@@ -99,6 +114,7 @@ public class TestEventDao {
 		event01.setLocation(event01.getLocation()+"_up");
 		event01.setTargetDt("20/11/13");
 		event01.setRegId(event01.getRegId()+"_up");
+		event01.setGenre("액션");
 		
 		flag = eventDao.doUpdate(event01);
 		assertThat(1, is(1));
@@ -110,6 +126,10 @@ public class TestEventDao {
 	public void doDelete() {
 		event01.setEventSeq(10);
 		int flag = eventDao.doDelete(event01);
+		event02.setEventSeq(20);
+		flag = eventDao.doDelete(event02);
+		event03.setEventSeq(30);
+		flag = eventDao.doDelete(event03);
 		assertThat(flag, is(1));
 	}
 	

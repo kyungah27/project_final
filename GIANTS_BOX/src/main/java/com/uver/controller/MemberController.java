@@ -1,5 +1,7 @@
 package com.uver.controller;
 
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,27 +14,122 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
-import com.uver.service.MemberServiceImpl;
+import com.uver.service.MemberService;
 import com.uver.vo.MemberVO;
 
 	@Controller("MemberController")
 	public class MemberController {
 		private static final Logger LOG = LoggerFactory.getLogger(MemberController.class);
 
-		private final MemberServiceImpl memberService;
+		private final MemberService memberService;
 	
-		public MemberController(MemberServiceImpl memberService) {
+		public MemberController(MemberService memberService) {
 		
 		this.memberService = memberService;
 	}
 	
-	
-//		@RequestMapping(value = "loginn.do")
-//		public String login() {
-//			LOG.debug("ssss");
-//			return "login";
-//		}
-
+		/**
+		 * 회원정보수정
+		 * @param inputUser
+		 * @return
+		 * @throws ClassNotFoundException
+		 * @throws SQLException
+		 */
+		@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @ResponseBody
+		   public String myUpdate(MemberVO inputUser) {
+		   int updateFlag = 0;
+		   
+		   updateFlag = memberService.myUpdate(inputUser);
+		   
+		   Message message = new Message();
+			
+			if(updateFlag == 1) {
+				message.setMsgContents("회원정보가 수정되었습니다.");
+			}else {
+				message.setMsgContents("수정할 정보를 다시 확인해주세요");
+			}
+			
+			 message.setMsgId(updateFlag+"");
+		      Gson gson = new Gson();
+		      String json = gson.toJson(message);
+		      LOG.debug("[json] " + json);
+		      
+		      return json;
+		    
+		 }
+		
+		/**
+		 * ID 중복 확인
+		 * @param inputUser
+		 * @return
+		 * @throws ClassNotFoundException
+		 * @throws SQLException
+		 */
+		@RequestMapping(value = "checkId.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @ResponseBody
+		   public String idCheck(MemberVO inputUser) {
+			int idcheckflag = 0;
+			
+			idcheckflag = memberService.idCheck(inputUser);
+			
+			Message message = new Message();
+			
+			if(idcheckflag == 1) {
+				message.setMsgContents("ID 사용이 가능합니다.");
+			}else {
+				message.setMsgContents("이미 존재하는 ID입니다.");
+			}
+			
+			 message.setMsgId(idcheckflag+"");
+		      Gson gson = new Gson();
+		      String json = gson.toJson(message);
+		      LOG.debug("[json] " + json);
+		      return json;
+		}
+		
+		
+		  /**
+		    * 회원가입
+		    * @param inputUser
+		    * @return
+		 * @throws SQLException 
+		 * @throws ClassNotFoundException 
+		    */
+		   @RequestMapping(value = "regUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @ResponseBody
+		   public String regMember(MemberVO inputUser) throws ClassNotFoundException, SQLException {
+			   	  
+			      int regpwflag = 0;
+			      
+			      LOG.debug("-----------------------");
+			      LOG.debug("MemberController_regMember");
+			      LOG.debug("-----------------------");
+			      
+			      
+			      regpwflag =memberService.regPw(inputUser);
+			      LOG.debug("regpwflag:"+regpwflag);
+			      
+			      Message message = new Message();
+			      if(regpwflag ==1 ) {
+			    	  LOG.debug("regpwflag Success");
+			    	  memberService.regMember(inputUser);
+			    	  message.setMsgContents("회원가입에 성공하였습니다.");
+			    	  	  
+			      }else{
+			    	  message.setMsgContents("비밀번호를 확인해주세요.");
+			    	  
+			      }
+			      message.setMsgId(regpwflag+"");
+			      Gson gson = new Gson();
+			      String json = gson.toJson(message);
+			      LOG.debug("[json] " + json);
+			      return json;
+		   }
+		   
+		   
+		   
+		   
 
 		   /**
 		    * 로그인
@@ -41,7 +138,7 @@ import com.uver.vo.MemberVO;
 		    */
 		   @RequestMapping(value = "loginn.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
-		   public String login(MemberVO inputUser) {
+		   public String idLogin(MemberVO inputUser) {
 
 		      LOG.debug("-----------------------");
 		      LOG.debug("login()");
