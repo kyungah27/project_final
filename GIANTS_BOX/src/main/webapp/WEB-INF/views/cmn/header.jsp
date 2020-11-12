@@ -4,6 +4,7 @@
 <c:set var="context" value="${pageContext.request.contextPath }" />
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,18 +27,49 @@
      <!--calendar-->
     <link href="${context}/resources/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <!--//calendar-->
-    
-    
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white d-flex d-sm-flex align-content-center clean-navbar" style="height: 65px;background-color: rgba(24,109,128,0.58);filter: brightness(100%);opacity: 1;">
-        <div class="container"><a href="main.do"><img src="${context}/resources/img/logo.png" style="width: 174px;filter: blur(0px);"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid">
+        	<a href="main.do">
+        	<img src="${context}/resources/img/logo.png" style="width: 174px;filter: blur(0px);"></a>
+        	<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+        	<span class="sr-only">Toggle navigation</span>
+        	<span class="navbar-toggler-icon"></span></button>
             <div
                 class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link text-secondary active" href="login.do">log in</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link text-secondary" href="signup.do">sign up</a></li>
+                
+                <c:set var="user" value="${user}" />
+                <c:choose>
+                    <c:when test="${!empty user}" >
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary active" href="#">explore</a>
+	                    </li>
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary" href="${context}/my_event.do">my event</a>
+	                    </li>
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary" href="${context}/account.do">my account</a>
+	                    </li>
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary" href="${context}/logout.do">log out</a>
+	                    </li>
+                    </c:when>
+                    <c:otherwise>
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary active" href="${context}/login.do">log in</a>
+	                    </li>
+	                    <li class="nav-item" role="presentation">
+	                    	<a class="nav-link text-secondary" href="${context}/signup.do">sign up</a>
+	                    </li>
+                    </c:otherwise>
+                </c:choose>    
+                    
+                    
+                    
+                    
                 </ul>
         </div>
         </div>

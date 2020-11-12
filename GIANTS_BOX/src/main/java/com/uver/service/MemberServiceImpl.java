@@ -158,8 +158,9 @@ import com.uver.vo.MemberVO;
 					resultVO = vo;
 				}
 			}
+			
 			if (resultVO == null) {
-				LOG.debug("아이디 혹은 비밀번호를 확앤해주세요");
+				LOG.debug("아이디 혹은 비밀번호를 확인해주세요");
 			}
 	
 			return resultVO;
