@@ -31,7 +31,8 @@ import com.uver.vo.ReviewVO;
 
 	
 	
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, 
+			produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");

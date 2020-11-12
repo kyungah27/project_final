@@ -46,8 +46,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + dao);
-		review01 = new ReviewVO(50, 1002,"검사1", "이벤트", "추가", "20/11/15", 10, "20/11/15");
-		review02 = new ReviewVO(71, 2, "검사2", "이벤트 날씨", "이벤트 모올라", "20/11/15",20, "20/11/15");
+		review01 = new ReviewVO(1, 1002,"마이", "바티스", "추가", "20/11/15", 10, "20/11/15");
+		review02 = new ReviewVO(71, 2, "바티스바티스", "테스트", "이벤트 모올라", "20/11/15",20, "20/11/15");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -74,10 +74,12 @@ public class TestReviewDao {
 	public void test() {
 		int flag = 0;
 		// 삽입
-		//flag = dao.doInsert(review01);
-		//assertThat(flag, is(1));
-		// flag = dao.doInsert(review02);
-		// assertThat(flag, is(1));
+		
+		flag = dao.doInsert(review01);
+		assertThat(flag, is(1));
+		flag = dao.doInsert(review02);
+		assertThat(flag, is(1));
+		
 		
 		// 삭제
 		// flag = dao.doDelete(review01);
@@ -94,6 +96,7 @@ public class TestReviewDao {
 		//dao.doSelectOne(review01.getReview_seq());
 		
 		// 리스트 조회
+		/*
 		ReviewVO review = new ReviewVO();
 		review.setEventSeq(1002);
 		review.setDiv(10);
@@ -104,7 +107,7 @@ public class TestReviewDao {
 		// 입력데이터와 비교
 		checkReview(review01, list.get(0));
 		checkReview(review02, list.get(1));
-			
+		*/
 		
 		
 	}//test
