@@ -70,7 +70,7 @@ public class MainController {
 	@RequestMapping(value="main_user.do")
 	public String goMainUser() {
 		LOG.debug("-------------------");
-		LOG.debug("mainUser()");
+		LOG.debug("goMainUser()");
 		LOG.debug("-------------------");
 		
 		//--- 추후 views 폴더에 main.jsp 페이지 설정
@@ -81,11 +81,22 @@ public class MainController {
 	@RequestMapping(value="my_event.do")
 	public String goMyEvent() {
 		LOG.debug("-------------------");
-		LOG.debug("mainUser()");
+		LOG.debug("goMyEvent()");
 		LOG.debug("-------------------");
 		
 		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "my_event";
+	}
+
+	//--- event_update 이동
+	@RequestMapping(value="event_update.do")
+	public String goEventUpdate() {
+		LOG.debug("-------------------");
+		LOG.debug("goEventUpdate()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "event_update";
 	}
 	
 	
