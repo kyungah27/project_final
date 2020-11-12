@@ -1,16 +1,23 @@
 package com.uver.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
+import com.uver.cmn.Search;
+import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
 import com.uver.service.EventService;
 import com.uver.vo.EventImgVO;
@@ -134,28 +141,69 @@ public class EventController {
 		return json;
 	}
 	
-//	@RequestMapping(value="event/doSelectOne.do",method=RequestMethod.GET
-//					,produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public String doSelectOne(EventVO event) {
-//        LOG.debug("==================");
-//        LOG.debug("=event="+event);
-//        LOG.debug("==================");		
-//        
-//      // EventVO outVO =eventService.doSelectOne(event.getUserId());
-//        
-//        LOG.debug("==================");
-//        LOG.debug("=outVO="+event);
-//        LOG.debug("==================");
-//        
-//        Gson gson=new Gson();
-//        String json = gson.toJson(outVO);
-//        LOG.debug("==================");
-//        LOG.debug("=json="+json);
-//        LOG.debug("==================");
-//         
-//        return json;
-//	}
+	@RequestMapping(value="event/doSelectOne.do",method=RequestMethod.GET
+					,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doSelectOne(EventVO event) {
+        LOG.debug("==================");
+        LOG.debug("=event="+event);
+        LOG.debug("==================");		
+        
+       EventVO outVO = this.eventService.doSelectOne(event);
+        
+        LOG.debug("==================");
+        LOG.debug("=outVO="+outVO);
+        LOG.debug("==================");
+        
+        Gson gson=new Gson();
+        String json = gson.toJson(outVO);
+        LOG.debug("==================");
+        LOG.debug("=json="+json);
+        LOG.debug("==================");
+         
+        return json;
+	}
+	
+	@RequestMapping(value="event/doSelectList.do", method=RequestMethod.GET
+					,produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doSelectList(HttpServletRequest req, Search search, Model model) {
+		 LOG.debug("1==================");
+	        LOG.debug("=search="+search);
+	        LOG.debug("==================");
+	        //페이지 num 기본값 처리 
+	        if(search.getPageNum()==0) {
+	        	search.setPageNum(1);
+	        }
+	        
+	        //페이지 사이즈 기본값 처리 
+	        if(search.getPageSize()==0) {
+	        	search.setPageSize(10);
+	        }
+	        
+	        //검색구분
+	        search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
+	        
+	        //검색어
+	        search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
+	        LOG.debug("2==================");
+	        LOG.debug("=null처리 search="+search);
+	        LOG.debug("==================");       
+	        
+	        List<EventVO> list = this.eventService.doSelectList(search);
+	        if(list.size()>0) {
+	        	req.getSession().setAttribute("tot", list.get(0).getTotalCnt());
+	        }
+	        Gson gson=new Gson();
+	        
+			String json = gson.toJson(list);
+	        LOG.debug("3==================");
+	        LOG.debug("=json="+json);
+	        LOG.debug("==================");   		
+			
+	        //model.addAttribute("tot",4);
+			return json;
+	}
 
 	
 }
