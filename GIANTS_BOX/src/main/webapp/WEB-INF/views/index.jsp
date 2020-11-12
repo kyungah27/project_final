@@ -40,8 +40,8 @@
             <p class="d-lg-flex justify-content-lg-start" style="font-size: 22px;">Meet new people and make friends</p>
             
             
-            <a href="event_reg.do">
-            	<button class="btn btn-primary btn-lg" type="button" style="background-color: #0078ff;">Make Event</button>
+            <a href="signup.do">
+            	<button class="btn btn-primary btn-lg" type="button" style="background-color: #0078ff;">Join Us</button>
             </a>
             
             </div>

@@ -5,7 +5,7 @@
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
-                    <h2 class="text-primary"><strong id="user_id">testId01</strong>님의 이벤트를 시작하세요.</h2>
+                    <h2 class="text-primary"><strong id="user_id">${user.userId}</strong>님의 이벤트를 시작하세요.</h2>
                 </div>
                 <div class="block-content">
                     <form class="product-info">
@@ -35,7 +35,7 @@
                                 </div>
                                  <div class="input-group mb-3">
                                     <label for="target_dt" class="col-form-label  col-lg-3">이벤트 일시</label>
-                                    <input type='text' class="form-control" id='target_dt' />
+                                    <input type='text' class="form-control" id="target_dt" placeholder="이벤트 일시" aria-label="target_dt" />
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="start_dt" class="col-form-label col-lg-3">모집 시작일</label>
@@ -76,8 +76,10 @@
 
 
 
- <!-- javascript -->
- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+ 
+<%@ include file="cmn/footer1.jsp" %>
+
+<!-- javascript -->
     <script type="text/javascript">
     
     //모든 컨트롤(element)가 로딩이 완료시
@@ -85,9 +87,11 @@
 		console.log("document ready"); 
 	});//document ready
 
+	
 	let picker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
-
+	
+	//---[img preview]----------------------------------------
 	picker.addEventListener('change', function(e){
 		let getFile = e.target.files;
 		let image = document.createElement("img");
@@ -100,7 +104,7 @@
 		// FileReader onload 시 이벤트 발생
 		reader.onload = (function(file) {
 			return function (e) {
-				/* base64-encoded String data */
+				// base64-encoded String data
 				console.log("result file");
 				file.src = e.target.result;
 			}
@@ -116,48 +120,61 @@
 		preview.appendChild(image);
 		
 	})
+	//---[img preview]----------------------------------------
 	
 	
 
 	$("#search_movie").on("click",function(){
-					//$(document).find('#selected_seq').val($(this).val());
+			//$(document).find('#selected_seq').val($(this).val());
 			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
 	}) ;
 
 	
 	
 	
-    /* function preview(file){
-		console.log("file: "+file);
+	//---[datetime picker]----------------------------------------------
+    // Create start date
+    var start = new Date(),
+        prevDay,
+        startHours = 5;
 
-		// FileReader 객체 생성
-		let reader = new FileReader();
-				
-		// FileReader onload 시 이벤트 발생
-		reader.onload = function(file) {
-			const img = document.createElement("img");
-			img.setAttribute("src", this.result);
-			img.setAttribute("height", "150px");
+    // 05:00 AM 부터
+    start.setHours(5);
+    start.setMinutes(0);
 
-			const flexDiv = document.createElement("div");
+    $('#target_dt').datepicker({
+        timepicker: true,
+        language: 'en',
+        startDate: start,
+        minHours: startHours,
+        maxHours: 24,
+        onSelect: function (fd, d, picker) {
+            // Do nothing if selection was cleared
+            if (!d) return;
 
-			const a = document.createElement("a");
-			a.setAttribute("href", "#");
-			a.setAttribute("name", "removeImg");
-			
-			flexDiv.appendChild(img);
-			flexDiv.appendChild(a);
+            var day = d.getDay();
 
-			document.querySelector("div#img_preview")
-						.appendChild(flexDiv);
-
-			flexDiv.setAttribute("class", "flex_item");
-		};
-
-		//reader.readAsDataURL(file);
-	} */
+            // Trigger only if date is changed
+            if (prevDay != undefined && prevDay == day) {
+                //---picking 할때마다 date 값 받기------------
+                console.log(fd);
+                return;
+            }
+        },
+		
+    	dateFormat: 'yyyy-mm-dd',
+    	timeFormat: 'hh:ii AA'
+    })
+    
+    var date = parse('2016-04-18');
+	function parse(str) {
+	    var y = str.substr(0, 4);
+	    var m = str.substr(4, 2);
+	    var d = str.substr(6, 2);
+	    return new Date(y, m-1, d);
+	}
+    //---[datetime picker]---------------------------------------
 
 
 	</script>
-<%@ include file="cmn/footer1.jsp" %>
 <%@ include file="cmn/footer2.jsp" %>

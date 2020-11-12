@@ -35,8 +35,7 @@
                                 </div>
                                  <div class="input-group mb-3">
                                     <label for="target_dt" class="col-form-label  col-lg-3">이벤트 일시</label>
-                                    <input type='text' class="form-control" id='target_dt_form' />
-                                    <input type='text' class="form-control" id='target_dt' />
+                                    <input type='text' class="form-control" id='target_dt' placeholder="이벤트 일시" aria-label="target_dt" />
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="start_dt" class="col-form-label col-lg-3">모집 시작일</label>
@@ -81,9 +80,11 @@
 		console.log("document ready"); 
 	});//document ready
 
+
 	let picker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
-
+	
+	//---[img preview]----------------------------------------
 	picker.addEventListener('change', function(e){
 		let getFile = e.target.files;
 		let image = document.createElement("img");
@@ -112,6 +113,10 @@
 		preview.appendChild(image);
 		
 	})
+	//---[img preview]----------------------------------------
+	
+	
+	
 	
 	
     //---[datetime picker]----------------------------------------------
@@ -120,11 +125,11 @@
         prevDay,
         startHours = 5;
 
-    // 05:00 AM
+    // 05:00 AM 부터
     start.setHours(5);
     start.setMinutes(0);
 
-    $('#target_dt_form').datepicker({
+    $('#target_dt').datepicker({
         timepicker: true,
         language: 'en',
         startDate: start,
@@ -138,13 +143,10 @@
 
             // Trigger only if date is changed
             if (prevDay != undefined && prevDay == day) {
-            	formatDt(fd);
-            	formatDt(d);
-            	
-            	return;
-            	
-                }
-            formatDt(fd);
+                //---picking 할때마다 date 값 받기------------
+                console.log(fd);
+                return;
+            }
         },
 		
     	dateFormat: 'yyyy-mm-dd',
@@ -158,11 +160,10 @@
 	    var d = str.substr(6, 2);
 	    return new Date(y, m-1, d);
 	}
-	
-
-   
-    
     //---[datetime picker]---------------------------------------
+    
+    
+    
 
 	</script>
 <%@ include file="cmn/footer2.jsp" %>
