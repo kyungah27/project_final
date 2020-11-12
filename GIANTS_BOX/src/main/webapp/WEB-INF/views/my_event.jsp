@@ -16,8 +16,9 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <div class="container">
-                            <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
+                           <div class="d-flex flex-row justify-content-between block-heading" style="margin-bottom: 7px;">
                                 <h2 class="text-primary">내가 개최한 이벤트</h2>
+                                <button type="button" id="event_reg" class="btn btn-primary">이벤트 등록</button>
                             </div>
 
                             <div class="card clean-card text-left">
@@ -162,5 +163,22 @@
 
     
 <%@ include file="cmn/footer1.jsp" %>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	    console.log( "document ready" );
+	});
+
+	let eventRegBtn = document.getElementById('event_reg');
+	eventRegBtn.addEventListener('click', function(){
+		window.location.href = "event_reg.do";
+	});
+
+
+
+
+</script>
+
 
 <%@ include file="cmn/footer2.jsp" %>
