@@ -27,14 +27,14 @@
 						name="seq" id="seq" value="${vo.seq}" /> <input
 						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
 						style="text-align: center; width: 150px;" id="user_id"
-						name="user_id" type="text" class="form-control" value=""
+						name="user_id" type="text" class="form-control" value="ehgml"
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="content"
 						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 					<br />
 					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
-					<input type="button" class="btn btn-primary btn-sm" value="등록"
-						id="doInsert" style="float: right" /> <br />
+					<input type="button"  class="btn btn-primary btn-sm" value="등록"
+						id="doInsert" style="float: right" /> <br/>
 				</div>
 			</form>
 		</div>
@@ -81,16 +81,18 @@
 		$("#doInsert").on("click", function() {
 			console.log("#doInsert");
 			var url = "${context}/comment/doInsert.do"
-
-			var contents = $("#contents").val();//댓글 내용
-			console.log("contents:" + contents);
-			if (null == contents || contents.trim().length == 0) {
-				$("#contents").focus();
+			var content = $("#content").val();//댓글 내용
+			console.log("content:" + content);
+			if (null == content || content.trim().length == 0) {
+				$("#content").focus();
 				alert("내용을 입력하세요.");
 				return;
 			}
-			if (false == confirm("등록 하시겠습니까?"))
-				return;
+			else{
+				alert("등록 하시겠습니까?");
+				//$("#commentList").empty();
+				//ercommentList();
+				}
 			$.ajax({
 				type : "POST",//데이터를 보낼 방식
 				url : url,//데이터를 보낼 url
@@ -103,10 +105,10 @@
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
-					// 둘 중 하나 삭제하기
-					alert("댓글이 등록되었습니다")
+					console.log("content=" + content);
+				
 					if (data != null) {
-						alert("댓글이 삭제되었습니다");
+						alert("댓글이 등록되었습니다");
 						$("#commentList").empty();
 						commentList();
 					}
@@ -116,9 +118,9 @@
 				error : function(xhr, status, error) {
 					alert(meesage.msgContents);
 				}
+			});
 
-			});//--ajax
-		});
+});
 
 		//수정,삭제 기능 추가
 		//commentlist do.?이후 부분+출력부분
@@ -140,8 +142,7 @@
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$
-										.each(
+								$.each(
 												commentList,
 												function(i, vo) {
 
