@@ -161,7 +161,7 @@ public int doUpdata(MemberVO member) {
 		return outVO;
 	}
 	/**
-	 * 
+	 * 리스트 조건 조회
 	 * @param div
 	 * @param searchWord
 	 * @return
@@ -203,6 +203,49 @@ public int doUpdata(MemberVO member) {
 		LOG.debug("========================");	
 		
 		Object[] args  = { searchWord };	
+		List<MemberVO> list = (List<MemberVO>)jdbcTemplate.query(sb.toString(), args, rowMapper);
+		LOG.debug("list.size()" +list.size());
+		for(MemberVO vo: list) {
+			LOG.debug("=vo="+vo);
+		}
+		
+		return list;
+	}
+	
+	
+	/**
+	 * 리스트 조건 조회
+	 * @param div
+	 * @param searchWord
+	 * @return
+	 */
+	@Override
+	public List<MemberVO> doSelectListAll() {
+		
+
+		
+		StringBuilder sbWhere=new StringBuilder();
+	
+		
+		StringBuilder sb=new StringBuilder();
+		sb.append(" SELECT               \n");
+	    sb.append(" seq,                 \n");
+	    sb.append(" user_id,             \n");
+	    sb.append(" name,                \n");
+	    sb.append(" password,            \n");
+	    sb.append(" email,               \n");
+	    sb.append(" cell_phone,          \n");
+	    sb.append(" birthday,            \n");
+	    sb.append(" genre,               \n");
+	    sb.append(" auth,                \n");
+	    sb.append(" reg_dt               \n");
+		sb.append(" FROM member          \n");
+		sb.append(sbWhere.toString());
+		LOG.debug("========================");
+		LOG.debug("=sql\n="+sb.toString());
+		LOG.debug("========================");	
+		
+		Object[] args  = { };	
 		List<MemberVO> list = (List<MemberVO>)jdbcTemplate.query(sb.toString(), args, rowMapper);
 		LOG.debug("list.size()" +list.size());
 		for(MemberVO vo: list) {

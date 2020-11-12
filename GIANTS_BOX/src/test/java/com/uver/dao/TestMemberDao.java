@@ -45,6 +45,7 @@ public class TestMemberDao {
 	MemberVO member03;
 	
 	@Test
+	@Ignore
 	public void test() {
 		//데이터 입력
 		dao.doInsert(member01);
@@ -74,6 +75,13 @@ public class TestMemberDao {
 		for(int i = 0 ; i<list2.size(); i++) {
 			LOG.debug("list "+ i + "번째   :" + list2.get(i).toString());
 		}
+		
+	}
+	
+	@Test
+	public void selectlist() {
+		List<MemberVO> list = dao.doSelectListAll();
+		LOG.debug(list.size());
 		
 	}
 	
