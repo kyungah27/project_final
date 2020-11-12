@@ -17,23 +17,29 @@
         </section>
     </main>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>   
-    <script type="text/javascript">
+    
+<%@ include file="cmn/footer1.jsp" %>
+<!-- 자바스크립트 자리 -->
+<script type="text/javascript">
     $("#doLogin").on("click", function() {
 		alert("doInsert");
-
+		let userId = $("#id").val();			
+	
 		  $.ajax({
 			    type:"POST",
 			    url:"${context}/loginn.do",
 			    dataType:"html", 
-			    data:{"userId":$("#id").val(),
+			    data:{"userId":userId,
 				      "password":$("#password").val()         
 			    },
 			    success:function(data){ //성공
-			    
 			    	var obj = JSON.parse(data);
 			    	alert(obj.msgContents);
 			    	$("#msgContents").val(obj.msgContents);
+
+			    	moveToMain();
+					
+			    	
 			    },
 			    error:function(xhr,status,error){
 			     alert("error:"+error);
@@ -44,10 +50,13 @@
 			  
 		});//--ajax
 
-		
+     });
 
-        });
-		</script>
-<%@ include file="cmn/footer1.jsp" %>
-<!-- 자바스크립트 자리 -->
+
+
+	function moveToMain(){
+		window.location.href = "${context}/main.do";
+	}
+    
+</script>
 <%@ include file="cmn/footer2.jsp" %>

@@ -91,7 +91,7 @@
                                 <hr />
                                 <div class="card-body row align-items-center">
 	                                <div class="col">
-	                                    <p class="text-left card-text text-center">
+	                                    <p class="text-left card-text">
 	                                        <strong>10월 31일 6:30PM</strong>
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
