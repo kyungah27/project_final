@@ -43,11 +43,11 @@
 						<li class="nav-item" role="presentation"><a
 							class="nav-link text-white" href="login.do">explore</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="login.do">my event</a></li>
+							class="nav-link text-white" href="my_event.do">my event</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="login.do">my account</a></li>
+							class="nav-link text-white" href="account.do">my account</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="login.do">log out</a></li>
+							class="nav-link text-white" href="main.do">log out</a></li>
 					</ul>
 				</div>
 			</div>
