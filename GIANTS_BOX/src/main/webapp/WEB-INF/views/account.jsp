@@ -168,4 +168,4 @@
 	});
 </script>
 
-<%@ include file="cmn/footer.jsp"%>
+<%-- <%@ include file="cmn/footer.jsp"%> --%>

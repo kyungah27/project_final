@@ -74,9 +74,7 @@ public class TestCommentController {
 
 	}
 
-	
 	@Test
-	@Ignore
 	public void doDelete() throws Exception {
 		// url,param set
 		CommentVO comment = commentVO.get(0);
@@ -99,7 +97,6 @@ public class TestCommentController {
 	}
 
 	@Test
-	@Ignore
 	public void doInsert() throws Exception {
 		CommentVO comment = commentVO.get(0);
 		MockHttpServletRequestBuilder createMessage = MockMvcRequestBuilders.post("/comment/doInsert.do")

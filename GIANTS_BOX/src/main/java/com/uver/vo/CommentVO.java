@@ -2,7 +2,7 @@ package com.uver.vo;
 
 import com.uver.cmn.DTO;
 
-public class CommentVO extends DTO {
+public class CommentVO  {
 
 	
 	/** 댓글 순번 */

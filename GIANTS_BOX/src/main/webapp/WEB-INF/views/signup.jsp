@@ -165,7 +165,7 @@
 				var obj = JSON.parse(data);
 				//alert(obj.msgContents);
 				alert(obj.msgContents);
-				
+			
 			},
 			error : function(xhr, status, error) {
 				alert("error:" + error);

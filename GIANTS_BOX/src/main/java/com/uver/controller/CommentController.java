@@ -1,7 +1,11 @@
 package com.uver.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
@@ -34,6 +39,15 @@ public class CommentController {
 	public String comment_view() {
 		LOG.debug("comment_view");
 		return "comment/comment_view";
+	}
+
+	// 댓글 리스트를 호출 할 때 맵핑 되는 메소드
+	@RequestMapping(value = "comment/list.do")
+	public ModelAndView list(CommentVO commentVO, ModelAndView mav) {
+		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		mav.setViewName("comment/comment_view");
+		mav.addObject("list", list);
+		return mav;
 	}
 
 	@RequestMapping(value = "comment/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -96,6 +110,8 @@ public class CommentController {
 		LOG.debug("==================");
 
 		return json;
+
+		// *************삭제 되었을때 list뽑도록 return url 바꿔주기
 	}
 
 	@RequestMapping(value = "comment/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -129,11 +145,19 @@ public class CommentController {
 		return json;
 	}
 
-	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "comment/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<CommentVO> doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+	public String doSelectList(CommentVO commentVO) throws ClassNotFoundException, SQLException, IOException {
+		LOG.debug("===doSelectList=====");
+		LOG.debug("===seq=====" + commentVO.getSeq());
+		LOG.debug("===div===" + commentVO.getDiv());
 
-		return commentservice.doSelectList(commentVO);
+		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		Gson gson = new Gson();
+		String json = gson.toJson(list);
+		// res.setContentType("text/html; charset=UTF-8");
+		LOG.debug("json" + json);
+		return json;
 	}
 
 	// 업데이트 테스트 못짜겠고 리스트는 컨트롤러 맞게 짯는지 모르겠음
