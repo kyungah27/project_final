@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.uver.event">
-	<sql id="eventColumns">
+<mapper namespace="com.uver.review">
+	<sql id="reviewColumns">
+		 review_seq,
 		 event_seq AS eventSeq,								  
-		 user_id AS userId,										  
-		 event_nm AS eventNm,                                       
-		 content,                                       
-		 capacity,                                      
-		 movie_info AS movieInfo,                                    
-		 start_dt AS startDt,                                      
-		 end_dt AS endDt,                                        
-		 location,                                      
-		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
-		 target_dt AS targetDt,                              
-		 reg_id AS regId                                	
+		 writer ,										  
+		 title ,                                       
+		 context,                                    
+	     TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') reg_dt,
+		 div,                              
+		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') mod_dt                               	
 	</sql>
 
 	<sql id="searchCondition">
@@ -44,7 +40,7 @@
 
 
 	<!-- 목록조회 -->
-	<select id="doSelectList" parameterType="Search" resultType="EventVO">
+	<select id="doSelectList" parameterType="Search" resultType="reviewVO">
 SELECT T1.*,T2.*                                                            
 		FROM                                                                        
 		 (                                                                          
@@ -84,72 +80,57 @@ SELECT T1.*,T2.*
 
 
 	<!-- 단건조회 -->
-	<select id="doSelectOne" parameterType="EventVO" resultType="EventVO">
-		SELECT <include refid="eventColumns"/>
-		FROM event
-		WHERE event_seq = #{eventSeq}
+	<select id="doSelectOne" parameterType="reviewVO" resultType="reviewVO">
+		SELECT <include refid="reviewColumns"/>
+		FROM review
+		WHERE review_seq = #{review_seq}
 	</select>
 
 
 
 	<!-- 수정 -->
-	<update id="doUpdate" parameterType="EventVO">
-		UPDATE event			
-		SET user_id = #{userId,jdbcType=VARCHAR}    
-		    ,event_nm = #{eventNm,jdbcType=VARCHAR}   
-		    ,content = #{content,jdbcType=VARCHAR}    
-		    ,capacity = #{capacity,jdbcType=INTEGER}   
-		    ,movie_info = #{movieInfo,jdbcType=VARCHAR} 
-		    ,start_dt = #{startDt,jdbcType=VARCHAR}   
-		    ,end_dt = #{endDt,jdbcType=VARCHAR}     
-		    ,location = #{location,jdbcType=VARCHAR}   
-		    ,target_dt = #{targetDt,jdbcType=VARCHAR}  
-		    ,reg_id = #{regId,jdbcType=VARCHAR}
-		    ,genre = #{genre,jdbcType=VARCHAR}
-		WHERE event_seq = #{eventSeq,jdbcType=INTEGER} 
+	<update id="doUpdate" parameterType="reviewVO">
+		UPDATE review			
+		SET event_seq = #{event_seq,jdbcType=INTEGER}    
+		    ,writer = #{writer,jdbcType=VARCHAR}   
+		    ,title = #{title,jdbcType=VARCHAR}    
+		    ,context = #{context,jdbcType=INTEGER}   
+		    ,div = #{div,jdbcType=VARCHAR} 
+		    ,mod_dt = #{startDt,jdbcType=VARCHAR}   
+		  	WHERE review_seq = #{review_seq,jdbcType=INTEGER} 
 	</update>
 	
 	
 	
 	<!-- 삭제 -->
-	<delete id="doDelete" parameterType="EventVO">
-		DELETE FROM event	
-		WHERE event_seq = #{eventSeq} 
+	<delete id="doDelete" parameterType="reviewVO">
+		DELETE FROM review	
+		WHERE review_seq = #{review_seq} 
 	</delete>
 	
 	
 	
 	<!-- 등록 -->
-	<insert id="doInsert" parameterType="EventVO">
+	<insert id="doInsert" parameterType="reviewVO">
 		
-		INSERT INTO event (		
+		INSERT INTO review (	
+			review_seq,	
 		    event_seq,         
-		    user_id,           
-		    event_nm,          
-		    content,           
-		    capacity,          
-		    movie_info,        
-		    start_dt,          
-		    end_dt,            
-		    location,          
+		    writer,           
+		    title,          
+		    context,           
 		    reg_dt,            
-		    target_dt,         
-		    reg_id,
-		    genre             
-		) VALUES (             
+		    div,         
+		    mod_dt
+		) VALUES (      
+		    review_seq.NEXTVAL,   
 		    #{eventSeq},                 
-		    #{userId},                 
-		    #{eventNm},                 
-		    #{content},                 
-		    #{capacity},                 
-		    #{movieInfo},                 
-		    #{startDt},                 
-		    #{endDt},                 
-		    #{location},                 
+		    #{writer},                 
+		    #{title},                 
+		    #{context},                 		              
 		    SYSDATE,           
-		    #{targetDt},                 
-		    #{regId},
-		    #{genre}                 
+		    #{div},                 
+		    SYSDATE	                   
 		)                      
 	
 	</insert>

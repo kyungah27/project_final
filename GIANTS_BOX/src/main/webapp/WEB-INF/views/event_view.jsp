@@ -33,7 +33,7 @@
                                         <p class="p-1">강남역 CGV 입구</p>
                                     </div>
                                     <hr/>
-                                    <div class="d-flex">
+                                    <div class="d-flex mb-3">
                                         <i class="fa fa-film p-2"></i>
                                         <div class="p-1">
                                             <h5><strong>도굴</strong></h5>
@@ -42,6 +42,9 @@
                                             <strong>장르</strong>&nbsp;드라마<br>
                                         </div>
                                     </div>
+                                    <form>
+                                    	<button class="btn btn-primary btn-block btn-sm" type="submit" id="doLogin">이벤트 참여하기</button>
+                                    </form>
                                     
                                 </div>
                             </div>

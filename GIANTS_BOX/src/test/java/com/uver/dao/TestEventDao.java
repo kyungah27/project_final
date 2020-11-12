@@ -83,8 +83,11 @@ public class TestEventDao {
 //		
 //		flag = eventDao.doInsert(event03);
 //		assertThat(flag, is(1));
+
 		
-		Search search = new Search("30", "코미디", 10, 1);
+Search search = new Search("10", "test_", "20/11/13", 10, 1);
+Search search = new Search("20", "새모임", "20/11/13", 10, 1);
+
 		//search.setDiv("20");
 		
 		List<EventVO> list = eventDao.doSelectList(search);

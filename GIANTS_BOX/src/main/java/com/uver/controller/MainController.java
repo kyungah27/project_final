@@ -77,6 +77,17 @@ public class MainController {
 		return "index_after_login";
 	}
 	
+	//--- my event 이동
+	@RequestMapping(value="my_event.do")
+	public String goMyEvent() {
+		LOG.debug("-------------------");
+		LOG.debug("mainUser()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "my_event";
+	}
+	
 	
 	
 	

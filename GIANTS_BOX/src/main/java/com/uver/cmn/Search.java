@@ -13,6 +13,9 @@ public class Search extends DTO {
 	/**검색어*/
 	private String searchWord;
 	
+	/**날짜 검색 조건*/
+	private String searchDate;
+	
 	/** seq 검색 */
 	private int searchSeq;
 	private int searchSeqSub;
@@ -55,6 +58,15 @@ public class Search extends DTO {
 		this.pageNum = pageNum;
 	}
 
+	public Search(String searchDiv, String searchWord, String searchDate, int pageSize, int pageNum) {
+		super();
+		this.searchDiv = searchDiv;
+		this.searchWord = searchWord;
+		this.searchDate = searchDate;
+		this.pageSize = pageSize;
+		this.pageNum = pageNum;
+	}
+	
 	public String getSearchDiv() {
 		return searchDiv;
 	}
@@ -106,13 +118,22 @@ public class Search extends DTO {
 	public void setSearchSeqSub(int searchSeqSub) {
 		this.searchSeqSub = searchSeqSub;
 	}
+	
+	
+
+	public String getSearchDate() {
+		return searchDate;
+	}
+
+	public void setSearchDate(String searchDate) {
+		this.searchDate = searchDate;
+	}
 
 	@Override
 	public String toString() {
-		return "Search [searchDiv=" + searchDiv + ", searchWord=" + searchWord + ", searchSeq=" + searchSeq
-				+ ", searchSeqSub=" + searchSeqSub + ", pageSize=" + pageSize + ", pageNum=" + pageNum + ", getDiv()="
-				+ getDiv() + ", getNum()=" + getNum() + ", getTotalCnt()=" + getTotalCnt() + ", toString()="
-				+ super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
+		return "Search [searchDiv=" + searchDiv + ", searchWord=" + searchWord + ", searchDate=" + searchDate
+				+ ", searchSeq=" + searchSeq + ", searchSeqSub=" + searchSeqSub + ", pageSize=" + pageSize
+				+ ", pageNum=" + pageNum + ", toString()=" + super.toString() + "]";
 	}
 
 	
