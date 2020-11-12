@@ -19,7 +19,7 @@ import com.uver.vo.ReviewVO;
 	public class ReviewController {
 	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
-	@Autowired
+	
 	ReviewService reviewservice;
 
 	public ReviewController() {
