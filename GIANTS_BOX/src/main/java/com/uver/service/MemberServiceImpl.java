@@ -149,10 +149,8 @@ import com.uver.vo.MemberVO;
 		@Override
 		public MemberVO login(MemberVO inputUser) {
 			MemberVO resultVO = null;
-			MemberVO searchMember = new MemberVO();
-			searchMember.setUserId("H");
 	
-			List<MemberVO> list = memberDaoImpl.doSelectList("10", "H"); // H170_01
+			List<MemberVO> list = memberDaoImpl.doSelectListAll(); // H170_01
 	
 			for (MemberVO vo : list) {
 				if (vo.getUserId().equals(inputUser.getUserId()) && vo.getPassword().equals(inputUser.getPassword())) {

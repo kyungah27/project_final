@@ -46,9 +46,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
     
-    
-    $('#id *').prop('disabled', true);
-    
     //회원정보수정
 	$("#doUpdate").on("click", function() {
 

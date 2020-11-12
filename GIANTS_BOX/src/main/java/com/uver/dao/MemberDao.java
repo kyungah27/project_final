@@ -17,7 +17,7 @@ public interface MemberDao {
 	MemberVO doSelectOneById(String id);
 
 	/**
-	 * 
+	 * 리스트 조건조회
 	 * @param div
 	 * @param searchWord
 	 * @return
@@ -37,5 +37,14 @@ public interface MemberDao {
 	 * @return
 	 */
 	int doInsert(MemberVO member);
+
+	
+	/**
+	 * 리스트 전체조회
+	 * @param div
+	 * @param searchWord
+	 * @return
+	 */
+	List<MemberVO> doSelectListAll();
 
 }
