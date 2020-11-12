@@ -59,7 +59,7 @@ import com.uver.vo.ReviewVO;
 		int flag = 0;
 		
 		Object[] args = {
-				review.getReview_seq(), 
+				//review.getReview_seq(), 
 				review.getEventSeq(),
 				review.getWriter(),				
 				review.getTitle(),
@@ -119,12 +119,12 @@ import com.uver.vo.ReviewVO;
 		sb.append("     div = ?,      \n");
 		sb.append("    mod_dt = SYSDATE  \n");
 		sb.append("WHERE                 \n");
-		sb.append("    review_seq = ?   \n");
+		sb.append("    review_seq = ?   \n");		
 		LOG.debug("=sql=\n"+sb.toString());
 		LOG.debug("=param=" + vo);
 		LOG.debug("========================");
 
-		Object[] args = { vo.getEventSeq(), vo.getWriter(), vo.getTitle(), vo.getContext(), vo.getDiv(),  vo.getReview_seq()};
+		Object[] args = {vo.getEventSeq(), vo.getWriter(), vo.getTitle(), vo.getContext(), vo.getDiv(), vo.getReview_seq() };
 		flag = this.jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("=flag=" + flag);
 		return flag;
@@ -327,7 +327,7 @@ import com.uver.vo.ReviewVO;
 
 		//Object[] args = { review };
 		Object[] args = { review.getReview_seq() };
-		
+		LOG.debug("args:"+args);
 		/*Object[] args = {review.getReview_seq(),
 								review.getWriter(),				
 								review.getTitle(),
