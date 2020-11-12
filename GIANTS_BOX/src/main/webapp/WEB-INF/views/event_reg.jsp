@@ -51,9 +51,13 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="movie_info" class="col-form-label col-lg-3">영화</label>
-                                    <input type="text" class="form-control form-control" id="movie_info" placeholder="영화" aria-label="movie_info" />
+                                    <input type="text" class="form-control form-control" id="movie_code" placeholder="영화" aria-label="movie_info" />
                                     <button type="button" id="search_movie" class="btn btn-outline-primary btn-sm" type="button">영화검색</button>
-                                </div>                                    
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label for="movie_info" class="col-form-label col-lg-3">장르</label>
+                                    <input type="text" class="form-control form-control" id="movie_genre" placeholder="장르" aria-label="movie_genre" readonly />
+                                </div>                                       
                             </div>
                         </div>
                         <div class="form-group row ml-auto">
@@ -69,7 +73,7 @@
     </main>
     
    
-<%@ include file="cmn/footer1.jsp" %>
+
 
 
  <!-- javascript -->
@@ -114,5 +118,45 @@
 	
 	
 
+	$("#search_movie").on("click",function(){
+					//$(document).find('#selected_seq').val($(this).val());
+					window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
+	}) ;
+
+	
+	
+	
+    /* function preview(file){
+		console.log("file: "+file);
+
+		// FileReader 객체 생성
+		let reader = new FileReader();
+				
+		// FileReader onload 시 이벤트 발생
+		reader.onload = function(file) {
+			const img = document.createElement("img");
+			img.setAttribute("src", this.result);
+			img.setAttribute("height", "150px");
+
+			const flexDiv = document.createElement("div");
+
+			const a = document.createElement("a");
+			a.setAttribute("href", "#");
+			a.setAttribute("name", "removeImg");
+			
+			flexDiv.appendChild(img);
+			flexDiv.appendChild(a);
+
+			document.querySelector("div#img_preview")
+						.appendChild(flexDiv);
+
+			flexDiv.setAttribute("class", "flex_item");
+		};
+
+		//reader.readAsDataURL(file);
+	} */
+
+
 	</script>
+<%@ include file="cmn/footer1.jsp" %>
 <%@ include file="cmn/footer2.jsp" %>
