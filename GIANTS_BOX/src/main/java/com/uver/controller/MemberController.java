@@ -208,10 +208,18 @@ import com.uver.vo.MemberVO;
 		      return json;
 		   }
 		   
+
+		   /**
+		    * 로그아웃
+		    * @param inputUser
+		    * @return
+		    */
+			public void logout(HttpSession session) {
+		
+				session.invalidate();
+			}
 		   
 		   
-
-
 
 
 }
