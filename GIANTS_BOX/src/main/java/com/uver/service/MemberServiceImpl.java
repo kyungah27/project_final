@@ -164,13 +164,14 @@ import com.uver.vo.MemberVO;
 	
 			return resultVO;
 		}
-	
+
 		@Override
 		public void logout(HttpSession session) {
-	
-			session.invalidate();
+			// TODO Auto-generated method stub
+			
 		}
-
+	
+		
 
 	
 	}

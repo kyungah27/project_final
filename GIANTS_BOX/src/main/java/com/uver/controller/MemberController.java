@@ -181,14 +181,16 @@ import com.uver.vo.MemberVO;
 		      return json;
 		   }
 		   
-//		   /**
-//		    * 로그아웃
-//		    * @param inputUser
-//		    * @return
-//		    */
-//		   @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//		   @ResponseBody
-//		   public String idLogout(MemberVO inputUser) {
+		   /**
+		    * 로그아웃
+		    * @param inputUser
+		    * @return
+		    */
+			public void logout(HttpSession session) {
+		
+				session.invalidate();
+			}
+
 
 
 
