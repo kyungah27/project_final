@@ -30,18 +30,20 @@
 <body>
 	<div class="container">
 		<div id="wrap">
-			<input type="text" name="current_mseq" id="current_mseq"
-				value="히든으로 바꿀거 cmseq" /> <input type="text" name="current_eseq"
-				id="current_eseq" value="히든으로 바꿀거 ceseq" /> <input type="text"
-				name="selected_mseq" id="selected_mseq" value="히든으로 바꿀거 smseq" /> <input
-				type="text" name="selected_eseq" id="selected_eseq"
-				value="히든으로 바꿀거 seseq" />
+			<input type="text" name="current_mseq" id="current_mseq"   value="히든으로 바꿀거 cmseq" />
+			<input type="text" name="current_eseq" id="current_eseq"   value="히든으로 바꿀거 ceseq" /> 
+			<input type="text" name="selected_mseq" id="selected_mseq" value="히든으로 바꿀거 smseq" />
+			<input type="text" name="selected_eseq" id="selected_eseq" value="히든으로 바꿀거 seseq" />
+			<div align="right">
+				<input type="button" class="btn btn-primary btn-sm" id="insert_btn" value="참여하기"/>
+			</div>
 			<div class="table-responsive" style=" verflow:scroll;  height:200px;" >
 				<!-- 현재 이벤트 구성원 -->
 				<table class="table table-bordered" id="joinToggleTable">
 	
 				</table>
 			</div>
+			
 		</div>
 	</div>
 	<script
@@ -74,12 +76,34 @@
 			//이벤트 리스트 뽑기 
 			doSelectList(1001);
 
-			// 추방 차단 버튼 이벤트 
-	
-			 $("#ban_btn1").on("click", function(e) {
-				 alert($(this).val());
-
-				 });		
+			
+			// 참여 버튼 이벤트 
+			 $("#insert_btn").on("click", function(e) {
+				  $.ajax({
+					    type:"POST",
+					    url:"${context}/join/doInsert.do",
+					    dataType:"html", 
+					    data:{"eventSeq":	1001,
+					    	  "memberSeq":	27,   	//임시값, 이벤트에서 줄거라고 가정   
+					    	  "priority" :  0  						   
+					    },
+					    success:function(data){ //성공
+					       var obj = JSON.parse(data);
+					       console.log("obj="+obj);
+					       if(obj.msgId == 1){
+								alert(obj.msgContents);
+								doSelectList(1001);
+						   }else{
+								alert(obj.msgContents);
+						   }
+					    },
+					    error:function(xhr,status,error){
+					     alert("error:"+error);
+					    },
+					    complete:function(data){		    
+					    }   			  
+				});//--ajax			
+			});		
 			 $(document).on("click","button[name=ban_btn]",function(){
 					var memberSeq = $(this).val();
 					KickOrBan(2 , memberSeq);
@@ -88,6 +112,7 @@
 				 	var memberSeq = $(this).val();
 					 KickOrBan(1 , memberSeq);
 				}) ;
+			
 			
 	
 		});//document ready   
@@ -113,7 +138,6 @@
 					    complete:function(data){		    
 					    }   			  
 				});//--ajax		
-
 			}
 
 		function KickOrBan(num , memberSeq){
@@ -163,6 +187,8 @@
 			$.each(obj, function(i, value) {
 				if(value.priority ==1){
 					html += '<tr bgcolor=red>';	  
+				}else if(value.priority ==2){
+					html += '<tr  bgcolor=red style= display:none>';
 				}else{
 					html += '<tr>'
 				}

@@ -31,7 +31,7 @@ import com.uver.vo.MemberVO;
 		this.memberService = memberService;
 	}
 		
-		@RequestMapping(value = "acount.do")
+		@RequestMapping(value = "accunt.do")
 		public String fileView() {
 			LOG.debug("===================");
 			LOG.debug("==fileView() ==");
