@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.review">
+	<sql id="reviewColumns">
+		 review_seq,
+		 event_seq AS eventSeq,								  
+		 writer ,										  
+		 title ,                                       
+		 context,                                    
+	     TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') reg_dt,
+		 div,                              
+		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') mod_dt                               	
+	</sql>
+
+	<sql id="searchCondition">
+		<choose>
+			<when test=" '10' == searchDiv">
+				<where>
+				 user_id like '%' || #{searchWord} || '%'
+				 AND target_dt like '%' || #{searchDate} || '%'
+				</where>
+			</when>
+		
+			<when test=" '20' == searchDiv">
+				<where>
+				event_nm like '%' || #{searchWord} || '%'
+				AND target_dt like '%' || #{searchDate} || '%'
+				</where>
+			</when>
+			
+			<when test=" '30' == searchDiv">
+				<where>
+				genre like '%' || #{searchWord} || '%'
+				AND target_dt like '%' || #{searchDate} || '%'
+				</where>
+			</when>
+		</choose>
+	</sql>
+
+
+
+	<!-- 목록조회 -->
+	<select id="doSelectList" parameterType="Search" resultType="reviewVO">
+SELECT T1.*,T2.*                                                            
+		FROM                                                                        
+		 (                                                                          
+		     SELECT B.rnum AS num,                                   
+		            B.event_seq AS eventSeq,                        
+					B.user_id AS userId,                                 
+					B.event_nm AS eventNm,                     
+					B.content,                                                     
+					B.capacity,                                                    
+					B.movie_info AS movieInfo, 
+					B.location,                                                    
+					DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
+						  ,TO_CHAR(B.reg_dt,'HH24:MI')                             
+					      ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
+					B.target_dt AS targetDt,                                  
+					B.reg_id AS regId,
+					B.genre                   
+		     FROM (                                                                 
+		         SELECT ROWNUM rnum, A.*                                            
+		         FROM(                                                              
+		             SELECT *                                                       
+		             FROM  event 
+		             <include refid="searchCondition"/>                                               
+		             ORDER BY reg_dt DESC                                           
+		         )A                                                                 
+		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
+		     )B                                                                     
+		     WHERE B.rnum <![CDATA[ >= ]]> (#{pageSize} *(#{pageNum}-1)+1)                           
+		     )T1                                                                    
+		     CROSS JOIN                                                             
+		     (SELECT COUNT(*) totalCnt                                             
+		      FROM  event
+		      <include refid="searchCondition"/>                                                       
+		     )T2    
+	</select>
+
+
+
+	<!-- 단건조회 -->
+	<select id="doSelectOne" parameterType="reviewVO" resultType="reviewVO">
+		SELECT <include refid="reviewColumns"/>
+		FROM review
+		WHERE review_seq = #{review_seq}
+	</select>
+
+
+
+	<!-- 수정 -->
+	<update id="doUpdate" parameterType="reviewVO">
+		UPDATE review			
+		SET event_seq = #{event_seq,jdbcType=INTEGER}    
+		    ,writer = #{writer,jdbcType=VARCHAR}   
+		    ,title = #{title,jdbcType=VARCHAR}    
+		    ,context = #{context,jdbcType=INTEGER}   
+		    ,div = #{div,jdbcType=VARCHAR} 
+		    ,mod_dt = #{startDt,jdbcType=VARCHAR}   
+		  	WHERE review_seq = #{review_seq,jdbcType=INTEGER} 
+	</update>
+	
+	
+	
+	<!-- 삭제 -->
+	<delete id="doDelete" parameterType="reviewVO">
+		DELETE FROM review	
+		WHERE review_seq = #{review_seq} 
+	</delete>
+	
+	
+	
+	<!-- 등록 -->
+	<insert id="doInsert" parameterType="reviewVO">
+		
+		INSERT INTO review (	
+			review_seq,	
+		    event_seq,         
+		    writer,           
+		    title,          
+		    context,           
+		    reg_dt,            
+		    div,         
+		    mod_dt
+		) VALUES (      
+		    review_seq.NEXTVAL,   
+		    #{eventSeq},                 
+		    #{writer},                 
+		    #{title},                 
+		    #{context},                 		              
+		    SYSDATE,           
+		    #{div},                 
+		    SYSDATE	                   
+		)                      
+	
+	</insert>
+
+</mapper>
