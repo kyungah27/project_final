@@ -5,7 +5,7 @@
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
-                    <h2 class="text-primary"><strong id="user_id">testId01</strong>님의 이벤트를 시작하세요.</h2>
+                    <h2 class="text-primary"><strong id="user_id">testId01</strong>님의 이벤트 정보를 수정하세요.</h2>
                 </div>
                 <div class="block-content">
                     <form class="product-info">
@@ -35,6 +35,7 @@
                                 </div>
                                  <div class="input-group mb-3">
                                     <label for="target_dt" class="col-form-label  col-lg-3">이벤트 일시</label>
+                                    <input type='text' class="form-control" id='target_dt_form' />
                                     <input type='text' class="form-control" id='target_dt' />
                                 </div>
                                 <div class="input-group mb-3">
@@ -60,7 +61,7 @@
                             <label for="content" class="col-form-label">세부사항</label>
                             <textarea class="form-control" id="content" rows="16"></textarea>
                         </div>
-                        <button type="button" id="search_movie" class="btn btn-primary btn-block" type="button">이벤트 등록</button>
+                        <button type="button" id="search_movie" class="btn btn-primary btn-block" type="button">이벤트 수정</button>
                     </form>
                     
                 </div>
@@ -113,6 +114,55 @@
 	})
 	
 	
+    //---[datetime picker]----------------------------------------------
+    // Create start date
+    var start = new Date(),
+        prevDay,
+        startHours = 5;
+
+    // 05:00 AM
+    start.setHours(5);
+    start.setMinutes(0);
+
+    $('#target_dt_form').datepicker({
+        timepicker: true,
+        language: 'en',
+        startDate: start,
+        minHours: startHours,
+        maxHours: 24,
+        onSelect: function (fd, d, picker) {
+            // Do nothing if selection was cleared
+            if (!d) return;
+
+            var day = d.getDay();
+
+            // Trigger only if date is changed
+            if (prevDay != undefined && prevDay == day) {
+            	formatDt(fd);
+            	formatDt(d);
+            	
+            	return;
+            	
+                }
+            formatDt(fd);
+        },
+		
+    	dateFormat: 'yyyy-mm-dd',
+    	timeFormat: 'hh:ii AA'
+    })
+    
+    var date = parse('2016-04-18');
+	function parse(str) {
+	    var y = str.substr(0, 4);
+	    var m = str.substr(4, 2);
+	    var d = str.substr(6, 2);
+	    return new Date(y, m-1, d);
+	}
+	
+
+   
+    
+    //---[datetime picker]---------------------------------------
 
 	</script>
 <%@ include file="cmn/footer2.jsp" %>
