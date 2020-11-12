@@ -2,6 +2,9 @@ package com.uver.controller;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,17 @@ import com.uver.vo.MemberVO;
 		
 		this.memberService = memberService;
 	}
+		
+		@RequestMapping(value = "acount.do")
+		public String fileView() {
+			LOG.debug("===================");
+			LOG.debug("==fileView() ==");
+			LOG.debug("===================");
+			
+			return "account";
+		}
+		
+		
 	
 		/**
 		 * 회원정보수정
@@ -35,9 +49,12 @@ import com.uver.vo.MemberVO;
 		 * @throws ClassNotFoundException
 		 * @throws SQLException
 		 */
-		@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
 		   public String myUpdate(MemberVO inputUser) {
+			
+			LOG.debug(inputUser.getUserId());
+			
 		   int updateFlag = 0;
 		   
 		   updateFlag = memberService.myUpdate(inputUser);
@@ -138,7 +155,7 @@ import com.uver.vo.MemberVO;
 		    */
 		   @RequestMapping(value = "loginn.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
-		   public String idLogin(MemberVO inputUser) {
+		   public String idLogin(MemberVO inputUser, HttpServletRequest req) {
 
 		      LOG.debug("-----------------------");
 		      LOG.debug("login()");
@@ -148,14 +165,30 @@ import com.uver.vo.MemberVO;
 		      Message message = new Message();
 		      if (outVO != null) {
 		         message.setMsgContents("로그인에 성공하였습니다.");
+		         
+		        // MemberVO user = (MemberVO) memberService.doSelectOne(inputUser);
+		       //session 객체 생성
+		         HttpSession session = req.getSession();
+		         //session 생성
+		         session.setAttribute("user", outVO.getUserId());
 		      } else {
 		         message.setMsgContents("로그인에 실패했습니다..");
+		         
 		      }
 		      Gson gson = new Gson();
 		      String json = gson.toJson(message);
 		      LOG.debug("[json] " + json);
 		      return json;
 		   }
+		   
+//		   /**
+//		    * 로그아웃
+//		    * @param inputUser
+//		    * @return
+//		    */
+//		   @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//		   @ResponseBody
+//		   public String idLogout(MemberVO inputUser) {
 
 
 
