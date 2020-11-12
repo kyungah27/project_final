@@ -6,12 +6,7 @@
 
 <!DOCTYPE html>
 <html>
-<style>
-.button:like {
-	border: 0;
-	outline: 0;
-}
-</style>
+
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,15 +18,19 @@
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
-			<b>comment</b> <hr/>
-			<form name="commentInsertForm">
+			<b>comment</b>
+			<hr />
+			<form name="commentInsertForm" id="commentInsertForm">  
 				<div>
-
-					<input style="text-align: center; width: 150px;" id="user_id"
+					<input type="hidden" name="regId" id="regId"
+						value="${vo.regId}" /> <input type="hidden"
+						name="seq" id="seq" value="${vo.seq}" /> <input
+						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
+						style="text-align: center; width: 150px;" id="user_id"
 						name="user_id" type="text" class="form-control" value=""
 						readonly="readonly" /><br />
-					<textarea style="resize: none;" rows="5" cols="80" name="contents"
-						id="contents" class="form-control" placeholder="내용을 입력해주세요"></textarea>
+					<textarea style="resize: none;" rows="5" cols="80" name="content"
+						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 					<br />
 					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
 					<input type="button" class="btn btn-primary btn-sm" value="등록"
@@ -46,7 +45,7 @@
 			<b>comment list</b>
 			<hr />
 			<!-- json에 추가해주기 -->
-			<div>
+			<%-- <div>
 				<span><b>ehgml</b></span>
 				<button id="like"
 					style="background-color: #ffffff; float: right; border: none;">
@@ -63,7 +62,7 @@
 						class="btn btn-primary btn-sm" value="수정" id="doUpdate"
 						style="float: right"> <br />
 				</p>
-			</div>
+			</div> --%>
 			<!-- //제이슨 추가 -->
 			<div id="commentList" class="commentList">
 				<!--  그리기 -->
@@ -81,6 +80,7 @@
 		//var div,seq해주기
 		$("#doInsert").on("click", function() {
 			console.log("#doInsert");
+			var url = "${context}/comment/doInsert.do"
 
 			var contents = $("#contents").val();//댓글 내용
 			console.log("contents:" + contents);
@@ -93,23 +93,23 @@
 				return;
 			$.ajax({
 				type : "POST",//데이터를 보낼 방식
-				url : "${hContext}/comment/doInsert.do",//데이터를 보낼 url
+				url : url,//데이터를 보낼 url
 				dataType : "html",
 				data : {
 					/* 	 "seq" : $("#seq").val(),
 						"div" : $("#div").val(),  */
-					"contents" : $("#contents").val()
+					//"contents" : $("#contents").val()
+					"regId" : "yeji"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
-					var message = JSON.parse(data);
-
-					alert(meesage.msgContents);
 					// 둘 중 하나 삭제하기
 					alert("댓글이 등록되었습니다")
-					if (data == 1)
+					if (data != null) {
+						alert("댓글이 삭제되었습니다");
+						$("#commentList").empty();
 						commentList();
-
+					}
 					//moveToListView()
 
 				},
@@ -140,17 +140,20 @@
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$.each(
+								$
+										.each(
 												commentList,
 												function(i, vo) {
+
 													console.log(vo.commentSeq);
 													console.log(vo.content);
 													console.log(vo.modDt);
 													html += '<span>'
-													html += '[' + vo.regId
-															+ ']';
+													html += '<strong>'
+															+ vo.regId + ""
+															+ '</strong>';
 													html += '<button id="like" style="background-color: #ffffff; float: right; border: none;">';
-													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;">'
+													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>'
 													html += '</button>'
 													html += '</span>'
 													html += '<br/>';
@@ -161,15 +164,19 @@
 													html += '<p>';
 													html += '<span>';
 													html += vo.modDt;
-													html += '<input type="button" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
-													html += '<input type="button"class="btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
+													html += '<input type="button" onclick="commentdelete('
+															+ vo.commentSeq
+															+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
+													html += '<input type="button" class="btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
 
 												});
 								console.log(html);
 								$("#commentList").append(html);
+							} else {
+								html += "<div class='text-center'><label>등록된 댓글이 없습니다.</label></div>"
+								$("#commentList").append(html);
 							}
-							// $("#commentList").html(htmls);
 						},
 						error : function(xhr, status, error) {
 							alert("error:" + error);
@@ -177,7 +184,35 @@
 					});
 
 		}
+		function commentdelete(commentSeq) {
+			console.log("commentdelete" + commentSeq);
 
+			var url = "${context}/comment/doDelete.do"
+			$.ajax({
+				type : "POST",//데이터를 보낼 방식
+				url : url,//데이터를 보낼 url
+				dataType : "html",
+				data : {
+					"commentSeq" : commentSeq
+				},//보낼 데이터
+				success : function(data) { //성공
+					console.log("data=" + data);
+					console.log("commentSeq=" + commentSeq);
+					if (data != null) {
+						alert("댓글이 삭제되었습니다");
+						$("#commentList").empty();
+						commentList();
+					} else {
+						alert("실패 삭제되었습니다");
+					}
+
+				},
+				error : function(xhr, status, error) {
+					alert(meesage.msgContents);
+				}
+
+			});//--ajax
+		}
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
 			console.log("document ready");
