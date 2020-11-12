@@ -54,7 +54,9 @@
 
             <div class="container">
                 <div class="flex-item-center">
-                <form class="form-horizontal" action="" name="event_reg" method="post" > 
+                <form class="form-horizontal" action="${hContext}/event/event_view.do" name="event_reg" method="post" > 
+                    <input type="hidden" name="event_seq" id="event_seq"/>
+                    
                     <div class="form-group"><input class="form-control item" type="button" id="originName" value="이미지 첨부"></div>
                     <div class="form-group"><label for="event_nm">모임명</label><input class="form-control item" type="text" id="event_nm"></div>
                     <div class="form-group"><label for="user_id">호스트</label><input class="form-control item" type="text" id="user_id"></div>
@@ -65,11 +67,12 @@
 					<div class="form-group"><label for="location">장소</label><input class="form-control item" type="text" id="location"></div>
 					<div class="form-group"><label for="content">소개</label><input class="form-control item" type="text" id="content"></div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록하기" id="doInsert"/></div>
+                    <input type="button" class="btn btn-primary btn-block btn-sm" value="등록" id="insert_btn"/>
+                    <input type="button" class="btn btn-default btn-block btn-sm" value="취소" id="main_btn"/></div>
 				</div>	
 				</form>
     		</div>
-   
+  
     		</div>
     	</div> 
     	<!--// div container -->
@@ -88,10 +91,17 @@
 		
 	});//document ready 
 
+	$("#main_btn").on("click", function(){
+		moveToMain();
+	});
+
+	function moveToMain(){
+		window.location.href = "${hContext}/main.do";
+	}
     
 	//--이벤트 등록하기
-	$("#doInsert").on("click", function() {
-		console.log("doInsert");
+	$("#insert_btn").on("click", function() {
+		console.log("insert_btn");
 		
 		//모임명 체크
 		var event_nm = $("#event_nm").val();
@@ -140,24 +150,28 @@
 	           url:"${hContext}/event/doInsert.do",
 	           dataType:"html",
 	           data:{
-	           "event_nm":$("#event_nm").val(),
-	           "user_id":$("#user_id").val(),
-	           "capacity":$("#capacity").val(),
-	           "target_dt":$("#target_dt").val(),
-	           "start_dt":$("#start_dt").val(),
-	           "end_dt":$("#end_dt").val(),
-	           "location":$("#location").val(),
-	           "content":$("#content").val()
-	          }, 
+	        	   "event_nm":$("#event_nm").val(),
+	        	   "user_id":$("#user_id").val(),
+	        	   "capacity":$("#capacity").val(),    
+	        	   "target_dt":$("#target_dt").val(),
+	        	   "start_dt":$("#start_dt").val(),
+	        	   "end_dt":$("#end_dt").val(),
+	        	   "location":$("#location").val(),
+	        	   "content":$("#content").val()
+		           },
+	            
 	        success: function(data){
+	        	console.log("data="+data);
+			    alert("data:"+data);
 
+				
 	        	var jsonObj = JSON.parse(data);
 			       console.log("msgId="+jsonObj.msgId);
 			       console.log("msgContents="+jsonObj.msgContents);
 	          if(null != jsonObj && jsonObj.msgId=="1"){
 	            alert(jsonObj.msgContents);
 	            //다시조회
-	            moveToListView;
+	            moveToMain();
 	          }
 	        },
 	        
@@ -170,7 +184,7 @@
 	        
 	       }); //--ajax 	
         
-	})//doInsert
+	});//doInsert
     
 	</script>
   </body>

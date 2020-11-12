@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp" %>
 
-    <main class="page"  style="padding-top: 65px;">
+   <main class="page"  style="padding-top: 65px;">
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
@@ -86,25 +86,37 @@
                                         <h3>세부사항</h3>
                                         <p>강남 CGV에서 도굴 조조로 함께 보러 가실 분 구합니다 :) <br/>2차 관람 이벤트고 처음 보시는 분들 환영합니다. <br/> 영화 끝나고 시간 괜찮으신 분들은 점심 함께 해요.</p>
                                     </div>
+                                    <hr/>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <!-- [영진님] 이벤트 참여자 목록 작업 필요 -->
                                     <div>
-                                        <hr/>
-                                        <h3>참석자(<strong>5</strong>)</h3>
-                                        <a href="#">더보기</a>
+                                    
+                                        <div>
+                                            <h3>참석자(<strong>5</strong>)</h3>
+                                        </div>
+                                        
+                            			
                                         <div class="row justify-content-center">    
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body info">
-                                                        <h4 class="card-title">김철수</h4>
-                                                        <p class="card-text">chriwj2</p>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title text-truncate">김철수(주최자)</h4>
+                                                        <p class="card-text text-truncate">chriwj2</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body info">
-                                                        <h4 class="card-title">이영희</h4>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title text-truncate">이영희</h4>
                                                         <p class="card-text">youngee2</p>
                                                     </div>
                                                 </div>
@@ -112,24 +124,34 @@
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body info">
-                                                        <h4 class="card-title">Jimmy Krus</h4>
-                                                        <p class="card-text">jikrrr</p>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title text-truncate">Jimmy Krus</h4>
+                                                        <p class="card-text text-truncate">jikrrr</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body info">
-                                                        <h4 class="card-title">박모모</h4>
-                                                        <p class="card-text">momo0509</p>
+                                                    <div class="card-body">
+                                                        <h4 class="card-title text-truncate">박모모</h4>
+                                                        <p class="card-text text-truncate">momo0509</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                         </div>
+                                        <div class="row justify-content-end mr-auto mt-2">
+                                            <a href="#">더보기</a>
+                                        </div>
                                     </div>
+                                    <!-- //이벤트 참여자 목록 작업 필요 -->
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                 </div>
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos">
                                    <div class="row mt-4 mb-4">
@@ -220,4 +242,6 @@
     </main>
     
     
-<%@ include file="cmn/footer.jsp" %>
+<%@ include file="cmn/footer1.jsp" %>
+<!-- 자바스크립트 자리 -->
+<%@ include file="cmn/footer2.jsp" %>

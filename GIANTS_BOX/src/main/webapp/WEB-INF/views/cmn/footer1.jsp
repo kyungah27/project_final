@@ -43,11 +43,14 @@
         </div>
     </footer>
 
+    
     <!-- End: Footer Dark -->
     <script src="${context}/resources/js/jquery.min.js"></script>
     <script src="${context}/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="${context}/resources/js/script.min.js"></script>
-</body>
-
-</html>
+    
+    <!-- calendar -->	
+	<script src="${context}/resources/js/datepicker.min.js"></script>
+    <script src="${context}/resources/js/datepicker.en.js"></script>
+    <!-- //calendar -->

@@ -52,15 +52,6 @@
 <script type="text/javascript">
     //회원가입
 	$("#doReg").on("click", function() {
-		
-		var id = $("#id").val();
-		id = id.trim();
-		if (null == id || id.length == 0) {
-			$("#id").focus();
-			alert("아이디를 입력 하세요.");//{0} 입력하세요.
-			$("#Id_label").css("color","red"); 
-			return;
-		}
 
 		var name = $("#name").val();
 		name = name.trim();
@@ -108,10 +99,9 @@
 
 		$.ajax({
 			type : "POST",
-			url : "${context}/regUser.do",
+			url : "${context}/updateUser.do",
 			dataType : "html",
 			data : {
-				"userId" : $("#id").val(),
 				"name" : $("#name").val(),
 				"password" : $("#password").val(),
 				"email" : $("#email").val(),
@@ -178,6 +168,4 @@
 	});
 </script>
 
-<%@ include file="cmn/footer1.jsp" %>
-<!-- 자바스크립트 자리 -->
-<%@ include file="cmn/footer2.jsp" %>
+<%@ include file="cmn/footer.jsp"%>
