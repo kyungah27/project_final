@@ -72,6 +72,13 @@
 			searchToNameKM(movieNm);	
 		});
 
+		 $(document).on("click","button[name=select_btn]",function(){
+				alert($(this).val());
+				/* $(document).find('#selected_seq').val($(this).val());
+				window.open("/ABC/layout/trans/trans_detail.jsp", "window" ,"width=800 height=400"); */
+		}) ;
+		
+
 
 		function searchToNameKM(movieNm) {
 			$("#movie_info").empty();	
@@ -133,7 +140,7 @@
 							html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 							html += '<strong>출연 </strong>'+actors+'<br>'
 							html += '<strong>장르</strong>'+genre+'</p>'
-							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button value='+DOCID+' name="select_btn" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 							console.log(html);	
 							$("#movie_info").append(html);			
 						}) 
@@ -146,6 +153,8 @@
 				}
 			})
 		}
+
+	
 		
 		function searchOneToNameKM(movieNm) {
 			console.log("searchOneToNameKM");
@@ -302,6 +311,12 @@
 				complete : function(data) {
 				}
 			})
+		}
+
+		function selectKey(DOCID){
+			
+			alert(DOCID);
+
 		}
 		
 		
