@@ -300,7 +300,7 @@
 				html += '<div class="card-body"> <h4 class="card-title">'+title+'</h4>'
 				html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 				html += '<strong>출연 </strong>'+actors+'<br>'
-				html += '<strong>장르</strong>'+genre+'</p>'
+				html += '<strong>장르 </strong>'+genre+'</p>'
 				html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 				console.log(html);	
 				$("#movie_info").append(html);		
