@@ -28,12 +28,14 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                     </div>
                                     
-                                    <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">이벤트 삭제</button>
+	                                <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">수정</button>
+                                    	<button type="button" name="event_delete" class="btn btn-outline-primary">삭제</button>
                                     </div>
+                                    
                                 </div>
 
                                 <!-- 이벤트 반복 -->
@@ -45,10 +47,11 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 	                                </div>
-	                                <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">이벤트 삭제</button>
+	                                <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">수정</button>
+                                    	<button type="button" name="event_delete" class="btn btn-outline-primary">삭제</button>
                                     </div>
                                 </div>
 
@@ -76,11 +79,11 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                     </div>
                                     
-                                    <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">참여취소</button>
+                                    <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_cancel" class="btn btn-outline-primary">참여 취소</button>
                                     </div>
                                 </div>
 
@@ -88,15 +91,15 @@
                                 <hr />
                                 <div class="card-body row align-items-center">
 	                                <div class="col">
-	                                    <p class="text-left card-text">
+	                                    <p class="text-left card-text text-center">
 	                                        <strong>10월 31일 6:30PM</strong>
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 	                                </div>
-	                                <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">참여취소</button>
+	                                 <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_cancel" class="btn btn-outline-primary">참여 취소</button>
                                     </div>
                                 </div>
 
