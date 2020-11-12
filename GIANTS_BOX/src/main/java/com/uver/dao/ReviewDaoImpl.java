@@ -104,6 +104,31 @@ import com.uver.vo.ReviewVO;
 	}
 	
    
+   //delete
+   @Override
+	public int doDelete(ReviewVO review) {
+		int flag = 0;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(" DELETE FROM review \n");
+		sb.append(" WHERE review_seq = ?      \n");
+
+		LOG.debug("==========================");
+		LOG.debug("=sql=\n" + sb.toString());
+		LOG.debug("=param=\n" + review);
+		LOG.debug("==========================");
+
+		//Object[] args = { review };
+		Object[] args = { review.getReview_seq() };
+		LOG.debug("args:"+args);		
+		flag = this.jdbcTemplate.update(sb.toString(), args);
+		LOG.debug("flag:"+flag);
+		
+		return flag;
+	}
+   
+   
+   //update
    @Override
    public int doUpdate(ReviewVO vo) {
 		int flag = 0;
@@ -131,40 +156,6 @@ import com.uver.vo.ReviewVO;
 	}
    
 	
-	/*
-	@Override
-	public ReviewVO doSelectOne(int seq) {
-		ReviewVO outVO = null;
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT          \n");
-	    sb.append(" review_seq,            \n");
-	    sb.append(" div,        \n");
-	    sb.append(" title,           \n");
-	    sb.append(" context,       \n");
-	    sb.append(" writer,          \n");
-	    sb.append(" reg_dt,     \n");
-	    sb.append(" mod_dt,       \n");	   
-		sb.append(" FROM reivew     \n");
-		sb.append(" WHERE review_seq = ?   \n");
-		
-		LOG.debug("-----------------------------");
-		//LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + seq);
-		LOG.debug("-----------------------------");	
-		
-		Object args[] = {seq};
-		outVO = (ReviewVO)this.jdbcTemplate.queryForObject(sb.toString(), 
-															args, 
-															rowMapper);
-		
-		LOG.debug("==========================");
-		LOG.debug("=outVO="+outVO);
-		LOG.debug("==========================");
-
-		return outVO;
-	}
-	*/ 
    
    
 	/*
@@ -212,6 +203,7 @@ import com.uver.vo.ReviewVO;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT			   \n");
 		sb.append("    review_seq,    \n");		
+		sb.append("    event_seq,    \n");	
 		sb.append("    writer,            \n");
 		sb.append("    title,            \n");
 		sb.append("    context,        \n");		
@@ -233,23 +225,25 @@ import com.uver.vo.ReviewVO;
 
 	}
 	
+	
 	//div 조회?
 	@Override
 	public List<ReviewVO> doSelectList(ReviewVO vo) {
 		List<ReviewVO> list = null;
-		Object[] args = { vo.getReview_seq(), vo.getDiv() };
+		Object[] args = { vo.getEventSeq(), vo.getDiv() };
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT												\n");
-		sb.append("    review_seq,                                     \n");		
-		sb.append("    div,                                             \n");
-		sb.append("    title,                                             \n");
-		sb.append("    context,                                         \n");
+		sb.append("    review_seq,                                     \n");
+		sb.append("    event_seq,                                     \n");
 		sb.append("    writer,                                             \n");
-		sb.append("    TO_CHAR(reg_dt, 'YY/MM/DD HH24:MI:SS') AS reg_dt,  \n");		
+		sb.append("    title,                                         \n");
+		sb.append("    context,                                             \n");
+		sb.append("    TO_CHAR(reg_dt, 'YY/MM/DD HH24:MI:SS') AS reg_dt,  \n");	
+		sb.append("    div,                                             \n");
 		sb.append("    TO_CHAR(mod_dt, 'YY/MM/DD HH24:MI:SS') AS mod_dt   \n");
 		sb.append("FROM                                                 \n");
 		sb.append("    review                                       \n");
-		sb.append("WHERE review_seq=?                                          \n");
+		sb.append("WHERE event_seq=?                                          \n");
 		sb.append("AND div=?                                            \n");
 		sb.append("ORDER BY mod_dt desc                                \n");
 
@@ -261,7 +255,7 @@ import com.uver.vo.ReviewVO;
 
 		return list;
 	}
-
+	
 	
 	/*
 	@Override
@@ -307,39 +301,8 @@ import com.uver.vo.ReviewVO;
 	*/
 	
 	
-	/**
-	 * 삭제
-	 * @param ?
-	 * @return
-	 */
-	@Override
-	public int doDelete(ReviewVO review) {
-		int flag = 0;
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(" DELETE FROM review \n");
-		sb.append(" WHERE review_seq = ?      \n");
-
-		LOG.debug("==========================");
-		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + review);
-		LOG.debug("==========================");
-
-		//Object[] args = { review };
-		Object[] args = { review.getReview_seq() };
-		LOG.debug("args:"+args);
-		/*Object[] args = {review.getReview_seq(),
-								review.getWriter(),				
-								review.getTitle(),
-								review.getContext(),				
-								review.getReg_dt(),
-								review.getDiv(),
-								review.getMod_dt()}; */
-		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag:"+flag);
-		
-		return flag;
-	}
+	
+	
 
 	
 	
