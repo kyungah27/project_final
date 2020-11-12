@@ -29,16 +29,17 @@ public class MainController {
 		}
 	}
 	
+	
 	//--- 로그인 페이지로 이동
-		@RequestMapping(value="login.do")
-		public String goLogin() {
-			LOG.debug("-------------------");
-			LOG.debug("login()");
-			LOG.debug("-------------------");
-			
-			//--- 추후 views 폴더에 main.jsp 페이지 설정
-			return "login";
-		}
+	@RequestMapping(value="login.do")
+	public String goLogin() {
+		LOG.debug("-------------------");
+		LOG.debug("login()");
+		LOG.debug("-------------------");
+		
+		//--- 추후 views 폴더에 main.jsp 페이지 설정
+		return "login";
+	}
 			
 	//--- 회원가입 페이지로 이동
 	@RequestMapping(value="signup.do")

@@ -77,6 +77,7 @@
 
 
  <!-- javascript -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript">
     
     //모든 컨트롤(element)가 로딩이 완료시
@@ -120,7 +121,7 @@
 
 	$("#search_movie").on("click",function(){
 					//$(document).find('#selected_seq').val($(this).val());
-					window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
+			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
 	}) ;
 
 	
