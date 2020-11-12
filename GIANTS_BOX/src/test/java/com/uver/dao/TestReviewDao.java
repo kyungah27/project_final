@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,7 +32,8 @@ public class TestReviewDao {
 	Logger LOG = Logger.getLogger(TestReviewDao.class);
 
 	@Autowired
-	ReviewDao dao;
+	@Qualifier("reviewDaoImpl")
+	ReviewDao reviewDao;
 
 	@Autowired
 	ApplicationContext context;
@@ -45,7 +47,7 @@ public class TestReviewDao {
 		LOG.debug("** setup() **");
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
-		LOG.debug("** ReviewDaoImpl **" + dao);
+		LOG.debug("** ReviewDaoImpl **" + reviewDao);
 		review01 = new ReviewVO(1, 1002,"마이", "바티스", "추가", "20/11/15", 10, "20/11/15");
 		review02 = new ReviewVO(71, 2, "바티스바티스", "테스트", "이벤트 모올라", "20/11/15",20, "20/11/15");
 
@@ -59,12 +61,12 @@ public class TestReviewDao {
 	@Ignore
 	public void addAndGet() {
 		
-		dao.doDelete(review01);
-		dao.doDelete(review02);
+		reviewDao.doDelete(review01);
+		reviewDao.doDelete(review02);
 		
 		
-		dao.doInsert(review01);
-		dao.doInsert(review02);
+		reviewDao.doInsert(review01);
+		reviewDao.doInsert(review02);
 				
 	}
 	
@@ -75,9 +77,9 @@ public class TestReviewDao {
 		int flag = 0;
 		// 삽입
 		
-		flag = dao.doInsert(review01);
+		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
-		flag = dao.doInsert(review02);
+		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
 		
 		
@@ -123,7 +125,7 @@ public class TestReviewDao {
 		    	
 		    	//2.단건입력
 		    	//int flag =dao.doInsert(review01);
-			 	int flag =dao.doUpdate(review01);
+			 	int flag =reviewDao.doUpdate(review01);
 		    	assertThat(1, is(1));
 		    	//3.수정
 				review01=new ReviewVO(49, 1002, "저장해요", "이벤트 날씨U", "이벤트 모올라U", "",20, "");//BASIC
@@ -136,7 +138,7 @@ public class TestReviewDao {
 		    	review01.setDiv(review01.getDiv());
 		    	
 		    	
-		    	flag = dao.doUpdate(review01);
+		    	flag = reviewDao.doUpdate(review01);
 		    	LOG.debug("flag:"+flag);
 		    	assertThat(1, is(1));	    	 	
 		    	

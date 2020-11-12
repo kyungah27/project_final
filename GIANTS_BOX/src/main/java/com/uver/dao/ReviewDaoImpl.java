@@ -8,16 +8,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-
 import com.uver.cmn.Search;
-
 import com.uver.vo.ReviewVO;
 
-	@Repository("ReviewDaoImpl")
+	@Repository("reviewDaoImpl")
 	public class ReviewDaoImpl {
 	final static Logger LOG = LoggerFactory.getLogger(ReviewDaoImpl.class);
 	/*
@@ -35,7 +32,7 @@ import com.uver.vo.ReviewVO;
 	 * ref="sqlSessionFactoryBean"/> </bean>
 	 */
 	//추가
-	private final String NAMESPACE = "com.sist.ehr.review";
+	private final String NAMESPACE = "com.uver.review";
 	
 	public ReviewDaoImpl() {
 	}
