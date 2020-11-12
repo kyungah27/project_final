@@ -29,6 +29,20 @@ public class MainController {
 		}
 	}
 	
+	//--- 로그아웃 처리
+	@RequestMapping(value="logout.do")
+	public String goLogout(HttpServletRequest req) {
+		LOG.debug("-------------------");
+		LOG.debug("main page()");
+		LOG.debug("-------------------");
+		
+		HttpSession session = req.getSession();
+		
+		session.removeAttribute("user");
+		   return "index";
+	}
+	
+	
 	
 	//--- 로그인 페이지로 이동
 	@RequestMapping(value="login.do")

@@ -41,13 +41,13 @@
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="nav navbar-nav ml-auto">
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="login.do">explore</a></li>
+							class="nav-link text-white" href="${context}/login.do">explore</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="my_event.do">my event</a></li>
+							class="nav-link text-white" href="${context}/my_event.do">my event</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="account.do">my account</a></li>
+							class="nav-link text-white" href="${context}/account.do">my account</a></li>
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="main.do">log out</a></li>
+							class="nav-link text-white" href="${context}/logout.do">log out</a></li>
 					</ul>
 				</div>
 			</div>
