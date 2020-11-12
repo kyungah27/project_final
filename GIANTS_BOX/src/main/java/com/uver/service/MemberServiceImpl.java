@@ -31,6 +31,24 @@ import com.uver.vo.MemberVO;
 			this.memberDaoImpl = memberDaoImpl;
 		}
 		
+//		public MemberVO SelectOne(MemberVO inputUser) {
+//			
+//			
+//			return MemberVO;
+//		}
+	
+		/**
+		 * 아이디 하나 조회
+		 * @param inputUser
+		 * @return
+		 */
+		public MemberVO selectOne(MemberVO inputUser) {
+			
+		MemberVO memberOne = memberDaoImpl.doSelectOneById(inputUser.getUserId());
+			
+			return memberOne;
+		}
+		
 		/**
 		 * 회원정보 수정
 		 * @param inputUser

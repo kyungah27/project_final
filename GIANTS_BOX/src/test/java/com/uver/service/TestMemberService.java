@@ -71,9 +71,30 @@ public class TestMemberService {
 		
 	}
 	
+//	@Test
+//	public void selectOne() {
+//		MemberVO updateUser = new MemberVO();
+//		updateUser.setUserId("H170_02");
+//		MemberVO updateAfter = memberServiceImpl.selectOne(updateUser);
+//	}
+	
 	@Test
-	public void idCheckTest() {
+	public void myUpdate() {
+		//회원수정
 		
+		MemberVO updateUser = new MemberVO();
+	    updateUser.setUserId("H170_02");
+		MemberVO updateAfter = memberServiceImpl.selectOne(updateUser);
+		updateAfter.setBirthday("056056");
+		int updateUser1 = memberServiceImpl.myUpdate(updateAfter);
+		assertThat(1, is(updateUser1));
+	}
+	
+	
+	@Test
+	@Ignore
+	public void idCheckTest() {
+		//id 중복체크 테스트
 		MemberVO regIdUser = new MemberVO();
 		regIdUser.setUserId("H170_02");
 		int resultIdCheck = memberServiceImpl.idCheck(regIdUser);
