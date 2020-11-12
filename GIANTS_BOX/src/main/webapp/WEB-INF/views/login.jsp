@@ -8,11 +8,22 @@
                     <h2 class="text-primary">Log In</h2>
                 </div>
                 <form>
-                    <div class="form-group"><label for="email">ID</label><input class="form-control item" type="text" id="id"></div>
-                    <div class="form-group"><label for="password">Password</label><input class="form-control" type="password" id="password"></div>
                     <div class="form-group">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div>
-                    </div><button class="btn btn-primary btn-block" type="submit" id="doLogin">Log In</button></form>
+	                    <label for="email">ID</label>
+                    	<input class="form-control item" type="text" id="id" />
+                    </div>
+                    <div class="form-group">
+                    	<label for="password">Password</label>
+                    	<input class="form-control" type="password" id="password" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                        	<input class="form-check-input" type="checkbox" id="checkbox">
+                        	<label class="form-check-label" for="checkbox">Remember me</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="button" id="doLogin">Log In</button>
+                </form>
             </div>
         </section>
     </main>
@@ -22,29 +33,38 @@
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">
     $("#doLogin").on("click", function() {
-		alert("doInsert");
+		
 		let userId = $("#id").val();			
+		let password = $("#password").val();
+		console.log("userId" + userId);			
 	
 		  $.ajax({
-			    type:"POST",
+			    type:"GET",
 			    url:"${context}/loginn.do",
 			    dataType:"html", 
 			    data:{"userId":userId,
-				      "password":$("#password").val()         
+				      "password":password
 			    },
 			    success:function(data){ //성공
-			    	var obj = JSON.parse(data);
-			    	alert(obj.msgContents);
-			    	$("#msgContents").val(obj.msgContents);
 
-			    	moveToMain();
-					
+			    	var obj = JSON.parse(data);
+
+				    if(null != obj && obj.msgId==="1"){
+				    	console.log("success");
+		                alert(obj.msgContents);
+				    	moveToMain();
+		                
+					} else{
+		                alert(obj.msgId+"|"+obj.msgContents);
+		            }
+
 			    	
 			    },
 			    error:function(xhr,status,error){
 			     alert("error:"+error);
 			    },
 			    complete:function(data){
+			    	
 			    
 			    }   
 			  
@@ -55,8 +75,11 @@
 
 
 	function moveToMain(){
+		console.log("moveToMain()");
 		window.location.href = "${context}/main.do";
 	}
+
+	
     
 </script>
 <%@ include file="cmn/footer2.jsp" %>

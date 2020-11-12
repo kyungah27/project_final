@@ -8,21 +8,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.uver.vo.MemberVO;
+
 @Controller("MainController")
 public class MainController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 
 	
 	//--- 메인페이지로 이동
-	//------ 세션ID 여부에 따라 분기 main.jsp or main_user.jsp로 분기
 	@RequestMapping(value="main.do")
 	public String goMain(HttpServletRequest req) {
 		LOG.debug("-------------------");
-		LOG.debug("main page()");
+		LOG.debug("main()");
 		LOG.debug("-------------------");
 		
-		HttpSession session = req.getSession();
-		if(session.getAttribute("user") != null) {
+		if(isAliveSession(req)) {
 			return "index_after_login";
 		} else {
 			return "index";
@@ -33,15 +33,14 @@ public class MainController {
 	@RequestMapping(value="logout.do")
 	public String goLogout(HttpServletRequest req) {
 		LOG.debug("-------------------");
-		LOG.debug("main page()");
+		LOG.debug("goLogout()");
 		LOG.debug("-------------------");
-		
-		HttpSession session = req.getSession();
-		
-		session.removeAttribute("user");
-		   return "index";
+
+		invalidateSession(req.getSession());
+		return "index";
 	}
 	
+
 	
 	
 	//--- 로그인 페이지로 이동
@@ -51,7 +50,6 @@ public class MainController {
 		LOG.debug("login()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "login";
 	}
 			
@@ -62,7 +60,6 @@ public class MainController {
 		LOG.debug("signup()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "signup";
 	}
 	
@@ -73,7 +70,6 @@ public class MainController {
 		LOG.debug("eventView()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "event_view";
 	}
 	
@@ -84,7 +80,6 @@ public class MainController {
 		LOG.debug("eventReg()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "event_reg";
 	}
 	
@@ -95,7 +90,6 @@ public class MainController {
 		LOG.debug("goMyEvent()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "my_event";
 	}
 
@@ -106,12 +100,47 @@ public class MainController {
 		LOG.debug("goEventUpdate()");
 		LOG.debug("-------------------");
 		
-		//--- 추후 views 폴더에 main.jsp 페이지 설정
 		return "event_update";
 	}
 	
 	
+	/**
+	 * 로그인 세션 존재 여부 체크
+	 * 존재하지 않을 시 세션 객체 무효화
+	 * 
+	 * @param HttpServletRequest req
+	 * @return (true: 존재, false: 존재x)
+	 */
+	private boolean isAliveSession(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		if(getMember(session) != null) {
+			return true;
+		} else {
+			invalidateSession(session);
+			return false;
+		}
+	}
 	
+	/**
+	 * 세션 객체 무효화
+	 * 
+	 * @param HttpSession session
+	 */
+	private void invalidateSession(HttpSession session) {
+		session.invalidate();
+	}
+	
+	
+	/**
+	 * 세션에서 MemberVO 가져오기
+	 * 
+	 * @param session
+	 * @return Object
+	 */
+	private MemberVO getMember(HttpSession session) {
+		return (MemberVO) session.getAttribute("user");
+		
+	}
 	
 
 }
