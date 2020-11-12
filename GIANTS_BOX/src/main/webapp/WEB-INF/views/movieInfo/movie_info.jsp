@@ -73,9 +73,14 @@
 		});
 
 		 $(document).on("click","button[name=select_btn]",function(){
+				var tmp = $(this).val().split("|");
+				
+			 
 				alert($(this).val());
-				/* $(document).find('#selected_seq').val($(this).val());
-				window.open("/ABC/layout/trans/trans_detail.jsp", "window" ,"width=800 height=400"); */
+				if( false==confirm("선택하시겠습니까?"))return;
+				$(opener.document).find('#movie_code').val(tmp[0]);
+				$(opener.document).find('#movie_genre').val(tmp[1]);
+				window.close();
 		}) ;
 		
 
@@ -140,7 +145,7 @@
 							html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 							html += '<strong>출연 </strong>'+actors+'<br>'
 							html += '<strong>장르</strong>'+genre+'</p>'
-							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button value='+DOCID+' name="select_btn" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button value='+DOCID+"|"+genre+' name="select_btn" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 							console.log(html);	
 							$("#movie_info").append(html);			
 						}) 

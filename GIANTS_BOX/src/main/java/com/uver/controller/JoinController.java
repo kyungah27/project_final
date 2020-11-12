@@ -51,6 +51,7 @@ public class JoinController {
 		return "movieInfo/movie_info";
 	}
 	
+	
 	@RequestMapping(value="join/doSelectList.do",method = RequestMethod.GET
 			,produces = "application/json;charset=UTF-8"
 			)

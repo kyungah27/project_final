@@ -52,9 +52,13 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="movie_info" class="col-form-label col-lg-3">영화</label>
-                                    <input type="text" class="form-control form-control" id="movie_info" placeholder="영화" aria-label="movie_info" />
+                                    <input type="text" class="form-control form-control" id="movie_code" placeholder="영화" aria-label="movie_info" />
                                     <button type="button" id="search_movie" class="btn btn-outline-primary btn-sm" type="button">영화검색</button>
-                                </div>                                    
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label for="movie_info" class="col-form-label col-lg-3">장르</label>
+                                    <input type="text" class="form-control form-control" id="movie_genre" placeholder="장르" aria-label="movie_genre" readonly />
+                                </div>                                       
                             </div>
                         </div>
                         <div class="form-group row ml-auto">
@@ -110,6 +114,14 @@
 		preview.appendChild(image);
 		
 	})
+	
+	
+	$("#search_movie").on("click",function(){
+					//$(document).find('#selected_seq').val($(this).val());
+					window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
+	}) ;
+
+	
 	
 	
     /* function preview(file){
