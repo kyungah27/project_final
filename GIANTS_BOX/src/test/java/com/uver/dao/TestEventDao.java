@@ -86,7 +86,7 @@ public class TestEventDao {
 
 		
 Search search = new Search("10", "test_", "20/11/13", 10, 1);
-Search search = new Search("20", "새모임", "20/11/13", 10, 1);
+
 
 		//search.setDiv("20");
 		
