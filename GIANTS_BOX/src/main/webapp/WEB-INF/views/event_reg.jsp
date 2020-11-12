@@ -8,7 +8,7 @@
                     <h2 class="text-primary"><strong id="user_id">${user.userId}</strong>님의 이벤트를 시작하세요.</h2>
                 </div>
                 <div class="block-content">
-                    <form class="product-info">
+                    <form class="product-info" id="reg_frm">
                         <div class="row">
                         
                             <div class="col-lg-5 col-md-12 col-sm-12">
@@ -17,8 +17,8 @@
 								</div>
                                 
                                 <div class="custom-file mt-2 mb-3">
-	                                <form id="save_frm" action="${context}/img/doInsert.do" method="post">
-	                                  <input type="file" class="custom-file-input" id="img_picker" accept="image/jpg, image/png, image/jpeg, image/gif"  />
+                                	<form id="img_frm" method="post" enctype="multipart/form-data">
+	                                  <input type="file" class="custom-file-input" name="images[]" id="img_picker" accept="image/jpg, image/png, image/jpeg, image/gif"  />
 	                                  <label class="custom-file-label" id="img_label" for="customFile">대표 이미지 업로드하기</label>
 	                                </form>
                                 </div>
@@ -64,7 +64,7 @@
                             <label for="content" class="col-form-label">세부사항</label>
                             <textarea class="form-control" id="content" rows="16"></textarea>
                         </div>
-                        <button type="button" id="search_movie" class="btn btn-primary btn-block" type="button">이벤트 등록</button>
+                        <button type="button" id="event_reg" class="btn btn-primary btn-block">이벤트 등록</button>
                     </form>
                     
                 </div>
@@ -87,16 +87,93 @@
 		console.log("document ready"); 
 	});//document ready
 
-	
 	let picker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
+	let eventRegBtn = document.getElementById("event_reg");
 	
+
+	
+	//---[등록]----------------------------------------
+	eventRegBtn.addEventListener("click", eventReg);
+	
+	function eventReg(){
+		if(!confirm("등록하시겠습니까?")){
+			return;
+		} 
+
+		//---[성공 여부]
+		let flag = {
+			aInternal: 0,
+			aListener: function(val) {},
+						set a(val) {
+							this.aInternal = val;
+							this.aListener(val);
+						},
+						get a(){
+							return this.aInternal;
+						},
+						registerListener: function(listener){
+											this.aListener = listener;
+						}
+		};
+		
+		flag.registerListener(function(val) {
+			if(flag.a==1){
+				moveToList();
+			}
+		});
+				
+		//---[img insert]
+		const form = $("#img_frm")[0];
+        const formData = new FormData(form);
+        formData.append("images[]", $("#img_picker")[0].files[0]);
+
+		$.ajax({
+			type: "POST",
+			url: "${context}/img/doInsert.do",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(data){
+				if(null != data && data.msgId=="1"){
+					//---이미지 등록 성공시
+	                alert(data.msgContents);
+	                flag.a += 1;
+				} else{
+	                alert(data.msgId+"|"+data.msgContents);
+	            }
+			},
+			err: function(err){
+				alert(err.status);
+			}
+		}); //---//[img insert]
+
+
+		//---[redirect]
+		
+		
+	}
+	//---//[등록]----------------------------------------
+
+
+
+	
+	function moveToList(){
+		window.location.href="main.do";
+	}
+	
+	
+	
+	
+	
+
+	
+
 	//---[img preview]----------------------------------------
 	picker.addEventListener('change', function(e){
 		let getFile = e.target.files;
 		let image = document.createElement("img");
 		image.setAttribute("class", "img-fluid");
-		console.log(getFile);
 
 		// FileReader 객체 생성
 		let reader = new FileReader();
@@ -104,23 +181,17 @@
 		// FileReader onload 시 이벤트 발생
 		reader.onload = (function(file) {
 			return function (e) {
-				// base64-encoded String data
-				console.log("result file");
 				file.src = e.target.result;
 			}
 		})(image)
 		
 		if(getFile){
-			console.log("getFile ()");
 			reader.readAsDataURL(getFile[0]);
-			
 		}
 
-		console.log("img append");
 		preview.appendChild(image);
-		
 	})
-	//---[img preview]----------------------------------------
+	//---//[img preview]----------------------------------------
 	
 	
 
@@ -173,7 +244,7 @@
 	    var d = str.substr(6, 2);
 	    return new Date(y, m-1, d);
 	}
-    //---[datetime picker]---------------------------------------
+    //---//[datetime picker]---------------------------------------
 
 
 	</script>

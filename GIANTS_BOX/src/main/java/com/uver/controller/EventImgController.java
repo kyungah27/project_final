@@ -149,6 +149,13 @@ public class EventImgController {
 		return responseJson(flag);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 회원 등록할 때 이미지 업로드
 	 * 
@@ -175,12 +182,9 @@ public class EventImgController {
 	
 	
 	
-	
-	
-	
 	private int filesInsert (MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
 		LOG.debug("-----------------------");
-		LOG.debug("doInsert()");
+		LOG.debug("filesInsert()");
 		LOG.debug("-----------------------");
 		
 		//--- 이미지 저장 경로 설정
@@ -192,8 +196,12 @@ public class EventImgController {
 		
 		List<EventImgVO> list = new ArrayList<>();
 		List<MultipartFile> imgList = mReg.getFiles("images[]");
-		int flag = 0;
 		
+		for (MultipartFile mf : imgList) {
+			LOG.debug(mf.getName());
+		}
+		
+		int flag = 0;
 		for (MultipartFile mf : imgList) {
 			
 			//원래 이름
@@ -253,13 +261,16 @@ public class EventImgController {
 	}
 	
 	
+	
+	
+	
 	private String responseJson(int flag) {
 		Message message=new Message();
         message.setMsgId(String.valueOf(flag));
         
         if(flag > 0) {
         	message.setMsgContents("이미지가 등록되었습니다.");
-        }else {
+        } else {
         	message.setMsgContents("이미지 등록을 실패했습니다.");
         }
 		
