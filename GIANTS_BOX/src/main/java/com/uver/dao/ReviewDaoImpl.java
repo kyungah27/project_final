@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+
 import com.uver.cmn.Search;
 import com.uver.vo.ReviewVO;
 
@@ -91,7 +92,101 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	 * return flag; }
 	 */
 
-	// delete
+	
+	@Override
+	//새로 바꾼 것
+	public ReviewVO doSelectOne(int review_seq) {
+		ReviewVO outVO = null; 	
+		String statement = this.NAMESPACE+".doSelectOne";
+		ReviewVO inVO =new ReviewVO();
+		inVO.setReview_seq(review_seq);
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+inVO);
+		LOG.debug("========================");		
+    	
+		outVO= this.sqlSessionTemplate.selectOne(statement, inVO);
+				
+		LOG.debug("========================");
+		LOG.debug("=outVO="+outVO);
+		LOG.debug("========================");			
+    	
+
+    	return outVO;
+	}
+	
+	
+	//SELECT BY TITLE
+	  public ReviewVO doSelectOneByTitle(ReviewVO review) { 
+		 		  
+		  	LOG.debug("=====================");
+			LOG.debug("=doSelectTitleOne=");
+			LOG.debug("=====================");		
+			//단건조회(title) : namespace+id = com.sist.ehr.board.doSelectTitleOne
+			String statement = NAMESPACE +".doSelectTitleOne";	
+			LOG.debug("=statement="+statement);
+			LOG.debug("=reviewVO="+review);	
+			
+			ReviewVO outVO = this.sqlSessionTemplate.selectOne(statement, review);
+			LOG.debug("=outVO="+outVO);
+					
+			return outVO;
+			}
+	
+	
+	// div 조회? selectlist
+		public List<ReviewVO> doSelectList(Search search) {
+			LOG.debug("=====================");
+			LOG.debug("=doSelectList=");
+			LOG.debug("=====================");
+
+			String statement = NAMESPACE + ".doSelectList";
+			LOG.debug("=statement=" + statement);
+			LOG.debug("=param=" + search);
+
+			List<ReviewVO> list = this.sqlSessionTemplate.selectList(statement, search);
+			for (ReviewVO vo : list) {
+				LOG.debug("=vo=" + vo);
+			}
+
+			return list;
+		}
+
+	  
+	// UPDATE
+		public int doUpdate(ReviewVO vo) {
+			LOG.debug("=====================");
+			LOG.debug("=doUpdate=");
+			LOG.debug("=====================");
+			// 등록 : namespace+id = com.sist.ehr.board.doInsert
+			String statement = NAMESPACE + ".doUpdate";
+			LOG.debug("=statement=" + statement);
+
+			int flag = sqlSessionTemplate.update(statement, vo);
+			LOG.debug("=flag=" + flag);
+
+			return flag;
+		}
+		/*
+		 * @Override public int doUpdate(ReviewVO vo) { int flag = 0; StringBuilder sb =
+		 * new StringBuilder(); //Object[] args = { vo.getEventSeq(), vo.getWriter(),
+		 * vo.getTitle(), vo.getContext(), vo.getDiv()};
+		 * 
+		 * sb.append("UPDATE  review	 \n"); sb.append("SET                   \n");
+		 * sb.append("    event_seq = ?,      \n");
+		 * sb.append("    writer = ?,      \n"); sb.append("    title = ?,      \n");
+		 * sb.append("    context = ?,      \n"); sb.append("     div = ?,      \n");
+		 * sb.append("    mod_dt = SYSDATE  \n"); sb.append("WHERE                 \n");
+		 * sb.append("    review_seq = ?   \n"); LOG.debug("=sql=\n"+sb.toString());
+		 * LOG.debug("=param=" + vo); LOG.debug("========================");
+		 * 
+		 * Object[] args = {vo.getEventSeq(), vo.getWriter(), vo.getTitle(),
+		 * vo.getContext(), vo.getDiv(), vo.getReview_seq() }; flag =
+		 * this.jdbcTemplate.update(sb.toString(), args); LOG.debug("=flag=" + flag);
+		 * return flag; }
+		 */
+	  
+	  
+	// DELETE
 	public int doDelete(ReviewVO review) {
 		LOG.debug("=====================");
 		LOG.debug("=doDelete=");
@@ -123,64 +218,12 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	 * return flag; }
 	 */
 
-	// update
-	public int doUpdate(ReviewVO vo) {
-		LOG.debug("=====================");
-		LOG.debug("=doUpdate=");
-		LOG.debug("=====================");
-		// 등록 : namespace+id = com.sist.ehr.board.doInsert
-		String statement = NAMESPACE + ".doUpdate";
-		LOG.debug("=statement=" + statement);
+	
 
-		int flag = sqlSessionTemplate.update(statement, vo);
-		LOG.debug("=flag=" + flag);
-
-		return flag;
-	}
-	/*
-	 * @Override public int doUpdate(ReviewVO vo) { int flag = 0; StringBuilder sb =
-	 * new StringBuilder(); //Object[] args = { vo.getEventSeq(), vo.getWriter(),
-	 * vo.getTitle(), vo.getContext(), vo.getDiv()};
-	 * 
-	 * sb.append("UPDATE  review	 \n"); sb.append("SET                   \n");
-	 * sb.append("    event_seq = ?,      \n");
-	 * sb.append("    writer = ?,      \n"); sb.append("    title = ?,      \n");
-	 * sb.append("    context = ?,      \n"); sb.append("     div = ?,      \n");
-	 * sb.append("    mod_dt = SYSDATE  \n"); sb.append("WHERE                 \n");
-	 * sb.append("    review_seq = ?   \n"); LOG.debug("=sql=\n"+sb.toString());
-	 * LOG.debug("=param=" + vo); LOG.debug("========================");
-	 * 
-	 * Object[] args = {vo.getEventSeq(), vo.getWriter(), vo.getTitle(),
-	 * vo.getContext(), vo.getDiv(), vo.getReview_seq() }; flag =
-	 * this.jdbcTemplate.update(sb.toString(), args); LOG.debug("=flag=" + flag);
-	 * return flag; }
-	 */
-
-	/*
-	 * 안씀
-	 * 
-	 * @Override public int ReviewVO doSelectOneByTitle(String title) { int flag =
-	 * 0; ReviewVO outVO = null;
-	 * 
-	 * StringBuilder sb = new StringBuilder(); sb.append(" SELECT          \n");
-	 * sb.append(" review_seq,            \n"); sb.append(" div,        \n");
-	 * sb.append(" title,           \n"); sb.append(" context,       \n");
-	 * sb.append(" writer,          \n"); sb.append(" reg_dt,     \n");
-	 * sb.append(" mod_dt,       \n"); sb.append(" FROM review     \n");
-	 * sb.append(" WHERE title = ?   \n");
-	 * 
-	 * LOG.debug("-----------------------------"); //LOG.debug("[SQL]\n" +
-	 * sb.toString()); LOG.debug("[param]\n" + title);
-	 * LOG.debug("-----------------------------");
-	 * 
-	 * Object args[] = {title}; outVO =
-	 * (ReviewVO)this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-	 * 
-	 * LOG.debug("=========================="); LOG.debug("=outVO="+outVO);
-	 * LOG.debug("==========================");
-	 * 
-	 * //return outVO; return flag; }
-	 */
+	
+	 
+	  
+	 
 
 	// selectOne 써야되는것
 	/*
@@ -200,73 +243,10 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	}
 	*/
 	
-	/*
-	 * 원래내가썼던 dao
-	 * 
-	 * @Override public ReviewVO doSelectOne(int review_seq) { ReviewVO outVO =
-	 * null;
-	 * 
-	 * StringBuilder sb = new StringBuilder(); sb.append("SELECT			   \n");
-	 * sb.append("    review_seq,    \n"); sb.append("    event_seq,    \n");
-	 * sb.append("    writer,            \n");
-	 * sb.append("    title,            \n"); sb.append("    context,        \n");
-	 * sb.append("    TO_CHAR(reg_dt, 'YY/MM/DD HH24:MI:SS') AS reg_dt,         \n"
-	 * ); sb.append("    div,            \n");
-	 * sb.append("    TO_CHAR(mod_dt, 'YY/MM/DD HH24:MI:SS') AS mod_dt          \n"
-	 * ); sb.append("FROM                \n"); sb.append("    review      \n");
-	 * sb.append("WHERE review_seq=? \n");
-	 * 
-	 * Object[] args = { review_seq }; outVO = (ReviewVO)
-	 * this.jdbcTemplate.queryForObject(sb.toString(), args, rowMapper);
-	 * 
-	 * LOG.debug("====================================="); LOG.debug("=outVO=" +
-	 * outVO); LOG.debug("=====================================");
-	 * 
-	 * return outVO;
-	 * 
-	 * }
-	 */
+	
+	
+	
 
-	// div 조회? selectlist
-	public List<ReviewVO> doSelectList(Search search) {
-		LOG.debug("=====================");
-		LOG.debug("=doSelectList=");
-		LOG.debug("=====================");
-
-		String statement = NAMESPACE + ".doSelectList";
-		LOG.debug("=statement=" + statement);
-		LOG.debug("=param=" + search);
-
-		List<ReviewVO> list = this.sqlSessionTemplate.selectList(statement, search);
-		for (ReviewVO vo : list) {
-			LOG.debug("=vo=" + vo);
-		}
-
-		return list;
-	}
-
-	@Override
-	//새로 바꾼 것
-	public ReviewVO doSelectOne(int review_seq) {
-		ReviewVO outVO = null; 	
-		String statement = this.NAMESPACE+".doSelectOne";
-		ReviewVO inVO =new ReviewVO();
-		inVO.setReview_seq(review_seq);
-		LOG.debug("=statement="+statement);
-		LOG.debug("=param="+inVO);
-		LOG.debug("========================");		
-    	
-		outVO= this.sqlSessionTemplate.selectOne(statement, inVO);
-				
-		LOG.debug("========================");
-		LOG.debug("=outVO="+outVO);
-		LOG.debug("========================");			
-    	
-
-    	return outVO;
-	}
-
-	@Override
 	public List<ReviewVO> doSelectList(ReviewVO vo) {
 		// TODO Auto-generated method stub
 		return null;
