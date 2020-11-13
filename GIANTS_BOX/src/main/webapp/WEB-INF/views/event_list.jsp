@@ -3,30 +3,20 @@
 
 
  <main class="page landing-page" style="padding:145px 100px 100px 100px;">
- 		<section class="clean-block">
+ 		<section class="clean-block" style="padding-bottom:50px">
 			<!-- Start: Navigation with Search -->
-			<nav
-				class="navbar navbar-light navbar-expand-md navigation-clean-search">
+			<nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
 				<div class="container">
-					<button data-toggle="collapse" class="navbar-toggler"
-						data-target="#navcol-1">
-						<span class="sr-only">Toggle navigation</span><span
-							class="navbar-toggler-icon"></span>
+					<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+						<span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
 					</button>
-					<div class="collapse navbar-collapse text-center d-xl-flex"
-						id="navcol-1"
-						style="padding: 10px; padding-right: 20%; padding-left: 20%;">
-						<form class="form-inline mx-auto" style="width: 82%;" method="get"
-							target="_self">
+					<div class="collapse navbar-collapse text-center d-xl-flex" id="navcol-1" style="padding: 10px; padding-right: 20%; padding-left: 20%;">
+						<form class="form-inline mx-auto" style="width: 82%;" method="get" target="_self">
 							<div class="form-group" style="width: 100%;">
-								<label for="search-field"><i class="fa fa-search"></i></label><input
-									class="form-control search-field" type="search"
-									id="search-field" name="search" style="width: 95%;"
-									placeholder="검색">
+								<label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field" name="search" style="width: 95%;" placeholder="검색">
 							</div>
 						</form>
-						<a class="btn btn-light mr-auto action-button" role="button"
-							href="#" style="background-color: rgb(0, 120, 255);">검색</a>
+						<a class="btn btn-light mr-auto action-button" role="button" href="#" style="background-color: rgb(0, 120, 255);">검색</a>
 					</div>
 				</div>
 			</nav>
@@ -34,38 +24,52 @@
 		</section>
 		
 
-        <div class="row">
-            <aside class="col-lg-4 col-md-6">
+	<div class="row">
+            <aside class="col-lg-4 col-md-6 mt-5">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 	<!-- date picker -->
                 	<div class="datepicker-here nav-link mr-auto ml-auto mb-3 mt-5" data-language="en" id="my_calendar"></div>
                 	<!-- //date picker -->
                 	
                 	<!-- genre selection -->
-                	<div class="col btn-group-toggle" data-toggle="buttons">
-                	
-	                	<div class="row">
-							  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
+                 <div class="d-flex justify-content-between ml-4 mt-3" style="margin-bottom: 7px;">
+                      <h3 class="text-primary">장르 선택</h3>
+                      <a href="#">전체해제</a>
+                  </div>
+	                <div class="mr-auto ml-auto" data-toggle="buttons">
+	                	<div class="row btn-group-toggle mx-5">
+						  <label class="m-2 btn btn-outline-primary btn-sm">
 							    <input name="options" id="option1" autocomplete="off" value="genre1" type="checkbox"> genre1
-							  </label>
-							  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
 							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="genre2"> genre2
-							  </label>
-							  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
 							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="genre3"> genre3
-							  </label>
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option5" autocomplete="off" value="genre5"> genre5
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option6" autocomplete="off" value="genre6"> genre6
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option7" autocomplete="off" value="genre6"> genre7
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option8" autocomplete="off" value="genre6"> genre8
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option9" autocomplete="off" value="genre6"> genre9
+						  </label>
+						  <label class="m-2 btn btn-outline-primary btn-sm">
+							    <input type="checkbox" name="options" id="option10" autocomplete="off" value="genre6"> genre10
+						  </label>
 						</div>
-						<div class="row">
-						  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
-						    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
-						  </label>
-						  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
-						    <input type="checkbox" name="options" id="option5" autocomplete="off" value="genre5"> genre5
-						  </label>
-						  <label class="col-lg-4 btn btn-outline-primary btn-sm btn-rad-50">
-						    <input type="checkbox" name="options" id="option6" autocomplete="off" value="genre6"> genre6
-						  </label>
-						</div>
+						
 					</div>
 					<!-- //genre selection -->
 					
@@ -79,7 +83,7 @@
             
             
             
-            <div class="col">
+            <div class="col mt-5">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <div class="container">
@@ -105,7 +109,7 @@
                                 </div>
 
                                 <!-- 이벤트 반복 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body row align-items-center">
 	                                <div class="col">
 	                                    <p class="text-left card-text">
@@ -122,7 +126,7 @@
                                 </div>
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <h4 class="card-title">개최한 이벤트가 없습니다.</h4>
                                 </div>
@@ -154,7 +158,7 @@
                                 </div>
 
                                 <!-- 이벤트 반복 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body row align-items-center">
 	                                <div class="col">
 	                                    <p class="text-left card-text">
@@ -170,7 +174,7 @@
                                 </div>
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <h4 class="card-title">참여한 이벤트가 없습니다.</h4>
                                 </div>
@@ -196,7 +200,7 @@
                                 </div>
 
                                 <!-- 이벤트 반복 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <p class="text-left card-text">
                                         <strong>10월 31일 6:30PM</strong>
@@ -207,7 +211,7 @@
                                 </div>
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <h4 class="card-title">참여한 이벤트가 없습니다.</h4>
                                 </div>
@@ -232,7 +236,7 @@
                                 </div>
 
                                 <!-- 이벤트 반복 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <p class="text-left card-text">
                                         <strong>10월 31일 6:30PM</strong>
@@ -243,7 +247,7 @@
                                 </div>
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr />
+                                <hr>
                                 <div class="card-body">
                                     <h4 class="card-title">참여한 이벤트가 없습니다.</h4>
                                 </div>
