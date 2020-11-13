@@ -288,3 +288,38 @@ body, html {
 .page-footer {
     padding-top: 0px;
 }
+
+.flex-container {
+	display: flex;
+	justify-content: flex-start;
+	max-width: 100%;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 15px 25px;
+	outline: 2px dashed #ddd ;
+    text-align: center;
+    transition: all .15s ease-in-out;
+    height: 420px;
+ }
+
+.flex-item {
+	flex: 0 1 auto;
+	margin: 5px 5px;
+	height: fit-content;
+	background-color: inherit;
+}
+
+.btn-img-picker {
+	width: 100px;
+	background-color: #f8585b;
+	border: none;
+	color: #fff;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	margin: 4px;
+	cursor: pointer;
+	border-radius:10px;
+}
