@@ -8,11 +8,11 @@
 		 content,                                       
 		 capacity,                                      
 		 movie_info AS movieInfo,                                    
-		 start_dt AS startDt,                                      
-		 end_dt AS endDt,                                        
+		 TO_CHAR(start_dt, 'YYYY-MM-DD HH24MISS') startDt,                                      
+		 TO_CHAR(end_dt, 'YYYY-MM-DD HH24MISS') endDt,                                        
 		 location,                                      
 		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
-		 target_dt AS targetDt,                              
+		 TO_CHAR(target_dt, 'YYYY-MM-DD HH24MISS') targetDt,                              
 		 reg_id AS regId                                	
 	</sql>
 
@@ -92,7 +92,7 @@ SELECT T1.*,T2.*
 
 
 
-	<!-- 수정 -->
+<!-- 수정 -->
 	<update id="doUpdate" parameterType="EventVO">
 		UPDATE event			
 		SET user_id = #{userId,jdbcType=VARCHAR}    
@@ -100,10 +100,10 @@ SELECT T1.*,T2.*
 		    ,content = #{content,jdbcType=VARCHAR}    
 		    ,capacity = #{capacity,jdbcType=INTEGER}   
 		    ,movie_info = #{movieInfo,jdbcType=VARCHAR} 
-		    ,start_dt = #{startDt,jdbcType=VARCHAR}   
-		    ,end_dt = #{endDt,jdbcType=VARCHAR}     
+		    ,start_dt = TO_DATE('','YYYY-MM-DD HH24:MI:SS')  
+		    ,end_dt = TO_DATE('','YYYY-MM-DD HH24:MI:SS')     
 		    ,location = #{location,jdbcType=VARCHAR}   
-		    ,target_dt = #{targetDt,jdbcType=VARCHAR}  
+		    ,target_dt = TO_DATE('','YYYY-MM-DD HH24:MI:SS')  
 		    ,reg_id = #{regId,jdbcType=VARCHAR}
 		    ,genre = #{genre,jdbcType=VARCHAR}
 		WHERE event_seq = #{eventSeq,jdbcType=INTEGER} 
@@ -143,11 +143,11 @@ SELECT T1.*,T2.*
 		    #{content},                 
 		    #{capacity},                 
 		    #{movieInfo},                 
-		    #{startDt},                 
-		    #{endDt},                 
+		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
+		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
 		    #{location},                 
 		    SYSDATE,           
-		    #{targetDt},                 
+		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
 		    #{regId},
 		    #{genre}                 
 		)                      
