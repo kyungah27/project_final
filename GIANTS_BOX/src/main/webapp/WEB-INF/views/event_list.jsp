@@ -32,12 +32,12 @@
                 	<!-- //date picker -->
                 	
                 	<!-- genre selection -->
-               <form name="genre_frm">
                  <div class="mx-auto mt-3" style="margin-bottom: 7px;">
                       <h3 class="text-primary">장르 선택</h3>
                   </div>
-                  <div class="text-right mr-5">
-                     <input type="button" value="전체해제" id="all_selection" class="btn btn-thirtiary btn-sm">
+                  <div class="d-flex justify-content-end mx-5">
+                     <input type="button" value="전체선택" id="all_add_selection" class="btn btn-thirtiary btn-sm">
+                     <input type="button" value="전체해제" id="all_del_selection" class="btn btn-thirtiary btn-sm">
                   </div>
 	                <div class="mr-auto ml-auto" data-toggle="buttons">
 	                	<div class="row btn-group-toggle mx-5">
@@ -74,7 +74,6 @@
 						</div>
 						
 					</div>
-					</form>
 					<!-- //genre selection -->
 					
                 </div>
@@ -281,31 +280,27 @@
 
 	//---[전체선택/전체해제]-------------------------
 	
-	let allSelection = document.getElementById('all_selection');
-	let checkFlag = 'true'; // false면 전체선택, true면 전체해제
+	let allAdd = document.getElementById("all_add_selection");
+	let allDel = document.getElementById("all_del_selection");
+	
+	options = document.getElementsByName("options");
+	let optionsLen = options.length;
 
-	allSelection.addEventListener('click', chkAllSelect())
+	allAdd.addEventListener('click', function (){
+		for(i = 0; i < optionsLen; i++) {
+	        let optionsId = options[i].getAttribute("id");
+	        options[i].parentNode.classList.add("active");
+	        options[i].checked = true; // 모든 체크박스를 체크한다.
+        }
+	});
 
-	function chkAllSelect() {
-		let options = document.getElementsByName("options");
-		let optionsLen = options.length;
-		
-	    if(checkFlag == 'false') {
-	        for(i = 0; i < optionsLen; i++) {
-		        console.log(options[i]);
-		        options[i].checked = true; // 모든 체크박스를 체크한다.
-	        }
-	        checkFlag = "true";
-	        return "전체해제"; // 버튼객체의 value속성으로 반환(this.value.list로 넘겨져왔기 때문에)
-	    } else {
-	        for(i = 0; i < optionsLen; i++) {
-	        	console.log(options[i].checked);
-	        	options[i].checked = false; // 모든 체크박스를 해제한다.
-	        }
-	        checkFlag = "false";
-	        return "전체선택"; // 버튼객체의 vaule속성으로 반환
-	    }
-	}
+	allDel.addEventListener('click', function (){
+		for(i = 0; i < optionsLen; i++) {
+        	let optionsId = options[i].getAttribute("id");
+        	options[i].parentNode.classList.remove("active");
+        	options[i].checked = false; // 모든 체크박스를 해제한다.
+        }
+	});
 	//------------------------------------------
 
 
