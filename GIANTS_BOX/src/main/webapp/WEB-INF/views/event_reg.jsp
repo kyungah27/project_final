@@ -2,6 +2,8 @@
 <%@include file="cmn/header.jsp" %>
 
    <main class="page"  style="padding-top: 65px;">
+
+   
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
@@ -12,7 +14,7 @@
                         <div class="row">
                         
                             <div class="col-lg-5 col-md-12 col-sm-12">
-                                <div id="img_preview" class="flex_container" >
+                                <div id="img_preview" class="flex-container justify-content-center">
 									<p id="img_area_txt">Drag & Drop</p>
 									<img id="img_area_img"></img>
 								</div>
@@ -85,22 +87,22 @@
     
     //모든 컨트롤(element)가 로딩이 완료시
 	$(document).ready(function(){   
-		console.log("document ready"); 
-	});//document ready
+		
+	});
 
 	let picker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
 	let eventRegBtn = document.getElementById("event_reg");
-	
+	let transferFile = $("#img_picker")[0].files[0];
 
-	
 	//---[등록]----------------------------------------
-	eventRegBtn.addEventListener("click", eventReg);
+	eventRegBtn.addEventListener("click", eventReg, false);
 	
 	function eventReg(){
 		if(!confirm("등록하시겠습니까?")){
+			console.log(transferFile);
 			return;
-		} 
+		}
 
 		//---[성공 여부]
 		let flag = {
@@ -133,7 +135,9 @@
 		//---[img insert]
 		const form = $("#img_frm")[0];
         const formData = new FormData(form);
-        formData.append("images[]", $("#img_picker")[0].files[0]);
+        
+        formData.append("images[]", transferFile);
+        console.log(transferFile);
 
 		$.ajax({
 			type: "POST",
@@ -154,57 +158,147 @@
 				alert(err.status);
 			}
 		}); //---//[img insert]
-
-
 		//---[redirect]
-		
-		
 	}
 	//---//[등록]----------------------------------------
 
-
-
-	
-	
-	
-	
-	
-	
-	
-
-	
-
-	//---[img preview]----------------------------------------
-	picker.addEventListener('change', function(e){
-		let getFile = e.target.files;
-		let image = document.getElementById('img_area_img');
-		image.setAttribute("class", "img-fluid");
-
-		// FileReader 객체 생성
-		let reader = new FileReader();
-		
-		// FileReader onload 시 이벤트 발생
-		reader.onload = (function(file) {
-			return function (e) {
-				file.src = e.target.result;
-			}
-		})(image)
-		
-		if(getFile){
-			reader.readAsDataURL(getFile[0]);
-		}
-
-		//preview.appendChild(image);
-	})
-	//---//[img preview]----------------------------------------
-	
-	
-
+	//---[영화 검색]-----------------------------------------------------
 	$("#search_movie").on("click",function(){
 			//$(document).find('#selected_seq').val($(this).val());
 			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
-	}) ;
+	});
+	//---//[영화 검색]-----------------------------------------------------
+	
 
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	//---[이미지 드래그 앤 드롭]--------------------------------------
+	$('.flex-container')
+	.on("dragover", dragOver)
+	.on("dragleave", dragOver)
+	.on("drop", uploadFiles);
+	
+	function dragOver(e){
+		//현재 이벤트가 상위 DOM으로 전파되지 않도록 중단
+		e.stopPropagation();
+
+		//현재 이벤트의 기본 동장 중단
+		e.preventDefault();
+
+		//시각적 효과
+		if (e.type == "dragover") {
+			$(e.target).css({
+				"background-color": "#eee",
+				"outline-offset": "-30px"
+			});
+			$('.flex_item').css({
+				"background-color": "#eee",
+			});
+			
+		} else {
+			$(e.target).css({
+				"background-color": "white",
+				"outline-offset": "0px"
+			});
+			$('.flex_item').css({
+				"background-color": "white"
+			});
+		}
+	}
+
+	//이미지 드롭시
+	function uploadFiles(e){
+		e.stopPropagation();
+		e.preventDefault();
+
+		//시각적 효과
+		dragOver(e);
+		
+		e.dataTransfer = e.originalEvent.dataTransfer;
+		let files = e.target.files || e.dataTransfer.files;
+
+		// 이미지 미리보기
+		checkImgAndPreview(files);
+	}
+	//---//[드래그 앤 드롭]--------------------------------------
+	
+	//---[Drag & Drop 텍스트 나타내기 여부 결정]------------------------------------
+		function imgAreaTxt(image){
+			let imgAreaTxt = $("#img_area_txt");
+			if(!image || image.length <= 0){
+				console.log("없음");
+				imgAreaTxt.css({
+					"display": "",
+					"margin": "0 auto"
+				});
+			} else {
+				console.log("있음");
+				imgAreaTxt.css({
+					"display": "none"
+				});
+			}
+		}
+	//---//[Drag & Drop 텍스트 나타내기]------------------------------------
+	
+	//---[이미지 미리보기]--------------------------------------------
+		function imgPreview(files){
+			let getFile = files;
+			let image = document.getElementById('img_area_img');
+			image.setAttribute("class", "img-fluid");
+
+			// FileReader 객체 생성
+			let reader = new FileReader();
+			
+			// FileReader onload 시 이벤트 발생
+			reader.onload = (function(file) {
+				return function (e) {
+					file.src = e.target.result;
+				}
+			})(image)
+			
+			if(getFile){
+				reader.readAsDataURL(getFile[0]);
+				imgAreaTxt(image);
+				transferFile = getFile[0];
+			}
+		}
+	//---//[이미지 미리보기]--------------------------------------------
+	
+	//---[파일 피커에서 이미지 미리보기]----------------------------------------
+	picker.addEventListener('change', function(e){
+		let getFile = e.target.files;
+		checkImgAndPreview(getFile);
+	})
+	//---//[파일 피커에서 이미지 미리보기]----------------------------------------
+	
+	//---[이미지 타입체크]----------------------------------------------------
+	function checkImgAndPreview(files){
+		for(let i = 0; i < files.length; i++){
+			if (!files[i].type.startsWith('image/')){
+				alert("이미지 파일을 업로드해 주세요");
+				return;
+			} else {
+				imgPreview(files);
+			}
+		}
+	}
+	//---//[이미지 타입체크]----------------------------------------------------
+	
+	
+	
+	
+	
 	
 	
 	

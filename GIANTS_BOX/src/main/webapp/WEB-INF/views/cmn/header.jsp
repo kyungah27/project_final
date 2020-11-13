@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="${context}/resources/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="${context}/resources/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
+    <link rel="stylesheet" href="${context}/resources/css/styles.min.css" rel="stylesheet" type="text/css">
     
      <!--calendar-->
     <link href="${context}/resources/css/datepicker.min.css" rel="stylesheet" type="text/css">
