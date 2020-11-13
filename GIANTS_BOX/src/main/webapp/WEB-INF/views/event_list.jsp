@@ -1,0 +1,173 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="cmn/header.jsp" %>
+
+
+ <main class="page landing-page" style="padding:145px 100px 100px 100px;">
+ 		<section class="clean-block" style="padding-bottom:50px">
+            <%@include file="cmn/search.jsp" %>
+		</section>
+		
+
+	<div class="row">
+            <aside class="col-lg-4 col-md-6">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                	<!-- date picker -->
+                	<div class="datepicker-here nav-link mr-auto ml-auto mb-3 mt-5" data-language="en" id="my_calendar"></div>
+                	<!-- //date picker -->
+                	
+                	<!-- genre selection -->
+                 <div class="mx-auto mt-3" style="margin-bottom: 7px;">
+                      <h3 class="text-primary">장르 선택</h3>
+                  </div>
+                  <div class="d-flex justify-content-end mx-5">
+                     <input type="button" value="전체선택" id="all_add_selection" class="btn btn-thirtiary btn-sm">
+                     <input type="button" value="전체해제" id="all_del_selection" class="btn btn-thirtiary btn-sm">
+                  </div>
+	                <div class="mr-auto ml-auto" data-toggle="buttons">
+	                	<div class="row btn-group-toggle mx-5">
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option1">
+							    <input type="checkbox" name="options" id="option1" autocomplete="off" value="genre1"> genre1
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option2">
+							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="genre2"> genre2
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option3">
+							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="genre3"> genre3
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option4">
+							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option5">
+							    <input type="checkbox" name="options" id="option5" autocomplete="off" value="genre5"> genre5
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option6">
+							    <input type="checkbox" name="options" id="option6" autocomplete="off" value="genre6"> genre6
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option7" >
+							    <input type="checkbox" name="options" id="option7" autocomplete="off" value="genre6"> genre7
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option8">
+							    <input type="checkbox" name="options" id="option8" autocomplete="off" value="genre6"> genre8
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option9">
+							    <input type="checkbox" name="options" id="option9" autocomplete="off" value="genre6"> genre9
+						  </label>
+						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option10">
+							    <input type="checkbox" name="options" id="option10" autocomplete="off" value="genre6"> genre10
+						  </label>
+						</div>
+						
+					</div>
+					<!-- //genre selection -->
+					
+                </div>
+            </aside>
+            
+            
+            <div class="col mt-5">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="container">
+
+                            <div class="card clean-card pt-3">
+                                <div class="card-body row align-items-center justify-content-center">
+                                	<div class="col-lg-3">
+                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
+                                	</div>
+                                	<div class="col-lg-6 text-left">
+	                                    <p class="text-left card-text">
+	                                        <strong>10월 31일 6:30PM</strong>
+	                                    </p>
+	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
+	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                    </div>
+                                    
+	                                <div class="col-lg-3 col-md-5 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
+                                    </div>
+                                </div>
+				
+                                <!-- 이벤트 반복 -->
+                                <hr/>
+                                <div class="card-body row align-items-center justify-content-center">
+                                	<div class="col-lg-3">
+                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
+                                	</div>
+                                	<div class="col-lg-6 text-left">
+	                                    <p class="text-left card-text">
+	                                        <strong>10월 31일 6:30PM</strong>
+	                                    </p>
+	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
+	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                </div>
+	                                <div class="col-lg-3 col-md-5 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
+                                    </div>
+                                </div>
+
+                                <!-- 참여 이벤트 없을 경우 -->
+                                <hr>
+                                <div class="card-body">
+                                    <h4 class="card-title">이벤트가 없습니다.</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+     
+    </main>
+
+
+
+    
+<%@ include file="cmn/footer1.jsp" %>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $("#my_calendar").data('datepicker').selectDate(new Date());
+	});
+
+
+	//---[전체선택/전체해제]-------------------------
+	
+	let allAdd = document.getElementById("all_add_selection");
+	let allDel = document.getElementById("all_del_selection");
+	
+	options = document.getElementsByName("options");
+	let optionsLen = options.length;
+
+	allAdd.addEventListener('click', function (){
+		for(i = 0; i < optionsLen; i++) {
+	        let optionsId = options[i].getAttribute("id");
+	        options[i].parentNode.classList.add("active");
+	        options[i].checked = true; // 모든 체크박스를 체크한다.
+        }
+	});
+
+	allDel.addEventListener('click', function (){
+		for(i = 0; i < optionsLen; i++) {
+        	let optionsId = options[i].getAttribute("id");
+        	options[i].parentNode.classList.remove("active");
+        	options[i].checked = false; // 모든 체크박스를 해제한다.
+        }
+	});
+	//------------------------------------------
+
+	
+
+
+</script>
+
+
+<%@ include file="cmn/footer2.jsp" %>

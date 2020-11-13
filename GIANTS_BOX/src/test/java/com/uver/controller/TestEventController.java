@@ -99,13 +99,13 @@ public class TestEventController {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doUpdate() throws Exception {
 		
-		eventDaoImpl.doDelete(events.get(0));
+		//eventDaoImpl.doDelete(events.get(0));
 		
-		int flag = eventDaoImpl.doInsert(events.get(0));
-		assertThat(flag, is(1));
+		//int flag = eventDaoImpl.doInsert(events.get(0));
+		//assertThat(flag, is(1));
 		
 		EventVO outVO = eventDaoImpl.doSelectOne(events.get(0));
 		EventVO event = outVO;
@@ -113,6 +113,7 @@ public class TestEventController {
 		event.setEventNm(event.getEventNm()+"수정");
 		event.setCapacity(10);
 		event.setContent(event.getContent()+"수정");
+		event.setTargetDt("20/11/19");
 		
 		MockHttpServletRequestBuilder createMessage = 
 				 MockMvcRequestBuilders.post("/event/doUpdate.do")
@@ -149,7 +150,7 @@ public class TestEventController {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void doInsert() throws Exception {
 		
 		eventDaoImpl.doDelete(events.get(0));

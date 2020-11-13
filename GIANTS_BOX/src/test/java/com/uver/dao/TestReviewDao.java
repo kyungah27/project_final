@@ -21,6 +21,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.uver.cmn.Search;
+import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -48,8 +50,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"마이", "바티스", "추가", "20/11/15", 10, "20/11/15");
-		review02 = new ReviewVO(71, 2, "바티스바티스", "테스트", "이벤트 모올라", "20/11/15",20, "20/11/15");
+		review01 = new ReviewVO(86, 1002,"최규연", "딩딩", "11월", "", "영화", "");
+		review02 = new ReviewVO(89, 0, "최규연", "아아아아아", "11월", "","후기", "");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -75,77 +77,57 @@ public class TestReviewDao {
 	//@Ignore
 	public void test() {
 		int flag = 0;
-		// 삽입
-		
+		// 삽입		
+		/*
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
-		
+		*/
 		
 		// 삭제
-		// flag = dao.doDelete(review01);
-		// LOG.debug("flag:"+flag);
-		// dao.doDelete(review02);
-
-		// 수정		 		
-		//flag = dao.doUpdate(review01);		
-		//ReviewVO updateVO = new ReviewVO(86, 1002, "수수정_U", "이벤트 날씨U", "이벤트 모올라U", "",20, "");
-		//flag = dao.doUpdate(updateVO);
-		//assertThat(flag, is(1));
-		
-		// 단건조회	 
-		//dao.doSelectOne(review01.getReview_seq());
-		
-		// 리스트 조회
 		/*
-		ReviewVO review = new ReviewVO();
-		review.setEventSeq(1002);
-		review.setDiv(10);
-
-		List<ReviewVO> list = dao.doSelectList(review);
-		assertThat(list.size(), is(5));
-
-		// 입력데이터와 비교
-		checkReview(review01, list.get(0));
-		checkReview(review02, list.get(1));
+		flag = reviewDao.doDelete(review01);		
+		assertThat(flag, is(1));		
+		flag = reviewDao.doDelete(review02);
+		assertThat(flag, is(1));
 		*/
 		
 		
+		// 수정	
+		/*
+		flag = reviewDao.doUpdate(review01);		
+		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
+		flag = reviewDao.doUpdate(updateVO);
+		assertThat(flag, is(1));		
+		*/
+		
+		
+		// 단건조회
+		/*
+		reviewDao.doSelectOne(review01.getReview_seq());
+		*/		
+		
+		//제목으로 단건조회
+		/*
+		reviewDao.doSelectOneByTitle(review01);
+		*/
+		
+		
+		// 리스트 조회
+		
+		Search search = new Search("최규연", "11월");
+
+		List<ReviewVO> list = reviewDao.doSelectList(search);
+		//search.setDiv("10");
+		//assertThat(list.size(), is(9));
+		assertThat(list.size(), is(2));
+		LOG.debug("list.size():"+list.size());
+		
+		
 	}//test
-		 
-		 @Test
-		  @Ignore
-		    public void doUpdate() throws ClassNotFoundException, SQLException {			 
-			 
-		    	//1.기존데이터 삭제
-			 //dao.doDelete(review01);
-			 //dao.doDelete(review02);
-		    	
-		    	
-		    	//2.단건입력
-		    	//int flag =dao.doInsert(review01);
-			 	int flag =reviewDao.doUpdate(review01);
-		    	assertThat(1, is(1));
-		    	//3.수정
-				review01=new ReviewVO(49, 1002, "저장해요", "이벤트 날씨U", "이벤트 모올라U", "",20, "");//BASIC
-				//review01=new ReviewVO((review01.getReview_seq()), (review01.getEventSeq()), "", "", "", "","","");
-				//review01.setReview_seq(review01.getReview_seq());
-				review01.setEventSeq(review01.getEventSeq());
-		    	review01.setWriter(review01.getWriter()+"_U");
-		    	review01.setTitle(review01.getTitle()+"_U(title)");
-		    	review01.setContext(review01.getContext()+"_U(context)");
-		    	review01.setDiv(review01.getDiv());
-		    	
-		    	
-		    	flag = reviewDao.doUpdate(review01);
-		    	LOG.debug("flag:"+flag);
-		    	assertThat(1, is(1));	    	 	
-		    	
-		    }
-		 
-		
-		
+
+	
 	@After
 	public void tearDown() throws Exception {
 		LOG.debug("** tearDown() **");
@@ -160,7 +142,7 @@ public class TestReviewDao {
 		assertThat(inVO.getTitle(), is(vsVO.getTitle()));
 		assertThat(inVO.getContext(), is(vsVO.getContext()));
 		 assertThat(inVO.getReg_dt(), is(vsVO.getReg_dt()));
-		 assertThat(inVO.getDiv(), is(vsVO.getDiv()));		
+		 assertThat(inVO.getReview_div(), is(vsVO.getReview_div()));		
 		assertThat(inVO.getMod_dt(), is(vsVO.getMod_dt()));
 	}
 }

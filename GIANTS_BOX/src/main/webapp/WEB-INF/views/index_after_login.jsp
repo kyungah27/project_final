@@ -41,7 +41,7 @@
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="nav navbar-nav ml-auto">
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="${context}/login.do">explore</a></li>
+							class="nav-link text-white" href="${context}/event_list.do">explore</a></li>
 						<li class="nav-item" role="presentation"><a
 							class="nav-link text-white" href="${context}/my_event.do">my event</a></li>
 						<li class="nav-item" role="presentation"><a
@@ -72,51 +72,22 @@
 
 
 		<section>
-			<!-- Start: Navigation with Search -->
-			<nav
-				class="navbar navbar-light navbar-expand-md navigation-clean-search">
-				<div class="container">
-					<button data-toggle="collapse" class="navbar-toggler"
-						data-target="#navcol-1">
-						<span class="sr-only">Toggle navigation</span><span
-							class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse text-center d-xl-flex"
-						id="navcol-1"
-						style="padding: 10px; padding-right: 20%; padding-left: 20%;">
-						<form class="form-inline mx-auto" style="width: 82%;" method="get"
-							target="_self">
-							<div class="form-group" style="width: 100%;">
-								<label for="search-field"><i class="fa fa-search"></i></label><input
-									class="form-control search-field" type="search"
-									id="search-field" name="search" style="width: 95%;"
-									placeholder="검색">
-							</div>
-						</form>
-						<a class="btn btn-light mr-auto action-button" role="button"
-							href="#" style="background-color: rgb(0, 120, 255);">검색</a>
-					</div>
-				</div>
-			</nav>
-			<!-- End: Navigation with Search -->
+            <%@include file="cmn/search.jsp" %>
 		</section>
 
 		<section class="clean-block">
 			<div class="container">
-
 				<div
 					class="d-flex flex-column justify-content-between block-heading"
 					style="margin-bottom: 7px;">
 					<h2 class="text-primary">My Upcoming Events</h2>
-					<a
-						class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
+					<a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
 						href="#">See more</a>
 				</div>
 
 				<div class="row d-flex justify-content-around">
-
 					<div class="mb-3">
-						<div class="datepicker-here" data-language="en"></div>
+						<div class="datepicker-here" data-language="en" id="my_calendar"></div>
 					</div>
 
 					<div class="col-lg-9 col-md-7">
@@ -210,19 +181,17 @@
 					</div>
 					<div class="col-sm-6 col-lg-4">
 						<div class="card clean-card text-center">
-							<img class="card-img-top w-100 d-block"
-								src="${context}/resources/img/event_thumbnail/netflix.jpg">
+							<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/netflix.jpg">
 							<div class="card-body info">
 								<p class="text-left card-text">
 									<strong>11월 20일 5:00PM</strong>
 								</p>
 								<h4 class="text-truncate card-title">넷플릭스 + 맥주 + Chilling!</h4>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit.</p>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 								<div class="icons">
 									<a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i
-										class="icon-social-instagram"></i></a><a href="#"><i
-										class="icon-social-twitter"></i></a><small>2명 참여</small>
+										class="icon-social-instagram"></i></a><a href="#">
+										<i class="icon-social-twitter"></i></a><small>2명 참여</small>
 								</div>
 							</div>
 						</div>
@@ -472,7 +441,16 @@
 	<script src="${context}/resources/js/datepicker.min.js"></script>
 	<script src="${context}/resources/js/datepicker.en.js"></script>
 	<!-- //calendar -->
+	
+	
+	
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+	    $("#my_calendar").data('datepicker').selectDate(new Date());
+	});
 
+	</script>
 
 </body>
 </html>
