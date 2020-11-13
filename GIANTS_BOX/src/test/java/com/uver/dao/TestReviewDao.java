@@ -48,8 +48,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"마이", "바티스", "추가", "20/11/15", 10, "20/11/15");
-		review02 = new ReviewVO(71, 2, "바티스바티스", "테스트", "이벤트 모올라", "20/11/15",20, "20/11/15");
+		review01 = new ReviewVO(1, 1002,"김가람", "랄랄라", "11월", "", 10, "");
+		review02 = new ReviewVO(71, 2, "최규연", "인터페이스", "오류", "",20, "");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -75,8 +75,7 @@ public class TestReviewDao {
 	//@Ignore
 	public void test() {
 		int flag = 0;
-		// 삽입
-		
+		// 삽입		
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
