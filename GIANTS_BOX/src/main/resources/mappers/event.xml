@@ -8,11 +8,11 @@
 		 content,                                       
 		 capacity,                                      
 		 movie_info AS movieInfo,                                    
-		 TO_CHAR(start_dt, 'YYYY-MM-DD HH24MISS') startDt,                                      
-		 TO_CHAR(end_dt, 'YYYY-MM-DD HH24MISS') endDt,                                        
+		 start_dt AS startDt,                                      
+		 end_dt AS endDt,                                        
 		 location,                                      
 		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
-		 TO_CHAR(target_dt, 'YYYY-MM-DD HH24MISS') targetDt,                              
+		 target_dt AS targetDt,                              
 		 reg_id AS regId                                	
 	</sql>
 

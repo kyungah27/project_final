@@ -1,6 +1,8 @@
 package com.uver.service;
 
 import java.util.List;
+
+import com.uver.cmn.Search;
 import com.uver.vo.ReviewVO;
 
 
@@ -10,6 +12,6 @@ import com.uver.vo.ReviewVO;
 	public int doDelete(ReviewVO reviewVO);	
 	public int doUpdate(ReviewVO reviewVO);	
 	public ReviewVO doSelectOne(int review_seq);	
-	//public ReviewVO doSelectOneById(String writer);
-	public List<ReviewVO> doSelectList(ReviewVO reviewVO);
+	public List<ReviewVO> doSelectList(Search search);
+	public ReviewVO doSelectOneByTitle(ReviewVO review);
 }

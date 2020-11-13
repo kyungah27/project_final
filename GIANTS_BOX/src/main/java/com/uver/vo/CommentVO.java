@@ -2,9 +2,8 @@ package com.uver.vo;
 
 import com.uver.cmn.DTO;
 
-public class CommentVO  {
+public class CommentVO {
 
-	
 	/** 댓글 순번 */
 	private int commentSeq;
 	/** 이벤트,후기 순번 */
@@ -19,11 +18,14 @@ public class CommentVO  {
 	private String regId;
 	/** 수정일 */
 	private String modDt;
+	/** 좋아요 수 */
+	private int likeCnt;
 
 	public CommentVO() {
 	}
 
-	public CommentVO(int commentSeq, int seq, String div, String content, String regDt, String regId, String modDt) {
+	public CommentVO(int commentSeq, int seq, String div, String content, String regDt, String regId, String modDt,
+			int likeCnt) {
 		super();
 		this.commentSeq = commentSeq;
 		this.seq = seq;
@@ -32,6 +34,7 @@ public class CommentVO  {
 		this.regDt = regDt;
 		this.regId = regId;
 		this.modDt = modDt;
+		this.likeCnt = likeCnt;
 	}
 
 	public int getCommentSeq() {
@@ -90,11 +93,19 @@ public class CommentVO  {
 		this.modDt = modDt;
 	}
 
+	public int getLikeCnt() {
+		return likeCnt;
+	}
+
+	public void setLikeCnt(int likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentVO [commentSeq=" + commentSeq + ", seq=" + seq + ", div=" + div + ", content=" + content
-				+ ", regDt=" + regDt + ", regId=" + regId + ", modDt=" + modDt + ", toString()=" + super.toString()
-				+ "]";
+				+ ", regDt=" + regDt + ", regId=" + regId + ", modDt=" + modDt + ", likeCnt=" + likeCnt
+				+ ", toString()=" + super.toString() + "]";
 	}
 
 	@Override

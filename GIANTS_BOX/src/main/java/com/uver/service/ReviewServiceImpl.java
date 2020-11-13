@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uver.cmn.Search;
 import com.uver.dao.ReviewDao;
 import com.uver.dao.ReviewDaoImpl;
 import com.uver.vo.ReviewVO;
@@ -44,16 +45,16 @@ import com.uver.vo.ReviewVO;
 		return reviewDao.doSelectOne(review_seq);
 	}
 
-	/*
-	@Override
-	public ReviewVO doSelectOneById(String writer) {
-		return reviewDao.doSelectOneById(writer);
-	}
-	*/
 	
 	@Override
-	public List<ReviewVO> doSelectList(ReviewVO reviewVO) {
-		return reviewDao.doSelectList(reviewVO);
+	public ReviewVO doSelectOneByTitle(ReviewVO review) {
+		return reviewDao.doSelectOneByTitle(review);
+	}
+	
+	
+	@Override
+	public List<ReviewVO> doSelectList(Search search) {
+		return reviewDao.doSelectList(search);
 	}
 	
 	

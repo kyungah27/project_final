@@ -36,6 +36,19 @@ import com.uver.vo.MemberVO;
 //			
 //			return MemberVO;
 //		}
+		
+		/**
+		 * 아이디 삭제
+		 * @param inputUser
+		 * @return
+		 */
+		public int idDelete(MemberVO inputUser) {
+			int deleteFlag = 0;
+			
+			deleteFlag = memberDaoImpl.doDelete(inputUser.getSeq());
+			
+			return deleteFlag;
+		}
 	
 		/**
 		 * 아이디 하나 조회
@@ -92,7 +105,7 @@ import com.uver.vo.MemberVO;
 				
 			}
 			LOG.debug("사용할 수 있는 아이디 입니다.");
-			
+			LOG.debug("flag:"+flag);
 			return flag;
 		}
 		
