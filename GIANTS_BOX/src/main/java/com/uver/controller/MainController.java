@@ -35,13 +35,10 @@ public class MainController {
 		LOG.debug("-------------------");
 		LOG.debug("goLogout()");
 		LOG.debug("-------------------");
-
-		invalidateSession(req.getSession());
+		
+		req.getSession().invalidate();
 		return "index";
 	}
-	
-
-	
 	
 	//--- 로그인 페이지로 이동
 	@RequestMapping(value="login.do")
@@ -116,18 +113,9 @@ public class MainController {
 		if(getMember(session) != null) {
 			return true;
 		} else {
-			invalidateSession(session);
+			session.invalidate();
 			return false;
 		}
-	}
-	
-	/**
-	 * 세션 객체 무효화
-	 * 
-	 * @param HttpSession session
-	 */
-	private void invalidateSession(HttpSession session) {
-		session.invalidate();
 	}
 	
 	
