@@ -32,45 +32,49 @@
                 	<!-- //date picker -->
                 	
                 	<!-- genre selection -->
-                 <div class="d-flex justify-content-between ml-4 mt-3" style="margin-bottom: 7px;">
+               <form name="genre_frm">
+                 <div class="mx-auto mt-3" style="margin-bottom: 7px;">
                       <h3 class="text-primary">장르 선택</h3>
-                      <a href="#">전체해제</a>
+                  </div>
+                  <div class="text-right mr-5">
+                     <input type="button" value="전체해제" id="all_selection" class="btn btn-thirtiary btn-sm">
                   </div>
 	                <div class="mr-auto ml-auto" data-toggle="buttons">
 	                	<div class="row btn-group-toggle mx-5">
-						  <label class="m-2 btn btn-outline-primary btn-sm">
-							    <input name="options" id="option1" autocomplete="off" value="genre1" type="checkbox"> genre1
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option1">
+							    <input type="checkbox" name="options" id="option1" autocomplete="off" value="genre1"> genre1
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option2">
 							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="genre2"> genre2
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option3">
 							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="genre3"> genre3
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option4">
 							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option5">
 							    <input type="checkbox" name="options" id="option5" autocomplete="off" value="genre5"> genre5
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option6">
 							    <input type="checkbox" name="options" id="option6" autocomplete="off" value="genre6"> genre6
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option7" >
 							    <input type="checkbox" name="options" id="option7" autocomplete="off" value="genre6"> genre7
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option8">
 							    <input type="checkbox" name="options" id="option8" autocomplete="off" value="genre6"> genre8
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option9">
 							    <input type="checkbox" name="options" id="option9" autocomplete="off" value="genre6"> genre9
 						  </label>
-						  <label class="m-2 btn btn-outline-primary btn-sm">
+						  <label class="ml-2 my-2 btn btn-outline-primary" for="option10">
 							    <input type="checkbox" name="options" id="option10" autocomplete="off" value="genre6"> genre10
 						  </label>
 						</div>
 						
 					</div>
+					</form>
 					<!-- //genre selection -->
 					
                 </div>
@@ -273,6 +277,36 @@
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	});
+
+
+	//---[전체선택/전체해제]-------------------------
+	
+	let allSelection = document.getElementById('all_selection');
+	let checkFlag = 'true'; // false면 전체선택, true면 전체해제
+
+	allSelection.addEventListener('click', chkAllSelect())
+
+	function chkAllSelect() {
+		let options = document.getElementsByName("options");
+		let optionsLen = options.length;
+		
+	    if(checkFlag == 'false') {
+	        for(i = 0; i < optionsLen; i++) {
+		        console.log(options[i]);
+		        options[i].checked = true; // 모든 체크박스를 체크한다.
+	        }
+	        checkFlag = "true";
+	        return "전체해제"; // 버튼객체의 value속성으로 반환(this.value.list로 넘겨져왔기 때문에)
+	    } else {
+	        for(i = 0; i < optionsLen; i++) {
+	        	console.log(options[i].checked);
+	        	options[i].checked = false; // 모든 체크박스를 해제한다.
+	        }
+	        checkFlag = "false";
+	        return "전체선택"; // 버튼객체의 vaule속성으로 반환
+	    }
+	}
+	//------------------------------------------
 
 
 

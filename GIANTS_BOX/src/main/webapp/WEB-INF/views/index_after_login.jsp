@@ -41,7 +41,7 @@
 				<div class="collapse navbar-collapse" id="navcol-1">
 					<ul class="nav navbar-nav ml-auto">
 						<li class="nav-item" role="presentation"><a
-							class="nav-link text-white" href="${context}/login.do">explore</a></li>
+							class="nav-link text-white" href="${context}/event_list.do">explore</a></li>
 						<li class="nav-item" role="presentation"><a
 							class="nav-link text-white" href="${context}/my_event.do">my event</a></li>
 						<li class="nav-item" role="presentation"><a
