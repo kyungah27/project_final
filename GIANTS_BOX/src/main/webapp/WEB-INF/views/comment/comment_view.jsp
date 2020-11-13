@@ -96,7 +96,7 @@
 				dataType : "html",
 				data : {
 					"seq" : "2",
-					"div" : "10",
+					"div" : "10",//임의의값
 					"content" : content,
 					"regId" : "yeji"//${user}
 				},//보낼 데이터
