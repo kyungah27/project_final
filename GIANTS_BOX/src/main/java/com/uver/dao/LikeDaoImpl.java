@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.uver.vo.LikeVO;
 
-@Repository
+@Repository("LikeDaoImpl")
 public class LikeDaoImpl implements LikeDao {
 	final Logger LOG = LoggerFactory.getLogger(LikeDaoImpl.class);
+
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
@@ -21,90 +22,62 @@ public class LikeDaoImpl implements LikeDao {
 	public LikeDaoImpl() {
 	}
 
-	public LikeVO doSelectOne(LikeVO likeVO) {
-		LOG.debug("==================");
-		LOG.debug("doSelectOne");
-		LOG.debug("==================");
-
-		// 단건조회: namespace+id=com.sist.ehr.board.doSelectOne
-		String statement = NAMESPACE + ".doSelectOne";
-		LOG.debug("statement" + statement);
-		LOG.debug("likeVO" + likeVO);
-
-		LikeVO outVO = this.sqlSessionTemplate.selectOne(statement, likeVO);
-		LOG.debug("outVO" + outVO);
-		return outVO;
-	}
-
-	public int doDelete(LikeVO likeVO) {
-		LOG.debug("==================");
-		LOG.debug("doDelete");
-		LOG.debug("==================");
-
-		// .중요
-		String statement = NAMESPACE + ".doDelete";
-		LOG.debug("statement" + statement);
-		LOG.debug("likeVO" + likeVO);
-		int flag = sqlSessionTemplate.delete(statement, likeVO);
-
-		return flag;
-	}
-
-	public int doInsert(LikeVO likeVO) {
-		LOG.debug("==================");
-		LOG.debug("doInsert");
-		LOG.debug("==================");
-
-		// .중요
-		String statement = NAMESPACE + ".doInsert";
-		LOG.debug("statement" + statement);
-		LOG.debug("likeVO" + likeVO);
-		int flag = sqlSessionTemplate.insert(statement, likeVO);
-
-		return flag;
-	}
-
 	@Override
-	public int countLike(HashMap hashMap) {
+	public int countLike(LikeVO likeVO) {
+		LOG.debug("countLike");
 		String statement = NAMESPACE + ".countLike";
-		int count = sqlSessionTemplate.selectOne("like.countLike", hashMap);
+		int count = sqlSessionTemplate.selectOne("like.countLike", likeVO);
 		return count;
 	}
 
 	@Override
-	public int doInsert(HashMap hashMap) {
+	public int doInsert(LikeVO likeVO) {
+		LOG.debug("doInsert");
 		String statement = NAMESPACE + ".doInsert";
-		int count = sqlSessionTemplate.insert("statement", hashMap);
+		int count = sqlSessionTemplate.insert("statement", likeVO);
 		return count;
 	}
 
 	@Override
-	public int likeCheck(HashMap hashMap) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int likeCheck(LikeVO likeVO) {
+		LOG.debug("likeCheck");
+		String statement = NAMESPACE + ".likeCheck";
+		int count = sqlSessionTemplate.update("statement", likeVO);
+		return count;
+
 	}
 
 	@Override
-	public int likeCheckCancel(HashMap hashMap) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int likeCheckCancel(LikeVO likeVO) {
+		LOG.debug("likeCheckCancel");
+		String statement = NAMESPACE + ".likeCheck";
+		int count = sqlSessionTemplate.update("statement", likeVO);
+		return count;
+
 	}
 
 	@Override
-	public LikeVO read(HashMap hashMap) {
-		// TODO Auto-generated method stub
-		return null;
+	public LikeVO read(LikeVO likeVO) {
+		String statement = NAMESPACE + ".read";
+		LikeVO VO = sqlSessionTemplate.selectOne("statement", likeVO);
+		return VO;
+
 	}
 
 	@Override
 	public int deleteCommentSeq(int commentSeq) {
-		// TODO Auto-generated method stub
-		return 0;
+		LOG.debug("deleteCommentSeq");
+		String statement = NAMESPACE + ".deleteCommentSeq";
+		int count = sqlSessionTemplate.delete("statement", commentSeq);
+		return count;
 	}
 
 	@Override
-	public int deletebyMno(int memberSeq) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteMemberSeq(int memberSeq) {
+		LOG.debug("deletebyMno");
+		String statement = NAMESPACE + ".deletebyMno";
+		int count = sqlSessionTemplate.delete("statement", memberSeq);
+		return count;
+
 	}
 }

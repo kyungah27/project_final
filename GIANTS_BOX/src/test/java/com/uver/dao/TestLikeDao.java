@@ -44,32 +44,12 @@ public class TestLikeDao {
 		like01.setLikeNo(1);
 		LOG.debug("=context=" + like01);
 	}
-	@Test
-	@Ignore
-	public void doSelectOne() {
-		like02.setCommentSeq(29);
-		LikeVO outVO = likeDaoImpl.doSelectOne(like02);
-		// checkLike(like02, outVO);
-	}
 
-	@Test
-	@Ignore
-	public void doDelete() {
-		like01.setCommentSeq(29);
-		
-		int flag = likeDaoImpl.doDelete(like01);
-
-		assertThat(flag, is(1));
-	}
-
-	@Test
-	@Ignore
-	public void doInsert() {
-		int flag = likeDaoImpl.doInsert(like01);
-		flag = likeDaoImpl.doInsert(like02);
-		assertThat(flag, is(1));
-	}
-
+	/*
+	 * public void doInsert() { int flag = likeDaoImpl.doInsert(hashMap); flag =
+	 * likeDaoImpl.doInsert(like02); assertThat(flag, is(1)); }
+	 */
+	
 	@Test
 	public void beans() {
 		LOG.debug("====================");
