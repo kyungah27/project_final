@@ -73,27 +73,13 @@ public class TestEventDao {
 	
 	@Test
 	public void doSeletList() {
-		
-//		int flag = eventDao.doInsert(event01);
-//		assertThat(flag, is(1));
-//		
-//		flag = eventDao.doInsert(event02);
-//		assertThat(flag, is(1));
-//		
-//		flag = eventDao.doInsert(event03);
-//		assertThat(flag, is(1));
 			
-		
-		Search search = new Search("10", "test_", "20201113", 10, 1);
-		search.addGenreList("액션");
+		Search search = new Search("10", "새모임", "20201113", 10, 1);
+		//search.addGenreList("드라마");
+		//search.addGenreList("공포");
 		LOG.debug(search.getGenreList().toString());
-		//search.setDiv("20");
 		
 		List<EventVO> list = eventDao.doSelectList(search);
-
-		//assertThat(list.size(), is(9));
-		
-		//LOG.debug("list.size():"+list.size());
 	}
 	
 	@Test

@@ -20,12 +20,12 @@
 		<choose>
 			<when test=" '10' == searchDiv">
 				<where>
-				 user_id like '%' || #{searchWord} || '%'
+				 event_nm like '%' || #{searchWord} || '%'
 				 AND target_dt  <![CDATA[ <= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
-				 	<foreach item="genre" index="index" collection="genreList"
-      				open="AND genre ON" separator="OR" >
-        			#{genre}
-          			</foreach>
+				 	<foreach item="genre" index="index" collection="genreList" 
+      				open="AND (genre LIKE" separator="OR genre LIKE" close=")">
+        			'%' || #{genre} || '%'
+          			</foreach> 
 				</where>
 			</when>
 		
@@ -49,7 +49,7 @@
 
 	<!-- 목록조회 -->
 	<select id="doSelectList" parameterType="Search" resultType="EventVO">
-SELECT T1.*,T2.*                                                            
+		SELECT T1.*,T2.*                                                            
 		FROM                                                                        
 		 (                                                                          
 		     SELECT B.rnum AS num,                                   
@@ -68,12 +68,12 @@ SELECT T1.*,T2.*
 					B.genre                   
 		     FROM (                                                                 
 		         SELECT ROWNUM rnum, A.*                                            
-		         FROM(                                                              
+		         FROM(                                                            
 		             SELECT *                                                       
 		             FROM  event 
 		             <include refid="searchCondition"/>                                               
 		             ORDER BY reg_dt DESC                                           
-		         )A                                                                 
+ 		         )A                                                                 
 		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
 		     )B                                                                     
 		     WHERE B.rnum <![CDATA[ >= ]]> (#{pageSize} *(#{pageNum}-1)+1)                           
@@ -82,7 +82,7 @@ SELECT T1.*,T2.*
 		     (SELECT COUNT(*) totalCnt                                             
 		      FROM  event
 		      <include refid="searchCondition"/>                                                       
-		     )T2    
+		     )T2     
 	</select>
 
 
