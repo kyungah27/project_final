@@ -8,74 +8,83 @@
 		 title ,                                       
 		 context,                                    
 	     TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') reg_dt,
-		 div,                              
+		 review_div,                              
 		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') mod_dt                               	
 	</sql>
 
+
+	<!-- 동적 검색조건 
+      30 event_seq
+      40 writer
+      50 title
+      60 context
+      70 review_div
+   -->	
 	<sql id="searchCondition">
-		<choose>
-			<when test=" '10' == searchDiv">
-				<where>
-				 user_id like '%' || #{searchWord} || '%'
-				 AND target_dt like '%' || #{searchDate} || '%'
-				</where>
-			</when>
-		
-			<when test=" '20' == searchDiv">
-				<where>
-				event_nm like '%' || #{searchWord} || '%'
-				AND target_dt like '%' || #{searchDate} || '%'
-				</where>
-			</when>
-			
-			<when test=" '30' == searchDiv">
-				<where>
-				genre like '%' || #{searchWord} || '%'
-				AND target_dt like '%' || #{searchDate} || '%'
-				</where>
-			</when>
-		</choose>
-	</sql>
+      <choose>
+      	<when test=" '30' == searchDiv">
+      	   AND context like #{searchWord} ||'%'
+      	</when> 
+      	
+      	<when test=" '40' == searchDiv">
+      	   AND context like #{searchWord} ||'%'
+      	</when> 
+      	
+      	<when test=" '50' == searchDiv">
+      	 AND title like #{searchWord} ||'%'      	   
+      	</when>
+
+      	<when test=" '60' == searchDiv">
+      	   AND context like #{searchWord} ||'%'
+      	</when>  
+      	
+      	<when test=" '70' == searchDiv">
+      	   AND context like #{searchWord} ||'%'
+      	</when> 
+      	    
+      </choose>
+   </sql>
 
 
 
 	<!-- 목록조회 -->
-	<select id="doSelectList" parameterType="Search" resultType="reviewVO">
-SELECT T1.*,T2.*                                                            
-		FROM                                                                        
-		 (                                                                          
-		     SELECT B.rnum AS num,                                   
-		            B.event_seq AS eventSeq,                        
-					B.user_id AS userId,                                 
-					B.event_nm AS eventNm,                     
-					B.content,                                                     
-					B.capacity,                                                    
-					B.movie_info AS movieInfo, 
-					B.location,                                                    
-					DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
-						  ,TO_CHAR(B.reg_dt,'HH24:MI')                             
-					      ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
-					B.target_dt AS targetDt,                                  
-					B.reg_id AS regId,
-					B.genre                   
-		     FROM (                                                                 
-		         SELECT ROWNUM rnum, A.*                                            
-		         FROM(                                                              
-		             SELECT *                                                       
-		             FROM  event 
-		             <include refid="searchCondition"/>                                               
-		             ORDER BY reg_dt DESC                                           
-		         )A                                                                 
-		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
-		     )B                                                                     
-		     WHERE B.rnum <![CDATA[ >= ]]> (#{pageSize} *(#{pageNum}-1)+1)                           
-		     )T1                                                                    
-		     CROSS JOIN                                                             
-		     (SELECT COUNT(*) totalCnt                                             
-		      FROM  event
-		      <include refid="searchCondition"/>                                                       
-		     )T2    
-	</select>
+	<select id="doSelectList" parameterType="Search" resultType="ReviewVO">
+		SELECT T1.*,
+		       T2.*                                                                         
+		FROM(                                                                               
+		    SELECT B.rnum as num,                                                               
+		 		   B.review_seq, 
+		 		   B.event_seq AS eventSeq,
+		 		   B.writer,                                                                
+		 		   B.title, 
+		 		   B.context,                                                                
+		 		   DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.mod_dt,'yyyy/mm/dd')      
+		 				  ,TO_CHAR(B.mod_dt,'hh24:mi')                                      
+		 				  ,TO_CHAR(B.mod_dt,'yyyy/mm/dd')) AS reg_dt,
+		 		   B.div,	                            
+		 		   DECODE(TO_CHAR(SYSDATE,'yyyy/mm/dd'),TO_CHAR(B.mod_dt,'yyyy/mm/dd')      
+		 				  ,TO_CHAR(B.mod_dt,'hh24:mi')                                      
+		 				  ,TO_CHAR(B.mod_dt,'yyyy/mm/dd')) AS mod_dt                                                                 
+		 	FROM(                                                                           
+		 		SELECT rownum as rnum,                                                      
+		 			   A.*                                                                  
+		 		FROM(                                                                       
+		 			SELECT *                                                          
+		 			FROM review                                                              
+		 			WHERE div = #{div}
+		            <include refid="searchCondition"/>
+		 			ORDER BY mod_dt DESC                                                      
+		 		) A            
+		        WHERE rownum <![CDATA[ <= ]]>  ( #{pageSize} * ( #{pageNum} - 1 ) + #{pageSize}) 		                                         		
+			)B                 
+			WHERE rnum <![CDATA[ >= ]]> ( #{pageSize} * ( #{pageNum} - 1 ) + 1 )     
+		) T1 NATURAL JOIN    
+		 (SELECT COUNT(*) AS totalCnt                                   	
+		  FROM review                                                  
+		  WHERE div = #{div}
+		  <include refid="searchCondition"/> 
+		 )T2   
+   </select>
 
 
 
@@ -86,6 +95,13 @@ SELECT T1.*,T2.*
 		WHERE review_seq = #{review_seq}
 	</select>
 
+
+	<!-- 제목으로 단건 조회 -->
+   <select id="doSelectTitleOne" parameterType="ReviewVO" resultType="ReviewVO">
+		SELECT  <include refid="reviewColumns"/>                         
+		FROM  review                                           
+		WHERE title = #{title} 
+   </select>
 
 
 	<!-- 수정 -->

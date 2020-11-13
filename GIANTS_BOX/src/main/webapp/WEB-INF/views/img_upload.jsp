@@ -43,7 +43,7 @@
 
 
 <style type="text/css">
-	.flex_container {
+.flex_container {
 		display: flex;
 		justify-content: flex-start;
 		max-width: 96%;

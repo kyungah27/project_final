@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.uver.cmn.Search;
 import com.uver.vo.CommentVO;
 import com.uver.vo.ReviewVO;
 
@@ -20,13 +21,13 @@ public interface ReviewDao {
 	
 	ReviewVO doSelectOne(int review_seq);
 	
-	//int doSelectOneByTitle(String title);
+	ReviewVO  doSelectOneByTitle(ReviewVO review);
 	
 	//ReviewVO doSelectOneById(String writer);
 	
 	//List<ReviewVO> doSelectList(String div, String searchWord);
 	
-	List<ReviewVO> doSelectList(ReviewVO vo);
+	List<ReviewVO> doSelectList(Search search);
 
 
 	
