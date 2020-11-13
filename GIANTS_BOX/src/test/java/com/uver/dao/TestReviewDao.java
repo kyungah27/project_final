@@ -48,8 +48,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"마이", "바티스", "추가", "20/11/15", 10, "20/11/15");
-		review02 = new ReviewVO(71, 2, "바티스바티스", "테스트", "이벤트 모올라", "20/11/15",20, "20/11/15");
+		review01 = new ReviewVO(88, 1002,"김가람", "랄랄라", "11월", "", 10, "");
+		review02 = new ReviewVO(89, 2, "최규연", "인터페이스", "오류", "",20, "");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -75,24 +75,31 @@ public class TestReviewDao {
 	//@Ignore
 	public void test() {
 		int flag = 0;
-		// 삽입
-		
+		// 삽입		
+		/*
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
-		
+		*/
 		
 		// 삭제
-		// flag = dao.doDelete(review01);
-		// LOG.debug("flag:"+flag);
-		// dao.doDelete(review02);
-
-		// 수정		 		
-		//flag = dao.doUpdate(review01);		
-		//ReviewVO updateVO = new ReviewVO(86, 1002, "수수정_U", "이벤트 날씨U", "이벤트 모올라U", "",20, "");
-		//flag = dao.doUpdate(updateVO);
-		//assertThat(flag, is(1));
+		/*
+		flag = reviewDao.doDelete(review01);		
+		assertThat(flag, is(1));		
+		flag = reviewDao.doDelete(review02);
+		assertThat(flag, is(1));
+		*/
+		
+		
+		// 수정	
+		
+		flag = reviewDao.doUpdate(review01);		
+		ReviewVO updateVO = new ReviewVO(86, 1002, "장아네스", "수정중", "이벤트 모올라U", "",20, "");
+		flag = reviewDao.doUpdate(updateVO);
+		assertThat(flag, is(1));		
+		
+		
 		
 		// 단건조회	 
 		//dao.doSelectOne(review01.getReview_seq());

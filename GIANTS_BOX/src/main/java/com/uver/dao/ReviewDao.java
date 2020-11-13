@@ -9,7 +9,7 @@ import com.uver.vo.ReviewVO;
 
 public interface ReviewDao {
 
-	void setJdbcTemplate(JdbcTemplate jdbcTemplate);		
+	//void setJdbcTemplate(JdbcTemplate jdbcTemplate);		
 
 		
 	int doInsert(ReviewVO review);

@@ -20,21 +20,22 @@
 			style="padding-top: 10px">
 			<b>comment</b>
 			<hr />
-			<form name="commentInsertForm" id="commentInsertForm">  
+			<form name="commentInsertForm" id="commentInsertForm">
 				<div>
-					<input type="hidden" name="regId" id="regId"
-						value="${vo.regId}" /> <input type="hidden"
-						name="seq" id="seq" value="${vo.seq}" /> <input
-						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
+					<input type="hidden" name="regId" id="regId" value="${vo.regId}" />
+					<input type="hidden" name="seq" id="seq" value="${vo.seq}" /> <input
+						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> 
+						<!-- 세션처리받아서 아이디 받는걸로 수정하기 -->
+						<input
 						style="text-align: center; width: 150px;" id="user_id"
-						name="user_id" type="text" class="form-control" value="ehgml"
+						name="user_id" type="text" class="form-control" value=""
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="content"
 						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 					<br />
 					<!-- ---------------*********나중에 세션아이디값받아서 있을경우만 등록 생기도록 if문 -->
-					<input type="button"  class="btn btn-primary btn-sm" value="등록"
-						id="doInsert" style="float: right" /> <br/>
+					<input type="button" class="btn btn-primary btn-sm" value="등록"
+						id="doInsert" style="float: right" /> <br />
 				</div>
 			</form>
 		</div>
@@ -87,40 +88,40 @@
 				$("#content").focus();
 				alert("내용을 입력하세요.");
 				return;
-			}
-			else{
+			} else {
 				alert("등록 하시겠습니까?");
 				//$("#commentList").empty();
 				//ercommentList();
-				}
+			}
 			$.ajax({
 				type : "POST",//데이터를 보낼 방식
 				url : url,//데이터를 보낼 url
 				dataType : "html",
 				data : {
-					/* 	 "seq" : $("#seq").val(),
-						"div" : $("#div").val(),  */
-					//"contents" : $("#contents").val()
+					"seq" : "2",
+					"div" : "10",
+					"content" : content,
 					"regId" : "yeji"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
 					console.log("content=" + content);
-				
+
 					if (data != null) {
 						alert("댓글이 등록되었습니다");
 						$("#commentList").empty();
 						commentList();
+						document.getElementById("content").value='';
 					}
 					//moveToListView()
-
 				},
 				error : function(xhr, status, error) {
 					alert(meesage.msgContents);
 				}
+
 			});
 
-});
+		});
 
 		//수정,삭제 기능 추가
 		//commentlist do.?이후 부분+출력부분
@@ -142,7 +143,8 @@
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$.each(
+								$
+										.each(
 												commentList,
 												function(i, vo) {
 
