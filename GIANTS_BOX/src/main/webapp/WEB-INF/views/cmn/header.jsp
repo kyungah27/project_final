@@ -45,10 +45,10 @@
                 <c:choose>
                     <c:when test="${!empty user}" >
 	                    <li class="nav-item" role="presentation">
-	                    	<a class="nav-link text-secondary active" href="#">explore</a>
+	                    	<a class="nav-link text-secondary active" href="${context}/event_list.do">explore</a>
 	                    </li>
 	                    <li class="nav-item" role="presentation">
-	                    	<a class="nav-link text-secondary" href="${context}/event_list.do">my event</a>
+	                    	<a class="nav-link text-secondary" href="${context}/my_event.do">my event</a>
 	                    </li>
 	                    <li class="nav-item" role="presentation">
 	                    	<a class="nav-link text-secondary" href="${context}/account.do">my account</a>
