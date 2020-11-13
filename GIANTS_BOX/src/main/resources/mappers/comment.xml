@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.uver">
+	<insert id="doInsert" parameterType="CommentVO">
+		INSERT INTO comment_tb (
+		comment_seq,
+		seq,
+		div,
+		content,
+		reg_dt,
+		reg_id,
+		mod_dt,
+		like_cnt
+		) VALUES (
+		:v0,
+		:v1,
+		:v2,
+		:v3,
+		:v4,
+		:v5,
+		:v6,
+		:v7
+		);
+	</insert>
+
+
+
+
+</mapper>

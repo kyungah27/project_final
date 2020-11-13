@@ -61,8 +61,8 @@ public class TestCommentController {
 	public void setUp() throws Exception {
 		LOG.debug("=========================");
 		LOG.debug("=setUp()=");
-		commentVO = Arrays.asList(new CommentVO(1, 2, "10", "재밌어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", ""),
-				new CommentVO(2, 4, "10", "재밌어요ㅋㅋ", "", "ehgml", ""));
+		commentVO = Arrays.asList(new CommentVO(1, 2, "10", "재밌어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", "", 0),
+				new CommentVO(2, 4, "10", "재밌어요ㅋㅋ", "", "ehgml", "", 0));
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		LOG.debug("=mockMvc=" + mockMvc);
 		assertThat(mockMvc, is(notNullValue()));
