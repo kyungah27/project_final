@@ -35,7 +35,7 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 		@Override
 		public ReviewVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			ReviewVO outVO = new ReviewVO(rs.getInt("review_seq"), rs.getInt("event_seq"), rs.getString("writer"),
-					rs.getString("title"), rs.getString("context"), rs.getString("reg_dt"), rs.getInt("div"),
+					rs.getString("title"), rs.getString("context"), rs.getString("reg_dt"), rs.getString("review_div"),
 					rs.getString("mod_dt"));
 			outVO.setReview_seq(rs.getInt("review_seq"));
 

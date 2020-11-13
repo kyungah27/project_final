@@ -50,8 +50,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(86, 1002,"최규연", "딩딩", "11월", "", 10, "");
-		review02 = new ReviewVO(89, 0, "최규연", "아아아아아", "11월", "",20, "");
+		review01 = new ReviewVO(86, 1002,"최규연", "딩딩", "11월", "", "영화", "");
+		review02 = new ReviewVO(89, 0, "최규연", "아아아아아", "11월", "","후기", "");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -142,7 +142,7 @@ public class TestReviewDao {
 		assertThat(inVO.getTitle(), is(vsVO.getTitle()));
 		assertThat(inVO.getContext(), is(vsVO.getContext()));
 		 assertThat(inVO.getReg_dt(), is(vsVO.getReg_dt()));
-		 assertThat(inVO.getDiv(), is(vsVO.getDiv()));		
+		 assertThat(inVO.getReview_div(), is(vsVO.getReview_div()));		
 		assertThat(inVO.getMod_dt(), is(vsVO.getMod_dt()));
 	}
 }
