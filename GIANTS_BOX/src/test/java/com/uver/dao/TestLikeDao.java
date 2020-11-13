@@ -36,22 +36,27 @@ public class TestLikeDao {
 
 	@Before
 	public void setUp() throws Exception {
-		like01 = new LikeVO(28, 7);
-		like02 = new LikeVO(29, 11);
+		like01 = new LikeVO(1, 2, 1, 1);
 	}
 
 	@Test
+	public void countLike() {
+		like01.setLikeNo(1);
+		LOG.debug("=context=" + like01);
+	}
+	@Test
+	@Ignore
 	public void doSelectOne() {
 		like02.setCommentSeq(29);
 		LikeVO outVO = likeDaoImpl.doSelectOne(like02);
-		//checkLike(like02, outVO);
+		// checkLike(like02, outVO);
 	}
 
 	@Test
 	@Ignore
 	public void doDelete() {
 		like01.setCommentSeq(29);
-		;
+		
 		int flag = likeDaoImpl.doDelete(like01);
 
 		assertThat(flag, is(1));
@@ -76,7 +81,9 @@ public class TestLikeDao {
 	}
 
 	private void checkLike(LikeVO orgLike, LikeVO vsLike) {
+		assertThat(orgLike.getLikeNo(), is(vsLike.getLikeNo()));
 		assertThat(orgLike.getCommentSeq(), is(vsLike.getCommentSeq()));
-		assertThat(orgLike.getUserSeq(), is(vsLike.getUserSeq()));
+		assertThat(orgLike.getMemberSeq(), is(vsLike.getMemberSeq()));
+		assertThat(orgLike.getLikeCheck(), is(vsLike.getLikeCheck()));
 	}
 }

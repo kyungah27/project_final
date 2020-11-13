@@ -50,9 +50,9 @@ public class TestEventDao {
     	LOG.debug("** context **"+context);
     	LOG.debug("** eventDao **"+eventDao);
 		
-		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "20/11/13","test_01","코미디");
-		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "20/11/13","test_02","공포");
-		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "20/11/13","test_03","드라마");
+		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "201113","test_01","코미디");
+		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "201113","test_02","공포");
+		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "201113","test_03","드라마");
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class TestEventDao {
 	
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void doSeletList() {
 		
 //		int flag = eventDao.doInsert(event01);
@@ -98,7 +98,7 @@ Search search = new Search("10", "test_", "20/11/13", 10, 1);
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doUpdate() {
 		eventDao.doDelete(event01);
 		eventDao.doDelete(event02);
@@ -112,10 +112,10 @@ Search search = new Search("10", "test_", "20/11/13", 10, 1);
 		event01.setContent(event01.getContent()+"_up");
 		event01.setCapacity(20);
 		event01.setMovieInfo(event01.getMovieInfo()+"_up");
-		event01.setStartDt("20/11/01");
-		event01.setEndDt("20/11/03");
+		event01.setStartDt("201101");
+		event01.setEndDt("201103");
 		event01.setLocation(event01.getLocation()+"_up");
-		event01.setTargetDt("20/11/13");
+		event01.setTargetDt("201113");
 		event01.setRegId(event01.getRegId()+"_up");
 		event01.setGenre("액션");
 		

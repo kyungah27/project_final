@@ -136,6 +136,7 @@ public class CommentDaoImpl implements CommentDao {
 	@Override
 	public List<CommentVO> doSelectList(CommentVO vo) {
 		List<CommentVO> list = null;
+		LOG.debug("dao");
 		Object[] args = { vo.getSeq(), vo.getDiv() };
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT												\n");
