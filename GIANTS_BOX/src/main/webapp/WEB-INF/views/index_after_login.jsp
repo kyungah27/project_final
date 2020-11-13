@@ -235,61 +235,8 @@
 						class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
 						href="#">See more</a>
 				</div>
-				<div class="row">
-					<div class="col-md-6 col-lg-4" style="margin-bottom: 10px;">
-						<div class="card">
-							<img class="card-img-top w-100 d-block"
-								src="${context}/resources/img/movie_rank/rank1.jpg">
-							<div class="card-body">
-								<h4 class="card-title">삼진그룹 영어토익반</h4>
-								<p class="card-text">
-									<strong>감독 </strong>이종필<br>
-									<strong>출연 </strong>고아성, 이솜, 박혜수 등<br>
-									<strong>장르</strong> 드라마
-								</p>
-							</div>
-							<div class="text-center" style="margin-bottom: 20px;">
-								<button class="btn btn-outline-primary btn-sm" type="button">관련
-									이벤트</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 col-lg-4" style="margin-bottom: 10px;">
-						<div class="card">
-							<img class="card-img-top w-100 d-block"
-								src="${context}/resources/img/movie_rank/rank2.jpg">
-							<div class="card-body">
-								<h4 class="card-title">미스터트롯: 더무비</h4>
-								<p class="card-text">
-									<strong>감독&nbsp;</strong><br>
-									<strong>출연</strong>&nbsp;임영웅, 영탁, 이찬원 등<br>
-									<strong>장르</strong>&nbsp;공연실황
-								</p>
-							</div>
-							<div class="text-center" style="margin-bottom: 20px;">
-								<button class="btn btn-outline-primary btn-sm" type="button">관련
-									이벤트</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 col-lg-4" style="margin-bottom: 10px;">
-						<div class="card">
-							<img class="card-img-top w-100 d-block"
-								src="${context}/resources/img/movie_rank/rank3.jpg">
-							<div class="card-body">
-								<h4 class="card-title">담보</h4>
-								<p class="card-text">
-									<strong>감독&nbsp;</strong>강대규<br>
-									<strong>출연 </strong>성동일, 하지원, 김희원 등<br>
-									<strong>장르</strong>&nbsp;드라마<br>
-								</p>
-							</div>
-							<div class="text-center" style="margin-bottom: 20px;">
-								<button class="btn btn-outline-primary btn-sm" type="button">관련
-									이벤트</button>
-							</div>
-						</div>
-					</div>
+				<div class="row" id= "movie_info">
+		
 				</div>
 			</div>
 		</section>
@@ -473,7 +420,114 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
+
+		let today = new Date();   
+
+		let year = today.getFullYear(); // 년도
+		let month = today.getMonth() + 1;  // 월
+		let date = today.getDate()-2;  // 날짜
+		var currentDate = year+""+month+""+date;
+		console.log(currentDate);
+		boxOffList(currentDate);
+	    
 	});
+
+
+	   function searchOneToNameKM(movieNm) {
+			console.log("searchOneToNameKM");
+			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
+			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
+			url += movieNm;
+			console.log(url);
+			$.ajax({
+				url : url,
+				type : 'GET',
+				dataType : 'html',
+				success : function(s) {
+					var item = JSON.parse(s);
+					console.log(item);
+					data = item.Data[0];
+					result = data.Result[0];		
+					//제목
+					var title = result.title;
+					title = title.replace(/!HS/gi, " ");
+					title = title.replace(/!HE/gi, " ");
+					console.log(title);										
+					//감독
+					var director = result.directors.director[0].directorNm;
+					console.log(director);
+					//출연
+					var actors = "";
+					$.each(result.actors.actor, function(i,actor) {
+						if(i == 3) return false;
+						
+						actors += actor.actorNm+"  ";
+						console.log(actors);
+					})							
+					//장르
+					var genre = result.genre;
+					console.log(genre); 								
+					//코드
+					var DOCID = result.DOCID;
+					console.log(DOCID); 
+					//포스터 url
+					var poster = result.posters;
+					poster = poster.split("|");
+					var posterUrl = poster[0];
+					console.log(posterUrl); 
+					// 줄거리
+					var plot = result.plots.plot[0].plotText;
+					console.log(plot); 	
+					var html = '';
+					html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
+					html +=	'<div class="card">'
+					html += '<img class= "card-img-top w-100 d-block" src= '+posterUrl+'>'
+					html += '<div class="card-body"> <h4 class="card-title">'+title+'</h4>'
+					html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
+					html += '<strong>출연 </strong>'+actors+'<br>'
+					html += '<strong>장르 </strong>'+genre+'</p>'
+					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+					console.log(html);	
+					$("#movie_info").append(html);		
+				},
+				error : function(xhr, status, error) {
+					alert("error:" + error);
+				},
+				complete : function(data) {
+				}
+			})
+		}
+
+		function boxOffList(date) {
+			console.log("boxOffList");
+			var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=6f53bd46d6879627e90298b05f473d62&itemPerPage=3&targetDt=';
+			url += date;
+			//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
+			console.log(url);
+			$.ajax({
+				url : url,
+				type : 'get',
+				dataType : 'json',
+				success : function(item) {
+					$.each(item.boxOfficeResult.dailyBoxOfficeList, function(i,
+							content) {
+
+						var movieCd = content.movieCd;
+						console.log(movieCd);
+						
+						//detailMovieInfo(movieCd);
+						var movieNm = content.movieNm;
+						console.log(movieNm);
+						searchOneToNameKM(movieNm);
+					})
+				},
+				error : function(xhr, status, error) {
+					alert("error:" + error);
+				},
+				complete : function(data) {
+				}
+			})
+		}
 
 	</script>
 

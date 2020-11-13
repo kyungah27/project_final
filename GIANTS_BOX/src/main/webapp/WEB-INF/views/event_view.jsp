@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                     <form>
-                                    	<button class="btn btn-primary btn-block btn-sm" type="submit" id="doLogin">이벤트 참여하기</button>
+                                    	<button class="btn btn-primary btn-block btn-sm" type="submit" id="doJoin">이벤트 참여하기</button>
                                     </form>
                                     
                                 </div>
@@ -105,8 +105,8 @@
                                         </div>
                                         
                             			
-                                        <div class="row justify-content-center">    
-                                            <div class="col-sm-6 col-lg-3">
+                                        <div class="row justify-content-center" id="join_list">    
+                        <%--                     <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
                                                     <div class="card-body">
@@ -132,8 +132,8 @@
                                                         <p class="card-text text-truncate">jikrrr</p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-3">
+                                            </div> --%>
+    <%--                                         <div class="col-sm-6 col-lg-3">
                                                 <div class="card clean-card text-center">
                                                     <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
                                                     <div class="card-body">
@@ -141,7 +141,7 @@
                                                         <p class="card-text text-truncate">momo0509</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --%>
                                             
                                         </div>
                                         <div class="row justify-content-end mr-auto mt-2">
@@ -243,7 +243,89 @@
             </div>
         </section>
     </main>
-    
+     <script src="${context}/resources/js/jquery.min.js"></script>
+     <script type="text/javascript">
+			
+ 	$(document).ready(function() {
+		console.log("document ready");
+		doSelectList(1001);	
+	});
+
+
+	//로그인하기 되는데 seccess alert안됨 이따가함 
+	$("#doJoin").on("click", function(e) {
+		alert("doLogin");
+
+		  $.ajax({
+			    type:"POST",
+			    url:"${context}/join/doInsert.do",
+			    dataType:"html", 
+			    data:{"eventSeq":	1002,   
+			    	  "memberSeq":	${sessionScope.user.seq},   	//임시값, 이벤트에서 줄거라고 가정   
+			    	  "priority" :  0  						   
+			    },
+			    success:function(data){ //성공
+			       var obj = JSON.parse(data);
+			       console.log("obj="+obj);
+			       if(obj.msgId == 1){
+						alert(obj.msgContents);
+						doSelectList(1001);
+				   }else{
+						alert(obj.msgContents);
+				   }
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax		
+	});
+
+	function doSelectList(eventSeq){
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/join/doSelectList.do",
+			    dataType:"html", 
+			    data:{"eventSeq":1001	//임시값, 이벤트에서 줄거라고 가정         
+			    },
+			    success:function(data){ //성공
+			       console.log("data="+data);
+			       var obj = JSON.parse(data);
+		          	  $("#join_list").empty();
+		          	  drawTable(obj);   
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax		
+	}
+
+
+
+	function drawTable(obj){
+		var html  = "";		
+		$.each(obj, function(i, value) {
+			console.log(value);
+			if(value.priority ==1){
+				
+			}else{
+							
+			}
+			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
+			html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">';  //이미지
+			html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';
+            html += '<p class="card-text text-truncate">'+value.userId+'</p></div></div></div>';      		
+		});
+		$("#join_list").append(html);				  
+	}
+	
+ 	
+
+
+     </script>
     
 <%@ include file="cmn/footer1.jsp" %>
 <!-- 자바스크립트 자리 -->

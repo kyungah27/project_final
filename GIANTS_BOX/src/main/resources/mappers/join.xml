@@ -84,7 +84,7 @@
 
 	<select id="currentJoinList" parameterType="JoinVO"
 		resultType="com.uver.vo.JoinMemberVO">
-		SELECT t2.user_id as id,
+		SELECT t2.user_id as userId,
 			   t2.name as name , 
 			   t1.event_seq as eventSeq ,
 			   t1.member_seq as MemberSeq ,
