@@ -224,7 +224,7 @@
 
 		//시각적 효과
 		dragOver(e);
-		
+
 		e.dataTransfer = e.originalEvent.dataTransfer;
 		let files = e.target.files || e.dataTransfer.files;
 
@@ -279,6 +279,8 @@
 	picker.addEventListener('change', function(e){
 		let getFile = e.target.files;
 		checkImgAndPreview(getFile);
+
+		
 	})
 	//---//[파일 피커에서 이미지 미리보기]----------------------------------------
 	
@@ -290,6 +292,10 @@
 				return;
 			} else {
 				imgPreview(files);
+				console.log("preview");
+				$("#img_preview").css({
+					"outline":"0px"
+				});
 			}
 		}
 	}
