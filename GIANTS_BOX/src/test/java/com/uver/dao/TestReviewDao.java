@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -20,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
 
 import com.uver.vo.ReviewVO;
 
@@ -48,7 +48,7 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(88, 1002,"김가람", "랄랄라", "11월", "", 10, "");
+		review01 = new ReviewVO(86, 1002,"김가람", "랄랄라", "11월", "", 10, "");
 		review02 = new ReviewVO(89, 2, "최규연", "인터페이스", "오류", "",20, "");
 
 		LOG.debug("[review01] " + review01);
@@ -93,16 +93,18 @@ public class TestReviewDao {
 		
 		
 		// 수정	
-		
+		/*
 		flag = reviewDao.doUpdate(review01);		
 		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
 		flag = reviewDao.doUpdate(updateVO);
 		assertThat(flag, is(1));		
+		*/
 		
 		
-		
-		// 단건조회	 
-		//dao.doSelectOne(review01.getReview_seq());
+		// 단건조회
+		/*
+		reviewDao.doSelectOne(review01.getReview_seq());
+		*/		
 		
 		// 리스트 조회
 		/*
@@ -120,7 +122,8 @@ public class TestReviewDao {
 		
 		
 	}//test
-		 
+
+	
 		 @Test
 		  @Ignore
 		    public void doUpdate() throws ClassNotFoundException, SQLException {			 

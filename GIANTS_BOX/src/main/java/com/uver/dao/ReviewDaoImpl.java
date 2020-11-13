@@ -182,7 +182,8 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	 * //return outVO; return flag; }
 	 */
 
-	// selectOne
+	// selectOne 써야되는것
+	/*
 	public ReviewVO doSelectOne(ReviewVO reviewVO) {
 		LOG.debug("=====================");
 		LOG.debug("=doSelectOne=");
@@ -197,8 +198,10 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 
 		return outVO;
 	}
+	*/
+	
 	/*
-	 * 원래내가썼던거
+	 * 원래내가썼던 dao
 	 * 
 	 * @Override public ReviewVO doSelectOne(int review_seq) { ReviewVO outVO =
 	 * null;
@@ -243,13 +246,34 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	}
 
 	@Override
+	//새로 바꾼 것
 	public ReviewVO doSelectOne(int review_seq) {
-		// TODO Auto-generated method stub
-		return null;
+		ReviewVO outVO = null; 	
+		String statement = this.NAMESPACE+".doSelectOne";
+		ReviewVO inVO =new ReviewVO();
+		inVO.setReview_seq(review_seq);
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+inVO);
+		LOG.debug("========================");		
+    	
+		outVO= this.sqlSessionTemplate.selectOne(statement, inVO);
+				
+		LOG.debug("========================");
+		LOG.debug("=outVO="+outVO);
+		LOG.debug("========================");			
+    	
+
+    	return outVO;
 	}
 
 	@Override
 	public List<ReviewVO> doSelectList(ReviewVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public static ReviewVO doSelectOne(ReviewVO reviewVO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
