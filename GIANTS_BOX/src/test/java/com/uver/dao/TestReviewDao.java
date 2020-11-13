@@ -50,8 +50,8 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(86, 1002,"최규연", "딩딩", "11월", "", "영화", "");
-		review02 = new ReviewVO(89, 0, "최규연", "아아아아아", "11월", "","후기", "");
+		review01 = new ReviewVO(1, 1002,"곽경아", "엄마", "사랑해요", "", "10", "");
+		review02 = new ReviewVO(1, 0, "곽호정", "아빠", "사랑해요", "","20", "");
 
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -78,12 +78,12 @@ public class TestReviewDao {
 	public void test() {
 		int flag = 0;
 		// 삽입		
-		/*
+		
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
-		*/
+		
 		
 		// 삭제
 		/*
@@ -115,7 +115,7 @@ public class TestReviewDao {
 		
 		
 		// 리스트 조회
-		
+		/*
 		Search search = new Search("최규연", "11월");
 
 		List<ReviewVO> list = reviewDao.doSelectList(search);
@@ -123,7 +123,7 @@ public class TestReviewDao {
 		//assertThat(list.size(), is(9));
 		assertThat(list.size(), is(2));
 		LOG.debug("list.size():"+list.size());
-		
+		*/
 		
 	}//test
 

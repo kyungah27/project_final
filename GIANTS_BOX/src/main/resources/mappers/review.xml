@@ -136,7 +136,7 @@
 		    title,          
 		    context,           
 		    reg_dt,            
-		    div,         
+		    review_div,         
 		    mod_dt
 		) VALUES (      
 		    review_seq.NEXTVAL,   
@@ -145,7 +145,7 @@
 		    #{title},                 
 		    #{context},                 		              
 		    SYSDATE,           
-		    #{div},                 
+		    #{review_div},                 
 		    SYSDATE	                   
 		)                      
 	
