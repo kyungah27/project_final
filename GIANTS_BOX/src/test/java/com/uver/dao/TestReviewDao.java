@@ -95,7 +95,7 @@ public class TestReviewDao {
 		// 수정	
 		
 		flag = reviewDao.doUpdate(review01);		
-		ReviewVO updateVO = new ReviewVO(86, 1002, "장아네스", "수정중", "이벤트 모올라U", "",20, "");
+		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
 		flag = reviewDao.doUpdate(updateVO);
 		assertThat(flag, is(1));		
 		

@@ -96,7 +96,7 @@ SELECT T1.*,T2.*
 		    ,title = #{title,jdbcType=VARCHAR}    
 		    ,context = #{context,jdbcType=INTEGER}   
 		    ,div = #{div,jdbcType=VARCHAR} 
-		    ,mod_dt = #{mod_dt,jdbcType=VARCHAR}   
+		    ,mod_dt = SYSDATE   
 		  	WHERE review_seq = #{review_seq,jdbcType=INTEGER} 
 	</update>
 	
