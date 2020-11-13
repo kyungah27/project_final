@@ -108,15 +108,13 @@
 					class="d-flex flex-column justify-content-between block-heading"
 					style="margin-bottom: 7px;">
 					<h2 class="text-primary">My Upcoming Events</h2>
-					<a
-						class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
+					<a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
 						href="#">See more</a>
 				</div>
 
 				<div class="row d-flex justify-content-around">
-
 					<div class="mb-3">
-						<div class="datepicker-here" data-language="en"></div>
+						<div class="datepicker-here" data-language="en" id="my_calendar"></div>
 					</div>
 
 					<div class="col-lg-9 col-md-7">
@@ -210,19 +208,17 @@
 					</div>
 					<div class="col-sm-6 col-lg-4">
 						<div class="card clean-card text-center">
-							<img class="card-img-top w-100 d-block"
-								src="${context}/resources/img/event_thumbnail/netflix.jpg">
+							<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/netflix.jpg">
 							<div class="card-body info">
 								<p class="text-left card-text">
 									<strong>11월 20일 5:00PM</strong>
 								</p>
 								<h4 class="text-truncate card-title">넷플릭스 + 맥주 + Chilling!</h4>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
-									adipisicing elit.</p>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 								<div class="icons">
 									<a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i
-										class="icon-social-instagram"></i></a><a href="#"><i
-										class="icon-social-twitter"></i></a><small>2명 참여</small>
+										class="icon-social-instagram"></i></a><a href="#">
+										<i class="icon-social-twitter"></i></a><small>2명 참여</small>
 								</div>
 							</div>
 						</div>
@@ -472,7 +468,16 @@
 	<script src="${context}/resources/js/datepicker.min.js"></script>
 	<script src="${context}/resources/js/datepicker.en.js"></script>
 	<!-- //calendar -->
+	
+	
+	
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+	    $("#my_calendar").data('datepicker').selectDate(new Date());
+	});
 
+	</script>
 
 </body>
 </html>
