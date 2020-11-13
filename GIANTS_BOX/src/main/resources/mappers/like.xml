@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uver">
-	<select id="doSelectOne" parameterType="LikeVO"
-		resultType="LikeVO">
+	<select id="countLike" resultType="int" parameterType="HashMap">
 		SELECT
-		c_seq,
-		u_seq
-		FROM
-		good
-		WHERE c_seq=#{commentSeq}
+		COUNT(likeNo) as cnt
+		FROM GOOD
+		WHERE comment_seq=#{commentSeq} AND
+		member_seq=#{memberSeq}
 	</select>
-	<delete id="doDelete" parameterType="LikeVO">
+	<insert id="doInsert" parameterType="HashMap">
+		INSERT INTO good
+		VALUES
+		((SELECT NVL(MAX(likeno), 0) + 1 as likeno FROM
+		good),#{commentSeq},#{memberSeq}, 0)
+	</insert>
+	<update id="likeCheck" parameterType="HashMap">
+		UPDATE good
+		SET like_check =
+		like_check + 1
+		WHERE member_seq=#{memberSeq} AND
+		comment_seq=#{commentSeq}
+	</update>
+	<update id="likeCheckCancel" parameterType="HashMap">
+		UPDATE good
+		SET
+		like_check = 0
+		WHERE member_seq=#{memberSeq} AND
+		comment_seq=#{commentSeq}
+	</update>
+	<select id="read" resultType="LikeVO" parameterType="HashMap">
+		SELECT
+		LIKENO ,
+		COMMENT_SEQ ,
+		MEMBER_SEQ ,
+		LIKE_CHECK
+		FROM GOOD
+		WHERE
+		member_seq=#{memberSeq} AND
+		comment_seq=#{commentSeq}
+	</select>
+	<delete id="deleteCommentSeq" parameterType="int">
+		DELETE FROM good
+		WHERE comment_seq=#{commentSeq}
+	</delete>
+	<delete id="deletebyMno" parameterType="int">
 		DELETE FROM good
 		WHERE
-		c_seq
-		=
-		#{commentSeq}
+		member_Seq=#{memberSeq}
 	</delete>
-	<insert id="doInsert" parameterType="LikeVO">
-		INSERT INTO good (
-		c_seq,
-		u_seq
-		) VALUES (
-		#{commentSeq},
-		#{userSeq}
-		)
-	</insert>
+
 </mapper>

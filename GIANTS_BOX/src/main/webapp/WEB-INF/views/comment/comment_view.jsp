@@ -24,11 +24,10 @@
 				<div>
 					<input type="hidden" name="regId" id="regId" value="${vo.regId}" />
 					<input type="hidden" name="seq" id="seq" value="${vo.seq}" /> <input
-						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> 
-						<!-- 세션처리받아서 아이디 받는걸로 수정하기 -->
-						<input
-						style="text-align: center; width: 150px;" id="user_id"
-						name="user_id" type="text" class="form-control" value=""
+						type="hidden" name="div" id="div" value="${vo.getDiv()}" />
+					<!-- 세션처리받아서 아이디 받는걸로 수정하기 -->
+					<input style="text-align: center; width: 150px;" id="user_id"
+						name="user_id" type="text" class="form-control" value="yeji"
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="content"
 						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
@@ -90,8 +89,6 @@
 				return;
 			} else {
 				alert("등록 하시겠습니까?");
-				//$("#commentList").empty();
-				//ercommentList();
 			}
 			$.ajax({
 				type : "POST",//데이터를 보낼 방식
@@ -101,7 +98,7 @@
 					"seq" : "2",
 					"div" : "10",
 					"content" : content,
-					"regId" : "yeji"
+					"regId" : "yeji"//${user}
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
@@ -111,7 +108,7 @@
 						alert("댓글이 등록되었습니다");
 						$("#commentList").empty();
 						commentList();
-						document.getElementById("content").value='';
+						document.getElementById("content").value = '';
 					}
 					//moveToListView()
 				},
@@ -147,7 +144,6 @@
 										.each(
 												commentList,
 												function(i, vo) {
-
 													console.log(vo.commentSeq);
 													console.log(vo.content);
 													console.log(vo.modDt);
@@ -162,7 +158,7 @@
 													html += '<br/>';
 													html += '<div>'
 															+ vo.content
-													'</div>';
+															+ '</div>';
 													html += '<br/>';
 													html += '<p>';
 													html += '<span>';
@@ -170,9 +166,8 @@
 													html += '<input type="button" onclick="commentdelete('
 															+ vo.commentSeq
 															+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
-													html += '<input type="button" class="btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
+													html += '<input type="button" class="mr-1 btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
-
 												});
 								console.log(html);
 								$("#commentList").append(html);

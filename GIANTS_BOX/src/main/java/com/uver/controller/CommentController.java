@@ -160,5 +160,5 @@ public class CommentController {
 		return json;
 	}
 
-	// 업데이트 테스트 못짜겠고 리스트는 컨트롤러 맞게 짯는지 모르겠음
+	// 업데이트 테스트 못짜겠고
 }
