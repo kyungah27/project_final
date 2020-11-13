@@ -73,8 +73,7 @@
 
 		<section>
 			<!-- Start: Navigation with Search -->
-			<nav
-				class="navbar navbar-light navbar-expand-md navigation-clean-search">
+			<nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
 				<div class="container">
 					<button data-toggle="collapse" class="navbar-toggler"
 						data-target="#navcol-1">
@@ -103,7 +102,6 @@
 
 		<section class="clean-block">
 			<div class="container">
-
 				<div
 					class="d-flex flex-column justify-content-between block-heading"
 					style="margin-bottom: 7px;">

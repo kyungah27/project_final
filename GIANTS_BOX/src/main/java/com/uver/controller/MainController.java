@@ -60,7 +60,17 @@ public class MainController {
 		return "signup";
 	}
 	
-	//--- 이벤트 view 페이지로 이동
+	//--- 1개 이벤트 페이지로 이동
+	@RequestMapping(value="event_list.do")
+	public String goEventList() {
+		LOG.debug("-------------------");
+		LOG.debug("goEventList()");
+		LOG.debug("-------------------");
+		
+		return "event_list";
+	}
+	
+	//--- 1개 이벤트 페이지로 이동
 	@RequestMapping(value="event_view.do")
 	public String goEventView() {
 		LOG.debug("-------------------");
