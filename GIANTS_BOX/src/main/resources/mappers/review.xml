@@ -18,7 +18,7 @@
       40 writer
       50 title
       60 context
-      70 div
+      70 review_div
    -->	
 	<sql id="searchCondition">
       <choose>
