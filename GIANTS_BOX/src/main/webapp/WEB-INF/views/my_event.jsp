@@ -16,8 +16,9 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <div class="container">
-                            <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
+                           <div class="d-flex flex-row justify-content-between block-heading" style="margin-bottom: 7px;">
                                 <h2 class="text-primary">내가 개최한 이벤트</h2>
+                                <button type="button" id="event_reg" class="btn btn-primary">이벤트 등록</button>
                             </div>
 
                             <div class="card clean-card text-left">
@@ -28,12 +29,14 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                     </div>
                                     
-                                    <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">이벤트 삭제</button>
+	                                <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">수정</button>
+                                    	<button type="button" name="event_delete" class="btn btn-outline-primary">삭제</button>
                                     </div>
+                                    
                                 </div>
 
                                 <!-- 이벤트 반복 -->
@@ -45,10 +48,11 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 	                                </div>
-	                                <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">이벤트 삭제</button>
+	                                <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_update" class="btn btn-outline-primary">수정</button>
+                                    	<button type="button" name="event_delete" class="btn btn-outline-primary">삭제</button>
                                     </div>
                                 </div>
 
@@ -76,11 +80,11 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                     </div>
                                     
-                                    <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">참여취소</button>
+                                    <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_cancel" class="btn btn-outline-primary">참여 취소</button>
                                     </div>
                                 </div>
 
@@ -93,10 +97,10 @@
 	                                    </p>
 	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 	                                </div>
-	                                <div class="col-lg-3 col-md-4">
-                                    	<button type="button" id="search_movie" class="btn btn-primary btn-block">참여취소</button>
+	                                 <div class="col-lg-2 col-md-3 text-center">
+                                    	<button type="button" name="event_cancel" class="btn btn-outline-primary">참여 취소</button>
                                     </div>
                                 </div>
 
@@ -159,5 +163,22 @@
 
     
 <%@ include file="cmn/footer1.jsp" %>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	    console.log( "document ready" );
+	});
+
+	let eventRegBtn = document.getElementById('event_reg');
+	eventRegBtn.addEventListener('click', function(){
+		window.location.href = "event_reg.do";
+	});
+
+
+
+
+</script>
+
 
 <%@ include file="cmn/footer2.jsp" %>

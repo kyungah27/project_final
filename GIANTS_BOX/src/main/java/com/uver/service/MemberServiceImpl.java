@@ -31,6 +31,24 @@ import com.uver.vo.MemberVO;
 			this.memberDaoImpl = memberDaoImpl;
 		}
 		
+//		public MemberVO SelectOne(MemberVO inputUser) {
+//			
+//			
+//			return MemberVO;
+//		}
+	
+		/**
+		 * 아이디 하나 조회
+		 * @param inputUser
+		 * @return
+		 */
+		public MemberVO selectOne(MemberVO inputUser) {
+			
+		MemberVO memberOne = memberDaoImpl.doSelectOneById(inputUser.getUserId());
+			
+			return memberOne;
+		}
+		
 		/**
 		 * 회원정보 수정
 		 * @param inputUser
@@ -131,10 +149,8 @@ import com.uver.vo.MemberVO;
 		@Override
 		public MemberVO login(MemberVO inputUser) {
 			MemberVO resultVO = null;
-			MemberVO searchMember = new MemberVO();
-			searchMember.setUserId("H");
 	
-			List<MemberVO> list = memberDaoImpl.doSelectList("10", "H"); // H170_01
+			List<MemberVO> list = memberDaoImpl.doSelectListAll(); // H170_01
 	
 			for (MemberVO vo : list) {
 				if (vo.getUserId().equals(inputUser.getUserId()) && vo.getPassword().equals(inputUser.getPassword())) {
@@ -142,19 +158,21 @@ import com.uver.vo.MemberVO;
 					resultVO = vo;
 				}
 			}
+			
 			if (resultVO == null) {
-				LOG.debug("아이디 혹은 비밀번호를 확앤해주세요");
+				LOG.debug("아이디 혹은 비밀번호를 확인해주세요");
 			}
 	
 			return resultVO;
 		}
-	
+
 		@Override
 		public void logout(HttpSession session) {
-	
-			session.invalidate();
+			// TODO Auto-generated method stub
+			
 		}
-
+	
+		
 
 	
 	}

@@ -2,15 +2,16 @@ package com.uver.controller;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
@@ -27,6 +28,17 @@ import com.uver.vo.MemberVO;
 		
 		this.memberService = memberService;
 	}
+		
+		@RequestMapping(value = "account.do")
+		public String fileView() {
+			LOG.debug("===================");
+			LOG.debug("==fileView() ==");
+			LOG.debug("===================");
+			
+			return "account";
+		}
+		
+		
 	
 		/**
 		 * 회원정보수정
@@ -35,9 +47,12 @@ import com.uver.vo.MemberVO;
 		 * @throws ClassNotFoundException
 		 * @throws SQLException
 		 */
-		@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
 		   public String myUpdate(MemberVO inputUser) {
+			
+			LOG.debug(inputUser.getUserId());
+			
 		   int updateFlag = 0;
 		   
 		   updateFlag = memberService.myUpdate(inputUser);
@@ -136,27 +151,75 @@ import com.uver.vo.MemberVO;
 		    * @param inputUser
 		    * @return
 		    */
-		   @RequestMapping(value = "loginn.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @RequestMapping(value = "loginn.do",
+				   method = RequestMethod.GET,
+				   produces = "application/json;charset=UTF-8")
 		   @ResponseBody
-		   public String idLogin(MemberVO inputUser) {
-
+		   public String idLogin(
+				   @RequestParam("userId") String userId,
+				   @RequestParam("password") String password,
+				   HttpServletRequest req) {
+			   
+			   
 		      LOG.debug("-----------------------");
 		      LOG.debug("login()");
 		      LOG.debug("-----------------------");
+		      
+		      MemberVO inVO = new MemberVO();
+		      inVO.setUserId(userId);
+		      inVO.setPassword(password);
+		      LOG.debug("[inVO] "+ inVO);
 
-		      MemberVO outVO = memberService.login(inputUser);
+		      MemberVO outVO = memberService.login(inVO);
 		      Message message = new Message();
+		      
 		      if (outVO != null) {
+		    	 message.setMsgId("1");
 		         message.setMsgContents("로그인에 성공하였습니다.");
+		         
+		        // MemberVO user = (MemberVO) memberService.doSelectOne(inputUser);
+		       //session 객체 생성
+		         HttpSession session = req.getSession();
+		         
+		         MemberVO user = new MemberVO();
+		         user.setSeq(outVO.getSeq());
+		         user.setName(outVO.getName());
+		         user.setGenre(outVO.getGenre());
+		         user.setAuth(outVO.getAuth());
+		         user.setEmail(outVO.getEmail());
+		         user.setUserId(outVO.getUserId());
+		         LOG.debug("[user] " + user);
+		         
+		         //session 생성 (MemberVO로 받기)
+		         session.setAttribute("user", user);
+		         LOG.debug("[session obj: user] " + session.getAttribute("user"));
+		         
+		         
 		      } else {
+		    	 message.setMsgId("0");
 		         message.setMsgContents("로그인에 실패했습니다..");
+		         
 		      }
+		      
 		      Gson gson = new Gson();
 		      String json = gson.toJson(message);
 		      LOG.debug("[json] " + json);
+		      
 		      return json;
 		   }
+		   
 
+		   /**
+		    * 로그아웃
+		    * @param inputUser
+		    * @return
+		    */
+			public void logout(HttpSession session) {
+		
+				session.invalidate();
+			}
+		   
+		   
 
 
 }

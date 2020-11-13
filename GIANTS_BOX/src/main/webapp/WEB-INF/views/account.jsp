@@ -7,17 +7,13 @@
 	<section class="clean-block clean-form dark">
 		<div class="container">
 			<div class="block-heading">
-				<h2 class="text-primary">Sign up</h2>
+				<h2 class="text-primary">My account</h2>
 			</div>
 			<form onsubmit="return false;">
-				<div class="form-group row" >
-					<label class="col-lg-12" for="id" id ="id_label">Id</label>
-					
-					<div class="col-lg-9">
-						<input class="form-control item" type="text" id="id" >
-					</div>
-						<input class="btn btn-sm btn-primary" type="button" value="ID중복확인" id="id_check" />
-					
+				<div class="form-group">
+					<label for="name" id ="id_label">Id</label><input class="form-control item"
+						type="text" style="background-color:#E6E6E6" id="id" readonly >
+						
 				</div>
 				
 				
@@ -32,17 +28,16 @@
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
 						type="email" id="email">
-					<div class="form-group">(ex. -없이 번호만 입력해주세요)
-						<label for="phone" id ="phone_label">Phone</label><input class="form-control item"
+					<div class="form-group">
+						<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
 							type="text" id="phone">
 					</div>
 					<div class="form-group">
 						<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
-							class="form-control item" type="text" id="birthday">
+							class="form-control item" type="text" id="birthday" style="background-color:#E6E6E6" readonly >
 					</div>
 				</div>
-				<button class="btn btn-primary btn-block"  id="doReg">Sign
-					Up</button>
+				<button class="btn btn-primary btn-block"  id="doUpdate">회원정보수정</button>
 			</form>
 			
 		</div>
@@ -50,8 +45,11 @@
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
-    //회원가입
-	$("#doReg").on("click", function() {
+    
+    //회원정보수정
+	$("#doUpdate").on("click", function() {
+
+		
 
 		var name = $("#name").val();
 		name = name.trim();
@@ -102,12 +100,7 @@
 			url : "${context}/updateUser.do",
 			dataType : "html",
 			data : {
-				"name" : $("#name").val(),
-				"password" : $("#password").val(),
-				"email" : $("#email").val(),
-				"cellPhone" : $("#phone").val(),
-				"birthday" : $("#birthday").val()
-
+				"userId":${sessionScope.user}
 			},
 			success : function(data) { //성공
 
@@ -115,7 +108,6 @@
 				//alert(obj.msgContents);
 				alert(obj.msgContents);
 				if(obj.msgId == 1){
-					window.location.href="${context}/login.do";
 				}else{
 					$("#password_label").css("color","red");
 				}
@@ -131,41 +123,8 @@
 
 	});
 
-
-	//id 중복체크
-	$("#id_check").on("click", function() {
-
-		var id = $("#id").val();
-		id = id.trim();
-		if (null == id || id.length == 0) {
-			$("#id").focus();
-			alert("아이디를 입력 하세요.");//{0} 입력하세요.
-			return;
-		}
-		
-		$.ajax({
-			type : "POST",
-			url : "${context}/checkId.do",
-			dataType : "html",
-			data : {
-				"userId" : $("#id").val(),
-			},
-			success : function(data) { //성공
-
-				var obj = JSON.parse(data);
-				//alert(obj.msgContents);
-				alert(obj.msgContents);
-				
-			},
-			error : function(xhr, status, error) {
-				alert("error:" + error);
-			},                    
-			complete : function(data) {
-			}
-
-		});//--ajax
-
-	});
 </script>
 
-<%-- <%@ include file="cmn/footer.jsp"%> --%>
+<%@ include file="cmn/footer1.jsp" %>
+<!-- 자바스크립트 자리 -->
+<%@ include file="cmn/footer2.jsp" %>
