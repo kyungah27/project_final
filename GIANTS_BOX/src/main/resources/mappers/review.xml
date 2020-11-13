@@ -91,12 +91,12 @@ SELECT T1.*,T2.*
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="reviewVO">
 		UPDATE review			
-		SET event_seq = #{event_seq,jdbcType=INTEGER}    
+		SET event_seq = #{eventSeq,jdbcType=INTEGER}    
 		    ,writer = #{writer,jdbcType=VARCHAR}   
 		    ,title = #{title,jdbcType=VARCHAR}    
 		    ,context = #{context,jdbcType=INTEGER}   
 		    ,div = #{div,jdbcType=VARCHAR} 
-		    ,mod_dt = #{startDt,jdbcType=VARCHAR}   
+		    ,mod_dt = #{mod_dt,jdbcType=VARCHAR}   
 		  	WHERE review_seq = #{review_seq,jdbcType=INTEGER} 
 	</update>
 	
