@@ -21,7 +21,11 @@
 			<when test=" '10' == searchDiv">
 				<where>
 				 user_id like '%' || #{searchWord} || '%'
-				 AND target_dt like '%' || #{searchDate} || '%'
+				 AND target_dt  <![CDATA[ <= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
+				 	<foreach item="genre" index="index" collection="genreList"
+      				open="AND genre ON" separator="OR" >
+        			#{genre}
+          			</foreach>
 				</where>
 			</when>
 		
