@@ -52,6 +52,25 @@ public class EventVO extends DTO {
 		this.regId = regId;
 		this.genre = genre;
 	}
+	
+	
+
+	public EventVO(String userId, String eventNm, String content, int capacity, String movieInfo, String startDt,
+			String endDt, String location, String regDt, String targetDt, String regId, String genre) {
+		super();
+		this.userId = userId;
+		this.eventNm = eventNm;
+		this.content = content;
+		this.capacity = capacity;
+		this.movieInfo = movieInfo;
+		this.startDt = startDt;
+		this.endDt = endDt;
+		this.location = location;
+		this.regDt = regDt;
+		this.targetDt = targetDt;
+		this.regId = regId;
+		this.genre = genre;
+	}
 
 	public int getEventSeq() {
 		return eventSeq;
