@@ -218,7 +218,6 @@ public class EventController {
 		LOG.debug("=json=" + json);
 		LOG.debug("==================");
 
-		// model.addAttribute("tot",4);
 		return json;
 	}
 
