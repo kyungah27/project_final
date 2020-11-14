@@ -12,7 +12,7 @@
 		 end_dt AS endDt,                                        
 		 location,                                      
 		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
-		 target_dt AS targetDt,                              
+		 TO_CHAR(target_dt,'YYYY"년 "MM"월 "DD"일" AM HH:MI') AS targetDt,                              
 		 reg_id AS regId                                	
 	</sql>
 

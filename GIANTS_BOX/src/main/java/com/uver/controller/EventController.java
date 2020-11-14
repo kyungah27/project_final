@@ -144,25 +144,22 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "event/doSelectOne.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doSelectOne(EventVO event) {
+	public String doSelectOne(Model model , HttpServletRequest req) {
 		LOG.debug("==================");
-		LOG.debug("=event=" + event);
-		LOG.debug("==================");
+		
+		  String seletedSeq = (String) req.getParameter("seleted_seq");
+		
+		  EventVO inVO = new EventVO();
+		  inVO.setEventSeq(Integer.parseInt(seletedSeq));
+		  
+		  EventVO outVO = this.eventService.doSelectOne(inVO);
+		  
 
-		EventVO outVO = this.eventService.doSelectOne(event);
+		  
+		  model.addAttribute("eventVO", outVO);
+		
 
-		LOG.debug("==================");
-		LOG.debug("=outVO=" + outVO);
-		LOG.debug("==================");
-
-		Gson gson = new Gson();
-		String json = gson.toJson(outVO);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
+		  return "event_view";
 	}
 
 	@RequestMapping(value = "event/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")

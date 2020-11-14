@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp" %>
-
    <main class="page"  style="padding-top: 65px;">
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
-                    <p>2020년 11월 11일 수요일</p>
-                    <h2 class="text-primary">[2차 관람] 아침을 상쾌하게! with 도굴</h2>
+                    <p>${eventVO.targetDt}</p>
+                    <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
-                    <strong>김철수</strong>
+                    <strong>${eventVO.userId}  이거 이름으로 바꿀까요?(지금 아이디)</strong>
                 </div>
                 <div class="block-content">
                     <div class="product-info">
@@ -19,18 +18,18 @@
                             <div class="col-lg-5">
                                 <div class="info">
                                     <div>
-                                        <h3 class="mt-3">[2차 관람] 아침을 상쾌하게! with 도굴</h3>
+                                        <h3 class="mt-3">${eventVO.eventNm}</h3>
                                     </div>
                                     <hr/>
                                     <div class="d-flex">
                                         <i class="fa fa-calendar p-2"></i>
-                                        <p class="p-1">2020년 11월 15일 일요일<br/>
-                                        오전 9:00 ~ 오후 12:00</p>
+                                        <p class="p-1">${eventVO.targetDt}<br/>
+                                        오전 9:00 ~ 오후 12:00 <- 기간정보 지금없음</p>
                                     </div>
                                     <hr/>
                                     <div class="d-flex">
                                         <i class="fa fa-map-marker p-2"></i>
-                                        <p class="p-1">강남역 CGV 입구</p>
+                                        <p class="p-1">${eventVO.location}</p>
                                     </div>
                                     <hr/>
                                     <div class="d-flex mb-3">
@@ -43,7 +42,7 @@
                                         </div>
                                     </div>
                                     <form>
-                                    	<button class="btn btn-primary btn-block btn-sm" type="submit" id="doJoin">이벤트 참여하기</button>
+                                    	<button class="btn btn-primary btn-block btn-sm" type="button" id="doJoin">이벤트 참여하기</button>
                                     </form>
                                     
                                 </div>
@@ -87,7 +86,7 @@
                                     <div>
                                         <hr/>
                                         <h3>세부사항</h3>
-                                        <p>강남 CGV에서 도굴 조조로 함께 보러 가실 분 구합니다 :) <br/>2차 관람 이벤트고 처음 보시는 분들 환영합니다. <br/> 영화 끝나고 시간 괜찮으신 분들은 점심 함께 해요.</p>
+                                        <p><br/>${eventVO.content}<br/></p>
                                     </div>
                                     <hr/>
                                     
@@ -248,19 +247,20 @@
 			
  	$(document).ready(function() {
 		console.log("document ready");
-		doSelectList(1001);	
+		doSelectList(${eventVO.eventSeq});
+		
 	});
 
 
 	//로그인하기 되는데 seccess alert안됨 이따가함 
 	$("#doJoin").on("click", function(e) {
-		alert("doLogin");
+		alert("doJoin");
 
 		  $.ajax({
 			    type:"POST",
 			    url:"${context}/join/doInsert.do",
 			    dataType:"html", 
-			    data:{"eventSeq":	1002,   
+			    data:{"eventSeq":	${eventVO.eventSeq},   
 			    	  "memberSeq":	${sessionScope.user.seq},   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "priority" :  0  						   
 			    },
@@ -269,7 +269,7 @@
 			       console.log("obj="+obj);
 			       if(obj.msgId == 1){
 						alert(obj.msgContents);
-						doSelectList(1001);
+						doSelectList(${eventVO.eventSeq});
 				   }else{
 						alert(obj.msgContents);
 				   }
@@ -287,7 +287,7 @@
 			    type:"GET",
 			    url:"${context}/join/doSelectList.do",
 			    dataType:"html", 
-			    data:{"eventSeq":1001	//임시값, 이벤트에서 줄거라고 가정         
+			    data:{"eventSeq":eventSeq	//임시값, 이벤트에서 줄거라고 가정         
 			    },
 			    success:function(data){ //성공
 			       console.log("data="+data);

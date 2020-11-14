@@ -200,6 +200,14 @@
 		
 	});
 
+/* 	 $(document).on("click","button[name=seleted_seq]",function(){
+			var eventSeq = $(this).val();
+			alert(eventSeq);
+			var frm = 
+			eventSeq.action ="${context}/event/doSelectList.do";
+			
+		}) ; */
+
 
 
 			
@@ -214,7 +222,7 @@
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
 		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
-		html +=	'<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>';
+		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
 		html +=  '</div></div>' 
 	 	}); 
 		$("#event_cards").append(html);		 	  
