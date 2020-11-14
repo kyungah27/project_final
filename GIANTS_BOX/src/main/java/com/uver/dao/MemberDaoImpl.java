@@ -261,19 +261,19 @@ public int doUpdata(MemberVO member) {
 	 * @return
 	 */
 	@Override
-	public int doDelete(int seq) {
+	public int doDeleteOne(MemberVO inputUser) {
 		int flag = 0;
-
+        LOG.debug("여긴 찍힐까");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" DELETE FROM member \n");
 		sb.append(" WHERE seq = ?      \n");
 
 		LOG.debug("==========================");
 		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + seq);
+		LOG.debug("=param=\n" + inputUser.getSeq());
 		LOG.debug("==========================");
 
-		Object[] args = { seq };
+		Object[] args = { inputUser.getSeq() };
 		flag = this.jdbcTemplate.update(sb.toString(), args);
 		LOG.debug("flag:"+flag);
 		
@@ -336,6 +336,12 @@ public int doUpdata(MemberVO member) {
 		LOG.debug("=flag="+flag);
 		
 		return flag;
+	}
+
+	@Override
+	public int doDelete(int seq) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

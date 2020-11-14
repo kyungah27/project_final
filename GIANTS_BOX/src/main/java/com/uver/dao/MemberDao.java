@@ -30,6 +30,9 @@ public interface MemberDao {
 	 * @return
 	 */
 	int doDelete(int seq);
+	
+	
+	int doDeleteOne(MemberVO memberVO);
 
 	/**
 	 * 사용자등록
