@@ -70,23 +70,7 @@
                         <div class="container">
 
                             <div class="card clean-card pt-3" id="event_cards">
-                                <div class="card-body row align-items-center justify-content-center">
-                                	<div class="col-lg-3">
-                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
-                                	</div>
-                                	<div class="col-lg-6 text-left">
-	                                    <p class="text-left card-text">
-	                                        <strong>10월 31일 6:30PM</strong>
-	                                    </p>
-	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                    </div>
-                                    
-	                                <div class="col-lg-3 col-md-5 text-center">
-                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
-                                    </div>
-                                </div>
+               
 				
                                 <!-- 이벤트 반복 -->
                                 <hr/>
@@ -195,16 +179,16 @@
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
-			    dataType:"html", 
+			    dataType:"json", 
 			    data:{"searchWord":	$("#search-field").val(),
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "genreStr" :  checkStr  						   
 			    },
 			    success:function(data){ //성공
-				    alert("일단성공");
+				   alert("일단성공");
 			       console.log("data="+data);
 			 	  $("#event_cards").empty();
-			 	 drawCards(data);  
+			 	 	drawCards(data);  
 			    },
 			    error:function(xhr,status,error){
 			     alert("error:"+error);
@@ -221,10 +205,19 @@
 			
 	function drawCards(data){
 		var html  = "";		
-		$.each(data, function(i, value) {
-			
-		});
-		$("#event_cards").append(html);				  
+	 	$.each(data, function(i, value) {
+		 	console.log(data);
+        html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+        html += '<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">';  //이미지 일단 보류
+		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
+		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
+		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
+		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
+		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
+		html +=	'<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>';
+		html +=  '</div></div>' 
+	 	}); 
+		$("#event_cards").append(html);		 	  
 	}
 			
 
