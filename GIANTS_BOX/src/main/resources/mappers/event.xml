@@ -125,7 +125,9 @@
 	
 	<!-- 등록 -->
 	<insert id="doInsert" parameterType="EventVO">
-		
+		<selectKey keyProperty="eventSeq" resultType="int" order="BEFORE">
+			SELECT SEQ_EVENT.NEXTVAL As eventSeq FROM DUAL
+		</selectKey>
 		INSERT INTO event (		
 		    event_seq,         
 		    user_id,           
@@ -141,17 +143,17 @@
 		    reg_id,
 		    genre             
 		) VALUES (             
-		    #{eventSeq},                 
+		    ${eventSeq},                 
 		    #{userId},                 
 		    #{eventNm},                 
 		    #{content},                 
 		    #{capacity},                 
 		    #{movieInfo},                 
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
+		    TO_DATE(#{startDt}, 'YYYY-MM-DD'),                 
+		    TO_DATE(#{endDt}, 'YYYY-MM-DD'),                 
 		    #{location},                 
 		    SYSDATE,           
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
+		    TO_DATE(#{targetDt}, 'YYYY-MM-DD HH24:MI:SS'),                 
 		    #{regId},
 		    #{genre}                 
 		)                      

@@ -6,7 +6,10 @@ import com.uver.cmn.Search;
 import com.uver.vo.EventVO;
 
 public interface EventService {
-
+	
+	
+	public int doInsertGetSeq(EventVO event);
+	
 	/**
 	 * 
 	 * @param event
