@@ -41,11 +41,14 @@ public class EventDaoImpl {
 		String statement = NAMESPACE+".doInsert";
 		LOG.debug("=statement="+statement);
 		LOG.debug("=event="+event);
+		
 		int flag = sqlSessionTemplate.insert(statement, event);
+		
 		LOG.debug("=flag="+flag);
 		
 		return flag;
 	}
+
 	
 	/**
 	 * 삭제
