@@ -48,22 +48,13 @@ public class EventController {
 	@Autowired
 	EventImgService eventImgService;
 
-
 	@Autowired
 	MessageSource messageSource;
 
 	public EventController() {
 	}
 
-	@RequestMapping(value = "event/event_view.do", method = RequestMethod.GET)
-	public String eventView() {
-
-		return "event/event_reg";
-	}
-
-	
-	
-	
+	//------------------------------------------------------------------
 	//--- event_update 이동
 	@RequestMapping(value="event_update.do", method=RequestMethod.GET)
 	public ModelAndView goEventUpdate(@RequestParam("eventSeq") int eventSeq) {
@@ -91,7 +82,7 @@ public class EventController {
 			method = RequestMethod.POST,
 			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(@RequestBody EventVO event) {
+	public String doInsert(@RequestBody EventVO event, HttpSession session) {
 		LOG.debug("=================");
 		LOG.debug("=event=" + event);
 		LOG.debug("=================");
@@ -100,16 +91,25 @@ public class EventController {
 		LOG.debug("=================");
 		LOG.debug("=seq="+seq);
 		LOG.debug("=================");
-
-		// 메시지 처리
-		Message message = new Message();
-
-		message.setMsgId("eventSeq");
 		
-		if(seq > 0) {
-			message.setMsgContents(seq+"");
-		} else {
-			message.setMsgContents("등록 실패");
+		Message message = new Message();
+		
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			int memberSeq = memberVO.getSeq();
+			int eventSeqInt = event.getEventSeq();
+			
+			JoinVO join = new JoinVO(eventSeqInt, memberSeq, 1);
+			this.joinService.doInsert(join);
+			// 메시지 처리
+			message.setMsgId("eventSeq");
+			
+			if(seq > 0) {
+				message.setMsgContents(eventSeqInt+"");
+			} else {
+				message.setMsgContents("등록 실패");
+			}
 		}
 
 		Gson gson = new Gson();
@@ -119,7 +119,11 @@ public class EventController {
 		LOG.debug("==================");
 
 		return json;
+		
 	}
+	
+	
+	
 	//---url 통일하려고 하단 doSelecOne 부분 조금 바꿔서 메서드 작성
 	//---event_view.do?eventSeq=번호----------
 	//--- 1개 이벤트 페이지로 이동
@@ -180,6 +184,8 @@ public class EventController {
 	
 	
 	
+	
+	
 
 
 	@RequestMapping(value = "event/doDelete.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -209,6 +215,7 @@ public class EventController {
 		return json;
 	}
 
+	//---goEventView 메서드로 통합함-----------------------------
 	@RequestMapping(value = "event/doUpdate.do",
 			method = RequestMethod.POST,
 			produces = "application/json;charset=UTF-8")
@@ -239,7 +246,7 @@ public class EventController {
 		LOG.debug("==================");
 		return json;
 	}
-	
+	//----------------------------------------------------
 	
 
 

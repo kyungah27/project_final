@@ -63,8 +63,8 @@
                         <div>
                             <ul class="nav nav-tabs" id="myTab">
                                 <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="tab" id="description-tab" href="#description">이벤트설명</a></li>
-                                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#comments">댓글</a></li>
-                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="specifications-tabs" href="#photos">사진</a></li>
+                                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="comments-tab" href="#comments">댓글</a></li>
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="photos-tabs" href="#photos">사진</a></li>
                                 <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">후기</a></li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
@@ -72,7 +72,7 @@
                                     
                                     <h3>이 영화 함께 봐요!</h3><br/>
                                     <div class="row">
-                            <div class="col-lg-3">
+                            	<div class="col-lg-3">
                                     <img id ="movie_poster" class="rounded img-fluid" src="">
                             </div>
                             
@@ -88,10 +88,6 @@
                                         <p><br/>${eventVO.content}<br/></p>
                                     </div>
                                     <hr/>
-                                    
-                                    
-                                    
-                                    
                                     
                                     
                                     
@@ -147,15 +143,15 @@
                                         </div>
                                     </div>
                                     <!-- //이벤트 참여자 목록 작업 필요 -->
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
                                 </div>
+                                
+                                <!-- photoList -->
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos">
                                    <div class="row mt-4 mb-4">
+                                   	<ul id = "img_list"></ul>
+                                   	
+                                   	
+                                   
                                     <div class="col-md-6 col-lg-4 item mt-3">
                                         <a class="lightbox" href="${context}/resources/img/movie_rank/image1.jpg">
                                             <img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image1.jpg">
@@ -171,6 +167,8 @@
                                         <button class="btn btn-outline-primary btn-block">더보기</button>
                                     </div>
                                 </div>
+                                
+                                
                                 <div class="tab-pane fade show" role="tabpanel" id="comments">
                                     <div class="reviews">
                                         <div class="review-item">
@@ -253,6 +251,80 @@
 		searchToIdKM("${movieSeq}" , "${movieId}");
 		
 	});
+
+
+	//---[photo: 작업중]-------------------------------------------------------
+	
+	let photoPgNum = 0;
+	$("#photos-tabs").on("click", photoList);
+
+	function photoList(){
+
+		
+		
+	}; 
+
+	//---[fetchList]
+	/*
+	let fetchList = function(){
+		console.log("fetchList()");
+		photoPgNum = ++photoPgNum;
+		
+		if(isEnd == true){
+			console.log("isEnd true");
+			return;
+		}
+	
+		// <li> 태그의 data-no 속성 가져오기
+		let startNo = $("#img_list li").last().data("no") || 0;
+		console.log("startNo : " + startNo);
+	
+		
+		$.ajax({
+			url: "${context}/img/fetchList.do",
+			data: { "eventSeq" : ${eventVO.eventSeq},
+					"maxImgSeq" : ${maxImgSeq},
+					"photoPgNum" : photoPgNum
+				},
+			type: "POST",
+			//dataType: "application/json"
+			success: function(result){
+				//String -> JSON 객체로 변환 
+				let data = JSON.parse(result);
+				let length = data.length;
+				
+				// 목록 렌더링
+				$.each(data, function(index, data){
+					renderList(false, data.imgVO);
+				});
+				
+			}//---END success
+		});//---END ajax
+	}//---END fetchList
+	
+
+	//---[렌더링]
+	let renderList = function(mode, vo){
+		let html =
+			"<li data-no='" + vo.num + "'>" +
+			"<p>" + vo.num + "</p>" +
+			"<p>" + vo.regDt + "</p>" +
+			"<p>" + vo.regId + "</p>" +
+			"<strong>" + vo.originName + "</strong>" + 
+			"<img src=" + context + "/img/" + vo.imgSeq + ".do >" + 
+			"<a href='#' data-no='" + vo.num + "'>삭제</a>" + "</li>"
+		if(mode) {
+			$("#img_list").prepend(html);
+		} else {
+			$("#img_list").append(html);
+		}
+	}//---END renderList
+
+
+
+	*/
+
+	
 
 
 	//로그인하기 되는데 seccess alert안됨 이따가함 

@@ -95,20 +95,20 @@
 			
 		})//---END function
 		
-		//---fetchList
-		let fetchList = function(){
-			console.log("fetchList()");
-			num = ++num;
-			
-			if(isEnd == true){
-				console.log("isEnd true");
-				return;
-			}
-
+	//---fetchList
+	let fetchList = function(){
+		console.log("fetchList()");
+		num = ++num;
+		
+		if(isEnd == true){
+			console.log("isEnd true");
+			return;
+		}
+	
 		// <li> 태그의 data-no 속성 가져오기
 		let startNo = $("#img_list li").last().data("no") || 0;
 		console.log("startNo : " + startNo);
-
+	
 		
 		$.ajax({
 			url: "${context}/img/fetchList.do",
@@ -123,23 +123,19 @@
 				let data = JSON.parse(result);
 				let length = data.length;
 				
-
+	
 				//남은 데이터가 5개 이하일 경우 무한 스크롤 끝내기
 				//if(length < 5) {
 				//	isEnd = true;
 				//}
-
+	
 				// 목록 렌더링
 				$.each(data, function(index, data){
 					renderList(false, data.imgVO);
 				});
 			}//---END success
 		});//---END ajax
-		
 	}//---END fetchList
-
-	
-	
 
 	
 
