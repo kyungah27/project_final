@@ -7,14 +7,14 @@
                     <p>${eventVO.targetDt}</p>
                     <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
-                    <strong>${eventVO.userId}  이거 이름으로 바꿀까요?(지금 아이디)</strong>
+                    <strong>${eventVO.regId}</strong>
                      <input type="hidden" name="movieCd"     id="movieCd"  value="" />
                 </div>
                 <div class="block-content">
                     <div class="product-info">
                         <div class="row">
                             <div class="col-lg-7 col-md-12">
-                                <img src="${context}/resources/img/main.jpg" class="img-fluid" />
+                                <img src="${context}/img/${imgSeq}.do" class="img-fluid" />
                             </div>
                             <div class="col-lg-5">
                                 <div class="info">
@@ -24,15 +24,24 @@
                                     <hr/>
                                     <div class="d-flex">
                                         <i class="fa fa-calendar p-2"></i>
-                                        <p class="p-1">${eventVO.targetDt}<br/>
-                                        오전 9:00 ~ 오후 12:00 <- 기간정보 지금없음</p>
+                                        <fmt:parseDate var="targetParseDate" pattern="yyyy-MM-dd HH:mm:ss" value="${eventVO.targetDt}" />
+                                        <fmt:formatDate var="targetFormatDate" pattern="yyyy년 MM월 dd일 HH시 mm분" value="${targetParseDate}"/>
+                                        
+                                        <p class="p-1">${targetFormatDate}<br/></p>
                                     </div>
-                                    <hr/>
+                                    <div class="d-flex">
+                                        <fmt:parseDate var="startParseDate" pattern="yyyy-MM-dd HH:mm:ss" value="${eventVO.startDt}" />
+                                        <fmt:formatDate var="startFormatDate" pattern="yyyy/MM/dd" value="${startParseDate}"/>
+                                        <fmt:parseDate var="endParseDate" pattern="yyyy-MM-dd HH:mm:ss" value="${eventVO.endDt}" />
+                                        <fmt:formatDate var="endFormatDate" pattern="yyyy/MM/dd" value="${endParseDate}"/>
+                                         <p class="p-1"><small>[모집기한] ${startFormatDate} ~ ${endFormatDate}</small></p> 
+                                    </div>
+                                    <hr class="mt-0"/>
                                     <div class="d-flex">
                                         <i class="fa fa-map-marker p-2"></i>
                                         <p class="p-1">${eventVO.location}</p>
                                     </div>
-                                    <hr/>
+                                    <hr class="mt-0"/>
                                     <div class="d-flex mb-3">
                                         <i class="fa fa-film p-2"></i>
                                         <div class="p-1">

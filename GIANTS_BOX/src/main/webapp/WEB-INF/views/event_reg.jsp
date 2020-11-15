@@ -230,10 +230,9 @@
 	
 	//---[redirect]-------------------------------
 	function moveToList(){
-		window.location.href="event_view.do";
+		let addr = "event_view.do?eventSeq=" + eventSeq;
+		window.location.href=addr;
 	}
-	
-	
 	
 	
 	
@@ -241,7 +240,7 @@
 	//---[영화 검색]-----------------------------------------------------
 	$("#search_movie").on("click",function(){
 			//$(document).find('#selected_seq').val($(this).val());
-			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=500");
+			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=600");
 	});
 	
 

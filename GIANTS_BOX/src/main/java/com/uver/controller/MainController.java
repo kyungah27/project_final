@@ -73,15 +73,6 @@ public class MainController {
 		return "event_list";
 	}
 	
-	//--- 1개 이벤트 페이지로 이동
-	@RequestMapping(value="event_view.do")
-	public String goEventView() {
-		LOG.debug("-------------------");
-		LOG.debug("eventView()");
-		LOG.debug("-------------------");
-		
-		return "event_view";
-	}
 	
 	//--- 이벤트 등록 페이지로 이동
 	@RequestMapping(value="event_reg.do")

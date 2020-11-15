@@ -120,6 +120,66 @@ public class EventController {
 
 		return json;
 	}
+	//---url 통일하려고 하단 doSelecOne 부분 조금 바꿔서 메서드 작성
+	//---event_view.do?eventSeq=번호----------
+	//--- 1개 이벤트 페이지로 이동
+	@RequestMapping(value="event_view.do", method = RequestMethod.GET)
+	public ModelAndView goEventView(HttpSession session,
+			@RequestParam String eventSeq) {
+		LOG.debug("-------------------");
+		LOG.debug("eventView()");
+		LOG.debug("-------------------");
+		
+		
+		int memberSeq = 0;
+		ModelAndView mav = new ModelAndView();
+		
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			memberSeq = memberVO.getSeq();
+			int eventSeqInt = Integer.parseInt(eventSeq);
+		
+			// event
+			EventVO inVO = new EventVO();
+			inVO.setEventSeq(eventSeqInt);
+			EventVO outVO = this.eventService.doSelectOne(inVO);
+			mav.addObject("eventVO", outVO);
+			
+			// member list
+			JoinVO joinVO = new JoinVO();
+			joinVO.setEventSeq(eventSeqInt);
+			joinVO.setMemberSeq(memberSeq);
+			
+			int joinCheck = joinService.checkJoin(joinVO);
+			List<JoinVO> joinList = joinService.doSelectList(joinVO);
+			int joinCount = joinList.size();
+			mav.addObject("joinCount", joinCount);
+			mav.addObject("joinCheck", joinCheck);
+	
+			// movie 
+			String movieId = outVO.getMovieInfo().substring(0, 1);
+			String movieSeq = outVO.getMovieInfo().substring(1);
+			mav.addObject("movieId", movieId);
+			mav.addObject("movieSeq", movieSeq);
+			
+			// img
+			int imgSeq = this.eventImgService.doSelectThumbnail(eventSeqInt);
+			mav.addObject("imgSeq", imgSeq);
+			
+			mav.setViewName("event_view");
+			return mav;
+		}
+		
+		mav.setViewName("index"); //user 값 없으면 index로
+		return mav;
+	}
+	
+	
+	
+	
+	
+	
 
 
 	@RequestMapping(value = "event/doDelete.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -181,8 +241,7 @@ public class EventController {
 	}
 	
 	
-	
-	
+
 
 	@RequestMapping(value = "event/doSelectOne.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String doSelectOne(Model model , HttpServletRequest req) {
@@ -223,6 +282,9 @@ public class EventController {
 		  return "event_view";
 	}
 
+	
+	
+	
 	@RequestMapping(value = "event/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req) {
