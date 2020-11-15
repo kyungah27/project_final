@@ -87,7 +87,7 @@
    <select id="doSelectListAll" resultType="MemberVO">
 		SELECT          
 	    seq,            
-	    user_id,        
+	    user_id as userId,        
 	    name,           
 	    password,       
 	    email,          
