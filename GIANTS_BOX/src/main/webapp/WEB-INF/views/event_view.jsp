@@ -8,6 +8,7 @@
                     <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
                     <strong>${eventVO.userId}  이거 이름으로 바꿀까요?(지금 아이디)</strong>
+                     <input type="hidden" name="movieCd"     id="movieCd"  value="" />
                 </div>
                 <div class="block-content">
                     <div class="product-info">
@@ -41,9 +42,9 @@
                                             <strong>장르</strong>&nbsp;드라마<br>
                                         </div>
                                     </div>
-                                    <form>
-                                    	<button class="btn btn-primary btn-block btn-sm" type="button" id="doJoin">이벤트 참여하기</button>
-                                    </form>
+                                    <div id="join_btn_field">
+                                    	<button class="btn btn-primary btn-block btn-sm" type="button" id="doJoin"  >이벤트 참여하기</button>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -63,24 +64,13 @@
                                     <h3>이 영화 함께 봐요!</h3><br/>
                                     <div class="row">
                             <div class="col-lg-3">
-                                    <img class="rounded img-fluid" src="${context}/resources/img/rank1.jpg">
+                                    <img id ="movie_poster" class="rounded img-fluid" src="">
                             </div>
                             
                             <div class="col-lg-9">
                                 
-                                <h3 class="mt-2 text-primary">도굴</h3>
-                                <p>“고물인 줄 알았는데 보물이었다?!”
-땅 파서 장사하는 도굴꾼들이 온다!
-흙 맛만 봐도 보물을 찾아내는 타고난 천재 도굴꾼 강동구(이제훈).
- 자칭 한국의 '인디아나 존스'로 불리는 고분벽화 도굴 전문가 존스 박사(조우진), 전설의 삽질 달인 삽다리(임원희)를 만나 환상(?)의 팀플레이를 자랑하며 위험천만하고도 짜릿한 도굴의 판을 키운다.
- 
- 한편, 그의 재능을 알아본 고미술계 엘리트 큐레이터 윤실장(신혜선)은
- 강동구에게 매력적이면서도 위험한 거래를 제안하는데...!
- 
- 황영사 금동불상, 고구려 고분벽화 그리고 서울 강남 한복판 선릉까지!
- 팔수록 판이 커지는 도굴의 세계!
- 
- 급이 다른 삽질이 시작된다!</p>
+                                <h3 class="mt-2 text-primary" id = "movie_name">영화 정보가 등록되어있지 않아요!</h3>
+                                <p id="movie_plot">영화정보를 등록해 주세요!</p>
                                         </div>
                                         </div>
                                     <div>
@@ -100,7 +90,7 @@
                                     <div>
                                     
                                         <div>
-                                            <h3>참석자(<strong>5</strong>)</h3>
+                                            <h3>참석자(<strong>${joinCount }</strong>)</h3>
                                         </div>
                                         
                             			
@@ -242,12 +232,16 @@
             </div>
         </section>
     </main>
-     <script src="${context}/resources/js/jquery.min.js"></script>
+    <%@ include file="cmn/footer1.jsp" %>
      <script type="text/javascript">
 			
  	$(document).ready(function() {
 		console.log("document ready");
+
+		drawJoinBtn();
 		doSelectList(${eventVO.eventSeq});
+		console.log(${joinCheck})
+		searchToIdKM("${movieSeq}" , "${movieId}");
 		
 	});
 
@@ -255,13 +249,12 @@
 	//로그인하기 되는데 seccess alert안됨 이따가함 
 	$("#doJoin").on("click", function(e) {
 		alert("doJoin");
-
 		  $.ajax({
 			    type:"POST",
 			    url:"${context}/join/doInsert.do",
 			    dataType:"html", 
 			    data:{"eventSeq":	${eventVO.eventSeq},   
-			    	  "memberSeq":	${sessionScope.user.seq},   	//임시값, 이벤트에서 줄거라고 가정   
+			    	  "memberSeq":	${sessionScope.user.seq}+"",  
 			    	  "priority" :  0  						   
 			    },
 			    success:function(data){ //성공
@@ -270,6 +263,7 @@
 			       if(obj.msgId == 1){
 						alert(obj.msgContents);
 						doSelectList(${eventVO.eventSeq});
+						drawJoinBtn();
 				   }else{
 						alert(obj.msgContents);
 				   }
@@ -321,12 +315,91 @@
 		});
 		$("#join_list").append(html);				  
 	}
+
+
+	function searchToIdKM(movieSeq, movieId) {
+		console.log("searchToIdKM  : " + movieId  + movieSeq);
+		var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
+		var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&movieSeq='+movieSeq+'&movieId='+movieId;
+		//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
+		console.log(url);
+		$.ajax({
+			url : url,
+			type : 'GET',
+			dataType : 'html',
+			success : function(s) {
+				var item = JSON.parse(s);
+				console.log(item);
+				$.each(item.Data, function(i,data) {
+
+					$.each(data.Result, function(i,result) {
+
+						var title = result.title;
+						title = title.replace(/!HS/gi, " ");
+						title = title.replace(/!HE/gi, " ");
+						console.log(title);										
+						//감독
+						var director = result.directors.director[0].directorNm;
+						console.log(director);
+						//출연
+						var actors = "";
+						$.each(result.actors.actor, function(i,actor) {
+							if(i == 3) return false;
+							
+							actors += actor.actorNm+"  ";
+							console.log(actors);
+						})							
+						//장르
+						var genre = result.genre;
+						console.log(genre); 								
+						//코드
+						var DOCID = result.DOCID;
+						console.log(DOCID); 
+						//포스터 url
+						var poster = result.posters;
+						poster = poster.split("|");
+						
+						var posterUrl = poster[0];
+						if(posterUrl.length < 1){
+							posterUrl = "${context}/resources/img/logo.png"
+						}
+						console.log(posterUrl); 
+						// 줄거리
+						var plot = result.plots.plot[0].plotText;
+						console.log(plot); 	
+						var html = '';		
+
+						$("#movie_name").text(title);
+						$("#movie_plot").text(plot);
+						$("#movie_poster").attr("src", posterUrl);
+
+						
+					}) 
+				})  			
+			},
+			error : function(xhr, status, error) {
+				alert("error:" + error);
+			},
+			complete : function(data) {
+			}
+		})
+	}
+
+	function drawJoinBtn(){
+		if(${sessionScope.user.seq}+"" == ""){
+			$("#join_btn_field").empty();
+			$("#join_btn_field").append('<button class="btn btn-primary btn-block btn-sm" type="button"  onclick="location.href= &#39;${context}/login.do&#39; " >참여할려면 로그인 해주세요!</button>')
+		}else if( ${joinCheck} == 1){
+			$("#join_btn_field").empty();
+			$("#join_btn_field").append('<button class="btn btn-primary btn-block btn-sm" type="button" disabled="" >이미 참여하셨습니다.</button>')
+		}
+	}
 	
  	
 
 
      </script>
     
-<%@ include file="cmn/footer1.jsp" %>
+
 <!-- 자바스크립트 자리 -->
 <%@ include file="cmn/footer2.jsp" %>

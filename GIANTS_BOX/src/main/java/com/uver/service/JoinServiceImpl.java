@@ -96,6 +96,12 @@ public class JoinServiceImpl implements JoinService {
 		return joinDao.currentJoinList(vo);
 	}
 
+	@Override
+	public int checkJoin(JoinVO vo) {
+		// TODO Auto-generated method stub
+		return joinDao.checkJoin(vo);
+	}
+
 
 
 

@@ -43,5 +43,6 @@ public interface JoinDao {
 	public int doSelectMinReg(int event_seq);
 	
 	List currentJoinList(JoinVO vo);
+	int checkJoin(JoinVO vo);
 
 }

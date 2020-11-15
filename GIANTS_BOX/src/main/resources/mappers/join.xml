@@ -81,6 +81,14 @@
 		FROM event_join
 		WHERE event_seq = #{id} )
 	</select>
+	
+	<select id="doJoinCount" parameterType="JoinVO" resultType="int">
+		SELECT count(*)
+		FROM event_join
+		WHERE event_seq = #{eventSeq}
+		AND member_seq = #{memberSeq}
+	</select>
+	
 
 	<select id="currentJoinList" parameterType="JoinVO"
 		resultType="com.uver.vo.JoinMemberVO">
