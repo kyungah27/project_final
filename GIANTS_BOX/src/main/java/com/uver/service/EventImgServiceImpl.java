@@ -25,6 +25,11 @@ public class EventImgServiceImpl implements EventImgService {
 		this.imgDao 	 = imgDao;
 	}
 	
+	//-------------------------------------------
+	@Override
+	public int doSelectThumbnail(int eventSeq) {
+		return eventImgDao.doSelectThumbnail(eventSeq);
+	}
 	
 
 	@Override
@@ -37,6 +42,8 @@ public class EventImgServiceImpl implements EventImgService {
 		return flag;
 	}
 	
+	
+	
 	@Override
 	public EventImgVO addAndGet(EventImgVO eventImg) {
 
@@ -47,6 +54,9 @@ public class EventImgServiceImpl implements EventImgService {
 		
 		return outVO;
 	}
+	
+	
+	
 	
 	@Override
 	public int doDelete(int imgSeq) {
@@ -79,6 +89,9 @@ public class EventImgServiceImpl implements EventImgService {
 	public int getMaxImgSeq(int eventSeq) {
 		return eventImgDao.getMaxImgSeq(eventSeq);
 	}
+
+
+
 	
 	
 

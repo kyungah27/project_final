@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.uver.vo.MemberVO;
 
@@ -86,7 +89,6 @@ public class MainController {
 		LOG.debug("-------------------");
 		LOG.debug("eventReg()");
 		LOG.debug("-------------------");
-		
 		return "event_reg";
 	}
 	
@@ -100,15 +102,7 @@ public class MainController {
 		return "my_event";
 	}
 
-	//--- event_update 이동
-	@RequestMapping(value="event_update.do")
-	public String goEventUpdate() {
-		LOG.debug("-------------------");
-		LOG.debug("goEventUpdate()");
-		LOG.debug("-------------------");
-		
-		return "event_update";
-	}
+
 	
 	
 	/**

@@ -84,9 +84,9 @@
 	</delete>
 	
 	<!-- [DELETE] -->
-	<delete id="doDelete" parameterType="ImgVO">
+	<delete id="doDelete" parameterType="int">
 		DELETE FROM image
-		WHERE img_seq = #{imgSeq}	
+		WHERE img_seq = #{imgSeq}
 	</delete>
 	
 	<!-- [INSERT] -->

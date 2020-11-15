@@ -79,42 +79,42 @@ public class TestMemberDao {
 	}
 	
 	@Test
+	@Ignore
 	public void selectlist() {
 		List<MemberVO> list = dao.doSelectListAll();
 		LOG.debug(list.size());
-		
+		 
 	}
 	
 	@Test
 	@Ignore
 	public void update() {
 		
-		MemberVO updateVO = new MemberVO("H170_04","최현우_04_UUU","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
-		updateVO.setSeq(35);
+		MemberVO updateVO = new MemberVO("H170_05","최현우_04_UUU","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
+		updateVO.setSeq(127);
 		
 		dao.doUpdata(updateVO);
-		
-		MemberVO afterUpdateVO =  dao.doSelectOne(35);
-		
-		LOG.debug(afterUpdateVO);
-		
 		
 		
 	}
 
+	@Test
+	public void test2() {
+		dao.doSelectListAll();
+		LOG.debug("리스트 검색완료");
+	}
 	
 
 	
 	
 	@Before
 	public void setUp() {
-		member01=new MemberVO("H170_04","최현우_04","1234","dotori130@naver.com","01012344321","19900130",1,"스릴러");
+		member01=new MemberVO("H170_04","최현우_04","1234","dotori130@naver.com","01012344321","19900130",1,null);
 		member02=new MemberVO("H170_05","최현우_05","1234","dotori130@naver.com","01012344221","19900130",1,"코믹");
 		member03=new MemberVO("H170_06","최현우_06","1234","dotori130@naver.com","01012342321","19900130",1,"멜로");
 		LOG.debug("** setup() **");
 		LOG.debug("***********************************");
 		LOG.debug("context"+context);
-	 
 	}
 	
 	

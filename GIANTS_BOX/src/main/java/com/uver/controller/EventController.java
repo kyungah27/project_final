@@ -10,16 +10,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
 import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
+import com.uver.service.EventImgService;
 import com.uver.service.EventService;
 import com.uver.service.JoinService;
 import com.uver.vo.EventVO;
@@ -43,6 +45,10 @@ public class EventController {
 	JoinService joinService;
 
 	@Autowired
+	EventImgService eventImgService;
+
+
+	@Autowired
 	MessageSource messageSource;
 
 	public EventController() {
@@ -54,14 +60,37 @@ public class EventController {
 		return "event/event_reg";
 	}
 
-
+	
+	
+	
+	//--- event_update 이동
+	@RequestMapping(value="event_update.do", method=RequestMethod.GET)
+	public ModelAndView goEventUpdate(@RequestParam("eventSeq") int eventSeq) {
+		LOG.debug("-------------------");
+		LOG.debug("goEventUpdate()");
+		LOG.debug("-------------------");
+		
+		EventVO inVO = new EventVO();
+		inVO.setEventSeq(eventSeq);
+		
+		EventVO outVO = this.eventService.doSelectOne(inVO);
+		int imgSeq = this.eventImgService.doSelectThumbnail(eventSeq);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("event", outVO);
+		mav.addObject("imgSeq", imgSeq);
+		mav.setViewName("event_update");
+		return mav;
+	}
+	
+	
+	
+	//--- event insert 하기
 	@RequestMapping(value="event/doInsert.do",
 			method = RequestMethod.POST,
 			produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(@RequestBody EventVO event) {
-		
-
 		LOG.debug("=================");
 		LOG.debug("=event=" + event);
 		LOG.debug("=================");
@@ -74,12 +103,12 @@ public class EventController {
 		// 메시지 처리
 		Message message = new Message();
 
-		message.setMsgId(seq+"");
+		message.setMsgId("eventSeq");
 		
 		if(seq > 0) {
-			message.setMsgContents("새로운 모임이 등록되었습니다.");
+			message.setMsgContents(seq+"");
 		} else {
-			message.setMsgContents("등록에 실패하였습니다.");
+			message.setMsgContents("등록 실패");
 		}
 
 		Gson gson = new Gson();
@@ -93,8 +122,6 @@ public class EventController {
 
 
 	@RequestMapping(value = "event/doDelete.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-
-	
 	@ResponseBody
 	public String doDelete(EventVO event) {
 		LOG.debug("=================");
@@ -121,15 +148,17 @@ public class EventController {
 		return json;
 	}
 
-	@RequestMapping(value = "event/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "event/doUpdate.do",
+			method = RequestMethod.POST,
+			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(EventVO event) {
-		LOG.debug("1==================");
+	public String doUpdate(@RequestBody EventVO event) {
+		LOG.debug("==================");
 		LOG.debug("=event=" + event);
 		LOG.debug("==================");
 
 		int flag = this.eventService.doUpdate(event);
-		LOG.debug("2==================");
+		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
 
@@ -144,11 +173,15 @@ public class EventController {
 
 		Gson gson = new Gson();
 		String json = gson.toJson(message);
-		LOG.debug("3==================");
+		LOG.debug("==================");
 		LOG.debug("=json=" + json);
 		LOG.debug("==================");
 		return json;
 	}
+	
+	
+	
+	
 
 	@RequestMapping(value = "event/doSelectOne.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String doSelectOne(Model model , HttpServletRequest req) {

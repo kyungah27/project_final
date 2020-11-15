@@ -66,7 +66,7 @@ public class TestImgDao {
     
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void test() {
 		LOG.debug("---test---");
 

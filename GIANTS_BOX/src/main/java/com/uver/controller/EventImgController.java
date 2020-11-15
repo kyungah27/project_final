@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
 import com.uver.cmn.Search;
@@ -40,6 +41,7 @@ public class EventImgController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 	
 	private final EventImgService eventImgService;
+	
 	
 	/**
 	 * 파일 시스템에 있는 이미지 파일 응답으로 돌려주기
@@ -144,45 +146,56 @@ public class EventImgController {
 	@RequestMapping(value="doInsert.do", method=RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
-		int flag = filesInsert(mReg);
+	public String doInsert(
+			MultipartHttpServletRequest mReg,
+			@RequestParam String regId,
+			@RequestParam String eventSeq,
+			@RequestParam String isThumbnail) throws IllegalStateException, IOException {
+		
+		int flag = filesInsert(mReg, regId, Integer.parseInt(eventSeq), isThumbnail);
+		
 		return responseJson(flag);
 	}
 	
 	
 	
-	
-	
-	
-	
-	
 	/**
-	 * 회원 등록할 때 이미지 업로드
+	 * 이미지 수정
 	 * 
 	 * @param mReg
-	 * @return json (1: 성공 / 0: 실패)
+	 * @return json
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	@RequestMapping(value="doInsertMember.do", method=RequestMethod.POST
+	@RequestMapping(value="doUpdate.do", method=RequestMethod.POST
 			,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsertMember(MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
-		int flag = filesInsert(mReg);
+	public String doUpdate(
+			MultipartHttpServletRequest mReg,
+			@RequestParam String regId,
+			@RequestParam String eventSeq,
+			@RequestParam String imgSeq,
+			@RequestParam String isThumbnail) throws IllegalStateException, IOException {
 		
-		JsonObject obj = new JsonObject(); 
-		if(flag == 1) {
-        	obj.addProperty("flag", "1");
-        }else {
-        	obj.addProperty("flag", "0");
-        }
-		
-		return new Gson().toJson(obj); 
+		int flagDel = this.eventImgService.doDelete(Integer.parseInt(imgSeq));
+		LOG.debug("flag after del : " + flagDel);
+
+		int flagInsert = filesInsert(mReg, regId, Integer.parseInt(eventSeq), isThumbnail);
+		LOG.debug("flag after insert : " + flagInsert);
+		return responseJson(flagDel + flagInsert);
 	}
 	
 	
 	
-	private int filesInsert (MultipartHttpServletRequest mReg) throws IllegalStateException, IOException {
+	
+	
+	
+	
+	private int filesInsert (
+			MultipartHttpServletRequest mReg,
+			String regId,
+			int eventSeq,
+			String isThumbnail) throws IllegalStateException, IOException {
 		LOG.debug("-----------------------");
 		LOG.debug("filesInsert()");
 		LOG.debug("-----------------------");
@@ -202,6 +215,7 @@ public class EventImgController {
 		}
 		
 		int flag = 0;
+		
 		for (MultipartFile mf : imgList) {
 			
 			//원래 이름
@@ -226,26 +240,21 @@ public class EventImgController {
 			//사이즈 long -> int
 			int size = (int) mf.getSize();
 			LOG.debug("[파일크기] " + size);
-			
-			
 			ImgVO imgVO = new ImgVO(
 					126,
 					orgImgNm,
 					saveImgNm,
 					ext,
 					size,
-					"n",
+					isThumbnail,
 					"regDt",
-					"regId01"
+					regId
 					);
 			LOG.debug("[imgVO] " + imgVO);
 			
 			//param - imgSeq, eventSeq, imgVO
-			EventImgVO eventImgVO = new EventImgVO(126, 2, imgVO);
+			EventImgVO eventImgVO = new EventImgVO(126, eventSeq, imgVO);
 			LOG.debug("[eventImgVO] " + eventImgVO);
-			
-			flag += eventImgService.doInsert(eventImgVO);
-			
 			
 			//저장 파일 full path
 			File fullPathFile = new File(fileRootDir, saveImgNm + "." + ext);
@@ -255,10 +264,15 @@ public class EventImgController {
 			list.add(eventImgVO);
 			mf.transferTo(new File(fullPathFile.getAbsolutePath()));
 			LOG.debug("[full path]" + fullPathFile.getAbsolutePath());
+			
+			flag += eventImgService.doInsert(eventImgVO);
 		}
 		
 		return flag;
 	}
+	
+	
+	
 	
 	
 	

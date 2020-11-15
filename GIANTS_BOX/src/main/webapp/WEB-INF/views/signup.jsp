@@ -117,7 +117,8 @@
 				"password" : $("#password").val(),
 				"email" : $("#email").val(),
 				"cellPhone" : $("#phone").val(),
-				"birthday" : $("#birthday").val()
+				"birthday" : $("#birthday").val(),
+				"genre"  : ""
 
 			},
 			success : function(data) { //성공
