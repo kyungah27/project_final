@@ -230,7 +230,8 @@
 	
 	//---[redirect]-------------------------------
 	function moveToList(){
-		window.location.href="event_view.do";
+		let addr = "event_view.do?eventSeq=" + ${event.eventSeq}; 
+		window.location.href=addr;
 	}
 	
 
