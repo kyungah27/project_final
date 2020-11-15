@@ -167,6 +167,7 @@
 				var obj = JSON.parse(data);
 				//alert(obj.msgContents);
 				alert(obj.msgContents);
+				window.location.href="${context}/login.do";
 					
 			},
 			error : function(xhr, status, error) {

@@ -41,7 +41,7 @@ import com.uver.vo.MemberVO;
 		
 		 @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
-		   public String idDelete(MemberVO inputUser) {
+		   public String idDelete(MemberVO inputUser, HttpSession session) {
 			int flag = 0;
 			 
 			flag = memberService.idDelete(inputUser);
@@ -50,7 +50,9 @@ import com.uver.vo.MemberVO;
 			Message message = new Message();
 			
 			if(flag == 1) {
-				message.setMsgContents("회원정보가 삭제되었습니다..");
+				message.setMsgContents("회원정보가 삭제되었습니다.");
+				this.logout(session);
+				
 			}else {
 				message.setMsgContents("수정할 정보를 다시 확인해주세요");
 			}
