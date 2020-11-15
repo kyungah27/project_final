@@ -108,6 +108,7 @@ public class TestJoinDao {
 	}
 	
 	@Test
+	@Ignore
 	public void MemberJoin() {
 		JoinVO voSeartToEvent = new JoinVO();
 		voSeartToEvent.setEventSeq(1001);
@@ -123,6 +124,12 @@ public class TestJoinDao {
 	public void MinRegTest() {
 		int minRegId = joinDao.doSelectMinReg(1002);
 		LOG.debug(minRegId+"");
+	}
+	
+	@Test
+	public void checkJoin() {
+		int count = joinDao.checkJoin(new JoinVO(1001, 1, 0));
+		LOG.debug(count+"");
 	}
 	
 	

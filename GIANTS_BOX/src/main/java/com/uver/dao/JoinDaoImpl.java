@@ -147,6 +147,8 @@ public class JoinDaoImpl implements JoinDao {
     	
     	return list.get(0);	
 	}
+	
+
 
 	@Override
 	public List<JoinMemberVO> currentJoinList(JoinVO vo) {
@@ -165,6 +167,21 @@ public class JoinDaoImpl implements JoinDao {
 		}
 
 		return list;	
+	}
+
+	@Override
+	public int checkJoin(JoinVO vo) {
+		// TODO Auto-generated method stub
+	    LOG.debug("========================");
+		String statement = this.NAME_SPACE +".doJoinCount";
+		
+		LOG.debug("=statement="+statement);
+		LOG.debug("=param="+vo);
+		LOG.debug("========================");			
+		
+		int count =this.sqlSessionTemplate.selectOne(statement, vo);
+    	
+    	return count;	
 	}
 	
 	

@@ -12,7 +12,7 @@
 		 end_dt AS endDt,                                        
 		 location,                                      
 		 TO_CHAR(reg_dt, 'YY/MM/DD HH24MISS') regDt,
-		 target_dt AS targetDt,                              
+		 TO_CHAR(target_dt,'YYYY"년 "MM"월 "DD"일" AM HH:MI') AS targetDt,                              
 		 reg_id AS regId                                	
 	</sql>
 
@@ -21,7 +21,7 @@
 			<when test=" '10' == searchDiv">
 				<where>
 				 event_nm like '%' || #{searchWord} || '%'
-				 AND target_dt  <![CDATA[ <= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
+				 AND target_dt  <![CDATA[ >= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
 				 	<foreach item="genre" index="index" collection="genreList" 
       				open="AND (genre LIKE" separator="OR genre LIKE" close=")">
         			'%' || #{genre} || '%'
@@ -60,10 +60,8 @@
 					B.capacity,                                                    
 					B.movie_info AS movieInfo, 
 					B.location,                                                    
-					DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
-						  ,TO_CHAR(B.reg_dt,'HH24:MI')                             
-					      ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
-					B.target_dt AS targetDt,                                  
+					TO_CHAR(B.reg_dt,'MM-DD AM HH:MI') AS regDt,                  
+					TO_CHAR(B.target_dt,'MM"월"DD"일" AM HH:MI') AS targetDt,                                  
 					B.reg_id AS regId,
 					B.genre                   
 		     FROM (                                                                 

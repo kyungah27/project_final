@@ -72,6 +72,7 @@ public class TestEventDao {
 	
 	
 	@Test
+	@Ignore
 	public void doSeletList() {
 			
 		Search search = new Search("10", "새모임", "20201113", 10, 1);
@@ -110,19 +111,19 @@ public class TestEventDao {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doDelete() {
 		event01.setEventSeq(10);
 		int flag = eventDao.doDelete(event01);
-		event02.setEventSeq(20);
-		flag = eventDao.doDelete(event02);
-		event03.setEventSeq(30);
-		flag = eventDao.doDelete(event03);
-		assertThat(flag, is(1));
+		//event02.setEventSeq(20);
+		//flag = eventDao.doDelete(event02);
+		//event03.setEventSeq(30);
+		//flag = eventDao.doDelete(event03);
+		//assertThat(flag, is(1));
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doInsert() {
 		int flag = eventDao.doInsert(event01);
 		assertThat(flag, is(1));

@@ -3,6 +3,7 @@ package com.uver.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,10 @@ import com.uver.cmn.Message;
 import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventService;
+import com.uver.service.JoinService;
 import com.uver.vo.EventVO;
+import com.uver.vo.JoinVO;
+import com.uver.vo.MemberVO;
 
 @Controller("EventController")
 public class EventController {
@@ -34,6 +38,9 @@ public class EventController {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	JoinService joinService;
 
 	@Autowired
 	MessageSource messageSource;
@@ -144,25 +151,42 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "event/doSelectOne.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doSelectOne(EventVO event) {
+	public String doSelectOne(Model model , HttpServletRequest req) {
 		LOG.debug("==================");
-		LOG.debug("=event=" + event);
-		LOG.debug("==================");
+		  int memberSeq = 0;
+		  HttpSession session = req.getSession();
+		  if(session.getAttribute("user") !=null) {
+			  MemberVO memberVO =(MemberVO)session.getAttribute("user");
+			  LOG.debug(memberVO.toString());
+			  memberSeq =  memberVO.getSeq();
+		  }
+	
 
-		EventVO outVO = this.eventService.doSelectOne(event);
+		  String seletedSeq = (String) req.getParameter("seleted_seq");
+		
+		  EventVO inVO = new EventVO();
+		  inVO.setEventSeq(Integer.parseInt(seletedSeq));
+		  EventVO outVO = this.eventService.doSelectOne(inVO);
+		  
+		  
+		  JoinVO joinVO = new JoinVO();
+		  joinVO.setEventSeq(Integer.parseInt(seletedSeq));
+		  joinVO.setMemberSeq(memberSeq);
+		  int joinCheck = joinService.checkJoin(joinVO);
+		  List<JoinVO> joinList = joinService.doSelectList(joinVO);
+		  int joinCount = joinList.size();
+		  model.addAttribute("joinCount", joinCount);
+		  model.addAttribute("joinCheck", joinCheck);
+		  
+		  
+		  String movieId  =outVO.getMovieInfo().substring(0,1);
+		  String movieSeq  = outVO.getMovieInfo().substring(1);
+		  model.addAttribute("movieId", movieId);
+		  model.addAttribute("movieSeq", movieSeq);
+		  model.addAttribute("eventVO", outVO);
+		
 
-		LOG.debug("==================");
-		LOG.debug("=outVO=" + outVO);
-		LOG.debug("==================");
-
-		Gson gson = new Gson();
-		String json = gson.toJson(outVO);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
+		  return "event_view";
 	}
 
 	@RequestMapping(value = "event/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -218,7 +242,6 @@ public class EventController {
 		LOG.debug("=json=" + json);
 		LOG.debug("==================");
 
-		// model.addAttribute("tot",4);
 		return json;
 	}
 
