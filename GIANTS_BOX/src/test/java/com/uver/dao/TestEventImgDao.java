@@ -69,9 +69,12 @@ public class TestEventImgDao {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void test() {
 		LOG.debug("---test()---");
+		
+		int imgSeq = dao.doSelectThumbnail(99);
+		LOG.debug(""+imgSeq);
 		
 	}
 	
@@ -80,7 +83,7 @@ public class TestEventImgDao {
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void addAndGet() {
 		//---[전체 테스트]
 		int img01Seq = imgDao.doInsert(img01);

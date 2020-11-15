@@ -53,6 +53,28 @@ public class EventImgDaoImpl {
 	}
    
    
+   
+   
+   /**
+    * 썸네일 이미지 조회
+    * 
+    * @param eventSeq
+    * @return imgSeq
+    */
+   public int doSelectThumbnail(int eventSeq){
+	   String statement = NAMESPACE +".doSelectThumbnail";	
+		LOG.debug("[statement] " + statement);
+		LOG.debug("[eventSeq] " + eventSeq);
+		
+		int imgSeq = this.sqlSessionTemplate.selectOne(statement, eventSeq);
+		LOG.debug("[imgSeq]" + imgSeq);
+		
+		return imgSeq;
+	}
+   
+   
+   
+   
    /**
     * 단건 조회
     * 
@@ -91,7 +113,7 @@ public class EventImgDaoImpl {
 		return list;
 	}
    
-   
+   	
    
    
    
