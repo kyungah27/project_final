@@ -229,6 +229,17 @@
 	}
 			
 
+	//-----페이지 무한 스크롤 추가-------
+	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
+			console.log("리스트 추가");
+			loadNext();
+		} 
+	});
+
+	function loadNext(){
+	
+		}
+		
 
 </script>
 
