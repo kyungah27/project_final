@@ -76,31 +76,13 @@
 
                             <div class="card clean-card pt-3" id="event_cards">
                
-				
+						
                                 <!-- 이벤트 반복 -->
-                                <hr/>
-                                <div class="card-body row align-items-center justify-content-center">
-                                	<div class="col-lg-3">
-                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
-                                	</div>
-                                	<div class="col-lg-6 text-left">
-	                                    <p class="text-left card-text">
-	                                        <strong>10월 31일 6:30PM</strong>
-	                                    </p>
-	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-	                                </div>
-	                                <div class="col-lg-3 col-md-5 text-center">
-                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
-                                    </div>
-                                </div>
+                               
+                  
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr>
-                                <div class="card-body">
-                                    <h4 class="card-title">이벤트가 없습니다.</h4>
-                                </div>
+                  
                             </div>
                         </div>
                     </div>
@@ -123,7 +105,7 @@
 
 
 <script type="text/javascript">
-
+	var flag = true;
 	var loading = false;
 	var page = 1;
 	$(document).ready(function() {
@@ -173,6 +155,7 @@
 
 		 // 날짜값 가져오기
 		 var searchWord = $("#search-field").val();
+		 $("#event_cards").empty();
 		 // 체크박스 값 가져오기
 		 checkStr = "";
 			for(i = 1; i <= optionsLen; i++) {
@@ -180,11 +163,12 @@
 				checkStr += $("#option"+i).val()+","
 				}
 		     }
+			
 			 SelectList(checkStr,searchWord);	
 		});
 
 	function SelectList(genreStr ,searchWord ){
-
+		  
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
@@ -192,12 +176,13 @@
 			    data:{"searchWord":	searchWord,
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "genreStr" :  genreStr,
-			    	  //"pageNum"  : pageNum++,
-			    	  //"pageSize" : pageSize		 	   
+			    	  "pageNum"  : page,
+			    	  "pageSize" : 2		 	   
 			    },
 			    success:function(data){ //성공
+			    	
 			       console.log("data="+data);
-			 	  $("#event_cards").empty();
+			 	 
 			 	 	drawCards(data);  
 			    },
 			    error:function(xhr,status,error){
@@ -222,10 +207,15 @@
 
 			
 	function drawCards(data){
-		var html  = "";		
+		var html  = "";	
+		if(data.length < 1){
+			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
+			flag = false;
+		}else{
+
 	 	$.each(data, function(i, value) {
 		 	console.log(data);
-        html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+        html += ' <hr/><div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
         html += '<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">';  //이미지 일단 보류
 		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
 		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
@@ -235,12 +225,26 @@
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
 		html +=  '</div></div>'
 	 	}); 
+		}
 		$("#event_cards").append(html);		 	  
 	}
 
 
 		function next_load(){
+			 var searchWord = $("#search-field").val();
+			 // 체크박스 값 가져오기
+			 checkStr = "";
+				for(i = 1; i <= optionsLen; i++) {
+					if($("#option"+i).prop("checked") == true){
+					checkStr += $("#option"+i).val()+","
+					}
+			     }
 				page++;
+				if(flag ==true){
+					SelectList(checkStr,searchWord);
+				}
+					
+				
 				console.log("=page="+page);
 				loading = false;
 				
@@ -248,7 +252,7 @@
 
 
 		 $(window).scroll(function(){
-		        if($(window).scrollTop()+200>=$(document).height() - $(window).height())
+		        if($(window).scrollTop() == $(document).height() - $(window).height())
 		        {
 		            if(!loading)    //실행 가능 상태라면?
 		            {
