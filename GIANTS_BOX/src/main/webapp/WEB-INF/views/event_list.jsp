@@ -169,10 +169,10 @@
 	});
 	//------------------------------------------
 
-		 $("#search_btn").on("click", function(e) {
+	$("#search_btn").on("click", function(e) {
 
 		 // 날짜값 가져오기
-		 console.log($("#search-field").val());
+		 var searchWord = $("#search-field").val();
 		 // 체크박스 값 가져오기
 		 checkStr = "";
 			for(i = 1; i <= optionsLen; i++) {
@@ -191,12 +191,11 @@
 			    dataType:"json", 
 			    data:{"searchWord":	$("#search-field").val(),
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
-			    	  "genreStr" :  checkStr,
+			    	  "genreStr" :  genreStr,
 			    	  //"pageNum"  : pageNum++,
 			    	  //"pageSize" : pageSize		 	   
 			    },
 			    success:function(data){ //성공
-				   alert("일단성공");
 			       console.log("data="+data);
 			 	  $("#event_cards").empty();
 			 	 	drawCards(data);  
@@ -209,7 +208,7 @@
 		});//--ajax	
 		 
 		
-	});
+	}
 
 /* 	 $(document).on("click","button[name=seleted_seq]",function(){
 			var eventSeq = $(this).val();
