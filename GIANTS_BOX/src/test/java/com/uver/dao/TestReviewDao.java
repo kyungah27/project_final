@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.sist.ehr.board.doamin.BoardVO;
 import com.uver.cmn.Search;
 import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
@@ -38,11 +39,14 @@ public class TestReviewDao {
 	ReviewDao reviewDao;
 
 	@Autowired
+	ReviewDaoImpl reviewDaoImpl;
+	
+	@Autowired
 	ApplicationContext context;
 
 	ReviewVO review01;
 	ReviewVO review02;
-
+	ReviewVO review03;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -52,9 +56,11 @@ public class TestReviewDao {
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
 		review01 = new ReviewVO(1, 1002,"곽경아", "엄마", "사랑해요", "", "10", "");
 		review02 = new ReviewVO(1, 0, "곽호정", "아빠", "사랑해요", "","20", "");
-
+		review03 = new ReviewVO(1, 0, "김선희", "이모", "사랑해요", "","20", "");
+		
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
+		LOG.debug("[review03] " + review03);
 		LOG.debug("***************************************");
 
 	}
@@ -65,11 +71,11 @@ public class TestReviewDao {
 		
 		reviewDao.doDelete(review01);
 		reviewDao.doDelete(review02);
-		
+		reviewDao.doDelete(review03);
 		
 		reviewDao.doInsert(review01);
 		reviewDao.doInsert(review02);
-				
+		reviewDao.doInsert(review03);
 	}
 	
 	
@@ -83,6 +89,8 @@ public class TestReviewDao {
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
+		flag = reviewDao.doInsert(review03);
+		assertThat(flag, is(1));
 		*/
 		
 		// 삭제
@@ -90,6 +98,8 @@ public class TestReviewDao {
 		flag = reviewDao.doDelete(review01);		
 		assertThat(flag, is(1));		
 		flag = reviewDao.doDelete(review02);
+		assertThat(flag, is(1));
+		flag = reviewDao.doDelete(review03);
 		assertThat(flag, is(1));
 		*/
 		
@@ -115,16 +125,46 @@ public class TestReviewDao {
 		
 		
 		// 리스트 조회
-		
+		/*
 		Search search = new Search("50", "엄마", "", 10, 1);
 		search.setDiv("10");
 		//LOG.debug(search.getGenreList().toString());
 		
 		List<ReviewVO> list = reviewDao.doSelectList(search);
-		
+		*/
 		
 	}//test
 
+	
+	@Test
+	@Ignore
+	public void doSelectList(){
+		//1.all삭제
+		//2.3건 입력
+		//3.조회
+		//4.3건비교
+		
+		//1.
+		this.reviewDaoImpl.doDeleteAll();
+		
+		//2.
+		int flag = reviewDaoImpl.doInsert(review01);
+		assertThat(flag, is(1));
+		
+		flag = reviewDaoImpl.doInsert(review02);
+		assertThat(flag, is(1));
+		
+		flag = reviewDaoImpl.doInsert(review03);
+		assertThat(flag, is(1));
+		
+		Search search=new Search("10", "H10_",10,1);
+		search.setDiv("10");
+		
+		List<ReviewVO> list = reviewDaoImpl.doSelectList(search);
+		
+		assertThat(list.size(), is(3));
+		
+	}
 	
 	@After
 	public void tearDown() throws Exception {

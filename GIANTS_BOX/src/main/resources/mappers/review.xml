@@ -15,11 +15,11 @@
 
 	<!-- 동적 검색조건 
 	 
-      30 event_seq
-      40 writer   
-      50 title  
-      60 context
-      70 category
+      30 event_seq 이벤트번호
+      40 writer 글쓴이
+      50 title  제목
+      60 context 본문
+      70 category 카테고리
        
    -->	
 	<sql id="searchCondition">
@@ -43,7 +43,7 @@
       	</when>  
       	
       	<when test=" '70' == searchDiv">
-      	   AND category like #{searchWord} ||'%'
+      	   where category like #{searchWord} ||'%'
       	</when>
       	
       	    
