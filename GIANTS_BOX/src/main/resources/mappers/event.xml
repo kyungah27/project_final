@@ -20,12 +20,12 @@
 		<choose>
 			<when test=" '10' == searchDiv">
 				<where>
-				 user_id like '%' || #{searchWord} || '%'
-				 AND target_dt  <![CDATA[ <= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
-				 	<foreach item="genre" index="index" collection="genreList"
-      				open="AND genre ON" separator="OR" >
-        			#{genre}
-          			</foreach>
+				 event_nm like '%' || #{searchWord} || '%'
+				 AND target_dt  <![CDATA[ >= ]]> TO_DATE(#{searchDate}  , 'YYYYMMDD')
+				 	<foreach item="genre" index="index" collection="genreList" 
+      				open="AND (genre LIKE" separator="OR genre LIKE" close=")">
+        			'%' || #{genre} || '%'
+          			</foreach> 
 				</where>
 			</when>
 		
@@ -49,7 +49,7 @@
 
 	<!-- 목록조회 -->
 	<select id="doSelectList" parameterType="Search" resultType="EventVO">
-SELECT T1.*,T2.*                                                            
+		SELECT T1.*,T2.*                                                            
 		FROM                                                                        
 		 (                                                                          
 		     SELECT B.rnum AS num,                                   
@@ -60,20 +60,18 @@ SELECT T1.*,T2.*
 					B.capacity,                                                    
 					B.movie_info AS movieInfo, 
 					B.location,                                                    
-					DECODE(TO_CHAR(SYSDATE,'YYYYMMDD'),TO_CHAR(B.reg_dt,'YYYYMMDD')
-						  ,TO_CHAR(B.reg_dt,'HH24:MI')                             
-					      ,TO_CHAR(B.reg_dt,'YYYY-MM-DD')) AS regDt,                  
-					B.target_dt AS targetDt,                                  
+					TO_CHAR(B.reg_dt,'MM-DD AM HH:MI') AS regDt,                  
+					TO_CHAR(B.target_dt,'MM"월"DD"일" AM HH:MI') AS targetDt,                                  
 					B.reg_id AS regId,
 					B.genre                   
 		     FROM (                                                                 
 		         SELECT ROWNUM rnum, A.*                                            
-		         FROM(                                                              
+		         FROM(                                                            
 		             SELECT *                                                       
 		             FROM  event 
 		             <include refid="searchCondition"/>                                               
 		             ORDER BY reg_dt DESC                                           
-		         )A                                                                 
+ 		         )A                                                                 
 		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
 		     )B                                                                     
 		     WHERE B.rnum <![CDATA[ >= ]]> (#{pageSize} *(#{pageNum}-1)+1)                           
@@ -82,7 +80,7 @@ SELECT T1.*,T2.*
 		     (SELECT COUNT(*) totalCnt                                             
 		      FROM  event
 		      <include refid="searchCondition"/>                                                       
-		     )T2    
+		     )T2     
 	</select>
 
 
@@ -125,7 +123,9 @@ SELECT T1.*,T2.*
 	
 	<!-- 등록 -->
 	<insert id="doInsert" parameterType="EventVO">
-		
+		<selectKey keyProperty="eventSeq" resultType="int" order="BEFORE">
+			SELECT SEQ_EVENT.NEXTVAL As eventSeq FROM DUAL
+		</selectKey>
 		INSERT INTO event (		
 		    event_seq,         
 		    user_id,           
@@ -141,17 +141,17 @@ SELECT T1.*,T2.*
 		    reg_id,
 		    genre             
 		) VALUES (             
-		    #{eventSeq},                 
+		    ${eventSeq},                 
 		    #{userId},                 
 		    #{eventNm},                 
 		    #{content},                 
 		    #{capacity},                 
 		    #{movieInfo},                 
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
+		    TO_DATE(#{startDt}, 'YYYY-MM-DD'),                 
+		    TO_DATE(#{endDt}, 'YYYY-MM-DD'),                 
 		    #{location},                 
 		    SYSDATE,           
-		    TO_DATE('','YYYY-MM-DD HH24:MI:SS'),                 
+		    TO_DATE(#{targetDt}, 'YYYY-MM-DD HH24:MI:SS'),                 
 		    #{regId},
 		    #{genre}                 
 		)                      

@@ -47,6 +47,29 @@ public class EventDaoImpl {
 		return flag;
 	}
 	
+	
+	/**
+	 * 등록 후 seq 값 얻기
+	 * @param event
+	 * @return eventSeq
+	 */
+	public int doInsertGetSeq(EventVO event) {
+		LOG.debug("=doInsert=");
+		LOG.debug("===========================");
+		
+		String statement = NAMESPACE+".doInsert";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=event="+event);
+		int flag = sqlSessionTemplate.insert(statement, event);
+		int seq = event.getEventSeq();
+		LOG.debug("=flag="+flag);
+		LOG.debug("=seq="+seq);
+		
+		return seq;
+	}
+	
+	
+	
 	/**
 	 * 삭제
 	 * @param event
