@@ -170,15 +170,10 @@
 	                               <!-- //photo write -->
 
                                    <div class="row mt-4 mb-4">
-	                                   	<ul id = "img_list"></ul>
-	                                    <div class="col-md-6 col-lg-4 item mt-3">
-	                                        <a class="lightbox" href="#">
-	                                            <img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image1.jpg">
-	                                        </a>
-	                                    </div>
+	                                   	<ul id = "img_list" class="row" style="list-style:none;"></ul>
                                 	</div>
                                     <div class="row">
-                                        <button class="btn btn-outline-primary btn-block">더보기</button>
+                                        <button class="btn btn-outline-primary btn-block" id="photo-more-btn" type="button">더보기</button>
                                     </div>
                                 </div>
                                 
@@ -253,7 +248,10 @@
             </div>
         </section>
     </main>
+    
     <%@ include file="cmn/footer1.jsp" %>
+     
+     
      <script type="text/javascript">
 			
  	$(document).ready(function() {
@@ -263,24 +261,133 @@
 		doSelectList(${eventVO.eventSeq});
 		console.log(${joinCheck})
 		searchToIdKM("${movieSeq}" , "${movieId}");
-		
 	});
 
 
 	//---[photo: 작업중]-------------------------------------------------------
-	$("#photos-tabs").on("click", photoList);
-	let photoFrm = document.getElementById("photo_insert_frm");
+	let photoPgNum = 1;
+	let maxImgSeq;
 
 	//---[사진 탭 클릭]
+	$("#photos-tabs").on("click", photoList);
 	function photoList(){
+		//---회원 확인 후 사진 등록 폼 그리기
 		drawPhotoInsert();
-		
-		let photoPgNum = 0;
-		let maxImgSeq = 0;
-		firstPhotoList(photoPgNum, maxImgSeq);
+
+		//---이미지 목록 지우기
+		const imgList = document.getElementById("img_list");
+		while (imgList.firstChild){
+			imgList.removeChild(imgList.lastChild);
+		}
+		let imgListBtn = document.getElementById("photo-more-btn");
+		imgListBtn.removeAttribute("style");
+
+		//---파람 초기화
+		photoPgNum = 1;
+		maxImgSeq;
+
+		//---이미지 목록 가져오기
+		fetchImgList(photoPgNum, maxImgSeq);
 	}; 
 
+	//---[사진 더보기 클릭]
+	$("#photo-more-btn").on('click', morePhotos);
+	function morePhotos(){
+		photoPgNum = ++photoPgNum;
+
+		console.log("photoPgNum:" + photoPgNum);
+		console.log("maxImgSeq:" + maxImgSeq);
+		
+		fetchImgList(photoPgNum, maxImgSeq);
+	};
+
+	//---[사진 목록 불러오기]
+	function fetchImgList(num, maxImgSeq){
+		console.log("first photo list()");
+		console.log("photoPgNum: " + num);
+		console.log("maxImgSeq: " + maxImgSeq);
+
+		let startNo = $("#img_list li").last().data("no") || 0;
+		console.log("startNo: " + startNo);
+
+		$.ajax({
+			url: "${context}/img/doSelectList.do",
+			data: {
+				eventSeq : ${eventVO.eventSeq},
+				maxImgSeq : maxImgSeq,
+				photoPgNum : num
+				},
+			type: "GET",
+			dataType: "json",
+			success: function(result){
+				let dataList = result.list;
+				let dataLen = dataList.length;
+
+				maxImgSeq = result.fetchedMaxImgSeq;
+				console.log("maxImgSeq: " + maxImgSeq);
+                
+                $.each(dataList, function(index, vo) {
+                	renderList(false, vo);
+                });
+
+                if (dataLen < 9){
+					let imgListBtn = document.getElementById("photo-more-btn");
+					imgListBtn.setAttribute("style","display: none"); 
+				};
+               
+			}//---END success
+		});//---END ajax
+	}//---END firstPhotoList
+
+
+	
+
+	//---[사진 목록 렌더링]
+	let renderList = function(mode, vo){
+		let context = '<c:out value="${context}" />';
+		let html =
+			"<li data-no='" + vo.num + "' class='col-md-6 col-lg-4 item mt-3'>" +
+			"<a class='lightbox' href='#b' onclick='javascript:zoom(event)'><img class='img-thumbnail img-fluid image' src=" +
+			context + "/img/" + vo.imgSeq + ".do /></a><p class='text-right'><small>"
+			+ vo.imgVO.regId + " | " + vo.imgVO.regDt + "</small></p>";
+		if(mode) {
+			$("#img_list").prepend(html);
+		} else {
+			$("#img_list").append(html);
+		}
+	}//---END renderList
+
+
+	//---[사진 zoom]
+	let zoomFlag = false;
+	function zoom(event) {
+		
+		if(!zoomFlag){
+			let thisImg = event.target;
+			let currWidth = thisImg.clientWidth;
+			thisImg.removeAttribute("class");
+			thisImg.setAttribute("style", "z-index:1");
+			thisImg.style.position = "fixed";
+			thisImg.style.top = "25%";
+			thisImg.style.left = "30%";
+			thisImg.style.width = (currWidth + 400) + "px";
+			zoomFlag = true;
+		} else {
+			let thisImg = event.target;
+			let currWidth = thisImg.clientWidth;
+			thisImg.setAttribute("class","img-thumbnail img-fluid image");
+			thisImg.removeAttribute("style");
+			thisImg.style.width = (currWidth - 400) + "px";
+			zoomFlag = false;
+		}
+	}
+
+
+	
+
 	//---[멤버 여부에 따라 photo 폼 나타나기/숨기기]
+	let photoFrm = document.getElementById("photo_insert_frm");
+	
 	function drawPhotoInsert(){
 		if (${joinCheck}==1){
 			photoFrm.removeAttribute("style");
@@ -366,9 +473,7 @@
 		preview(files);
 		imgAreaTxt()
 	}
-
 	
-
 	//--- [이미지 업로드하기]
 	function uploadImg(){
 		//console.log(imgArr);
@@ -421,7 +526,7 @@
 	        		count();
 
 	        		//---[리스트 다시 뿌리기]
-					//moveToImgList();
+					photoList();
 	                
 				} else{
 	                alert(data.msgId+"|"+data.msgContents);
@@ -433,83 +538,12 @@
 		});
 	}
 
-	//---[doSelectList: 처음에는 9개만 불러오기]
-	function firstPhotoList(photoPgNum, maxImgSeq){
-		console.log("first photo list()");
-		photoPgNum = ++photoPgNum;
-
-		let startNo = $("#img_list li").last().data("no") || 0;
-		console.log("startNo : " + startNo);
-
-		$.ajax({
-			url: "${context}/img/doSelectList.do",
-			data: { "eventSeq" : ${eventVO.eventSeq},
-					"photoPgNum" : photoPgNum,
-			},
-			type: "GET",
-			dataType: "application/json",
-			contentType: "application/json",
-			success: function(result){
-				console.log(result);
-
-				//String -> JSON 객체로 변환 
-				let data = JSON.parse(result);
-				let dataArr = new Array();
-				dataArr = result.list;
-
-				console.log(dataArr);
-				
-				let dataLength = data.list.length;
-				console.log(dataLength);
-				
-				let num = "";
-				let regDt = "";
-				let regId = "";
-				let imgSeq = "";
-				
-				for(let i = 0; i <= dataLength; i++){
-					num = dataArr[i].imgVO.num;
-					regDt = dataArr[i].imgVO.regDt;
-					regId = dataArr[i].imgVO.regId;
-					imgSeq = dataArr[i].imgVO.imgSeq;
-					
-					let html =
-						"<li data-no='" + num + "'>" +
-						"<p>" + regDt + "</p>" +
-						"<p>" + regId + "</p>" +
-						"<img src=" + '<c:out value="${context}" />' + "img/" + imgSeq + ".do >" + 
-						"<a href='#' data-no='" + num + "'>삭제</a>" + "</li>";
-						console.log(html);
-						$("#img_list").append(html);
-				}
-				
-			}//---END success
-		});//---END ajax
-	}//---END firstPhotoList
 
 
-	/*
-	//---[렌더링]
-	function renderList(vo){
-		console.log("renderList");
-		let context = '<c:out value="${context}" />';
-		let html =
-			"<li data-no='" + vo.num + "'>" +
-			"<p>" + vo.num + "</p>" +
-			"<p>" + vo.regDt + "</p>" +
-			"<p>" + vo.regId + "</p>" +
-			"<strong>" + vo.originName + "</strong>" + 
-			"<img src=" + context + "/img/" + vo.imgSeq + ".do >" + 
-			"<a href='#' data-no='" + vo.num + "'>삭제</a>" + "</li>";
-			console.log(html);
-			$("#img_list").append(html);
-	}//---END renderList
-	*/
+	
 	
 	//--- [이미지 미리보기]
 	function preview(files){
-		//console.log("files: "+files);
-		
 		let filesLen = files.length;
 		
 		// 최대 이미지 등록 제한 수 체크
@@ -606,6 +640,8 @@
 	
 	//---[fetchList]
 	/*
+	
+	
 	let fetchList = function(){
 		console.log("fetchList()");
 		photoPgNum = ++photoPgNum;

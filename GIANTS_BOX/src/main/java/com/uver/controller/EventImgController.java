@@ -90,9 +90,9 @@ public class EventImgController {
 			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
 
 		HashMap<String, Object> model = new HashMap<String, Object>();
-			
 		int eventSeq = Integer.parseInt(eventSeqStr);
 		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
 		
 		//eventSeq, pageNum, pageSize
 		Search search = new Search(eventSeq, photoPgNum, 9);
@@ -108,7 +108,7 @@ public class EventImgController {
 		
 		model.put("list", list);
 		model.put("cnt", cnt);
-		model.put("maxImgSeq", maxImgSeq);
+		model.put("fetchedMaxImgSeq", maxImgSeq);
 		model.put("eventSeq", eventSeq);
 		
 		LOG.debug("----------------");
@@ -123,14 +123,14 @@ public class EventImgController {
 			json = mapper.writeValueAsString(model);
 			LOG.debug(json);
 
-			json=mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
+			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
 
 			LOG.debug(json);
 			return json;
-			
+
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-		} 
+		}
 		
 		return json;
 	}
