@@ -77,7 +77,6 @@ import com.uver.vo.MemberVO;
 		   @RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
 		   public String myUpdate(MemberVO inputUser) {
-			LOG.debug("찍혀라");
 			LOG.debug(inputUser.getUserId());
 			
 		   int updateFlag = 0;
