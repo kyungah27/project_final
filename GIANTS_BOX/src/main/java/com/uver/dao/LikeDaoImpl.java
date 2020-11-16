@@ -33,8 +33,10 @@ public class LikeDaoImpl implements LikeDao {
 	@Override
 	public int doInsert(LikeVO likeVO) {
 		LOG.debug("doInsert");
+		LOG.debug("LikeVO:"+likeVO);
 		String statement = NAMESPACE + ".doInsert";
 		int count = sqlSessionTemplate.insert(statement, likeVO);
+		
 		return count;
 	}
 

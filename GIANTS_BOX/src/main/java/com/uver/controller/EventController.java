@@ -302,8 +302,9 @@ public class EventController {
 		LOG.debug(searchDate);
 		String genreStr = (String) req.getParameter("genreStr");
 		LOG.debug(genreStr);
-		
-		Search search = new Search("10", searchWord, searchDate, 10, 1);
+		String pageNum = (String) req.getParameter("pageNum");
+		LOG.debug("pagenum"+pageNum);
+		Search search = new Search("10", searchWord, searchDate, 2, Integer.parseInt(pageNum));
 		String [] genreArr = genreStr.split(",");
 	
 		for(int i = 0 ; i< genreArr.length ; i++) {

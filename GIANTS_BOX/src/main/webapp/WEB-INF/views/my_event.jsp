@@ -72,7 +72,7 @@
                                 <h2 class="text-primary">내가 참여하는 이벤트</h2>
                             </div>
 
-                            <div class="card clean-card text-left">
+                            <div class="card clean-card text-left" id="join_event">
                                 <div class="card-body row align-items-center">
                                 	<div class="col">
 	                                    <p class="text-left card-text">
@@ -175,7 +175,27 @@
 		window.location.href = "event_reg.do";
 	});
 
+	function drawCards(data){
+		var html  = "";	
+		if(data.length < 1){
+			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
+			flag = false;
+		}else{
 
+	 	$.each(data, function(i, value) {
+		 	console.log(data);
+        html += ' <hr/><div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
+		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
+		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
+		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
+		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
+		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button type="button" name="event_cancel" class="btn btn-outline-primary">참여 취소</button>';
+		html +=  '</div></div>'
+	 	}); 
+		}
+		$("#join_event").append(html);		 	  
+	}
 
 
 </script>

@@ -72,10 +72,10 @@ public class TestEventDao {
 	
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doSeletList() {
 			
-		Search search = new Search("10", "새모임", "20201113", 10, 1);
+		Search search = new Search("10", "새모임", "20201113", 2, 2);
 		//search.addGenreList("드라마");
 		//search.addGenreList("공포");
 		LOG.debug(search.getGenreList().toString());
