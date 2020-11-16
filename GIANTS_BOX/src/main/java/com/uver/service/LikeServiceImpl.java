@@ -58,7 +58,7 @@ public class LikeServiceImpl implements LikeServcie {
 
 	@Override
 	public int deleteMemberSeq(int memberSeq) {
-		int count = likeDao.deleteCommentSeq(memberSeq);
+		int count = likeDao.deleteMemberSeq(memberSeq);
 		return count;
 	}
 
