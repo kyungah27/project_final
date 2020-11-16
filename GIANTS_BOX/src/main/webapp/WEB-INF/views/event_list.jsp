@@ -121,7 +121,7 @@
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-
+	    SelectList("${genres}");
 	});
 
 
@@ -165,16 +165,20 @@
 		 console.log($("#search-field").val());
 		 // 체크박스 값 가져오기
 		 checkStr = "";
-			for(i = 1; i <= optionsLen; i++) {
-				if($("#option"+i).prop("checked") == true){
-					checkStr += $("#option"+i).val()+","
-					}
+		 for(i = 1; i <= optionsLen; i++) {
+			if($("#option"+i).prop("checked") == true){
+			checkStr += $("#option"+i).val()+","
+			}
 			
-	        }
-	
+	     }
+		 SelectList(checkStr);
+
+		 
+		
+		});
+
+	function SelectList(checkStr){
 		 console.log(checkStr);
-		 var date = $("#my_calendar").val();	 
-		 console.log(date);
 
 		  $.ajax({
 			    type:"GET",
@@ -185,7 +189,6 @@
 			    	  "genreStr" :  checkStr  						   
 			    },
 			    success:function(data){ //성공
-				   alert("일단성공");
 			       console.log("data="+data);
 			 	  $("#event_cards").empty();
 			 	 	drawCards(data);  
@@ -196,10 +199,7 @@
 			    complete:function(data){		    
 			    }   			  
 		});//--ajax	
-		 
-		
-	});
-
+	}
 /* 	 $(document).on("click","button[name=seleted_seq]",function(){
 			var eventSeq = $(this).val();
 			alert(eventSeq);
