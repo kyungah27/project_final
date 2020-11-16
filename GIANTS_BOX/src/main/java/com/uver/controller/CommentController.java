@@ -3,9 +3,12 @@ package com.uver.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,20 +22,28 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
 import com.uver.service.CommentService;
+import com.uver.service.LikeServcie;
+import com.uver.service.LikeServiceImpl;
 import com.uver.vo.CommentVO;
+import com.uver.vo.LikeVO;
+
+import net.minidev.json.JSONObject;
 
 @Controller("CommentController")
 public class CommentController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommentController.class);
 
 	@Autowired
-	CommentService commentservice;
+	CommentService commentService;
+
+	@Autowired
+	LikeServiceImpl likeService;
 
 	public CommentController() {
 	}
 
 	public CommentController(CommentService commentservice) {
-		this.commentservice = commentservice;
+		this.commentService = commentservice;
 	}
 
 	@RequestMapping(value = "comment/comment_view.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -44,7 +55,7 @@ public class CommentController {
 	// 댓글 리스트를 호출 할 때 맵핑 되는 메소드
 	@RequestMapping(value = "comment/list.do")
 	public ModelAndView list(CommentVO commentVO, ModelAndView mav) {
-		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		List<CommentVO> list = commentService.doSelectList(commentVO);
 		mav.setViewName("comment/comment_view");
 		mav.addObject("list", list);
 		return mav;
@@ -57,7 +68,7 @@ public class CommentController {
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
 
-		int flag = this.commentservice.doInsert(commentVO);
+		int flag = this.commentService.doInsert(commentVO);
 		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
@@ -85,10 +96,11 @@ public class CommentController {
 	@ResponseBody
 	public String doDelete(CommentVO commentVO) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");
+		LOG.debug(">>>>>>>>>>>>>>doDelet<<<<<<<<<<<<<");
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
 
-		int flag = this.commentservice.doDelete(commentVO);
+		int flag = this.commentService.doDelete(commentVO);
 		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
@@ -121,7 +133,7 @@ public class CommentController {
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
 
-		int flag = this.commentservice.doUpdate(commentVO);
+		int flag = this.commentService.doUpdate(commentVO);
 		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
@@ -152,7 +164,7 @@ public class CommentController {
 		LOG.debug("===seq=====" + commentVO.getSeq());
 		LOG.debug("===div===" + commentVO.getDiv());
 
-		List<CommentVO> list = commentservice.doSelectList(commentVO);
+		List<CommentVO> list = commentService.doSelectList(commentVO);
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
 		// res.setContentType("text/html; charset=UTF-8");
@@ -160,5 +172,76 @@ public class CommentController {
 		return json;
 	}
 
+	@RequestMapping(value = "comment/like.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String like(int commentSeq, HttpSession session) {
+		// System.out.println("--> like() created");
+		LOG.debug(">>>>>>>>>>>>>>like<<<<<<<<<<<<<");
+		// int memberSeq = (Integer) session.getAttribute("memberSeq");
+		JSONObject obj = new JSONObject();
+
+		ArrayList<String> msgs = new ArrayList<String>();
+		LikeVO likeVO = new LikeVO();
+		int memberSeq = likeVO.getMemberSeq();
+		likeVO.setCommentSeq(commentSeq);
+		// 세션으로 로그인한 사용자로 변경
+		likeVO.setMemberSeq(141);
+		/*
+		 * HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		 * hashMap.put("commentSeq", commentSeq); hashMap.put("memberSeq", memberSeq);
+		 */
+		LikeVO outVO = likeService.read(likeVO);
+		
+		// likeVO가 null(0) 이면 좋아요에 인서트.
+		CommentVO commentVO = new CommentVO();
+		if(null == outVO) {
+			// 좋아요 인서트.
+			likeVO.setLikeCheck(1);
+			likeService.doInsert(likeVO);
+			
+			// 댓글 좋아요 카운트 증가.
+			commentVO = commentService.doSelectOne(commentSeq);
+			commentVO.setLikeCnt(commentVO.getLikeCnt()+1);
+			commentService.likeCntUp(commentVO);
+			obj.put("likeCheck", 1);
+		} else {
+			//널이 아니면. 좋아요 수 감소.
+			commentVO = commentService.doSelectOne(commentSeq);
+			commentVO.setLikeCnt(commentVO.getLikeCnt()-1);
+			commentService.likeCntDown(commentVO);
+			likeService.deleteMemberSeq(outVO.getMemberSeq());
+			obj.put("likeCheck", 0);
+		}
+		// 좋아요 수를 리턴.
+		obj.put("likeCnt", commentVO.getLikeCnt());
+		
+
+//		CommentVO commentVO = commentService.doSelectOne(commentSeq);
+//		int likeCnt = commentVO.getLikeCnt(); // 게시판의 좋아요 카운트 int likeCheck = 0; likeCheck =
+//		likeVO.getLikeCheck(); // 좋아요 체크 값
+//
+//		if (likeService.countLike(likeVO) == 0) {
+//			likeService.doInsert(likeVO);
+//		}
+
+//		if (likeCheck == 0) {
+//			msgs.add("좋아요!");
+//			likeService.likeCheck(likeVO);
+//			likeCheck++;
+//			likeCnt++;
+//			commentService.likeCntUp(commentSeq); // 좋아요 갯수 증가
+//		} else {
+//			msgs.add("좋아요 취소");
+//			likeService.likeCheckCancel(likeVO);
+//			likeCheck--;
+//			likeCnt--;
+//			commentService.likeCntDown(commentSeq); // 좋아요 갯수감소 }
+//			obj.put("commentSeq", likeVO.getCommentSeq());
+//			obj.put("likeCheck", likeCheck);
+//			obj.put("likeCnt", likeCnt);
+//			obj.put("msg", msgs);
+//		}
+		return obj.toJSONString();
+	}
 	// 업데이트 테스트 못짜겠고
 }

@@ -30,10 +30,10 @@
 	</update>
 	<select id="read" resultType="LikeVO" parameterType="LikeVO">
 		SELECT
-		LIKENO ,
-		COMMENT_SEQ ,
-		MEMBER_SEQ ,
-		LIKE_CHECK
+		LIKENO as likeNo ,
+		COMMENT_SEQ as commentSeq,
+		MEMBER_SEQ as memberSeq,
+		LIKE_CHECK as likeCheck
 		FROM GOOD
 		WHERE
 		member_seq=#{memberSeq} AND

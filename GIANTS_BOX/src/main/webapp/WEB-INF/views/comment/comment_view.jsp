@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="context" value="${pageContext.request.contextPath }"></c:set>
 
 <!DOCTYPE html>
@@ -42,7 +43,8 @@
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
-			<b>comment list</b>
+			<b>comment list</b> <b>( <b id="count"> </b> )
+			</b> <br />
 			<hr />
 			<!-- json에 추가해주기 -->
 			<%-- <div>
@@ -135,7 +137,12 @@
 						success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
 
 							var commentList = data;//JSON.parse(data);
-							console.log("commentList=" + commentList);
+							var length = commentList.length;
+
+							$("#count").empty();
+							$("#count").append('<b>' + length + '</b>');
+							console.log(length);
+
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
@@ -150,9 +157,9 @@
 													html += '<strong>'
 															+ vo.regId + ""
 															+ '</strong>';
-													html += '<button id="like" style="background-color: #ffffff; float: right; border: none;">';
-													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>'
-													html += '</button>'
+													html += '<button onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
+													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>';
+													html += '</button>';
 													html += (vo.likeCnt)
 													html += '</span>'
 													html += '<br/>';
@@ -207,6 +214,76 @@
 
 			});//--ajax
 		}
+		function like(commentSeq){
+			console.log("======like====== ");
+			  var frm_read = $('#frm_read');
+			 // var commentSeq = $('#commentSeq', frm_read).val();
+			 // var mno = $('#memberSeq', frm_read).val();
+			  var url = "${context}/comment/like.do"
+		
+			  console.log("commentSeq : " + commentSeq );
+			  
+			  $.ajax({
+			    url: url,
+			    type: "GET",
+			    dataType: "html",
+			    data: {"commentSeq" : commentSeq},//+'&memberSeq=' +memberSeq,
+			    success: function(data) {
+					var obj = JSON.parse(data);
+
+			    	alert(obj.likeCnt);
+					
+			    /*   var msg = '';
+			      var like_img = '';
+			      msg += data.msg;
+			      alert(msg);
+			      
+			      if(data.likeCheck == 0){
+			        like_img = "${context}/resources/img/comment/heart.png";
+			        $("#commentList").empty();
+					commentList();
+			      } else {
+			        like_img = "${context}/resources/img/comment/fullheart.png";
+			      }      
+			      $('#like_img', frm_read).attr('src', like_img);
+			      $('#like_cnt').html(data.like_cnt);
+			      $('#like_check').html(data.like_check); */
+			    },
+			    error : function(xhr, status, error) {
+					//alert(meesage.msgContents);
+				}
+			  });
+			}
+	/* 	function like() {
+			console.log("like");
+			var url = "${context}/comment/like.do"
+				$.ajax({
+					type : "GET",//데이터를 보낼 방식
+					url : url,//데이터를 보낼 url
+					dataType : "html",
+					data : {
+						"commentSeq" : 85,
+						"memberSeq"	:1
+					},//보낼 데이터
+					success : function(data) { //성공
+						console.log("data=" + data);
+						console.log("commentSeq=" + commentSeq);
+						if (data != null) {
+							alert("좋아요");
+							$("#commentList").empty();
+							commentList();
+						} else {
+							alert("좋아요 실패");
+						}
+
+					},
+					error : function(xhr, status, error) {
+						alert(meesage.msgContents);
+					}
+
+				});//--ajax
+			
+			} */
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
 			console.log("document ready");

@@ -74,6 +74,22 @@ public class CommentDaoImpl implements CommentDao {
 		return list;
 	}
 
+	@Override
+	public int likeCntUp(CommentVO comment) {
+		LOG.debug("likeCntUp");
+		String statement = NAMESPACE + ".likeCntUp";
+		int flag = sqlSessionTemplate.update(statement, comment);
+		return flag;
+	}
+
+	@Override
+	public int likeCntDown(CommentVO comment) {
+		LOG.debug("likeCntDown");
+		String statement = NAMESPACE + ".likeCntDown";
+		int flag = sqlSessionTemplate.update(statement, comment);
+		return flag;
+	}
+
 }
 
 // jdbcTemplate을 이용한 dao 처리

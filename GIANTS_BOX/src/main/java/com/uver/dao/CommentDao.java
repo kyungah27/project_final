@@ -17,4 +17,7 @@ public interface CommentDao {
 
 	List<CommentVO> doSelectList(CommentVO comment);
 
+	int likeCntUp(CommentVO comment);
+
+	int likeCntDown(CommentVO comment);
 }

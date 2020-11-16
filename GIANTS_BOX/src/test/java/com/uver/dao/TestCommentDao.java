@@ -67,8 +67,9 @@ public class TestCommentDao {
 		// assertThat(flag, is(1));
 
 		// 수정
-		CommentVO updateVO = new CommentVO(67, 2, "10", "재밌었어요ㅎㅎ", "", "ehgml", "", 0);
-		flag = dao.doUpdate(updateVO);
+		// CommentVO updateVO = new CommentVO(67, 2, "10", "재밌었어요ㅎㅎ", "", "ehgml", "",
+		// 0);
+		// flag = dao.doUpdate(updateVO);
 		// assertThat(flag, is(1));
 
 		// 단건조회 안되는거
@@ -80,11 +81,11 @@ public class TestCommentDao {
 		// dao.doSelectOne(comment01.getCommentSeq());
 
 		// 리스트 조회
-		// CommentVO comment = new CommentVO();
-		// comment.setSeq(2);
-		// comment.setDiv("10");
+		CommentVO comment = new CommentVO();
+		comment.setSeq(2);
+		comment.setDiv("10");
 
-		// List<CommentVO> list = dao.doSelectList(comment);
+		List<CommentVO> list = dao.doSelectList(comment);
 		// assertThat(list.size(), is(5));
 
 		// 입력데이터와 비교>>>질문,굳이 없어도 되는듯
