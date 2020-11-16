@@ -121,7 +121,8 @@
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-	    SelectList("${genres}");
+	    console.log("ready"  +"${searchWord}");
+	    SelectList("${genres}" , "${searchWord}");
 	});
 
 
@@ -161,32 +162,30 @@
 
 		 $("#search_btn").on("click", function(e) {
 
-		 // 날짜값 가져오기
-		 console.log($("#search-field").val());
-		 // 체크박스 값 가져오기
-		 checkStr = "";
-		 for(i = 1; i <= optionsLen; i++) {
-			if($("#option"+i).prop("checked") == true){
-			checkStr += $("#option"+i).val()+","
-			}
-			
-	     }
-		 SelectList(checkStr);
+		 	// 날짜값 가져오기
+			 var searchWord =  $("#search-field").val();
+			 // 체크박스 값 가져오기
+			 checkStr = "";
+			 for(i = 1; i <= optionsLen; i++) {
+				if($("#option"+i).prop("checked") == true){
+				checkStr += $("#option"+i).val()+","
+				}
+		     }
+			 SelectList(checkStr,searchWord);
 
 		 
 		
 		});
 
-	function SelectList(checkStr){
-		 console.log(checkStr);
+	function SelectList(genreStr ,searchWord){
 
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
 			    dataType:"json", 
-			    data:{"searchWord":	$("#search-field").val(),
+			    data:{"searchWord":	searchWord,
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
-			    	  "genreStr" :  checkStr  						   
+			    	  "genreStr" :  genreStr  						   
 			    },
 			    success:function(data){ //성공
 			       console.log("data="+data);

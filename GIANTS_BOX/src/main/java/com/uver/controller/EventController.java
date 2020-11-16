@@ -289,13 +289,6 @@ public class EventController {
 		  return "event_view";
 	}
 	
-	@RequestMapping(value = "SearchToGenre.do",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String SearchToGenre(Model model , HttpServletRequest req) {
-		  String genres = (String) req.getParameter("genres");
-		  model.addAttribute("genres", genres);
-		  LOG.debug("SearchToGenre   :" + genres);
-		  return "event_list";
-	}
 
 	
 	

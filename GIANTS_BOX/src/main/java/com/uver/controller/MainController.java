@@ -81,7 +81,9 @@ public class MainController {
 		LOG.debug("goEventList()");
 		LOG.debug("-------------------");
 		String genres = (String) req.getParameter("genres");
+		String searchWord = (String) req.getParameter("searchWord");
 		model.addAttribute("genres", genres);
+		model.addAttribute("searchWord", searchWord);
 		LOG.debug("SearchToGenre   :" + genres);
 		
 		return "event_list";
