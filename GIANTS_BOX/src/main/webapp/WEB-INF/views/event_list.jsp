@@ -119,9 +119,8 @@
 
 <script type="text/javascript">
 
-
-	var pageNum = 1;
-	var pageSize = 10;
+	var loading = false;
+	var page = 1;
 	
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
@@ -129,14 +128,7 @@
 	
 	});
 
-	//-----페이지 무한 스크롤 추가-------
-	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
-			console.log("리스트 추가");
-		} 
 
-		
-	
-	});
 
 
 
@@ -196,8 +188,8 @@
 			    data:{"searchWord":	$("#search-field").val(),
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "genreStr" :  checkStr,
-			    	  "pageNum"  : pageNum++,
-			    	  "pageSize" : pageSize		 	   
+			    	  //"pageNum"  : pageNum++,
+			    	  //"pageSize" : pageSize		 	   
 			    },
 			    success:function(data){ //성공
 				   alert("일단성공");
@@ -242,13 +234,32 @@
 	 	}); 
 		$("#event_cards").append(html);		 	  
 	}
-			
 
 
+		function next_load(){
+				page++;
+				console.log("=page="+page);
+				loading = false;
+				
+			}
+
+
+		 $(window).scroll(function(){
+		        if($(window).scrollTop()+200>=$(document).height() - $(window).height())
+		        {
+		            if(!loading)    //실행 가능 상태라면?
+		            {
+		                loading = true; //실행 불가능 상태로 변경
+		                next_load(); 
+		            }
+		            else            //실행 불가능 상태라면?
+		            {
+		                alert('다음페이지를 로딩중입니다.');  
+		            }
+		        }
+		    });  
 
 	
-		
-		
 
 </script>
 
