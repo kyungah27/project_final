@@ -118,12 +118,16 @@
 
 
 <script type="text/javascript">
+
+	var loading = false;
+	var page = 1;
+	
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-	    console.log("ready"  +"${searchWord}");
-	    SelectList("${genres}" , "${searchWord}");
+	
 	});
+
 
 
 
@@ -162,32 +166,33 @@
 
 		 $("#search_btn").on("click", function(e) {
 
-		 	// 날짜값 가져오기
-			 var searchWord =  $("#search-field").val();
-			 // 체크박스 값 가져오기
-			 checkStr = "";
-			 for(i = 1; i <= optionsLen; i++) {
+		 // 날짜값 가져오기
+		 console.log($("#search-field").val());
+		 // 체크박스 값 가져오기
+		 checkStr = "";
+			for(i = 1; i <= optionsLen; i++) {
 				if($("#option"+i).prop("checked") == true){
-				checkStr += $("#option"+i).val()+","
-				}
-		     }
-			 SelectList(checkStr,searchWord);
-
-		 
-		
-		});
-
-	function SelectList(genreStr ,searchWord){
+					checkStr += $("#option"+i).val()+","
+					}
+			
+	        }
+	
+		 console.log(checkStr);
+		 var date = $("#my_calendar").val();	 
+		 console.log(date);
 
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
 			    dataType:"json", 
-			    data:{"searchWord":	searchWord,
+			    data:{"searchWord":	$("#search-field").val(),
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
-			    	  "genreStr" :  genreStr  						   
+			    	  "genreStr" :  checkStr,
+			    	  //"pageNum"  : pageNum++,
+			    	  //"pageSize" : pageSize		 	   
 			    },
 			    success:function(data){ //성공
+				   alert("일단성공");
 			       console.log("data="+data);
 			 	  $("#event_cards").empty();
 			 	 	drawCards(data);  
@@ -198,7 +203,10 @@
 			    complete:function(data){		    
 			    }   			  
 		});//--ajax	
-	}
+		 
+		
+	});
+
 /* 	 $(document).on("click","button[name=seleted_seq]",function(){
 			var eventSeq = $(this).val();
 			alert(eventSeq);
@@ -226,19 +234,32 @@
 	 	}); 
 		$("#event_cards").append(html);		 	  
 	}
-			
 
-	//-----페이지 무한 스크롤 추가-------
-	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
-			console.log("리스트 추가");
-			loadNext();
-		} 
-	});
 
-	function loadNext(){
+		function next_load(){
+				page++;
+				console.log("=page="+page);
+				loading = false;
+				
+			}
+
+
+		 $(window).scroll(function(){
+		        if($(window).scrollTop()+200>=$(document).height() - $(window).height())
+		        {
+		            if(!loading)    //실행 가능 상태라면?
+		            {
+		                loading = true; //실행 불가능 상태로 변경
+		                next_load(); 
+		            }
+		            else            //실행 불가능 상태라면?
+		            {
+		                alert('다음페이지를 로딩중입니다.');  
+		            }
+		        }
+		    });  
+
 	
-		}
-		
 
 </script>
 

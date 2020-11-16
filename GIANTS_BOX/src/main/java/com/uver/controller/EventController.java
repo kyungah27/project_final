@@ -288,7 +288,6 @@ public class EventController {
 
 		  return "event_view";
 	}
-	
 
 	
 	
