@@ -39,6 +39,12 @@ import com.uver.vo.MemberVO;
 		}
 		
 		
+		/**
+		 * 회원정보 삭제
+		 * @param inputUser
+		 * @param session
+		 * @return
+		 */
 		 @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
 		   public String idDelete(MemberVO inputUser, HttpSession session) {
@@ -76,26 +82,45 @@ import com.uver.vo.MemberVO;
 		 */
 		   @RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
-		   public String myUpdate(MemberVO inputUser) {
+		   public String myUpdate(MemberVO inputUser, HttpServletRequest req) throws ClassNotFoundException, SQLException {
 			LOG.debug(inputUser.getUserId());
 			
 		   int updateFlag = 0;
-		   
-		   updateFlag = memberService.myUpdate(inputUser);
-		   
 		   Message message = new Message();
-			
+		   if(memberService.regPw(inputUser) ==1) {
+		   updateFlag = memberService.myUpdate(inputUser);
+		   }else {
+			   message.setMsgContents("비밀번호 조건을 확인해주세요");
+		   }
+		   
 			if(updateFlag == 1) {
 				message.setMsgContents("회원정보가 수정되었습니다.");
+				HttpSession session = req.getSession();
+		         
+		         MemberVO user = new MemberVO();
+		         user.setSeq(inputUser.getSeq());
+		         user.setPassword(inputUser.getPassword());
+		         user.setName(inputUser.getName());
+		         user.setCellPhone(inputUser.getCellPhone());
+		         user.setBirthday(inputUser.getBirthday());
+		         user.setGenre(inputUser.getGenre());
+		         user.setAuth(inputUser.getAuth());
+		         user.setEmail(inputUser.getEmail());
+		         user.setUserId(inputUser.getUserId());
+		         LOG.debug("[user] " + user);
+		         
+		         //session 생성 (MemberVO로 받기)
+		         session.setAttribute("user", user);
+		         LOG.debug("[session obj: user] " + session.getAttribute("user"));
 			}else {
 				message.setMsgContents("수정할 정보를 다시 확인해주세요");
 			}
-			
+		   
 			 message.setMsgId(updateFlag+"");
 		      Gson gson = new Gson();
 		      String json = gson.toJson(message);
 		      LOG.debug("[json] " + json);
-		      
+		      LOG.debug("현우쓰 바보 ");
 		      return json;
 		    
 		 }
@@ -209,6 +234,7 @@ import com.uver.vo.MemberVO;
 		         
 		         MemberVO user = new MemberVO();
 		         user.setSeq(outVO.getSeq());
+		         user.setPassword(outVO.getPassword());
 		         user.setName(outVO.getName());
 		         user.setCellPhone(outVO.getCellPhone());
 		         user.setBirthday(outVO.getBirthday());
