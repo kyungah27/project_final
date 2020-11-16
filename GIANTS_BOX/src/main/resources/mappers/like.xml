@@ -12,7 +12,7 @@
 		INSERT INTO good
 		VALUES
 		((SELECT NVL(MAX(likeno), 0) + 1 as likeno FROM
-		good),#{commentSeq},#{memberSeq}, 0)
+		good),#{commentSeq},#{memberSeq}, #{likeCheck})
 	</insert>
 	<update id="likeCheck" parameterType="LikeVO">
 		UPDATE good

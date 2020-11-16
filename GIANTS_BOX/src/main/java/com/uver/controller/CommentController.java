@@ -1,13 +1,9 @@
 package com.uver.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -22,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
 import com.uver.service.CommentService;
-import com.uver.service.LikeServcie;
 import com.uver.service.LikeServiceImpl;
 import com.uver.vo.CommentVO;
 import com.uver.vo.LikeVO;
@@ -175,12 +170,10 @@ public class CommentController {
 	@RequestMapping(value = "comment/like.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String like(int commentSeq, HttpSession session) {
-		// System.out.println("--> like() created");
 		LOG.debug(">>>>>>>>>>>>>>like<<<<<<<<<<<<<");
 		// int memberSeq = (Integer) session.getAttribute("memberSeq");
 		JSONObject obj = new JSONObject();
 
-		ArrayList<String> msgs = new ArrayList<String>();
 		LikeVO likeVO = new LikeVO();
 		int memberSeq = likeVO.getMemberSeq();
 		likeVO.setCommentSeq(commentSeq);
@@ -191,6 +184,7 @@ public class CommentController {
 
 		// likeVO가 null(0) 이면 좋아요에 인서트.
 		CommentVO commentVO = new CommentVO();
+		int cnt = commentVO.getLikeCnt();
 		if (null == outVO) {
 			// 좋아요 인서트.
 			likeVO.setLikeCheck(1);
@@ -201,18 +195,21 @@ public class CommentController {
 			commentVO.setLikeCnt(commentVO.getLikeCnt() + 1);
 			commentService.likeCntUp(commentVO);
 			obj.put("likeCheck", 1);
+
 		} else {
 			// 널이 아니면. 좋아요 수 감소.
 			commentVO = commentService.doSelectOne(commentSeq);
 			commentVO.setLikeCnt(commentVO.getLikeCnt() - 1);
 			commentService.likeCntDown(commentVO);
 			likeService.deleteMemberSeq(outVO.getMemberSeq());
+			// likeService.likeCheckCancel(likeVO);
 			obj.put("likeCheck", 0);
+
 		}
 		// 좋아요 수를 리턴.
 		obj.put("likeCnt", commentVO.getLikeCnt());
 
 		return obj.toJSONString();
 	}
-	// 업데이트 테스트 못짜겠고
+// 업데이트 테스트 못짜겠고
 }
