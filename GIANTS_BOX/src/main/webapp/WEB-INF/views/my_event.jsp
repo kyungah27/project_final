@@ -175,6 +175,12 @@
 		window.location.href = "event_reg.do";
 	});
 
+	
+
+
+
+
+	
 
 
 

@@ -26,8 +26,12 @@
 						type="text" id="name">
 				</div>
 				<div class="form-group" >
-					<label for="password"  id ="password_label">Password(대문자,소문자,특수문자,숫자를 조합해 8자리 이상 작성해주세요)</label><input
+					<label for="password"  id ="password_label">Password(영문자,숫자,특수문자를 조합해 8자리 이상 작성해주세요)</label><input
 						class="form-control item" type="password" id="password">
+				</div>
+				<div class="form-group" >
+					<label for="password"  id ="passwordConf_label">Password Check(비밀번호를 한 번 더 입력해주세요)</label><input
+						class="form-control item" type="password" id="passwordConf">
 				</div>
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
@@ -79,6 +83,17 @@
 			alert("비밀번호를 입력 하세요.");//{0} 입력하세요.
 			return;
 		}
+
+
+		var passwordConf = $("#passwordConf").val();
+		passwordConf = passwordConf.trim();
+		if (password != passwordConf) {
+			$("#password").focus();
+			alert("비밀번호를 확인 하세요.");//{0} 입력하세요.
+			$("#passwordConf_label").css("color","red");
+			return;
+		}
+		
 
 		var email = $("#email").val();
 		email = email.trim();

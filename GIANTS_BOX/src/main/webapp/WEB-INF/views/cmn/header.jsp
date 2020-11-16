@@ -32,7 +32,7 @@
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white d-flex d-sm-flex align-content-center clean-navbar" style="height: 65px;background-color: rgba(24,109,128,0.58);filter: brightness(100%);opacity: 1;">
         <div class="container-fluid">
-        	<a href="main.do">
+        	<a href="${context}/main.do">
         	<img src="${context}/resources/img/logo.png" style="width: 174px;filter: blur(0px);"></a>
         	<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
         	<span class="sr-only">Toggle navigation</span>
