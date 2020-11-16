@@ -131,7 +131,7 @@ public class EventImgDaoImpl {
 			}
 		} catch (Exception e) {
 			list = null;
-			LOG.debug(e.getMessage());
+			LOG.debug("exception: " + e.getMessage());
 		}
 		
 		return list;

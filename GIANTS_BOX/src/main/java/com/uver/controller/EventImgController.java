@@ -129,7 +129,7 @@ public class EventImgController {
 
 		//최신값 설정
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
-		
+		LOG.debug("[maxImgSeq] " + maxImgSeq);
 		
 		if (maxImgSeq > 0) {
 			LOG.debug("maxImgSeq: " + maxImgSeq);
