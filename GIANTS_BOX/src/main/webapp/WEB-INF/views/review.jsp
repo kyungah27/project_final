@@ -36,12 +36,15 @@
 
 <body>
 
-    <main class="page login-page" style="padding-top: 65px;">
+    <main class="page review-page" style="padding-top: 65px;">
         <section class="clean-block clean-form">
             <div class="container">
             
             <!-- 게시판 작성  -->
-            	
+            	<div class="block-heading">
+				<h2 class="text-primary">후기 게시판</h2>
+			</div>
+			
             	
             	
             
