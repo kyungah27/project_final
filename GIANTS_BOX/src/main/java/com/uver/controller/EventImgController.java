@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,31 +75,39 @@ public class EventImgController {
 	}
 
 	/**
-	 * 이미지 업로드 -> 이미지 목록 페이지로 맵핑
+	 * the first doSelectList
 	 * 
 	 * @param ModelAndView
 	 * @return ModelAndView
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "doSelectList.do", method = RequestMethod.GET)
-	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
-		Search search = new Search(eventSeq, 1, 5);
+	public String doSelectList(
+			@RequestParam("eventSeq") String eventSeqStr,
+			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
+		
+		int eventSeq = Integer.parseInt(eventSeqStr);
+		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
+		//eventSeq, pageNum, pageSize
+		Search search = new Search(eventSeq, photoPgNum, 9);
 
+		//최신값 설정
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
+		LOG.debug("maxImgSeq: " + maxImgSeq);
 		search.setSearchSeqSub(maxImgSeq);
 
 		// event seq
 		List<EventImgVO> list = eventImgService.doSelectList(search);
 
-		int cnt = list.get(0).getTotalCnt();
+//		int cnt = list.get(0).getTotalCnt();
+//		mav.addObject("list", list);
+//		mav.addObject("cnt", cnt);
+//		mav.addObject("maxImgSeq", maxImgSeq);
+//		mav.addObject("eventSeq", search.getSearchSeq());
+//		mav.setViewName("event_view");
 
-		mav.addObject("list", list);
-		mav.addObject("cnt", cnt);
-		mav.addObject("maxImgSeq", maxImgSeq);
-		mav.addObject("eventSeq", search.getSearchSeq());
-
-		mav.setViewName("img_view");
-
-		return mav;
+		return listToJsonArr(list);
 	}
 
 	/**
@@ -110,8 +118,11 @@ public class EventImgController {
 	 */
 	@RequestMapping(value = "fetchList.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String fetchList(@RequestParam(value = "eventSeq") int eventSeq,
-			@RequestParam(value = "maxImgSeq") int maxImgSeq, @RequestParam(value = "num") int num)
+	public String fetchList(
+			@RequestParam(value = "eventSeq") int eventSeq,
+			@RequestParam(value = "maxImgSeq") int maxImgSeq,
+			@RequestParam(value = "num") int num
+			)
 			throws ParseException {
 
 		Search search = new Search(eventSeq, num, 5);
@@ -119,7 +130,19 @@ public class EventImgController {
 
 		List<EventImgVO> list = eventImgService.doSelectList(search);
 
-		// vo list -> JSON Array
+		return listToJsonArr(list);
+	}
+	
+	
+	
+	/**
+	 * vo list -> json Array
+	 * 
+	 * @param list
+	 * @return
+	 * @throws ParseException
+	 */
+	private String listToJsonArr(List list) throws ParseException {
 		Gson gson = new Gson();
 
 		@SuppressWarnings("deprecation")
@@ -130,6 +153,7 @@ public class EventImgController {
 
 		return jArr.toJSONString();
 	}
+	
 
 	/**
 	 * 이미지 업로드 후 json으로 응답
@@ -158,6 +182,8 @@ public class EventImgController {
 		return responseJson(0);
 	}
 
+	
+	
 	/**
 	 * 이미지 수정
 	 * 

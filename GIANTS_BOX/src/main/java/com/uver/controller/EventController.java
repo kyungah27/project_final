@@ -142,40 +142,39 @@ public class EventController {
 			MemberVO memberVO = (MemberVO) session.getAttribute("user");
 			LOG.debug(memberVO.toString());
 			memberSeq = memberVO.getSeq();
-			int eventSeqInt = Integer.parseInt(eventSeq);
+		} 
 		
-			// event
-			EventVO inVO = new EventVO();
-			inVO.setEventSeq(eventSeqInt);
-			EventVO outVO = this.eventService.doSelectOne(inVO);
-			mav.addObject("eventVO", outVO);
-			
-			// member list
-			JoinVO joinVO = new JoinVO();
-			joinVO.setEventSeq(eventSeqInt);
-			joinVO.setMemberSeq(memberSeq);
-			
-			int joinCheck = joinService.checkJoin(joinVO);
-			List<JoinVO> joinList = joinService.doSelectList(joinVO);
-			int joinCount = joinList.size();
-			mav.addObject("joinCount", joinCount);
-			mav.addObject("joinCheck", joinCheck);
-	
-			// movie 
-			String movieId = outVO.getMovieInfo().substring(0, 1);
-			String movieSeq = outVO.getMovieInfo().substring(1);
-			mav.addObject("movieId", movieId);
-			mav.addObject("movieSeq", movieSeq);
-			
-			// img
-			int imgSeq = this.eventImgService.doSelectThumbnail(eventSeqInt);
-			mav.addObject("imgSeq", imgSeq);
-			
-			mav.setViewName("event_view");
-			return mav;
-		}
+		int eventSeqInt = Integer.parseInt(eventSeq);
 		
-		mav.setViewName("index"); //user 값 없으면 index로
+		// event
+		EventVO inVO = new EventVO();
+		inVO.setEventSeq(eventSeqInt);
+		EventVO outVO = this.eventService.doSelectOne(inVO);
+		mav.addObject("eventVO", outVO);
+		
+		// member list
+		JoinVO joinVO = new JoinVO();
+		joinVO.setEventSeq(eventSeqInt);
+		joinVO.setMemberSeq(memberSeq);
+		
+		int joinCheck = joinService.checkJoin(joinVO);
+		List<JoinVO> joinList = joinService.doSelectList(joinVO);
+		int joinCount = joinList.size();
+		mav.addObject("joinCount", joinCount);
+		mav.addObject("joinCheck", joinCheck);
+
+		// movie 
+		String movieId = outVO.getMovieInfo().substring(0, 1);
+		String movieSeq = outVO.getMovieInfo().substring(1);
+		mav.addObject("movieId", movieId);
+		mav.addObject("movieSeq", movieSeq);
+		
+		// img
+		int imgSeq = this.eventImgService.doSelectThumbnail(eventSeqInt);
+		mav.addObject("imgSeq", imgSeq);
+		
+		
+		mav.setViewName("event_view");
 		return mav;
 	}
 	

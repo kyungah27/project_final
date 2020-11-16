@@ -4,7 +4,7 @@
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
-                    <p>${eventVO.targetDt}</p>
+                    <p>${eventVO.regDt}</p>
                     <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
                     <strong>${eventVO.regId}</strong>
@@ -146,23 +146,37 @@
                                 </div>
                                 
                                 <!-- photoList -->
-                                <div class="tab-pane fade show photos" role="tabpanel" id="photos">
+                                <div class="tab-pane fade show photos" role="tabpanel" id="photos" style="display:hidden">
+                                	<!-- photo write -->
+									<div id="photo_insert_frm">
+										<div class="input-group align-items-center flex-wrap my-3">
+											<div class="custom-file">
+												<input type="file" name="images[]" class="custom-file-input" aria-describedby="photo_input" id="image_picker" accept="image/jpg, image/png, image/jpeg, image/gif" onchange="preview(this.files);" multiple="">
+											    <label class="custom-file-label" for="image_picker">파일선택</label>
+											</div>
+											<div class="input-group-append align-items-center flex-wrap">
+												<button type="button" class="btn btn-outline-secondary" id="photo_input" onclick="javascript:uploadImg()">등록</button>
+												<div class="ml-3 ml-xm-1">
+													<strong id="img_totalCnt">0</strong>개 이미지를 등록합니다.
+												</div>
+											</div>
+										</div>
+										<form class="form-horizontal" id="save_frm" action="${context}/img/doInsert.do" method="post" enctype="multipart/form-data">
+											<div id="img_preview" class="flex-container justify-content-start" style="overflow-y: scroll; height: 50%">
+												<p id="img_area_txt" class="m-auto">Drag & Drop<br><small>한번에 등록할 수 있는 이미지 수는 20개를 초과할 수 없습니다.</small></p>
+											</div>
+										</form>
+	                               </div>
+	                               <!-- //photo write -->
+
                                    <div class="row mt-4 mb-4">
-                                   	<ul id = "img_list"></ul>
-                                   	
-                                   	
-                                   
-                                    <div class="col-md-6 col-lg-4 item mt-3">
-                                        <a class="lightbox" href="${context}/resources/img/movie_rank/image1.jpg">
-                                            <img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image1.jpg">
-                                        </a>
-                                       </div>
-                                    <div class="col-md-6 col-lg-4 item mt-3"><a class="lightbox" href="${context}/resources/img/movie_rank/image4.jpg"><img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image4.jpg"></a></div>
-                                    <div class="col-md-6 col-lg-4 item mt-3"><a class="lightbox" href="${context}/resources/img/movie_rank/image6.jpg"><img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image6.jpg"></a></div>
-                                    <div class="col-md-6 col-lg-4 item mt-3"><a class="lightbox" href="${context}/resources/img/movie_rank/image5.jpg"><img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image5.jpg"></a></div>
-                                    <div class="col-md-6 col-lg-4 item mt-3"><a class="lightbox" href="${context}/resources/img/movie_rank/image1.jpg"><img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image1.jpg"></a></div>
-                                    <div class="col-md-6 col-lg-4 item mt-3"><a class="lightbox" href="${context}/resources/img/movie_rank/image4.jpg"><img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image4.jpg"></a></div>
-                                </div>
+	                                   	<ul id = "img_list"></ul>
+	                                    <div class="col-md-6 col-lg-4 item mt-3">
+	                                        <a class="lightbox" href="#">
+	                                            <img class="img-thumbnail img-fluid image" src="${context}/resources/img/movie_rank/image1.jpg">
+	                                        </a>
+	                                    </div>
+                                	</div>
                                     <div class="row">
                                         <button class="btn btn-outline-primary btn-block">더보기</button>
                                     </div>
@@ -254,16 +268,300 @@
 
 
 	//---[photo: 작업중]-------------------------------------------------------
-	
-	let photoPgNum = 0;
 	$("#photos-tabs").on("click", photoList);
+	let photoFrm = document.getElementById("photo_insert_frm");
 
+	//---[사진 탭 클릭]
 	function photoList(){
-
+		//let photoPgNum = 0;
+		//let maxImgSeq = 0;
+		//firstPhotoList(photoPgNum, maxImgSeq);
 		
-		
+		drawPhotoInsert();
 	}; 
 
+	//---[멤버 여부에 따라 photo 폼 나타나기/숨기기]
+	function drawPhotoInsert(){
+		if (${joinCheck}==1){
+			photoFrm.removeAttribute("style");
+		} else {
+			photoFrm.setAttribute("style", "display: none");
+		}
+	}
+
+	//---[Drag & Drop 텍스트 나타내기]
+	function imgAreaTxt(){
+		let imgAreaTxt = $("#img_area_txt");
+		if(!Array.isArray(imgArr) || imgArr.length <= 0){
+			console.log("없음");
+			imgAreaTxt.css({
+				"display": "",
+				"margin": "0 auto"
+			});
+		} else {
+			imgAreaTxt.css({
+				"display": "none"
+			});
+		}
+	}
+
+	//---[drag over]
+	var imgArr = [];
+	var idx;
+
+	$('.flex-container')
+	.on("dragover", dragOver)
+	.on("dragleave", dragOver)
+	.on("drop", uploadFiles);
+
+	function dragOver(e){
+		//현재 이벤트가 상위 DOM으로 전파되지 않도록 중단
+		e.stopPropagation();
+
+		//현재 이벤트의 기본 동장 중단
+		e.preventDefault();
+
+		//시각적 효과
+		if (e.type == "dragover") {
+			$(e.target).css({
+				"background-color": "#eee",
+				"outline-offset": "-30px"
+			});
+			$('.flex_item').css({
+				"background-color": "#eee",
+			});
+			
+		} else {
+			$(e.target).css({
+				"background-color": "white",
+				"outline-offset": "0px"
+			});
+			$('.flex_item').css({
+				"background-color": "white"
+			});
+		}
+	}
+
+	//---[Drag & Drop시 미리보기] 
+	function uploadFiles(e){
+		e.stopPropagation();
+		e.preventDefault();
+
+		//시각적 효과
+		dragOver(e);
+
+		e.dataTransfer = e.originalEvent.dataTransfer;
+		let files = e.target.files || e.dataTransfer.files;
+		console.log(files);
+
+		//이미지 타입체크
+		for(let i = 0; i < files.length; i++){
+			if (!files[i].type.startsWith('image/')){
+				alert("이미지 파일을 업로드해 주세요");
+				return;
+			}
+		}
+
+		// 이미지 미리보기
+		preview(files);
+		imgAreaTxt()
+	}
+
+	
+
+	//--- [이미지 업로드하기]
+	function uploadImg(){
+		//console.log(imgArr);
+		
+		let imgLen = imgArr.length;
+		
+		if(imgLen <= 0){
+			return;				
+		}
+
+		if(!confirm(imgLen + "개의 이미지를 등록하시겠습니까?")){
+			return;
+		} 
+
+		const saveForm = document.getElementById("save_frm");
+		const formData = new FormData(saveForm);
+
+		for(let i = 0; i < imgLen; i++){
+			formData.append("images[]", imgArr[i]);
+		}
+
+		formData.append("eventSeq", ${eventVO.eventSeq});
+		formData.append("isThumbnail", 'n');
+
+		$.ajax({
+			type: "POST",
+			url: "${context}/img/doInsert.do",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(data){
+				if(null != data && data.msgId==imgLen){
+	                alert(data.msgContents);
+
+	              //---[이미지 미리보기 영역 초기화]
+	                let previewImgs = $(".photo-del");
+	                console.log("previewImgs");
+	                console.log(previewImgs);
+	                
+	        		for (let i = 0; i < previewImgs.length; i++){
+
+	        			let div = previewImgs[i].parentNode;
+	        			div.removeChild(previewImgs[i]);
+	        			imgArr.splice(i, 1);
+	        		}
+	        		
+	        		//---[이미지 배열 초기화]
+	        		imgArr.length = 0;
+	        		imgAreaTxt();
+	        		count();
+
+
+	        		
+
+	        		
+					//moveToImgList();
+	                
+				} else{
+	                alert(data.msgId+"|"+data.msgContents);
+	            }
+			},
+			err: function(err){
+				alert(err.status);
+			}
+		});
+	}
+	
+	//--- [이미지 미리보기]
+	function preview(files){
+		//console.log("files: "+files);
+		
+		let filesLen = files.length;
+		
+		// 최대 이미지 등록 제한 수 체크
+		if(imgArr.length > 20 || filesLen > 20) {
+			alert("20개를 초과하는 이미지는 등록할 수 없습니다.");
+			return;
+		}
+
+		Array.prototype.push.apply(imgArr, files);
+
+		for(let i = 0; i < filesLen; i++){
+			const file = files[i];
+
+			if (!file.type.startsWith('image/')){
+				alert("이미지 파일을 업로드해 주세요");
+				return;
+			};
+
+			// FileReader 객체 생성
+			let reader = new FileReader();
+			
+			// FileReader onload 시 이벤트 발생
+			reader.onload = function(file) {
+				const img = document.createElement("img");
+				img.setAttribute("src", this.result);
+				img.setAttribute("height", "150px");
+				img.setAttribute("class", "position-relative");
+
+				let flexDiv = document.createElement("div");
+
+				let a = document.createElement("a");
+				a.setAttribute("name", "removeImg");
+				a.setAttribute("onclick", "javascript:remove(this)");
+				a.setAttribute("href", "#a");
+					
+				let aDelDiv = document.createElement("div");
+				let i = document.createElement("i");
+				i.className="fa fa-times position-relative";
+				i.setAttribute("style", "left: -25px; top: -55px; font-size: 22px");
+				a.appendChild(i);
+				
+				flexDiv.appendChild(img);
+				flexDiv.appendChild(a);
+
+				document.querySelector("div#img_preview")
+							.appendChild(flexDiv);
+				flexDiv.className = "flex-item text-right photo-del"
+			};
+
+			reader.readAsDataURL(file);
+			console.log("imgArr: " + imgArr);
+
+
+			imgAreaTxt();
+			count();
+		}
+	}
+
+	//--- [이미지 갯수 구하기]
+	function count() {
+		let cnt = document.getElementById("img_totalCnt");
+		console.log(cnt);
+		cnt.textContent = imgArr.length;
+	}
+
+	//--- [목록에서 이미지 제거]
+	function remove(idx){
+		console.log(idx);
+		let index;
+		let elements = document.getElementsByName(idx.name);
+		console.log(elements);
+
+		for (let i = 0; i < elements.length; i++){
+			if(elements[i]==idx){
+
+				let div = elements[i].parentNode;
+				let divParent = div.parentNode;
+				divParent.removeChild(div);
+				
+				imgArr.splice(i, 1);
+			}
+		}
+
+		//console.log("imgArr: "+imgArr);
+		imgAreaTxt();
+		count();
+	}
+
+	//---[doSelectList: 처음에는 9개만 불러오기]
+	function firstPhotoList(photoPgNum, maxImgSeq){
+		console.log("first photo list()");
+		photoPgNum = 0;
+
+		let startNo = $("#img_list li").last().data("no") || 0;
+		console.log("startNo : " + startNo);
+
+		$.ajax({
+			url: "${context}/img/doSelectList.do",
+			data: { "eventSeq" : ${eventVO.eventSeq},
+					"photoPgNum" : photoPgNum,
+					"maxImgSeq" : maxImgSeq
+			},
+			type: "POST",
+			//contentType: "application/json"
+			success: function(result){
+				
+				//String -> JSON 객체로 변환 
+				let data = JSON.parse(result);
+				let length = data.length;
+				
+				// 목록 렌더링
+				$.each(data, function(index, data){
+					renderList(false, data.imgVO);
+				});
+			}//---END success
+		});//---END ajax
+	}//---END firstPhotoList
+
+
+
+
+	
 	//---[fetchList]
 	/*
 	let fetchList = function(){
@@ -302,7 +600,8 @@
 		});//---END ajax
 	}//---END fetchList
 	
-
+	*/
+	
 	//---[렌더링]
 	let renderList = function(mode, vo){
 		let html =
@@ -320,11 +619,6 @@
 		}
 	}//---END renderList
 
-
-
-	*/
-
-	
 
 
 	//로그인하기 되는데 seccess alert안됨 이따가함 
