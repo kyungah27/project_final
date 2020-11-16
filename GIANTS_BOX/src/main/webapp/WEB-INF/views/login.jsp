@@ -37,7 +37,23 @@
 		let userId = $("#id").val();			
 		let password = $("#password").val();
 		console.log("userId" + userId);			
-	
+
+
+		
+        console.log("#checkbox");   
+        var u_id = $("#id").val().trim();
+        //check되면 : 쿠키에 ID저장
+        if($("#checkbox").is(":checked")){
+            console.log("sss");
+           if(u_id !=null){
+              setCookie("id",u_id,7);
+           }
+        }else{//그렇치 않으면 쿠키에 ID삭제
+           if(u_id !=null){
+             deleteCookie("id");
+           }
+        }
+		
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/loginn.do",
@@ -49,7 +65,7 @@
 
 			    	var obj = JSON.parse(data);
 
-				    if(null != obj && obj.msgId==="1"){
+				    if(null != obj && obj.msgId=="1"){
 				    	console.log("success");
 		                alert(obj.msgContents);
 				    	moveToMain();
@@ -72,66 +88,71 @@
 
      });
 
-
-
 	function moveToMain(){
 		console.log("moveToMain()");
 		window.location.href = "${context}/main.do";
 	}
 
-	$(document).ready(function(){
-	    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
-	    var userInputId = getCookie("userInputId");
-	    $("input[name='id']").val(id); 
-	     
-	    if($("input[name='id']").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
-	        $("#checkbox").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
-	    }
-	     
-	    $("#checkbox").change(function(){ // 체크박스에 변화가 있다면,
-	        if($("#checkbox").is(":checked")){ // ID 저장하기 체크했을 때,
-	            var userInputId = $("input[name='id']").val();
-	            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-	        }else{ // ID 저장하기 체크 해제 시,
-	            deleteCookie("userInputId");
-	        }
-	    });
-	     
-	    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
-	    $("input[name='id']").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
-	        if($("#checkbox").is(":checked")){ // ID 저장하기를 체크한 상태라면,
-	            var userInputId = $("input[name='id']").val();
-	            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-	        }
-	    });
-	});
-	 
-	function setCookie(cookieName, value, exdays){
-	    var exdate = new Date();
-	    exdate.setDate(exdate.getDate() + exdays);
-	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
-	    document.cookie = cookieName + "=" + cookieValue;
-	}
-	 
-	function deleteCookie(cookieName){
-	    var expireDate = new Date();
-	    expireDate.setDate(expireDate.getDate() - 1);
-	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
-	}
-	 
-	function getCookie(cookieName) {
-	    cookieName = cookieName + '=';
-	    var cookieData = document.cookie;
-	    var start = cookieData.indexOf(cookieName);
-	    var cookieValue = '';
-	    if(start != -1){
-	        start += cookieName.length;
-	        var end = cookieData.indexOf(';', start);
-	        if(end == -1)end = cookieData.length;
-	        cookieValue = cookieData.substring(start, end);
-	    }
-	    return unescape(cookieValue);
-	}
+	//cookie로 ID저장
+
+
+
+     
+    //id cookie에 저장
+    //cookieValue:j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+     function setCookie(cookie_name,value,expire_day){
+        //cookie생성
+        //Get and set the cookies associated with the current document.
+        var expire_date = new Date();//현제 날짜
+        console.log("expire_date.getDate():"+expire_date.getDate());
+        expire_date.setDate(expire_date.getDate() +expire_day);
+        var cookieValue = this.escape(value) + ((expire_day==null)?"":";expires="+expire_date.toUTCString())
+        //j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+        console.log("cookieValue:"+cookieValue);
+        console.log(cookie_name +"="+value);
+        document.cookie = cookie_name +"="+cookieValue;
+ 
+     }
+ 	$(document).ready(function(){ 
+	    var userId = getCookie("id");
+	    console.log(userId);
+	    $("#id").val(userId);
+	    
+/* 	    
+	    if($("#userId").val() != "")
+	      $("#saveId").attr("checked", true); */
+
+ 	 }); 
+    
+
+     
+    //cookie정보 가지고 오기
+     function getCookie(cookie_name){
+        cookie_name = cookie_name +"=";
+        //j124_146;expires=Mon, 05 Oct 2020 05:39:49 GMT
+        var cookie_data = document.cookie;
+        console.log("cookie_data="+cookie_data);
+        var start = cookie_data.indexOf(cookie_name);
+        console.log("start="+start);
+        var cookie_value = "";
+        if(start !=-1){
+           start += cookie_name.length;
+           var end = cookie_data.indexOf(";",start);
+           
+           if(end ==-1)end = cookie_data.length;
+           
+           cookie_value = cookie_data.substring(start,end);
+        }
+        
+        return unescape( cookie_value );
+     }
+    
+   function deleteCookie(cookie_name){
+      var expire_date = new Date();//현재 날짜
+      expire_date.setDate(expire_date.getDate()-1);//현재 날짜 -1(전날)
+      console.log("expire_date.getDate():"+expire_date.getDate());
+      document.cookie  = cookie_name+"="+";expires="+expire_date.toUTCString();
+   }
     
 </script>
 <%@ include file="cmn/footer2.jsp" %>
