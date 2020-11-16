@@ -3,6 +3,7 @@ package com.uver.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
@@ -80,12 +81,16 @@ public class EventImgController {
 	 * @param ModelAndView
 	 * @return ModelAndView
 	 * @throws ParseException 
+	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping(value = "doSelectList.do", method = RequestMethod.GET)
+	@ResponseBody
 	public String doSelectList(
 			@RequestParam("eventSeq") String eventSeqStr,
 			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
-		
+
+		HashMap<String, Object> model = new HashMap<String, Object>();
+			
 		int eventSeq = Integer.parseInt(eventSeqStr);
 		int photoPgNum = Integer.parseInt(photoPgNumStr);
 		
@@ -99,15 +104,35 @@ public class EventImgController {
 
 		// event seq
 		List<EventImgVO> list = eventImgService.doSelectList(search);
+		int cnt = list.get(0).getTotalCnt();
+		
+		model.put("list", list);
+		model.put("cnt", cnt);
+		model.put("maxImgSeq", maxImgSeq);
+		model.put("eventSeq", eventSeq);
+		
+		LOG.debug("----------------");
+		LOG.debug("model:"+model.toString());
+		LOG.debug("----------------");
+		
+		String json = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
 
-//		int cnt = list.get(0).getTotalCnt();
-//		mav.addObject("list", list);
-//		mav.addObject("cnt", cnt);
-//		mav.addObject("maxImgSeq", maxImgSeq);
-//		mav.addObject("eventSeq", search.getSearchSeq());
-//		mav.setViewName("event_view");
+		try {
+			json = mapper.writeValueAsString(model);
+			LOG.debug(json);
 
-		return listToJsonArr(list);
+			json=mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
+
+			LOG.debug(json);
+			return json;
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} 
+		
+		return json;
 	}
 
 	/**
@@ -119,13 +144,16 @@ public class EventImgController {
 	@RequestMapping(value = "fetchList.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String fetchList(
-			@RequestParam(value = "eventSeq") int eventSeq,
-			@RequestParam(value = "maxImgSeq") int maxImgSeq,
-			@RequestParam(value = "num") int num
-			)
+			@RequestParam(value = "eventSeq") String eventSeqStr,
+			@RequestParam(value = "maxImgSeq") String maxImgSeqStr,
+			@RequestParam(value = "photoPgNum") String photoPgNumStr)
 			throws ParseException {
 
-		Search search = new Search(eventSeq, num, 5);
+		int eventSeq = Integer.parseInt(eventSeqStr);
+		int maxImgSeq = Integer.parseInt(maxImgSeqStr);
+		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
+		Search search = new Search(eventSeq, photoPgNum, 9);
 		search.setSearchSeqSub(maxImgSeq);
 
 		List<EventImgVO> list = eventImgService.doSelectList(search);

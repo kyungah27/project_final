@@ -273,11 +273,11 @@
 
 	//---[사진 탭 클릭]
 	function photoList(){
-		//let photoPgNum = 0;
-		//let maxImgSeq = 0;
-		//firstPhotoList(photoPgNum, maxImgSeq);
-		
 		drawPhotoInsert();
+		
+		let photoPgNum = 0;
+		let maxImgSeq = 0;
+		firstPhotoList(photoPgNum, maxImgSeq);
 	}; 
 
 	//---[멤버 여부에 따라 photo 폼 나타나기/숨기기]
@@ -420,10 +420,7 @@
 	        		imgAreaTxt();
 	        		count();
 
-
-	        		
-
-	        		
+	        		//---[리스트 다시 뿌리기]
 					//moveToImgList();
 	                
 				} else{
@@ -435,6 +432,79 @@
 			}
 		});
 	}
+
+	//---[doSelectList: 처음에는 9개만 불러오기]
+	function firstPhotoList(photoPgNum, maxImgSeq){
+		console.log("first photo list()");
+		photoPgNum = ++photoPgNum;
+
+		let startNo = $("#img_list li").last().data("no") || 0;
+		console.log("startNo : " + startNo);
+
+		$.ajax({
+			url: "${context}/img/doSelectList.do",
+			data: { "eventSeq" : ${eventVO.eventSeq},
+					"photoPgNum" : photoPgNum,
+			},
+			type: "GET",
+			dataType: "application/json",
+			contentType: "application/json",
+			success: function(result){
+				console.log(result);
+
+				//String -> JSON 객체로 변환 
+				let data = JSON.parse(result);
+				let dataArr = new Array();
+				dataArr = result.list;
+
+				console.log(dataArr);
+				
+				let dataLength = data.list.length;
+				console.log(dataLength);
+				
+				let num = "";
+				let regDt = "";
+				let regId = "";
+				let imgSeq = "";
+				
+				for(let i = 0; i <= dataLength; i++){
+					num = dataArr[i].imgVO.num;
+					regDt = dataArr[i].imgVO.regDt;
+					regId = dataArr[i].imgVO.regId;
+					imgSeq = dataArr[i].imgVO.imgSeq;
+					
+					let html =
+						"<li data-no='" + num + "'>" +
+						"<p>" + regDt + "</p>" +
+						"<p>" + regId + "</p>" +
+						"<img src=" + '<c:out value="${context}" />' + "img/" + imgSeq + ".do >" + 
+						"<a href='#' data-no='" + num + "'>삭제</a>" + "</li>";
+						console.log(html);
+						$("#img_list").append(html);
+				}
+				
+			}//---END success
+		});//---END ajax
+	}//---END firstPhotoList
+
+
+	/*
+	//---[렌더링]
+	function renderList(vo){
+		console.log("renderList");
+		let context = '<c:out value="${context}" />';
+		let html =
+			"<li data-no='" + vo.num + "'>" +
+			"<p>" + vo.num + "</p>" +
+			"<p>" + vo.regDt + "</p>" +
+			"<p>" + vo.regId + "</p>" +
+			"<strong>" + vo.originName + "</strong>" + 
+			"<img src=" + context + "/img/" + vo.imgSeq + ".do >" + 
+			"<a href='#' data-no='" + vo.num + "'>삭제</a>" + "</li>";
+			console.log(html);
+			$("#img_list").append(html);
+	}//---END renderList
+	*/
 	
 	//--- [이미지 미리보기]
 	function preview(files){
@@ -528,35 +598,7 @@
 		count();
 	}
 
-	//---[doSelectList: 처음에는 9개만 불러오기]
-	function firstPhotoList(photoPgNum, maxImgSeq){
-		console.log("first photo list()");
-		photoPgNum = 0;
-
-		let startNo = $("#img_list li").last().data("no") || 0;
-		console.log("startNo : " + startNo);
-
-		$.ajax({
-			url: "${context}/img/doSelectList.do",
-			data: { "eventSeq" : ${eventVO.eventSeq},
-					"photoPgNum" : photoPgNum,
-					"maxImgSeq" : maxImgSeq
-			},
-			type: "POST",
-			//contentType: "application/json"
-			success: function(result){
-				
-				//String -> JSON 객체로 변환 
-				let data = JSON.parse(result);
-				let length = data.length;
-				
-				// 목록 렌더링
-				$.each(data, function(index, data){
-					renderList(false, data.imgVO);
-				});
-			}//---END success
-		});//---END ajax
-	}//---END firstPhotoList
+	
 
 
 
@@ -602,22 +644,7 @@
 	
 	*/
 	
-	//---[렌더링]
-	let renderList = function(mode, vo){
-		let html =
-			"<li data-no='" + vo.num + "'>" +
-			"<p>" + vo.num + "</p>" +
-			"<p>" + vo.regDt + "</p>" +
-			"<p>" + vo.regId + "</p>" +
-			"<strong>" + vo.originName + "</strong>" + 
-			"<img src=" + context + "/img/" + vo.imgSeq + ".do >" + 
-			"<a href='#' data-no='" + vo.num + "'>삭제</a>" + "</li>"
-		if(mode) {
-			$("#img_list").prepend(html);
-		} else {
-			$("#img_list").append(html);
-		}
-	}//---END renderList
+	
 
 
 
