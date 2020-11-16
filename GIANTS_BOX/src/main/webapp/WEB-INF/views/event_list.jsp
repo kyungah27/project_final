@@ -189,7 +189,7 @@
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
 			    dataType:"json", 
-			    data:{"searchWord":	$("#search-field").val(),
+			    data:{"searchWord":	searchWord,
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "genreStr" :  genreStr,
 			    	  //"pageNum"  : pageNum++,
