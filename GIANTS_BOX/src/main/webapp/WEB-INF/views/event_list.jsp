@@ -4,10 +4,15 @@
 
  <main class="page landing-page" style="padding:145px 100px 100px 100px;">
  		<section class="clean-block" style="padding-bottom:50px">
-            <%@include file="cmn/search.jsp" %>
+             <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+    			 <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        		 <div class="collapse navbar-collapse text-center d-xl-flex" id="navcol-1" style="padding: 10px;padding-right: 20%;padding-left: 20%;">
+             		<form class="form-inline mx-auto" style="width: 82%;" method="get" target="_self">
+                 	<div class="form-group" style="width: 100%;"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field"  type="search" id="search-field" name="search" style="width: 95%;" placeholder="검색"/></div>
+             		</form><a id = "search_btn" class="btn btn-light mr-auto action-button" role="button"  style="background-color: rgb(0,120,255);">검색</a></div>
+     			</div>
+ 			</nav>
 		</section>
-		
-
 	<div class="row">
             <aside class="col-lg-4 col-md-6">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -71,31 +76,13 @@
 
                             <div class="card clean-card pt-3" id="event_cards">
                
-				
+						
                                 <!-- 이벤트 반복 -->
-                                <hr/>
-                                <div class="card-body row align-items-center justify-content-center">
-                                	<div class="col-lg-3">
-                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
-                                	</div>
-                                	<div class="col-lg-6 text-left">
-	                                    <p class="text-left card-text">
-	                                        <strong>10월 31일 6:30PM</strong>
-	                                    </p>
-	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-	                                </div>
-	                                <div class="col-lg-3 col-md-5 text-center">
-                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
-                                    </div>
-                                </div>
+                               
+                  
 
                                 <!-- 참여 이벤트 없을 경우 -->
-                                <hr>
-                                <div class="card-body">
-                                    <h4 class="card-title">이벤트가 없습니다.</h4>
-                                </div>
+                  
                             </div>
                         </div>
                     </div>
@@ -118,14 +105,14 @@
 
 
 <script type="text/javascript">
-
+	var flag = true;
 	var loading = false;
 	var page = 1;
-	
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-	
+	    SelectList("${genres}" , "${searchWord}");
+	    $("#search-field").val("${searchWord}");
 	});
 
 
@@ -164,37 +151,38 @@
 	});
 	//------------------------------------------
 
-		 $("#search_btn").on("click", function(e) {
+	$("#search_btn").on("click", function(e) {
 
 		 // 날짜값 가져오기
-		 console.log($("#search-field").val());
+		 var searchWord = $("#search-field").val();
+		 $("#event_cards").empty();
 		 // 체크박스 값 가져오기
 		 checkStr = "";
 			for(i = 1; i <= optionsLen; i++) {
 				if($("#option"+i).prop("checked") == true){
-					checkStr += $("#option"+i).val()+","
-					}
+				checkStr += $("#option"+i).val()+","
+				}
+		     }
 			
-	        }
-	
-		 console.log(checkStr);
-		 var date = $("#my_calendar").val();	 
-		 console.log(date);
+			 SelectList(checkStr,searchWord);	
+		});
 
+	function SelectList(genreStr ,searchWord ){
+		  
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
 			    dataType:"json", 
-			    data:{"searchWord":	$("#search-field").val(),
+			    data:{"searchWord":	searchWord,
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
-			    	  "genreStr" :  checkStr,
-			    	  //"pageNum"  : pageNum++,
-			    	  //"pageSize" : pageSize		 	   
+			    	  "genreStr" :  genreStr,
+			    	  "pageNum"  : page,
+			    	  "pageSize" : 2		 	   
 			    },
 			    success:function(data){ //성공
-				   alert("일단성공");
+			    	
 			       console.log("data="+data);
-			 	  $("#event_cards").empty();
+			 	 
 			 	 	drawCards(data);  
 			    },
 			    error:function(xhr,status,error){
@@ -205,7 +193,7 @@
 		});//--ajax	
 		 
 		
-	});
+	}
 
 /* 	 $(document).on("click","button[name=seleted_seq]",function(){
 			var eventSeq = $(this).val();
@@ -219,10 +207,15 @@
 
 			
 	function drawCards(data){
-		var html  = "";		
+		var html  = "";	
+		if(data.length < 1){
+			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
+			flag = false;
+		}else{
+
 	 	$.each(data, function(i, value) {
 		 	console.log(data);
-        html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+        html += ' <hr/><div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
         html += '<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">';  //이미지 일단 보류
 		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
 		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
@@ -230,14 +223,28 @@
 		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
-		html +=  '</div></div>' 
+		html +=  '</div></div>'
 	 	}); 
+		}
 		$("#event_cards").append(html);		 	  
 	}
 
 
 		function next_load(){
+			 var searchWord = $("#search-field").val();
+			 // 체크박스 값 가져오기
+			 checkStr = "";
+				for(i = 1; i <= optionsLen; i++) {
+					if($("#option"+i).prop("checked") == true){
+					checkStr += $("#option"+i).val()+","
+					}
+			     }
 				page++;
+				if(flag ==true){
+					SelectList(checkStr,searchWord);
+				}
+					
+				
 				console.log("=page="+page);
 				loading = false;
 				
@@ -245,7 +252,7 @@
 
 
 		 $(window).scroll(function(){
-		        if($(window).scrollTop()+200>=$(document).height() - $(window).height())
+		        if($(window).scrollTop() == $(document).height() - $(window).height())
 		        {
 		            if(!loading)    //실행 가능 상태라면?
 		            {
