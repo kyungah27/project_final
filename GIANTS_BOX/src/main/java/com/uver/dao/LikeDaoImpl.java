@@ -17,7 +17,7 @@ public class LikeDaoImpl implements LikeDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 
-	private final String NAMESPACE = "com.uver";
+	private final String NAMESPACE = "com.uver.like";
 
 	public LikeDaoImpl() {
 	}

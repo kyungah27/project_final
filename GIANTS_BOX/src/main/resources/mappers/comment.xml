@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.uver">
+<mapper namespace="com.uver.comment">
 	<insert id="doInsert" parameterType="CommentVO">
 		INSERT INTO comment_tb (
 		comment_seq,
@@ -12,18 +12,60 @@
 		mod_dt,
 		like_cnt
 		) VALUES (
-		:v0,
-		:v1,
-		:v2,
-		:v3,
-		:v4,
-		:v5,
-		:v6,
-		:v7
-		);
+		#{commentSeq},
+		#{seq},
+		#{div},
+		#{content},
+		SYSDATE,
+		#{regId},
+		SYSDATE,
+		#{likeCnt}
+		)
 	</insert>
-
-
-
+	<delete id="doDelete" parameterType="CommentVO">
+		DELETE FROM comment_tb
+		WHERE
+		comment_seq = #{commentSeq}
+	</delete>
+	<update id="doUpdate" parameterType="CommentVO">
+		UPDATE comment_tb
+		SET
+		content= #{content},
+		mod_dt = SYSDATE
+		WHERE
+		comment_seq = #{commentSeq}
+	</update>
+	<select id="doSelectOne" parameterType="CommentVO"
+		resultType="CommentVO">
+		SELECT
+		comment_seq,
+		seq,
+		div,
+		content,
+		TO_CHAR(reg_dt,'YYYY-MM-DD HH24:MI:SS') AS regDt,
+		reg_id,
+		TO_CHAR(mod_dt,'YYYY-MM-DD HH24:MI:SS') AS modDt,
+		like_cnt
+		FROM
+		comment_tb
+		WHERE comment_seq = #{commentSeq}
+	</select>
+	<select id="doSelectList" parameterType="CommentVO"
+		resultType="CommentVO">
+		SELECT
+		comment_seq AS commentSeq,
+		seq,
+		div,
+		content,
+		TO_CHAR(reg_dt,'YYYY-MM-DD HH24:MI:SS') AS regDt,
+		reg_id AS regId,
+		TO_CHAR(mod_dt,'YYYY-MM-DD HH24:MI:SS') AS modDt,
+		like_cnt
+		FROM
+		comment_tb
+		WHERE seq = #{seq}
+		AND div=#{div}
+		ORDER BY mod_dt DESC
+	</select>
 
 </mapper>
