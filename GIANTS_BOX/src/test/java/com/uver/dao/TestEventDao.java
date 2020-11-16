@@ -50,9 +50,9 @@ public class TestEventDao {
     	LOG.debug("** context **"+context);
     	LOG.debug("** eventDao **"+eventDao);
 		
-		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "201113","test_01","코미디");
-		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "201113","test_02","공포");
-		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "201113","test_03","드라마");
+		event01 = new EventVO(10, "test_01", "새모임01", "새로운모임01", 15, "영화01", "", "", "서울", "", "2020-11-20 00:00:00","test_01","코미디");
+		event02 = new EventVO(20, "test_02", "새모임02", "새로운모임02", 15, "영화02", "", "", "경기", "", "2020-11-20 00:00:00","test_02","공포");
+		event03 = new EventVO(30, "test_03", "새모임03", "새로운모임03", 15, "영화03", "", "", "인천", "", "2020-11-20 00:00:00","test_03","드라마");
 	}
 	
 	@Test
@@ -72,6 +72,7 @@ public class TestEventDao {
 	
 	
 	@Test
+	@Ignore
 	public void doSeletList() {
 			
 		Search search = new Search("10", "새모임", "20201113", 10, 1);
@@ -114,15 +115,15 @@ public class TestEventDao {
 	public void doDelete() {
 		event01.setEventSeq(10);
 		int flag = eventDao.doDelete(event01);
-		event02.setEventSeq(20);
-		flag = eventDao.doDelete(event02);
-		event03.setEventSeq(30);
-		flag = eventDao.doDelete(event03);
-		assertThat(flag, is(1));
+		//event02.setEventSeq(20);
+		//flag = eventDao.doDelete(event02);
+		//event03.setEventSeq(30);
+		//flag = eventDao.doDelete(event03);
+		//assertThat(flag, is(1));
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doInsert() {
 		int flag = eventDao.doInsert(event01);
 		assertThat(flag, is(1));

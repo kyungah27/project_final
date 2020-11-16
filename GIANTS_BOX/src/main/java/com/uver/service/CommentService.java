@@ -39,4 +39,8 @@ public interface CommentService {
 	 * @return
 	 */
 	public List<CommentVO> doSelectList(CommentVO commentVO);
+
+	public int likeCntUp(CommentVO commentVO);
+
+	public int likeCntDown(CommentVO commentVO);
 }

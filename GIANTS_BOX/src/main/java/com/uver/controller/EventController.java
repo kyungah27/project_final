@@ -3,6 +3,7 @@ package com.uver.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +14,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
 import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
+import com.uver.service.EventImgService;
 import com.uver.service.EventService;
+import com.uver.service.JoinService;
 import com.uver.vo.EventVO;
+import com.uver.vo.JoinVO;
+import com.uver.vo.MemberVO;
 
 @Controller("EventController")
 public class EventController {
@@ -34,6 +41,12 @@ public class EventController {
 
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	JoinService joinService;
+
+	@Autowired
+	EventImgService eventImgService;
 
 	@Autowired
 	MessageSource messageSource;
@@ -41,20 +54,35 @@ public class EventController {
 	public EventController() {
 	}
 
-	@RequestMapping(value = "event/event_view.do", method = RequestMethod.GET)
-	public String eventView() {
-
-		return "event/event_reg";
+	//------------------------------------------------------------------
+	//--- event_update 이동
+	@RequestMapping(value="event_update.do", method=RequestMethod.GET)
+	public ModelAndView goEventUpdate(@RequestParam("eventSeq") int eventSeq) {
+		LOG.debug("-------------------");
+		LOG.debug("goEventUpdate()");
+		LOG.debug("-------------------");
+		
+		EventVO inVO = new EventVO();
+		inVO.setEventSeq(eventSeq);
+		
+		EventVO outVO = this.eventService.doSelectOne(inVO);
+		int imgSeq = this.eventImgService.doSelectThumbnail(eventSeq);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("event", outVO);
+		mav.addObject("imgSeq", imgSeq);
+		mav.setViewName("event_update");
+		return mav;
 	}
-
-
+	
+	
+	
+	//--- event insert 하기
 	@RequestMapping(value="event/doInsert.do",
 			method = RequestMethod.POST,
 			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(@RequestBody EventVO event) {
-		
-
+	public String doInsert(@RequestBody EventVO event, HttpSession session) {
 		LOG.debug("=================");
 		LOG.debug("=event=" + event);
 		LOG.debug("=================");
@@ -63,16 +91,25 @@ public class EventController {
 		LOG.debug("=================");
 		LOG.debug("=seq="+seq);
 		LOG.debug("=================");
-
-		// 메시지 처리
-		Message message = new Message();
-
-		message.setMsgId(seq+"");
 		
-		if(seq > 0) {
-			message.setMsgContents("새로운 모임이 등록되었습니다.");
-		} else {
-			message.setMsgContents("등록에 실패하였습니다.");
+		Message message = new Message();
+		
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			int memberSeq = memberVO.getSeq();
+			int eventSeqInt = event.getEventSeq();
+			
+			JoinVO join = new JoinVO(eventSeqInt, memberSeq, 1);
+			this.joinService.doInsert(join);
+			// 메시지 처리
+			message.setMsgId("eventSeq");
+			
+			if(seq > 0) {
+				message.setMsgContents(eventSeqInt+"");
+			} else {
+				message.setMsgContents("등록 실패");
+			}
 		}
 
 		Gson gson = new Gson();
@@ -82,12 +119,76 @@ public class EventController {
 		LOG.debug("==================");
 
 		return json;
+		
 	}
+	
+	
+	
+	//---url 통일하려고 하단 doSelecOne 부분 조금 바꿔서 메서드 작성
+	//---event_view.do?eventSeq=번호----------
+	//--- 1개 이벤트 페이지로 이동
+	@RequestMapping(value="event_view.do", method = RequestMethod.GET)
+	public ModelAndView goEventView(HttpSession session,
+			@RequestParam String eventSeq) {
+		LOG.debug("-------------------");
+		LOG.debug("eventView()");
+		LOG.debug("-------------------");
+		
+		
+		int memberSeq = 0;
+		ModelAndView mav = new ModelAndView();
+		
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			memberSeq = memberVO.getSeq();
+			int eventSeqInt = Integer.parseInt(eventSeq);
+		
+			// event
+			EventVO inVO = new EventVO();
+			inVO.setEventSeq(eventSeqInt);
+			EventVO outVO = this.eventService.doSelectOne(inVO);
+			mav.addObject("eventVO", outVO);
+			
+			// member list
+			JoinVO joinVO = new JoinVO();
+			joinVO.setEventSeq(eventSeqInt);
+			joinVO.setMemberSeq(memberSeq);
+			
+			int joinCheck = joinService.checkJoin(joinVO);
+			List<JoinVO> joinList = joinService.doSelectList(joinVO);
+			int joinCount = joinList.size();
+			mav.addObject("joinCount", joinCount);
+			mav.addObject("joinCheck", joinCheck);
+	
+			// movie 
+			String movieId = outVO.getMovieInfo().substring(0, 1);
+			String movieSeq = outVO.getMovieInfo().substring(1);
+			mav.addObject("movieId", movieId);
+			mav.addObject("movieSeq", movieSeq);
+			
+			// img
+			int imgSeq = this.eventImgService.doSelectThumbnail(eventSeqInt);
+			mav.addObject("imgSeq", imgSeq);
+			
+			mav.setViewName("event_view");
+			return mav;
+		}
+		
+		mav.setViewName("index"); //user 값 없으면 index로
+		return mav;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 	@RequestMapping(value = "event/doDelete.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-
-	
 	@ResponseBody
 	public String doDelete(EventVO event) {
 		LOG.debug("=================");
@@ -114,15 +215,18 @@ public class EventController {
 		return json;
 	}
 
-	@RequestMapping(value = "event/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	//---goEventView 메서드로 통합함-----------------------------
+	@RequestMapping(value = "event/doUpdate.do",
+			method = RequestMethod.POST,
+			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(EventVO event) {
-		LOG.debug("1==================");
+	public String doUpdate(@RequestBody EventVO event) {
+		LOG.debug("==================");
 		LOG.debug("=event=" + event);
 		LOG.debug("==================");
 
 		int flag = this.eventService.doUpdate(event);
-		LOG.debug("2==================");
+		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
 
@@ -137,34 +241,57 @@ public class EventController {
 
 		Gson gson = new Gson();
 		String json = gson.toJson(message);
-		LOG.debug("3==================");
+		LOG.debug("==================");
 		LOG.debug("=json=" + json);
 		LOG.debug("==================");
 		return json;
 	}
+	//----------------------------------------------------
+	
+
 
 	@RequestMapping(value = "event/doSelectOne.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doSelectOne(EventVO event) {
+	public String doSelectOne(Model model , HttpServletRequest req) {
 		LOG.debug("==================");
-		LOG.debug("=event=" + event);
-		LOG.debug("==================");
+		  int memberSeq = 0;
+		  HttpSession session = req.getSession();
+		  if(session.getAttribute("user") !=null) {
+			  MemberVO memberVO =(MemberVO)session.getAttribute("user");
+			  LOG.debug(memberVO.toString());
+			  memberSeq =  memberVO.getSeq();
+		  }
+	
 
-		EventVO outVO = this.eventService.doSelectOne(event);
+		  String seletedSeq = (String) req.getParameter("seleted_seq");
+		
+		  EventVO inVO = new EventVO();
+		  inVO.setEventSeq(Integer.parseInt(seletedSeq));
+		  EventVO outVO = this.eventService.doSelectOne(inVO);
+		  
+		  
+		  JoinVO joinVO = new JoinVO();
+		  joinVO.setEventSeq(Integer.parseInt(seletedSeq));
+		  joinVO.setMemberSeq(memberSeq);
+		  int joinCheck = joinService.checkJoin(joinVO);
+		  List<JoinVO> joinList = joinService.doSelectList(joinVO);
+		  int joinCount = joinList.size();
+		  model.addAttribute("joinCount", joinCount);
+		  model.addAttribute("joinCheck", joinCheck);
+		  
+		  
+		  String movieId  =outVO.getMovieInfo().substring(0,1);
+		  String movieSeq  = outVO.getMovieInfo().substring(1);
+		  model.addAttribute("movieId", movieId);
+		  model.addAttribute("movieSeq", movieSeq);
+		  model.addAttribute("eventVO", outVO);
+		
 
-		LOG.debug("==================");
-		LOG.debug("=outVO=" + outVO);
-		LOG.debug("==================");
-
-		Gson gson = new Gson();
-		String json = gson.toJson(outVO);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
+		  return "event_view";
 	}
 
+	
+	
+	
 	@RequestMapping(value = "event/doSelectList.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req) {

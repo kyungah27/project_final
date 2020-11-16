@@ -9,21 +9,24 @@
 			<div class="block-heading">
 				<h2 class="text-primary">My account</h2>
 			</div>
+			
 			<form onsubmit="return false;">
 				<div class="form-group">
 					<label for="name" id ="id_label">Id</label><input class="form-control item"
-						type="text" style="background-color:#E6E6E6" id="id" readonly value="${sessionScope.user.userId}" >
-						
+						type="text" style="background-color:#E6E6E6" id="id" value="${sessionScope.user.userId}" readonly >
 				</div>
-				
-				
 				<div class="form-group">
 					<label for="name" id ="name_label">Name</label><input class="form-control item"
 						type="text" id="name" value="${sessionScope.user.name}">
 				</div>
 				<div class="form-group" >
-					<label for="password"  id ="password_label">Password(대문자,소문자,특수문자,숫자를 조합해 8자리 이상 작성해주세요)</label><input
-						class="form-control item" type="password" id="password" value="${sessionScope.user.password}">
+					<label for="password"  id ="password_label">Password</label><input
+						class="form-control item" type="password" id="password" placeholder='영문자,숫자,특수문자를 조합해 8자리 이상 작성'>
+				</div>
+				<div class="form-group" >
+					<label for="password"  id ="newPassword_label">New Password(영문자,숫자,특수문자를 조합해 8자리 이상 작성)</label><input
+						class="form-control item" type="password" id="newPassword" placeholder='새비밀번호'><input
+						class="form-control item" type="password" id="newPassword1" placeholder='새비밀번호확인'>
 				</div>
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
@@ -38,12 +41,13 @@
 					</div>
 				</div>
 				
-				<div class="col-lg-6" style ="float: left; width: 50%;">
-				<button class="btn btn-primary btn-block"  id="doUpdate">회원정보수정</button>
-				</div>
-				<div class="col-lg-6" style = "float: left; width: 50%;">
-				<button class="btn btn-primary btn-block"  id="doDelete">회원탈퇴</button>
-				
+				<div class="form-group row">
+					<div class="col-lg-6 mb-lg-0 mb-3">
+						<button class="btn btn-primary btn-block" type="button"  id="doUpdate">회원정보수정</button>
+					</div>
+					<div class="col-lg-6">
+						<button class="btn btn-primary btn-block" type="button"  id="doDelete">회원탈퇴</button>
+					</div>
 				</div>
 			</form>
 			
@@ -56,8 +60,9 @@
 
     //회원정보수정
 	$("#doUpdate").on("click", function() {
-		 
-		
+		 alert("doInset");
+         alert($("#newPassword").val());
+			
 		var name = $("#name").val();
 		name = name.trim();
 		if (null == name || name.length == 0) {
@@ -70,10 +75,29 @@
 		var password = $("#password").val();
 		password = password.trim();
 		if (null == password || password.length == 0) {
-			$("#password").focus();
 			alert("비밀번호를 입력 하세요.");//{0} 입력하세요.
+
+			$("#password").focus();
 			return;
 		}
+			
+		if("${sessionScope.user.password}"!=(password)){
+			alert("비밀번호를 확인 하세요.");
+			$("#password").focus();
+			return;
+		}
+
+		var newPassword = $("#newPassword").val();
+		var newPassword1 = $("#newPassword1").val();
+		passwordConf = newPassword.trim();
+		passwordConf = newPassword1.trim();
+		if (newPassword != newPassword1) {
+			$("#newPassword").focus();
+			alert("새비밀번호를 확인 하세요.");//{0} 입력하세요.
+			$("#newPassword_label").css("color","red");
+			return;
+		}
+
 
 		var email = $("#email").val();
 		email = email.trim();
@@ -110,8 +134,9 @@
 			data : {
 				
 				"seq":${sessionScope.user.seq},
+				"userId":$("#id").val(),
 				"name":$("#name").val(),
-				"password":$("#password").val(),
+				"password":$("#newPassword").val(),
 				"cellPhone":$("#phone").val(),
 				"birthday":$("#birthday").val(),
 				"email":$("#email").val(),
@@ -127,7 +152,7 @@
 				alert(obj.msgContents);
 				if(obj.msgId == 1){
 				}else{
-					$("#password_label").css("color","red");
+					$("#newPassword_label").css("color","red");
 				}
 				
 				
@@ -150,7 +175,7 @@
     
 	//회원정보삭제
 	    $("#doDelete").on("click", function() {
-		
+	    	
 		if (confirm("정말 삭제하시겠습니까??") == false) return false;
 		
 		$.ajax({
@@ -167,6 +192,7 @@
 				var obj = JSON.parse(data);
 				//alert(obj.msgContents);
 				alert(obj.msgContents);
+				window.location.href="${context}/login.do";
 					
 			},
 			error : function(xhr, status, error) {

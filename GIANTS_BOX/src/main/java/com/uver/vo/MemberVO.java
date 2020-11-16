@@ -1,6 +1,8 @@
 package com.uver.vo;
 
-public class MemberVO {
+import com.uver.cmn.DTO;
+
+public class MemberVO extends DTO {
 
 	/**순번*/
 	private int seq;

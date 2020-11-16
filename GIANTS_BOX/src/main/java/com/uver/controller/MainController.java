@@ -6,7 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.uver.vo.MemberVO;
 
@@ -14,6 +18,16 @@ import com.uver.vo.MemberVO;
 public class MainController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 
+	//--- 리뷰페이지 이동
+		@RequestMapping(value="review.do")
+		public String goReview(HttpServletRequest req) {
+			LOG.debug("-------------------");
+			LOG.debug("review()");
+			LOG.debug("-------------------");
+			
+			return "review";
+		}
+	
 	
 	//--- 메인페이지로 이동
 	@RequestMapping(value="main.do")
@@ -61,24 +75,20 @@ public class MainController {
 	}
 	
 	//--- 1개 이벤트 페이지로 이동
-	@RequestMapping(value="event_list.do")
-	public String goEventList() {
+	@RequestMapping(value="event_list.do",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String goEventList(Model model , HttpServletRequest req) {
 		LOG.debug("-------------------");
 		LOG.debug("goEventList()");
 		LOG.debug("-------------------");
+		String genres = (String) req.getParameter("genres");
+		String searchWord = (String) req.getParameter("searchWord");
+		model.addAttribute("genres", genres);
+		model.addAttribute("searchWord", searchWord);
+		LOG.debug("SearchToGenre   :" + genres);
 		
 		return "event_list";
 	}
 	
-	//--- 1개 이벤트 페이지로 이동
-	@RequestMapping(value="event_view.do")
-	public String goEventView() {
-		LOG.debug("-------------------");
-		LOG.debug("eventView()");
-		LOG.debug("-------------------");
-		
-		return "event_view";
-	}
 	
 	//--- 이벤트 등록 페이지로 이동
 	@RequestMapping(value="event_reg.do")
@@ -86,7 +96,6 @@ public class MainController {
 		LOG.debug("-------------------");
 		LOG.debug("eventReg()");
 		LOG.debug("-------------------");
-		
 		return "event_reg";
 	}
 	
@@ -100,15 +109,7 @@ public class MainController {
 		return "my_event";
 	}
 
-	//--- event_update 이동
-	@RequestMapping(value="event_update.do")
-	public String goEventUpdate() {
-		LOG.debug("-------------------");
-		LOG.debug("goEventUpdate()");
-		LOG.debug("-------------------");
-		
-		return "event_update";
-	}
+
 	
 	
 	/**

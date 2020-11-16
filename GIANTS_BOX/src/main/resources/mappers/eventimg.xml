@@ -84,6 +84,19 @@
 	
 	
 	
+	
+	<!-- [SELECT THUMBNAIL IMG SEQ] -->
+	<select id="doSelectThumbnail" parameterType="int" resultType="int">
+		SELECT ei.img_seq as imgSeq
+		FROM event_image ei, image i
+		WHERE ei.img_seq = i.img_seq
+		AND ei.event_seq = #{eventSeq}
+        AND i.is_thumbnail = 'y'
+	</select>
+	
+	
+	
+	
 		
 	<!-- [SELECT ONE] -->
 	<select id="doSelectOne" parameterType="int" resultMap="eventImgResultMap">

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uver.member">
+	<sql id="memberColumns">
+		seq,                                           
+		user_Id AS userId,                                           
+		name,                                         
+		password,                                      
+		email,                                      
+		cell_phone AS cellPhone,
+		birthday,
+		auth,                                        
+		TO_CHAR(reg_dt,'yyyy/mm/dd hh24:mi:ss') regDt,
+		genre                                
+   </sql>
+
+
+
+
+
+<!-- 등록 : -->
+	<insert id="doInsert" parameterType="MemberVO">
+		INSERT INTO member (
+			seq,             
+		    user_Id,         
+		    name,            
+		    password,        
+		    email,           
+		    cell_phone,      
+		    birthday,        
+		    auth,            
+		    reg_dt,          
+		    genre           
+  		 )VALUES(           
+  			seq_member.NEXTVAL,
+		    #{userId},            
+		    #{name},           
+		    #{password},             
+		    #{email},               
+		    #{cellPhone},               
+		    #{birthday},               
+		    #{auth},              
+		    SYSDATE,        
+		    #{genre}
+		 )    
+	</insert>
+	
+	<!-- 삭제: namespace+id =-->
+	<delete id="doDeleteOne" parameterType="MemberVO">
+	    <![CDATA[
+		DELETE FROM member
+		WHERE seq = #{seq}
+		]]> 
+	</delete>
+	
+	<!-- 단건조회: id로-->
+    <select id="doSelectOneById" parameterType="MemberVO" resultType="MemberVO">
+		 SELECT <include refid="memberColumns"/>      
+		 FROM  member                                           
+		 WHERE user_id = #{userId}                                             
+    </select>
+    
+    <!-- 단건조회: seq로-->
+    <select id="doSelectOne" parameterType="MemberVO" resultType="MemberVO">
+		 SELECT <include refid="memberColumns"/>      
+		 FROM  member                                           
+		 WHERE seq = #{seq}                                             
+    </select>
+	
+	<!-- 수정 -->
+   <update id="doUpdate" parameterType="MemberVO">
+		UPDATE member     
+	    SET               
+		    name   	  	= #{name,jdbcType=VARCHAR}
+		    ,user_id    = #{userId,jdbcType=VARCHAR}
+		    ,password    = #{password,jdbcType=VARCHAR}
+		    ,email  	  	= #{email,jdbcType=VARCHAR}
+		    ,cell_phone  = #{cellPhone,jdbcType=VARCHAR}
+		    ,birthday    = #{birthday,jdbcType=VARCHAR}
+		    ,genre   	= #{genre,jdbcType=VARCHAR}
+		    ,auth   	  	= #{auth,jdbcType=VARCHAR} 
+	    WHERE  seq      = #{seq,jdbcType=INTEGER}       
+   </update>
+
+	
+	<!-- 목록조회 -->
+   <!-- om.sist.ehr.board.doSelectList -->
+   <select id="doSelectListAll" resultType="MemberVO">
+		SELECT          
+	    seq,            
+	    user_id as userId,        
+	    name,           
+	    password,       
+	    email,          
+	    cell_phone as cellPhone,     
+	    birthday,       
+	    genre,          
+	    auth,           
+	    reg_dt          
+		FROM member
+   </select>
+
+</mapper>

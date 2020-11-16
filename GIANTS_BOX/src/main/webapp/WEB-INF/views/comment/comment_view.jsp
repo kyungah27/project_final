@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="context" value="${pageContext.request.contextPath }"></c:set>
 
 <!DOCTYPE html>
@@ -42,7 +43,8 @@
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
-			<b>comment list</b>
+			<b>comment list</b> <b>( <b id="count"> </b> )
+			</b> <br />
 			<hr />
 			<!-- json에 추가해주기 -->
 			<%-- <div>
@@ -110,7 +112,6 @@
 						commentList();
 						document.getElementById("content").value = '';
 					}
-					//moveToListView()
 				},
 				error : function(xhr, status, error) {
 					alert(meesage.msgContents);
@@ -125,8 +126,7 @@
 		function commentList() {//10:이벤트 20:이벤트 후기
 
 			var url = "${context}/comment/doSelectList.do"
-			$
-					.ajax({
+			$.ajax({
 						type : "get", //get방식으로 자료를 전달한다
 						url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
 						data : {
@@ -136,36 +136,37 @@
 						success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
 
 							var commentList = data;//JSON.parse(data);
-							console.log("commentList=" + commentList);
+							var length = commentList.length;
+							var cnt=commentList.likeCnt;
+							console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>cnt"+commentList.likeCnt);
+							$("#count").empty();
+							$("#count").append('<b>' + length + '</b>');
+							$("#cnt").append('<b>' +cnt  + '</b>');
+
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$
-										.each(
-												commentList,
-												function(i, vo) {
-													console.log(vo.commentSeq);
-													console.log(vo.content);
-													console.log(vo.modDt);
+								$.each(commentList,function(i, vo) {
+													//console.log(vo.commentSeq);
+													//console.log(vo.content);
+													//console.log(vo.modDt);
+													console.log(vo.cnt);
 													html += '<span>'
 													html += '<strong>'
 															+ vo.regId + ""
 															+ '</strong>';
-													html += '<button id="like" style="background-color: #ffffff; float: right; border: none;">';
-													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>'
-													html += '</button>'
+													html += '<button onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
+													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>';
+													html += '</button>';
+													html += vo.likeCnt
 													html += '</span>'
 													html += '<br/>';
-													html += '<div>'
-															+ vo.content
-															+ '</div>';
+													html += '<div>'+ vo.content+ '</div>';
 													html += '<br/>';
 													html += '<p>';
 													html += '<span>';
 													html += vo.modDt;
-													html += '<input type="button" onclick="commentdelete('
-															+ vo.commentSeq
-															+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
+													html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
 													html += '<input type="button" class="mr-1 btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
 												});
@@ -211,6 +212,33 @@
 
 			});//--ajax
 		}
+		function like(commentSeq){
+			console.log("======like====== ");
+			//  var frm_read = $('#frm_read');
+			 // var commentSeq = $('#commentSeq', frm_read).val();
+			 // var mno = $('#memberSeq', frm_read).val();
+			  var url = "${context}/comment/like.do"
+		
+			  console.log("commentSeq : " + commentSeq );
+			  
+			  $.ajax({
+			    url: url,
+			    type: "GET",
+			    dataType: "html",
+			    data: {"commentSeq" : commentSeq},//+'&memberSeq=' +memberSeq,
+			    success: function(data) {
+					var obj = JSON.parse(data);
+
+			    	$("#commentList").empty();
+					commentList();
+			  
+			    },
+			    error : function(xhr, status, error) {
+					//alert(meesage.msgContents);
+				}
+			  });
+			}
+
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
 			console.log("document ready");
