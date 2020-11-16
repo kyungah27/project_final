@@ -99,7 +99,7 @@ public class TestEventController {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void doUpdate() throws Exception {
 		
 		//eventDaoImpl.doDelete(events.get(0));
