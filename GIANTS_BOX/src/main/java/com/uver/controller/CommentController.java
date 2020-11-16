@@ -186,61 +186,32 @@ public class CommentController {
 		likeVO.setCommentSeq(commentSeq);
 		// 세션으로 로그인한 사용자로 변경
 		likeVO.setMemberSeq(141);
-		/*
-		 * HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		 * hashMap.put("commentSeq", commentSeq); hashMap.put("memberSeq", memberSeq);
-		 */
+
 		LikeVO outVO = likeService.read(likeVO);
-		
+
 		// likeVO가 null(0) 이면 좋아요에 인서트.
 		CommentVO commentVO = new CommentVO();
-		if(null == outVO) {
+		if (null == outVO) {
 			// 좋아요 인서트.
 			likeVO.setLikeCheck(1);
 			likeService.doInsert(likeVO);
-			
+
 			// 댓글 좋아요 카운트 증가.
 			commentVO = commentService.doSelectOne(commentSeq);
-			commentVO.setLikeCnt(commentVO.getLikeCnt()+1);
+			commentVO.setLikeCnt(commentVO.getLikeCnt() + 1);
 			commentService.likeCntUp(commentVO);
 			obj.put("likeCheck", 1);
 		} else {
-			//널이 아니면. 좋아요 수 감소.
+			// 널이 아니면. 좋아요 수 감소.
 			commentVO = commentService.doSelectOne(commentSeq);
-			commentVO.setLikeCnt(commentVO.getLikeCnt()-1);
+			commentVO.setLikeCnt(commentVO.getLikeCnt() - 1);
 			commentService.likeCntDown(commentVO);
 			likeService.deleteMemberSeq(outVO.getMemberSeq());
 			obj.put("likeCheck", 0);
 		}
 		// 좋아요 수를 리턴.
 		obj.put("likeCnt", commentVO.getLikeCnt());
-		
 
-//		CommentVO commentVO = commentService.doSelectOne(commentSeq);
-//		int likeCnt = commentVO.getLikeCnt(); // 게시판의 좋아요 카운트 int likeCheck = 0; likeCheck =
-//		likeVO.getLikeCheck(); // 좋아요 체크 값
-//
-//		if (likeService.countLike(likeVO) == 0) {
-//			likeService.doInsert(likeVO);
-//		}
-
-//		if (likeCheck == 0) {
-//			msgs.add("좋아요!");
-//			likeService.likeCheck(likeVO);
-//			likeCheck++;
-//			likeCnt++;
-//			commentService.likeCntUp(commentSeq); // 좋아요 갯수 증가
-//		} else {
-//			msgs.add("좋아요 취소");
-//			likeService.likeCheckCancel(likeVO);
-//			likeCheck--;
-//			likeCnt--;
-//			commentService.likeCntDown(commentSeq); // 좋아요 갯수감소 }
-//			obj.put("commentSeq", likeVO.getCommentSeq());
-//			obj.put("likeCheck", likeCheck);
-//			obj.put("likeCnt", likeCnt);
-//			obj.put("msg", msgs);
-//		}
 		return obj.toJSONString();
 	}
 	// 업데이트 테스트 못짜겠고

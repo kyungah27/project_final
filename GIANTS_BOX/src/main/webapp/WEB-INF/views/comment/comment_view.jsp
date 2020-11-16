@@ -126,8 +126,7 @@
 		function commentList() {//10:이벤트 20:이벤트 후기
 
 			var url = "${context}/comment/doSelectList.do"
-			$
-					.ajax({
+			$.ajax({
 						type : "get", //get방식으로 자료를 전달한다
 						url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
 						data : {
@@ -138,21 +137,20 @@
 
 							var commentList = data;//JSON.parse(data);
 							var length = commentList.length;
-
+							var cnt=commentList.likeCnt;
+							console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>cnt"+commentList.likeCnt);
 							$("#count").empty();
 							$("#count").append('<b>' + length + '</b>');
-							console.log(length);
+							$("#cnt").append('<b>' +cnt  + '</b>');
 
 							var html = "";
 
 							if (null != commentList && commentList.length > 0) {
-								$
-										.each(
-												commentList,
-												function(i, vo) {
-													console.log(vo.commentSeq);
-													console.log(vo.content);
-													console.log(vo.modDt);
+								$.each(commentList,function(i, vo) {
+													//console.log(vo.commentSeq);
+													//console.log(vo.content);
+													//console.log(vo.modDt);
+													console.log(vo.cnt);
 													html += '<span>'
 													html += '<strong>'
 															+ vo.regId + ""
@@ -160,7 +158,7 @@
 													html += '<button onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
 													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>';
 													html += '</button>';
-													html += (vo.likeCnt)
+													html += vo.likeCnt
 													html += '</span>'
 													html += '<br/>';
 													html += '<div>'+ vo.content+ '</div>';
@@ -216,7 +214,7 @@
 		}
 		function like(commentSeq){
 			console.log("======like====== ");
-			  var frm_read = $('#frm_read');
+			//  var frm_read = $('#frm_read');
 			 // var commentSeq = $('#commentSeq', frm_read).val();
 			 // var mno = $('#memberSeq', frm_read).val();
 			  var url = "${context}/comment/like.do"
@@ -231,59 +229,16 @@
 			    success: function(data) {
 					var obj = JSON.parse(data);
 
-			    	alert(obj.likeCnt);
-					
-			    /*   var msg = '';
-			      var like_img = '';
-			      msg += data.msg;
-			      alert(msg);
-			      
-			      if(data.likeCheck == 0){
-			        like_img = "${context}/resources/img/comment/heart.png";
-			        $("#commentList").empty();
+			    	$("#commentList").empty();
 					commentList();
-			      } else {
-			        like_img = "${context}/resources/img/comment/fullheart.png";
-			      }      
-			      $('#like_img', frm_read).attr('src', like_img);
-			      $('#like_cnt').html(data.like_cnt);
-			      $('#like_check').html(data.like_check); */
+			  
 			    },
 			    error : function(xhr, status, error) {
 					//alert(meesage.msgContents);
 				}
 			  });
 			}
-	/* 	function like() {
-			console.log("like");
-			var url = "${context}/comment/like.do"
-				$.ajax({
-					type : "GET",//데이터를 보낼 방식
-					url : url,//데이터를 보낼 url
-					dataType : "html",
-					data : {
-						"commentSeq" : 85,
-						"memberSeq"	:1
-					},//보낼 데이터
-					success : function(data) { //성공
-						console.log("data=" + data);
-						console.log("commentSeq=" + commentSeq);
-						if (data != null) {
-							alert("좋아요");
-							$("#commentList").empty();
-							commentList();
-						} else {
-							alert("좋아요 실패");
-						}
 
-					},
-					error : function(xhr, status, error) {
-						alert(meesage.msgContents);
-					}
-
-				});//--ajax
-			
-			} */
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
 			console.log("document ready");
