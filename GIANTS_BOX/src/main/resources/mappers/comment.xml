@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uver.comment">
 	<insert id="doInsert" parameterType="CommentVO">
-	<selectKey keyProperty="commentSeq" resultType="int" order="BEFORE">
+		<selectKey keyProperty="commentSeq" resultType="int"
+			order="BEFORE">
 			SELECT COMMENT_SEQ.NEXTVAL As commentSeq FROM DUAL
 		</selectKey>
 		INSERT INTO comment_tb (
@@ -41,14 +42,14 @@
 	<select id="doSelectOne" parameterType="CommentVO"
 		resultType="CommentVO">
 		SELECT
-		comment_seq,
+		comment_seq as commentSeq,
 		seq,
 		div,
 		content,
 		TO_CHAR(reg_dt,'YYYY-MM-DD HH24:MI:SS') AS regDt,
 		reg_id,
 		TO_CHAR(mod_dt,'YYYY-MM-DD HH24:MI:SS') AS modDt,
-		like_cnt
+		like_cnt AS likeCnt
 		FROM
 		comment_tb
 		WHERE comment_seq = #{commentSeq}
@@ -63,12 +64,25 @@
 		TO_CHAR(reg_dt,'YYYY-MM-DD HH24:MI:SS') AS regDt,
 		reg_id AS regId,
 		TO_CHAR(mod_dt,'YYYY-MM-DD HH24:MI:SS') AS modDt,
-		like_cnt
+		like_cnt AS likeCnt
 		FROM
 		comment_tb
 		WHERE seq = #{seq}
 		AND div=#{div}
 		ORDER BY mod_dt DESC
 	</select>
+	<update id="likeCntUp" parameterType="CommentVO">
+		UPDATE comment_tb
+		SET
+		like_cnt = #{likeCnt}
+		where comment_seq = #{commentSeq}
+	</update>
+	<update id="likeCntDown" parameterType="CommentVO">
+		UPDATE comment_tb
+		SET
+		like_cnt = #{likeCnt}
+		where comment_seq = #{commentSeq}
+	</update>
+
 
 </mapper>

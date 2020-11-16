@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uver.vo.MemberVO;
@@ -71,11 +72,16 @@ public class MainController {
 	}
 	
 	//--- 1개 이벤트 페이지로 이동
-	@RequestMapping(value="event_list.do")
-	public String goEventList() {
+	@RequestMapping(value="event_list.do",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String goEventList(Model model , HttpServletRequest req) {
 		LOG.debug("-------------------");
 		LOG.debug("goEventList()");
 		LOG.debug("-------------------");
+		String genres = (String) req.getParameter("genres");
+		String searchWord = (String) req.getParameter("searchWord");
+		model.addAttribute("genres", genres);
+		model.addAttribute("searchWord", searchWord);
+		LOG.debug("SearchToGenre   :" + genres);
 		
 		return "event_list";
 	}

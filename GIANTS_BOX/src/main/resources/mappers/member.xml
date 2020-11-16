@@ -72,6 +72,7 @@
 		UPDATE member     
 	    SET               
 		    name   	  	= #{name,jdbcType=VARCHAR}
+		    ,user_id    = #{userId,jdbcType=VARCHAR}
 		    ,password    = #{password,jdbcType=VARCHAR}
 		    ,email  	  	= #{email,jdbcType=VARCHAR}
 		    ,cell_phone  = #{cellPhone,jdbcType=VARCHAR}
@@ -80,7 +81,7 @@
 		    ,auth   	  	= #{auth,jdbcType=VARCHAR} 
 	    WHERE  seq      = #{seq,jdbcType=INTEGER}       
    </update>
-	
+
 	
 	<!-- 목록조회 -->
    <!-- om.sist.ehr.board.doSelectList -->
@@ -91,7 +92,7 @@
 	    name,           
 	    password,       
 	    email,          
-	    cell_phone,     
+	    cell_phone as cellPhone,     
 	    birthday,       
 	    genre,          
 	    auth,           

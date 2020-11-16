@@ -78,12 +78,12 @@ public class TestReviewDao {
 	public void test() {
 		int flag = 0;
 		// 삽입		
-		
+		/*
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
-		
+		*/
 		
 		// 삭제
 		/*
@@ -115,15 +115,13 @@ public class TestReviewDao {
 		
 		
 		// 리스트 조회
-		/*
-		Search search = new Search("최규연", "11월");
-
+		
+		Search search = new Search("50", "엄마", "", 10, 1);
+		search.setDiv("10");
+		//LOG.debug(search.getGenreList().toString());
+		
 		List<ReviewVO> list = reviewDao.doSelectList(search);
-		//search.setDiv("10");
-		//assertThat(list.size(), is(9));
-		assertThat(list.size(), is(2));
-		LOG.debug("list.size():"+list.size());
-		*/
+		
 		
 	}//test
 
@@ -142,7 +140,7 @@ public class TestReviewDao {
 		assertThat(inVO.getTitle(), is(vsVO.getTitle()));
 		assertThat(inVO.getContext(), is(vsVO.getContext()));
 		 assertThat(inVO.getReg_dt(), is(vsVO.getReg_dt()));
-		 assertThat(inVO.getReview_div(), is(vsVO.getReview_div()));		
+		 assertThat(inVO.getCategory(), is(vsVO.getCategory()));		
 		assertThat(inVO.getMod_dt(), is(vsVO.getMod_dt()));
 	}
 }
