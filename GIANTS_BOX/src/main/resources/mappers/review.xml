@@ -110,7 +110,7 @@
 		    ,writer = #{writer,jdbcType=VARCHAR}   
 		    ,title = #{title,jdbcType=VARCHAR}    
 		    ,context = #{context,jdbcType=INTEGER}   
-		    ,div = #{div,jdbcType=VARCHAR} 
+		    ,category = #{category,jdbcType=VARCHAR} 
 		    ,mod_dt = SYSDATE   
 		  	WHERE review_seq = #{review_seq,jdbcType=INTEGER} 
 	</update>
@@ -135,7 +135,7 @@
 		    title,          
 		    context,           
 		    reg_dt,            
-		    review_div,         
+		    category,         
 		    mod_dt
 		) VALUES (      
 		    review_seq.NEXTVAL,   
@@ -144,7 +144,7 @@
 		    #{title},                 
 		    #{context},                 		              
 		    SYSDATE,           
-		    #{review_div},                 
+		    #{category},                 
 		    SYSDATE	                   
 		)                      
 	

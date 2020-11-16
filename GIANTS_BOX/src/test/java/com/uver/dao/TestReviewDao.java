@@ -21,9 +21,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.sist.ehr.board.doamin.BoardVO;
+
 import com.uver.cmn.Search;
-import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -38,6 +37,7 @@ public class TestReviewDao {
 	@Qualifier("reviewDaoImpl")
 	ReviewDao reviewDao;
 
+	//추가함
 	@Autowired
 	ReviewDaoImpl reviewDaoImpl;
 	
@@ -54,9 +54,9 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"곽경아", "엄마", "사랑해요", "", "10", "");
-		review02 = new ReviewVO(1, 0, "곽호정", "아빠", "사랑해요", "","20", "");
-		review03 = new ReviewVO(1, 0, "김선희", "이모", "사랑해요", "","20", "");
+		review01 = new ReviewVO(1, 1002,"박민경", "나나", "로로로", "", "영화", "");
+		review02 = new ReviewVO(1, 0, "서지은", "가가", "리리리", "","영화", "");
+		review03 = new ReviewVO(1, 0, "김송이", "테스트", "니니니", "","후기", "");
 		
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -80,18 +80,18 @@ public class TestReviewDao {
 	
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void test() {
 		int flag = 0;
 		// 삽입		
-		/*
+		
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review03);
 		assertThat(flag, is(1));
-		*/
+		
 		
 		// 삭제
 		/*
@@ -110,6 +110,17 @@ public class TestReviewDao {
 		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
 		flag = reviewDao.doUpdate(updateVO);
 		assertThat(flag, is(1));		
+		
+		flag = reviewDao.doUpdate(review01);		
+		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
+		flag = reviewDao.doUpdate(updateVO);
+		assertThat(flag, is(1));		
+		
+		flag = reviewDao.doUpdate(review01);		
+		ReviewVO updateVO = new ReviewVO(86, 1002, "쪼꼼쓰", "수정중", "이벤트 모올라U", "",20, "");
+		flag = reviewDao.doUpdate(updateVO);
+		assertThat(flag, is(1));		
+		
 		*/
 		
 		
@@ -137,7 +148,7 @@ public class TestReviewDao {
 
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void doSelectList(){
 		//1.all삭제
 		//2.3건 입력
@@ -145,20 +156,21 @@ public class TestReviewDao {
 		//4.3건비교
 		
 		//1.
-		this.reviewDaoImpl.doDeleteAll();
+		//this.reviewDaoImpl.doDeleteAll();
 		
 		//2.
-		int flag = reviewDaoImpl.doInsert(review01);
-		assertThat(flag, is(1));
+		//int flag = reviewDaoImpl.doInsert(review01);
+		//assertThat(flag, is(1));
 		
-		flag = reviewDaoImpl.doInsert(review02);
-		assertThat(flag, is(1));
+		//flag = reviewDaoImpl.doInsert(review02);
+		//assertThat(flag, is(1));
 		
-		flag = reviewDaoImpl.doInsert(review03);
-		assertThat(flag, is(1));
+		//flag = reviewDaoImpl.doInsert(review03);
+		//assertThat(flag, is(1));
 		
-		Search search=new Search("10", "H10_",10,1);
-		search.setDiv("10");
+		//Search search=new Search("40", "c",10,1);
+		Search search=new Search("40", "최규연");
+		//search.setDiv("10");
 		
 		List<ReviewVO> list = reviewDaoImpl.doSelectList(search);
 		
