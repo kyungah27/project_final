@@ -61,6 +61,7 @@ public class TestCommentDao {
 
 		// 삽입
 		// flag = dao.doInsert(comment01);
+		//
 		// assertThat(flag, is(1));
 		// flag = dao.doInsert(comment02);
 		// assertThat(flag, is(1));

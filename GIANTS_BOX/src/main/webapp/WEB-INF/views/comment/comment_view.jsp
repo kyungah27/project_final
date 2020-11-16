@@ -110,7 +110,6 @@
 						commentList();
 						document.getElementById("content").value = '';
 					}
-					//moveToListView()
 				},
 				error : function(xhr, status, error) {
 					alert(meesage.msgContents);
@@ -154,18 +153,15 @@
 													html += '<button id="like" style="background-color: #ffffff; float: right; border: none;">';
 													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>'
 													html += '</button>'
+													html += (vo.likeCnt)
 													html += '</span>'
 													html += '<br/>';
-													html += '<div>'
-															+ vo.content
-															+ '</div>';
+													html += '<div>'+ vo.content+ '</div>';
 													html += '<br/>';
 													html += '<p>';
 													html += '<span>';
 													html += vo.modDt;
-													html += '<input type="button" onclick="commentdelete('
-															+ vo.commentSeq
-															+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
+													html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
 													html += '<input type="button" class="mr-1 btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
 												});
