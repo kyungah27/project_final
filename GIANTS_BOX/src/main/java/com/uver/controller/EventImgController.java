@@ -3,9 +3,9 @@ package com.uver.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.uver.cmn.ImgView;
 import com.uver.cmn.Message;
@@ -75,31 +76,63 @@ public class EventImgController {
 	}
 
 	/**
-	 * 이미지 업로드 -> 이미지 목록 페이지로 맵핑
+	 * the first doSelectList
 	 * 
 	 * @param ModelAndView
 	 * @return ModelAndView
+	 * @throws ParseException 
+	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping(value = "doSelectList.do", method = RequestMethod.GET)
-	public ModelAndView doSelectList(@RequestParam int eventSeq, ModelAndView mav) {
-		Search search = new Search(eventSeq, 1, 5);
+	@ResponseBody
+	public String doSelectList(
+			@RequestParam("eventSeq") String eventSeqStr,
+			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
 
+		HashMap<String, Object> model = new HashMap<String, Object>();
+			
+		int eventSeq = Integer.parseInt(eventSeqStr);
+		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
+		//eventSeq, pageNum, pageSize
+		Search search = new Search(eventSeq, photoPgNum, 9);
+
+		//최신값 설정
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
+		LOG.debug("maxImgSeq: " + maxImgSeq);
 		search.setSearchSeqSub(maxImgSeq);
 
 		// event seq
 		List<EventImgVO> list = eventImgService.doSelectList(search);
-
 		int cnt = list.get(0).getTotalCnt();
+		
+		model.put("list", list);
+		model.put("cnt", cnt);
+		model.put("maxImgSeq", maxImgSeq);
+		model.put("eventSeq", eventSeq);
+		
+		LOG.debug("----------------");
+		LOG.debug("model:"+model.toString());
+		LOG.debug("----------------");
+		
+		String json = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
 
-		mav.addObject("list", list);
-		mav.addObject("cnt", cnt);
-		mav.addObject("maxImgSeq", maxImgSeq);
-		mav.addObject("eventSeq", search.getSearchSeq());
+		try {
+			json = mapper.writeValueAsString(model);
+			LOG.debug(json);
 
-		mav.setViewName("img_view");
+			json=mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
 
-		return mav;
+			LOG.debug(json);
+			return json;
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} 
+		
+		return json;
 	}
 
 	/**
@@ -110,16 +143,34 @@ public class EventImgController {
 	 */
 	@RequestMapping(value = "fetchList.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String fetchList(@RequestParam(value = "eventSeq") int eventSeq,
-			@RequestParam(value = "maxImgSeq") int maxImgSeq, @RequestParam(value = "num") int num)
+	public String fetchList(
+			@RequestParam(value = "eventSeq") String eventSeqStr,
+			@RequestParam(value = "maxImgSeq") String maxImgSeqStr,
+			@RequestParam(value = "photoPgNum") String photoPgNumStr)
 			throws ParseException {
 
-		Search search = new Search(eventSeq, num, 5);
+		int eventSeq = Integer.parseInt(eventSeqStr);
+		int maxImgSeq = Integer.parseInt(maxImgSeqStr);
+		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
+		Search search = new Search(eventSeq, photoPgNum, 9);
 		search.setSearchSeqSub(maxImgSeq);
 
 		List<EventImgVO> list = eventImgService.doSelectList(search);
 
-		// vo list -> JSON Array
+		return listToJsonArr(list);
+	}
+	
+	
+	
+	/**
+	 * vo list -> json Array
+	 * 
+	 * @param list
+	 * @return
+	 * @throws ParseException
+	 */
+	private String listToJsonArr(List list) throws ParseException {
 		Gson gson = new Gson();
 
 		@SuppressWarnings("deprecation")
@@ -130,6 +181,7 @@ public class EventImgController {
 
 		return jArr.toJSONString();
 	}
+	
 
 	/**
 	 * 이미지 업로드 후 json으로 응답
@@ -158,6 +210,8 @@ public class EventImgController {
 		return responseJson(0);
 	}
 
+	
+	
 	/**
 	 * 이미지 수정
 	 * 
