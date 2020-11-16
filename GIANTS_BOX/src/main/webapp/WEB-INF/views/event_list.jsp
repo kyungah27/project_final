@@ -4,10 +4,15 @@
 
  <main class="page landing-page" style="padding:145px 100px 100px 100px;">
  		<section class="clean-block" style="padding-bottom:50px">
-            <%@include file="cmn/search.jsp" %>
+             <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+    			 <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        		 <div class="collapse navbar-collapse text-center d-xl-flex" id="navcol-1" style="padding: 10px;padding-right: 20%;padding-left: 20%;">
+             		<form class="form-inline mx-auto" style="width: 82%;" method="get" target="_self">
+                 	<div class="form-group" style="width: 100%;"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field"  type="search" id="search-field" name="search" style="width: 95%;" placeholder="검색"/></div>
+             		</form><a id = "search_btn" class="btn btn-light mr-auto action-button" role="button"  style="background-color: rgb(0,120,255);">검색</a></div>
+     			</div>
+ 			</nav>
 		</section>
-		
-
 	<div class="row">
             <aside class="col-lg-4 col-md-6">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -118,6 +123,7 @@
 
 
 <script type="text/javascript">
+<<<<<<< Updated upstream
 
 	var loading = false;
 	var page = 1;
@@ -126,6 +132,14 @@
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
 	
+=======
+var  pagesize = 5;
+	$(document).ready(function() {
+	    $("#my_calendar").data('datepicker').selectDate(new Date());
+	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
+	    SelectList("${genres}" , "${searchWord}");
+	    $("#search-field").val("${searchWord}");
+>>>>>>> Stashed changes
 	});
 
 
@@ -172,6 +186,7 @@
 		 checkStr = "";
 			for(i = 1; i <= optionsLen; i++) {
 				if($("#option"+i).prop("checked") == true){
+<<<<<<< Updated upstream
 					checkStr += $("#option"+i).val()+","
 					}
 			
@@ -180,6 +195,18 @@
 		 console.log(checkStr);
 		 var date = $("#my_calendar").val();	 
 		 console.log(date);
+=======
+				checkStr += $("#option"+i).val()+","
+				}
+		     }
+			 SelectList(checkStr,searchWord);
+
+		 
+		
+		});
+
+	function SelectList(genreStr ,searchWord ){
+>>>>>>> Stashed changes
 
 		  $.ajax({
 			    type:"GET",
@@ -230,7 +257,7 @@
 		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
-		html +=  '</div></div>' 
+		html +=  '</div></div>'
 	 	}); 
 		$("#event_cards").append(html);		 	  
 	}

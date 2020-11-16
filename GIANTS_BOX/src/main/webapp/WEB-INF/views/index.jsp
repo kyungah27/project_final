@@ -233,13 +233,18 @@
 	$(document).ready(function() {
 		console.log("document ready");
 		let today = new Date();   
-
 		let year = today.getFullYear(); // 년도
 		let month = today.getMonth() + 1;  // 월
 		let date = today.getDate()-2;  // 날짜
 		var currentDate = year+""+month+""+date;
 		console.log(currentDate);
 		boxOffList(currentDate);
+
+
+		$('#search_btn').click(function() {
+			$(location).attr('href',"event_list.do?searchWord="+$("#search-field").val());
+		});
+
 	});
 
     
