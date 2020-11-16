@@ -118,12 +118,25 @@
 
 
 <script type="text/javascript">
+
+
+	var pageNum = 1;
+	var pageSize = 10;
+	
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-
+	
 	});
 
+	//-----페이지 무한 스크롤 추가-------
+	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
+			console.log("리스트 추가");
+		} 
+
+		
+	
+	});
 
 
 
@@ -182,7 +195,9 @@
 			    dataType:"json", 
 			    data:{"searchWord":	$("#search-field").val(),
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
-			    	  "genreStr" :  checkStr  						   
+			    	  "genreStr" :  checkStr,
+			    	  "pageNum"  : pageNum++,
+			    	  "pageSize" : pageSize		 	   
 			    },
 			    success:function(data){ //성공
 				   alert("일단성공");
@@ -229,16 +244,10 @@
 	}
 			
 
-	//-----페이지 무한 스크롤 추가-------
-	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
-			console.log("리스트 추가");
-			loadNext();
-		} 
-	});
 
-	function loadNext(){
+
 	
-		}
+		
 		
 
 </script>
