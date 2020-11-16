@@ -66,7 +66,14 @@ public class EventController {
 		inVO.setEventSeq(eventSeq);
 		
 		EventVO outVO = this.eventService.doSelectOne(inVO);
-		int imgSeq = this.eventImgService.doSelectThumbnail(eventSeq);
+		int imgSeq;
+		
+		try {
+			imgSeq = this.eventImgService.doSelectThumbnail(eventSeq);
+		} catch (Exception e) {
+			imgSeq = 707;
+			LOG.debug("exception: " + e.getMessage());
+		}
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("event", outVO);

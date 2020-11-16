@@ -135,16 +135,25 @@
 			return;
 		}
 
-		eventUpdate()
-		.then(imgUpdate)
-		.then(successFunction)
-		.catch(errorFunction)
+
+		//---기본 이미지는 수정 대상 X
+        if (${imgSeq} != 707){
+        	eventUpdate()
+    		.then(imgUpdate)
+    		.then(successFunction)
+    		.catch(errorFunction)
+		} else {
+			eventUpdate()
+			.then(successFunction)
+    		.catch(errorFunction)
+		}
+		
 
 	}
 	//---//[수정]----------------------------------------
 	
 	
-	//---[이벤트 등록]--------------------
+	//---[이벤트 수정]--------------------
 	function eventUpdate(){
 		let eventData = {
 				eventSeq : ${event.eventSeq},
@@ -183,15 +192,15 @@
 		});//---promise
 	}
 		
-	//---[이미지 등록]--------------------------
+	//---[이미지 수정]--------------------------
 	function imgUpdate(flag){
 		return new Promise(function(resolve, reject) {
 			console.log(flag);
 			
 			const form = $("form")[0];
 	        let formData = new FormData(form);
-	        
-	        formData.append("images[]", transferFile);
+
+        	formData.append("images[]", transferFile);
 	        console.log(transferFile);
 
 			$.ajax({

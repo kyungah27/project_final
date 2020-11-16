@@ -279,6 +279,7 @@
 		while (imgList.firstChild){
 			imgList.removeChild(imgList.lastChild);
 		}
+		
 		let imgListBtn = document.getElementById("photo-more-btn");
 		imgListBtn.removeAttribute("style");
 
@@ -320,20 +321,31 @@
 			type: "GET",
 			dataType: "json",
 			success: function(result){
-				let dataList = result.list;
-				let dataLen = dataList.length;
-
 				maxImgSeq = result.fetchedMaxImgSeq;
-				console.log("maxImgSeq: " + maxImgSeq);
-                
-                $.each(dataList, function(index, vo) {
-                	renderList(false, vo);
-                });
 
-                if (dataLen < 9){
+
+				if(maxImgSeq != "0") {
+					let dataList = result.list;
+					let dataLen = dataList.length;
+
+					
+					console.log("maxImgSeq: " + maxImgSeq);
+	                
+	                $.each(dataList, function(index, vo) {
+	                	renderList(false, vo);
+	                });
+
+	                if (dataLen < 9){
+						let imgListBtn = document.getElementById("photo-more-btn");
+						imgListBtn.setAttribute("style","display: none"); 
+					};
+				} else {
 					let imgListBtn = document.getElementById("photo-more-btn");
 					imgListBtn.setAttribute("style","display: none"); 
-				};
+
+					html = '<p>등록된 사진이 없습니다.</p>';
+					$("#img_list").append(html);
+				}
                
 			}//---END success
 		});//---END ajax
