@@ -4,12 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 
 import com.uver.vo.ImgVO;
 import com.uver.vo.MemberVO;
@@ -19,7 +21,12 @@ public class MemberDaoImpl implements MemberDao {
 	final static Logger LOG = LoggerFactory.getLogger(MemberDaoImpl.class);
 	
 	@Autowired
+	SqlSessionTemplate sqlSessionTemplate;
+	
+	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	private final String NAMESPACE = "com.uver.member";
 	
 	public MemberDaoImpl() {
 	}
@@ -52,114 +59,56 @@ public class MemberDaoImpl implements MemberDao {
    
    @Override
 public int doUpdata(MemberVO member) {
-	   int flag = 0;
-		StringBuilder sb = new StringBuilder();
-		sb.append(" UPDATE member       \n");
-	    sb.append(" SET                 \n");
-		sb.append("	    name = 	  	?,  \n");
-		sb.append("	    password =  ?,  \n");
-		sb.append("	    email =	  	?,  \n");
-		sb.append("	    cell_phone =?,  \n");
-		sb.append("	    birthday =  ?,  \n");
-		sb.append("	    genre = 	?, 	\n");
-		sb.append("	    auth = 	  	?   \n");
-	    sb.append(" WHERE  seq =    ?   \n");
-
-		LOG.debug("==========================");
-		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + member);
-		LOG.debug("==========================");
+	   LOG.debug("=====================");
+		LOG.debug("=doUpdate=");
+		LOG.debug("=====================");
+		//등록 : namespace+id = com.sist.ehr.board.doInsert
+		String statement = NAMESPACE +".doUpdate";
+		LOG.debug("=statement="+statement);	
 		
-		Object[] args = {
-				 member.getName(),
-				 member.getPassword(),
-				 member.getEmail(),
-				 member.getCellPhone(),
-				 member.getBirthday(),		
-				 member.getGenre(),
-				 member.getAuth(),
-				 member.getSeq()
-		};
+		int flag = sqlSessionTemplate.update(statement,member);
+		LOG.debug("=flag="+flag);
 		
-		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag:"+flag);
-	   
-	   return flag;
+		return flag;
    }
    
 	
 	
 	@Override
 	public MemberVO doSelectOne(int seq) {
-		MemberVO outVO = null;
+		LOG.debug("=====================");
+		LOG.debug("=doSelectOneById=");
+		LOG.debug("=====================");	
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT          \n");
-	    sb.append(" seq,            \n");
-	    sb.append(" user_id,        \n");
-	    sb.append(" name,           \n");
-	    sb.append(" password,       \n");
-	    sb.append(" email,          \n");
-	    sb.append(" cell_phone,     \n");
-	    sb.append(" birthday,       \n");
-	    sb.append(" genre,          \n");
-	    sb.append(" auth,           \n");
-	    sb.append(" reg_dt          \n");
-		sb.append(" FROM member     \n");
-		sb.append(" WHERE seq = ?   \n");
-		
-		LOG.debug("-----------------------------");
-		//LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + seq);
-		LOG.debug("-----------------------------");	
-		
-		Object args[] = {seq};
-		outVO = (MemberVO)this.jdbcTemplate.queryForObject(sb.toString(), 
-															args, 
-															rowMapper);
-		
-		LOG.debug("==========================");
+		//단건조회 : namespace+id = com.sist.ehr.board.doSelectOne
+		String statement = NAMESPACE +".doSelectOneById";	
+		LOG.debug("=statement="+statement);
+		LOG.debug("=seq="+seq);	
+				
+		MemberVO outVO = this.sqlSessionTemplate.selectOne(statement, seq);
 		LOG.debug("=outVO="+outVO);
-		LOG.debug("==========================");
-
+		
 		return outVO;
 	}
 	
 	@Override
 	public MemberVO doSelectOneById(String id) {
-		MemberVO outVO = null;
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(" SELECT          \n");
-	    sb.append(" seq,            \n");
-	    sb.append(" user_id,        \n");
-	    sb.append(" name,           \n");
-	    sb.append(" password,       \n");
-	    sb.append(" email,          \n");
-	    sb.append(" cell_phone,     \n");
-	    sb.append(" birthday,       \n");
-	    sb.append(" genre,          \n");
-	    sb.append(" auth,           \n");
-	    sb.append(" reg_dt          \n");
-		sb.append(" FROM member     \n");
-		sb.append(" WHERE user_id = ?   \n");
+		LOG.debug("=====================");
+		LOG.debug("=doSelectOneById=");
+		LOG.debug("=====================");	
 		
-		LOG.debug("-----------------------------");
-		//LOG.debug("[SQL]\n"   + sb.toString());
-		LOG.debug("[param]\n" + id);
-		LOG.debug("-----------------------------");	
-		
-		Object args[] = {id};
-		outVO = (MemberVO)this.jdbcTemplate.queryForObject(sb.toString(), 
-															args, 
-															rowMapper);
-		
-		LOG.debug("==========================");
+		//단건조회 : namespace+id = com.sist.ehr.board.doSelectOne
+		String statement = NAMESPACE +".doSelectOneById";	
+		LOG.debug("=statement="+statement);
+		LOG.debug("=id="+id);	
+				
+		MemberVO outVO = this.sqlSessionTemplate.selectOne(statement, id);
 		LOG.debug("=outVO="+outVO);
-		LOG.debug("==========================");
-
+		
 		return outVO;
 	}
+	
 	/**
 	 * 리스트 조건 조회
 	 * @param div
@@ -214,41 +163,22 @@ public int doUpdata(MemberVO member) {
 	
 	
 	/**
-	 * 리스트 조건 조회
+	 * 리스트 조회
 	 * @param div
 	 * @param searchWord
 	 * @return
 	 */
 	@Override
 	public List<MemberVO> doSelectListAll() {
+		LOG.debug("=====================");
+		LOG.debug("=doSelectListAll=");
+		LOG.debug("=====================");
+		//등록 : namespace+id = com.sist.ehr.board.doSelectList
+		String statement = NAMESPACE +".doSelectListAll";		
+		LOG.debug("=statement="+statement);	
+		List<MemberVO> list =this.sqlSessionTemplate.selectList(statement);
 		
-
-		
-		StringBuilder sbWhere=new StringBuilder();
-	
-		
-		StringBuilder sb=new StringBuilder();
-		sb.append(" SELECT               \n");
-	    sb.append(" seq,                 \n");
-	    sb.append(" user_id,             \n");
-	    sb.append(" name,                \n");
-	    sb.append(" password,            \n");
-	    sb.append(" email,               \n");
-	    sb.append(" cell_phone,          \n");
-	    sb.append(" birthday,            \n");
-	    sb.append(" genre,               \n");
-	    sb.append(" auth,                \n");
-	    sb.append(" reg_dt               \n");
-		sb.append(" FROM member          \n");
-		sb.append(sbWhere.toString());
-		LOG.debug("========================");
-		LOG.debug("=sql\n="+sb.toString());
-		LOG.debug("========================");	
-		
-		Object[] args  = { };	
-		List<MemberVO> list = (List<MemberVO>)jdbcTemplate.query(sb.toString(), args, rowMapper);
-		LOG.debug("list.size()" +list.size());
-		for(MemberVO vo: list) {
+		for(MemberVO vo :list) {
 			LOG.debug("=vo="+vo);
 		}
 		
@@ -261,21 +191,18 @@ public int doUpdata(MemberVO member) {
 	 * @return
 	 */
 	@Override
-	public int doDelete(int seq) {
-		int flag = 0;
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(" DELETE FROM member \n");
-		sb.append(" WHERE seq = ?      \n");
+	public int doDeleteOne(MemberVO inputUser) {
+		LOG.debug("=====================");
+		LOG.debug("=doDelete=");
+		LOG.debug("=====================");
+		String statement = NAMESPACE +".doDeleteOne";
 
 		LOG.debug("==========================");
-		LOG.debug("=sql=\n" + sb.toString());
-		LOG.debug("=param=\n" + seq);
-		LOG.debug("==========================");
+		LOG.debug("=statement="+statement);
+		LOG.debug("=inputUser="+inputUser);	
 
-		Object[] args = { seq };
-		flag = this.jdbcTemplate.update(sb.toString(), args);
-		LOG.debug("flag:"+flag);
+		int flag = sqlSessionTemplate.delete(statement, inputUser);
+		LOG.debug("=flag="+flag);
 		
 		return flag;
 	}
@@ -287,55 +214,24 @@ public int doUpdata(MemberVO member) {
 	 * @return
 	 */
 	@Override
-	public int doInsert(MemberVO member) {
-		int flag = 0;
-		
-		Object[] args = {
-						 member.getUserId(), 
-						 member.getName(),
-						 member.getPassword(),
-						 member.getEmail(),
-						 member.getCellPhone(),
-						 member.getBirthday(),
-						 member.getAuth(),
-						 member.getGenre()
-		};
-		
-		StringBuilder sb = new StringBuilder();
-		   
-		sb.append(" INSERT INTO member ( \n");
-		sb.append("     seq,             \n");
-		sb.append("     user_Id,         \n");
-		sb.append("     name,            \n");
-		sb.append("     password,        \n");
-		sb.append("     email,           \n");
-		sb.append("     cell_phone,      \n");
-		sb.append("     birthday,        \n");
-		sb.append("     auth,            \n");
-		sb.append("     reg_dt,          \n");
-		sb.append("     genre            \n");
-		sb.append(" ) VALUES (           \n");
-		sb.append("  seq_member.NEXTVAL, \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     ?,               \n");
-		sb.append("     sysdate,         \n");
-		sb.append("     ?                \n");
-		sb.append(" )                    \n");
-		
-		LOG.debug("==========================");
-		LOG.debug("=sql=\n"+sb.toString());
-		LOG.debug("=param=\n"+member);
-		LOG.debug("==========================");
-		
-		flag = this.jdbcTemplate.update(sb.toString(), args);
+	public int doInsert(MemberVO memberVO) {
+		LOG.debug("=====================");
+		LOG.debug("=doInsert=");
+		LOG.debug("=====================");
+		//등록
+		String statement = NAMESPACE +".doInsert";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=memberVO="+memberVO);
+		int flag = sqlSessionTemplate.insert(statement,memberVO);
 		LOG.debug("=flag="+flag);
-		
 		return flag;
+	}
+		
+
+	@Override
+	public int doDelete(int seq) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

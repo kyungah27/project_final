@@ -9,6 +9,7 @@
 			<div class="block-heading">
 				<h2 class="text-primary">My account</h2>
 			</div>
+			
 			<form onsubmit="return false;">
 				<div class="form-group">
 					<label for="name" id ="id_label">Id</label><input class="form-control item"
@@ -38,12 +39,13 @@
 					</div>
 				</div>
 				
-				<div class="col-lg-6" style ="float: left; width: 50%;">
-				<button class="btn btn-primary btn-block"  id="doUpdate">회원정보수정</button>
-				</div>
-				<div class="col-lg-6" style = "float: left; width: 50%;">
-				<button class="btn btn-primary btn-block"  id="doDelete">회원탈퇴</button>
-				
+				<div class="form-group row">
+					<div class="col-lg-6 mb-lg-0 mb-3">
+						<button class="btn btn-primary btn-block"  id="doUpdate">회원정보수정</button>
+					</div>
+					<div class="col-lg-6">
+						<button class="btn btn-primary btn-block"  id="doDelete">회원탈퇴</button>
+					</div>
 				</div>
 			</form>
 			
@@ -167,6 +169,7 @@
 				var obj = JSON.parse(data);
 				//alert(obj.msgContents);
 				alert(obj.msgContents);
+				window.location.href="${context}/login.do";
 					
 			},
 			error : function(xhr, status, error) {

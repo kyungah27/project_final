@@ -3,7 +3,9 @@ package com.uver.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -39,11 +41,37 @@ public class EventDaoImpl {
 		String statement = NAMESPACE+".doInsert";
 		LOG.debug("=statement="+statement);
 		LOG.debug("=event="+event);
+		
 		int flag = sqlSessionTemplate.insert(statement, event);
+		
 		LOG.debug("=flag="+flag);
 		
 		return flag;
 	}
+
+	
+	
+	/**
+	 * 등록 후 seq 값 얻기
+	 * @param event
+	 * @return eventSeq
+	 */
+	public int doInsertGetSeq(EventVO event) {
+		LOG.debug("=doInsert=");
+		LOG.debug("===========================");
+		
+		String statement = NAMESPACE+".doInsert";
+		LOG.debug("=statement="+statement);
+		LOG.debug("=event="+event);
+		int flag = sqlSessionTemplate.insert(statement, event);
+		int seq = event.getEventSeq();
+		LOG.debug("=flag="+flag);
+		LOG.debug("=seq="+seq);
+		
+		return seq;
+	}
+	
+	
 	
 	/**
 	 * 삭제
@@ -112,7 +140,7 @@ public class EventDaoImpl {
 		String statement = NAMESPACE + ".doSelectList";
 		LOG.debug("=statement="+statement);
 		LOG.debug("=param="+search);
-		
+
 		List<EventVO> list = this.sqlSessionTemplate.selectList(statement, search);
 		for(EventVO vo :list) {
 			LOG.debug("=vo="+vo);

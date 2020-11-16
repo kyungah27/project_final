@@ -45,7 +45,7 @@ import com.uver.vo.MemberVO;
 		public int idDelete(MemberVO inputUser) {
 			int deleteFlag = 0;
 			
-			deleteFlag = memberDaoImpl.doDelete(inputUser.getSeq());
+			deleteFlag = memberDaoImpl.doDeleteOne(inputUser);
 			
 			return deleteFlag;
 		}

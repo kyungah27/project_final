@@ -26,13 +26,13 @@
 	                <div class="mr-auto ml-auto" data-toggle="buttons">
 	                	<div class="row btn-group-toggle mx-5">
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option1">
-							    <input type="checkbox" name="options" id="option1" autocomplete="off" value="genre1"> genre1
+							    <input type="checkbox" name="options" id="option1" autocomplete="off" value="드라마"> 드라마
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option2">
-							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="genre2"> genre2
+							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="액션"> 액션
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option3">
-							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="genre3"> genre3
+							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="공포"> 공포
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option4">
 							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
@@ -69,24 +69,8 @@
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <div class="container">
 
-                            <div class="card clean-card pt-3">
-                                <div class="card-body row align-items-center justify-content-center">
-                                	<div class="col-lg-3">
-                                		<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">
-                                	</div>
-                                	<div class="col-lg-6 text-left">
-	                                    <p class="text-left card-text">
-	                                        <strong>10월 31일 6:30PM</strong>
-	                                    </p>
-	                                    <h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-	                                    <p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-	                                    <p class="card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                    </div>
-                                    
-	                                <div class="col-lg-3 col-md-5 text-center">
-                                    	<button type="button" name="event_update" class="btn btn-outline-primary">참여</button>
-                                    </div>
-                                </div>
+                            <div class="card clean-card pt-3" id="event_cards">
+               
 				
                                 <!-- 이벤트 반복 -->
                                 <hr/>
@@ -136,7 +120,18 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
+	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
+
 	});
+
+
+
+
+
+
+
+
+	
 
 
 	//---[전체선택/전체해제]-------------------------
@@ -164,8 +159,87 @@
 	});
 	//------------------------------------------
 
-	
+		 $("#search_btn").on("click", function(e) {
 
+		 // 날짜값 가져오기
+		 console.log($("#search-field").val());
+		 // 체크박스 값 가져오기
+		 checkStr = "";
+			for(i = 1; i <= optionsLen; i++) {
+				if($("#option"+i).prop("checked") == true){
+					checkStr += $("#option"+i).val()+","
+					}
+			
+	        }
+	
+		 console.log(checkStr);
+		 var date = $("#my_calendar").val();	 
+		 console.log(date);
+
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doSelectList.do",
+			    dataType:"json", 
+			    data:{"searchWord":	$("#search-field").val(),
+			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
+			    	  "genreStr" :  checkStr  						   
+			    },
+			    success:function(data){ //성공
+				   alert("일단성공");
+			       console.log("data="+data);
+			 	  $("#event_cards").empty();
+			 	 	drawCards(data);  
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax	
+		 
+		
+	});
+
+/* 	 $(document).on("click","button[name=seleted_seq]",function(){
+			var eventSeq = $(this).val();
+			alert(eventSeq);
+			var frm = 
+			eventSeq.action ="${context}/event/doSelectList.do";
+			
+		}) ; */
+
+
+
+			
+	function drawCards(data){
+		var html  = "";		
+	 	$.each(data, function(i, value) {
+		 	console.log(data);
+        html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+        html += '<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">';  //이미지 일단 보류
+		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
+		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
+		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
+		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
+		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
+		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
+		html +=  '</div></div>' 
+	 	}); 
+		$("#event_cards").append(html);		 	  
+	}
+			
+
+	//-----페이지 무한 스크롤 추가-------
+	$(window).scroll(function () { if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {  
+			console.log("리스트 추가");
+			loadNext();
+		} 
+	});
+
+	function loadNext(){
+	
+		}
+		
 
 </script>
 

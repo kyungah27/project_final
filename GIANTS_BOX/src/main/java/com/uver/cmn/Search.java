@@ -1,5 +1,8 @@
 package com.uver.cmn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Search extends DTO {
 /**
 1.검색구분:전체,아이디(10),이름(20)
@@ -16,6 +19,24 @@ public class Search extends DTO {
 	/**날짜 검색 조건*/
 	private String searchDate;
 	
+	
+	
+	private List<String> genreList;
+	
+	
+
+	public List<String> getGenreList() {
+		return genreList;
+	}
+	
+	public void addGenreList(String str) {
+		this.genreList.add(str);
+	}
+
+	public void setGenreList(List<String> genreList) {
+		this.genreList = genreList;
+	}
+
 	/** seq 검색 */
 	private int searchSeq;
 	private int searchSeqSub;
@@ -60,6 +81,7 @@ public class Search extends DTO {
 
 	public Search(String searchDiv, String searchWord, String searchDate, int pageSize, int pageNum) {
 		super();
+		this.genreList = new ArrayList<String>();
 		this.searchDiv = searchDiv;
 		this.searchWord = searchWord;
 		this.searchDate = searchDate;

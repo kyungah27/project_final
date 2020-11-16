@@ -14,6 +14,11 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	EventDaoImpl eventDaoImpl;
+	
+	@Override
+	public int doInsertGetSeq(EventVO event) {
+		return eventDaoImpl.doInsertGetSeq(event);
+	}
 
 	@Override
 	public int doInsert(EventVO event) {

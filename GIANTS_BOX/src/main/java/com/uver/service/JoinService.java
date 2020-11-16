@@ -37,4 +37,6 @@ public interface JoinService {
 	 * @return flag 1 성공 0 실패
 	 */
 	public int kickMember(JoinVO masterVO , JoinVO targetVO );
+	
+	int checkJoin(JoinVO vo);
 }

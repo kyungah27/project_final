@@ -19,7 +19,7 @@
 	<typeAlias type="com.uver.vo.JoinVO" alias="JoinVO"/>
 	<typeAlias type="com.uver.vo.EventVO" alias="EventVO"/>
 	<typeAlias type="com.uver.vo.ReviewVO" alias="ReviewVO"/>
-	
+	<typeAlias type="com.uver.vo.MemberVO" alias="MemberVO"/>
 	</typeAliases>
 </configuration>
 

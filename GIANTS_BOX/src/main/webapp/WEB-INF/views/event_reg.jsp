@@ -21,13 +21,19 @@
                                 
                                 <div class="custom-file mt-2 mb-3">
                                 	<form id="img_frm" method="post" enctype="multipart/form-data">
-	                                  <input type="file" class="custom-file-input" name="images[]" id="img_picker" accept="image/jpg, image/png, image/jpeg, image/gif"  />
+	                                  <input type="file" class="custom-file-input" name="images" id="img_picker" accept="image/jpg, image/png, image/jpeg, image/gif"  />
 	                                  <label class="custom-file-label" id="img_label" for="customFile">대표 이미지 업로드하기</label>
+	                                  <input type="hidden" name="regId" value=${user.userId} />
+	                                  <input type="hidden" name="isThumbnail" value="y" />
 	                                </form>
                                 </div>
                             </div>
                             
                             <div class="col-lg-7 col-md-12 col-sm-12">
+                            
+                            <form id="event_frm" action="${context}/event/doInsert.do" method="POST">
+                            	<input type="hidden" id=userId name=userId value="${user.userId}" />
+                            	
                                 <div class="input-group mb-3">
                                     <label for="event_nm" class="col-form-label col-lg-3">모임명</label>
                                     <input type="text" class="form-control" id="event_nm" placeholder="모임명" aria-label="event_nm" />
@@ -49,8 +55,8 @@
                                     <input type="date" class="form-control" id="end_dt" placeholder="모집 종료일" aria-label="end_dt" />
                                 </div>
                                 <div class="input-group mb-3">
-                                    <label for="location" class="col-form-label col-lg-3">장소</label>
-                                    <input type="text" class="form-control" id="location" placeholder="장소" aria-label="location" />
+                                    <label for="place" class="col-form-label col-lg-3">장소</label>
+                                    <input type="text" class="form-control" id="place" placeholder="장소" aria-label="place" />
                                 </div>
                                 <div class="input-group mb-3">
                                     <label for="movie_info" class="col-form-label col-lg-3">영화</label>
@@ -58,16 +64,17 @@
                                     <button type="button" id="search_movie" class="btn btn-outline-primary btn-sm" type="button">영화검색</button>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <label for="movie_info" class="col-form-label col-lg-3">장르</label>
+                                    <label for="movie_genre" class="col-form-label col-lg-3">장르</label>
                                     <input type="text" class="form-control form-control" id="movie_genre" placeholder="장르" aria-label="movie_genre" readonly />
-                                </div>                                       
+                                </div>
+                                </form>                                       
                             </div>
                         </div>
                         <div class="form-group row ml-auto">
                             <label for="content" class="col-form-label">세부사항</label>
                             <textarea class="form-control" id="content" rows="16"></textarea>
                         </div>
-                        <button type="button" id="event_reg" class="btn btn-primary btn-block">이벤트 등록</button>
+                        <button type="button" id="event_reg_btn" class="btn btn-primary btn-block">이벤트 등록</button>
                     </form>
                     
                 </div>
@@ -90,97 +97,152 @@
 		
 	});
 
-	let picker = document.querySelector("#img_picker");
+	let imgPicker = document.querySelector("#img_picker");
 	let preview = document.querySelector("#img_preview");
-	let eventRegBtn = document.getElementById("event_reg");
+	let eventRegBtn = document.getElementById("event_reg_btn");
 	let transferFile = $("#img_picker")[0].files[0];
 
+ 	let eventNm = document.getElementById("event_nm");
+ 	let capacity = document.getElementById("capacity");
+ 	let targetDt;
+ 	let startDt = document.getElementById("start_dt");
+ 	let endDt = document.getElementById("end_dt");
+ 	let place = document.getElementById("place");
+ 	let movieCode = document.getElementById("movie_code");
+ 	let movieGenre = document.getElementById("movie_genre");
+ 	let content = document.getElementById("content");
+
+ 	let eventSeq;
+ 	 
+
 	//---[등록]----------------------------------------
-	eventRegBtn.addEventListener("click", eventReg, false);
 	
+	eventRegBtn.addEventListener("click", eventReg, false);
+
 	function eventReg(){
+		//---[validation]
+		console.log(eventNm.value);
+		console.log(capacity.value);
+		console.log(targetDt);
+		console.log(startDt.value);
+		console.log(endDt.value);
+		console.log(place.value);
+		console.log(movieCode.value);
+		console.log(movieGenre.value);
+		console.log(content.value);
+		
+		//---[등록 확인]
 		if(!confirm("등록하시겠습니까?")){
 			console.log(transferFile);
 			return;
 		}
 
-		//---[성공 여부]
-		let flag = {
-			aInternal: 0,
-			aListener: function(val) {},
-						set a(val) {
-							this.aInternal = val;
-							this.aListener(val);
-						},
-						get a(){
-							return this.aInternal;
-						},
-						registerListener: function(listener){
-											this.aListener = listener;
-						}
+		eventInsert();
+
+		
+
+	}
+	//---//[등록]----------------------------------------
+	
+	
+	//---[이벤트 등록]--------------------
+	function eventInsert(){
+		let eventData = {
+				userId : $("#userId").val(),
+				eventNm : eventNm.value.trim(),
+				content : content.value.trim(),
+				capacity : capacity.value,
+				movieInfo : movieCode.value,
+				startDt : startDt.value,
+				endDt : endDt.value,
+				location : place.value.trim(),
+				regDt : "2020-01-02",
+				targetDt : targetDt,
+				regId : $("#userId").val(),
+				genre : movieGenre.value
 		};
+		
+		console.log(eventData);
+		
+		$.ajax({
+			type: "POST",
+			url: "${context}/event/doInsert.do",
+			data: JSON.stringify(eventData),
+			contentType: "application/json",
+			async: false,
+			success: function(result){
+				if(null != result){
+					eventSeq = result.msgContents;
+					console.log(eventSeq);
+				} else{
+	                alert(result.msgId+"|"+result.msgContents);
+	            }
+	        }
 
-		//---[성공여부 listener]
-		flag.registerListener(function(val) {
-			if(flag.a==1){
-				moveToList();
-			}
-		});
+		});//---ajax
 
-		//---[redirect]
-		function moveToList(){
-			window.location.href="event_view.do";
+		if (eventSeq > 0){
+			imgInsert(eventSeq);
+			successFunction();
 		}
-				
-		//---[img insert]
-		const form = $("#img_frm")[0];
-        const formData = new FormData(form);
-        
-        formData.append("images[]", transferFile);
-        console.log(transferFile);
 
+	}
+		
+	//---[이미지 등록]--------------------------
+	function imgInsert(eventSeq){
+		   const form = $("form")[0];
+	       const formData = new FormData(form);
+	       
+	       formData.append("images[]", transferFile);
+	       formData.append("eventSeq", eventSeq);
+	       console.log(formData);
+	
 		$.ajax({
 			type: "POST",
 			url: "${context}/img/doInsert.do",
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(data){
-				if(null != data && data.msgId=="1"){
-					//---이미지 등록 성공시
-	                alert(data.msgContents);
-	                flag.a += 1;
+			async: false,
+			success: function(result){
+				if(null != result){
+					//---등록 성공시
+	                console.log(result.msgContents);
 				} else{
-	                alert(data.msgId+"|"+data.msgContents);
+	                alert(result.msgId+"|"+result.msgContents);
 	            }
-			},
-			err: function(err){
-				alert(err.status);
 			}
-		}); //---//[img insert]
-		//---[redirect]
+		});//---ajax
 	}
-	//---//[등록]----------------------------------------
+
+	//---[등록 성공시]----------------
+	function successFunction(){
+		alert("이벤트 등록을 성공했습니다.");
+		moveToList();
+		return false;
+	}
+
+	//---[에러시]-----------------------
+	function errorFunction(){
+		alert("에러가 발생했습니다.");
+		return false;
+	}
+	
+	//---[redirect]-------------------------------
+	function moveToList(){
+		let addr = "event_view.do?eventSeq=" + eventSeq;
+		window.location.href=addr;
+	}
+	
+	
+	
 
 	//---[영화 검색]-----------------------------------------------------
 	$("#search_movie").on("click",function(){
 			//$(document).find('#selected_seq').val($(this).val());
-			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=400");
+			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=600");
 	});
-	//---//[영화 검색]-----------------------------------------------------
 	
-
-
-
-
-
-
-
-
-
-
-
-
 
 	
 	//---[이미지 드래그 앤 드롭]--------------------------------------
@@ -231,58 +293,52 @@
 		// 이미지 미리보기
 		checkImgAndPreview(files);
 	}
-	//---//[드래그 앤 드롭]--------------------------------------
 	
 	//---[Drag & Drop 텍스트 나타내기 여부 결정]------------------------------------
-		function imgAreaTxt(image){
-			let imgAreaTxt = $("#img_area_txt");
-			if(!image || image.length <= 0){
-				console.log("없음");
-				imgAreaTxt.css({
-					"display": "",
-					"margin": "0 auto"
-				});
-			} else {
-				console.log("있음");
-				imgAreaTxt.css({
-					"display": "none"
-				});
-			}
+	function imgAreaTxt(image){
+		let imgAreaTxt = $("#img_area_txt");
+		if(!image || image.length <= 0){
+			console.log("없음");
+			imgAreaTxt.css({
+				"display": "",
+				"margin": "0 auto"
+			});
+		} else {
+			console.log("있음");
+			imgAreaTxt.css({
+				"display": "none"
+			});
 		}
-	//---//[Drag & Drop 텍스트 나타내기]------------------------------------
+	}
 	
 	//---[이미지 미리보기]--------------------------------------------
-		function imgPreview(files){
-			let getFile = files;
-			let image = document.getElementById('img_area_img');
-			image.setAttribute("class", "img-fluid");
+	function imgPreview(files){
+		let getFile = files;
+		let image = document.getElementById('img_area_img');
+		image.setAttribute("class", "img-fluid");
 
-			// FileReader 객체 생성
-			let reader = new FileReader();
-			
-			// FileReader onload 시 이벤트 발생
-			reader.onload = (function(file) {
-				return function (e) {
-					file.src = e.target.result;
-				}
-			})(image)
-			
-			if(getFile){
-				reader.readAsDataURL(getFile[0]);
-				imgAreaTxt(image);
-				transferFile = getFile[0];
+		// FileReader 객체 생성
+		let reader = new FileReader();
+		
+		// FileReader onload 시 이벤트 발생
+		reader.onload = (function(file) {
+			return function (e) {
+				file.src = e.target.result;
 			}
+		})(image)
+		
+		if(getFile){
+			reader.readAsDataURL(getFile[0]);
+			imgAreaTxt(image);
+			transferFile = getFile[0];
 		}
-	//---//[이미지 미리보기]--------------------------------------------
+	}
 	
 	//---[파일 피커에서 이미지 미리보기]----------------------------------------
-	picker.addEventListener('change', function(e){
+	imgPicker.addEventListener('change', function(e){
 		let getFile = e.target.files;
 		checkImgAndPreview(getFile);
-
-		
 	})
-	//---//[파일 피커에서 이미지 미리보기]----------------------------------------
 	
 	//---[이미지 타입체크]----------------------------------------------------
 	function checkImgAndPreview(files){
@@ -299,18 +355,11 @@
 			}
 		}
 	}
-	//---//[이미지 타입체크]----------------------------------------------------
-	
-	
-	
-	
-	
-	
 	
 	
 	//---[datetime picker]----------------------------------------------
     // Create start date
-    var start = new Date(),
+    let start = new Date(),
         prevDay,
         startHours = 5;
 
@@ -325,6 +374,7 @@
         minHours: startHours,
         maxHours: 24,
         onSelect: function (fd, d, picker) {
+            
             // Do nothing if selection was cleared
             if (!d) return;
 
@@ -332,24 +382,17 @@
 
             // Trigger only if date is changed
             if (prevDay != undefined && prevDay == day) {
-                //---picking 할때마다 date 값 받기------------
-                console.log(fd);
                 return;
             }
+
+			targetDt = d.toISOString().split('T')[0]+' '+d.toTimeString().split(' ')[0];
+            console.log(targetDt);
         },
 		
     	dateFormat: 'yyyy-mm-dd',
     	timeFormat: 'hh:ii AA'
+       	
     })
-    
-    var date = parse('2016-04-18');
-	function parse(str) {
-	    var y = str.substr(0, 4);
-	    var m = str.substr(4, 2);
-	    var d = str.substr(6, 2);
-	    return new Date(y, m-1, d);
-	}
-    //---//[datetime picker]---------------------------------------
 
 
 	</script>
