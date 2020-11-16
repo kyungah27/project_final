@@ -123,23 +123,14 @@
 
 
 <script type="text/javascript">
-<<<<<<< Updated upstream
 
 	var loading = false;
 	var page = 1;
-	
-	$(document).ready(function() {
-	    $("#my_calendar").data('datepicker').selectDate(new Date());
-	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
-	
-=======
-var  pagesize = 5;
 	$(document).ready(function() {
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 	    $("#my_calendar").datepicker({ dateFormat: 'yyyy-mm-dd' }); 
 	    SelectList("${genres}" , "${searchWord}");
 	    $("#search-field").val("${searchWord}");
->>>>>>> Stashed changes
 	});
 
 
@@ -186,27 +177,13 @@ var  pagesize = 5;
 		 checkStr = "";
 			for(i = 1; i <= optionsLen; i++) {
 				if($("#option"+i).prop("checked") == true){
-<<<<<<< Updated upstream
-					checkStr += $("#option"+i).val()+","
-					}
-			
-	        }
-	
-		 console.log(checkStr);
-		 var date = $("#my_calendar").val();	 
-		 console.log(date);
-=======
 				checkStr += $("#option"+i).val()+","
 				}
 		     }
-			 SelectList(checkStr,searchWord);
-
-		 
-		
+			 SelectList(checkStr,searchWord);	
 		});
 
 	function SelectList(genreStr ,searchWord ){
->>>>>>> Stashed changes
 
 		  $.ajax({
 			    type:"GET",
