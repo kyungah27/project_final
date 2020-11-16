@@ -39,18 +39,43 @@ import com.uver.vo.MemberVO;
 		}
 		
 		
+		 @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @ResponseBody
+		   public String idDelete(MemberVO inputUser) {
+			int flag = 0;
+			 
+			flag = memberService.idDelete(inputUser);
+			 
+					
+			Message message = new Message();
+			
+			if(flag == 1) {
+				message.setMsgContents("회원정보가 삭제되었습니다..");
+			}else {
+				message.setMsgContents("수정할 정보를 다시 확인해주세요");
+			}
+			
+			 message.setMsgId(flag+"");
+		      Gson gson = new Gson();
+		      String json = gson.toJson(message);
+		      LOG.debug("[json] " + json);
+		      
+		      return json;
+		   }
+		
 	
-		/**
+		
+		 /**
 		 * 회원정보수정
 		 * @param inputUser
 		 * @return
 		 * @throws ClassNotFoundException
 		 * @throws SQLException
 		 */
-		@RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @RequestMapping(value = "updateUser.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		   @ResponseBody
 		   public String myUpdate(MemberVO inputUser) {
-			
+			LOG.debug("찍혀라");
 			LOG.debug(inputUser.getUserId());
 			
 		   int updateFlag = 0;
@@ -184,6 +209,8 @@ import com.uver.vo.MemberVO;
 		         MemberVO user = new MemberVO();
 		         user.setSeq(outVO.getSeq());
 		         user.setName(outVO.getName());
+		         user.setCellPhone(outVO.getCellPhone());
+		         user.setBirthday(outVO.getBirthday());
 		         user.setGenre(outVO.getGenre());
 		         user.setAuth(outVO.getAuth());
 		         user.setEmail(outVO.getEmail());

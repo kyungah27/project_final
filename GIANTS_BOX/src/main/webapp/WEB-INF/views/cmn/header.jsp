@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="${context}/resources/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="${context}/resources/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="${context}/resources/css/styles.min.css">
+    <link rel="stylesheet" href="${context}/resources/css/styles.min.css" rel="stylesheet" type="text/css">
     
      <!--calendar-->
     <link href="${context}/resources/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -45,10 +45,10 @@
                 <c:choose>
                     <c:when test="${!empty user}" >
 	                    <li class="nav-item" role="presentation">
-	                    	<a class="nav-link text-secondary active" href="#">explore</a>
+	                    	<a class="nav-link text-secondary active" href="${context}/event_list.do">explore</a>
 	                    </li>
 	                    <li class="nav-item" role="presentation">
-	                    	<a class="nav-link text-secondary" href="${context}/event_list.do">my event</a>
+	                    	<a class="nav-link text-secondary" href="${context}/my_event.do">my event</a>
 	                    </li>
 	                    <li class="nav-item" role="presentation">
 	                    	<a class="nav-link text-secondary" href="${context}/account.do">my account</a>

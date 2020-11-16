@@ -29,7 +29,8 @@ public class CommentDaoImpl implements CommentDao {
 	RowMapper<CommentVO> rowMapper = new RowMapper<CommentVO>() {
 		public CommentVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CommentVO outVO = new CommentVO(rs.getInt("comment_seq"), rs.getInt("seq"), rs.getString("div"),
-					rs.getString("content"), rs.getString("reg_dt"), rs.getString("reg_id"), rs.getString("mod_dt"));
+					rs.getString("content"), rs.getString("reg_dt"), rs.getString("reg_id"), rs.getString("mod_dt"),
+					rs.getInt("like_cnt"));
 			return outVO;
 		}
 
@@ -49,7 +50,8 @@ public class CommentDaoImpl implements CommentDao {
 		sb.append("    content,             \n");
 		sb.append("    reg_dt,              \n");
 		sb.append("    reg_id,              \n");
-		sb.append("    mod_dt               \n");
+		sb.append("    mod_dt,              \n");
+		sb.append("    like_cnt              \n");
 		sb.append(") VALUES (               \n");
 		sb.append("    COMMENT_SEQ.NEXTVAL, \n");
 		sb.append("    ?,                   \n");
@@ -57,7 +59,8 @@ public class CommentDaoImpl implements CommentDao {
 		sb.append("    ?,                   \n");
 		sb.append("    SYSDATE,             \n");
 		sb.append("    ?,                   \n");
-		sb.append("    SYSDATE             \n");
+		sb.append("    SYSDATE,             \n");
+		sb.append("    ?            \n");
 		sb.append(")                        \n");
 		LOG.debug("-----------------------------");
 		LOG.debug("[SQL]\n" + sb.toString());
@@ -136,6 +139,7 @@ public class CommentDaoImpl implements CommentDao {
 	@Override
 	public List<CommentVO> doSelectList(CommentVO vo) {
 		List<CommentVO> list = null;
+		LOG.debug("dao");
 		Object[] args = { vo.getSeq(), vo.getDiv() };
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT												\n");

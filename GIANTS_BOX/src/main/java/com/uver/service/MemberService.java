@@ -47,6 +47,13 @@ public interface MemberService {
 	 * @return
 	 */
 	public int myUpdate(MemberVO inputUser);
+	
+	/**
+	 * ID 삭제
+	 * @param inputUser
+	 * @return
+	 */
+	public int idDelete(MemberVO inputUser);
 
 	MemberVO login(MemberVO inputUser);
 

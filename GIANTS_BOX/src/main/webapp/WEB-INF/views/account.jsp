@@ -12,32 +12,39 @@
 			<form onsubmit="return false;">
 				<div class="form-group">
 					<label for="name" id ="id_label">Id</label><input class="form-control item"
-						type="text" style="background-color:#E6E6E6" id="id" readonly >
+						type="text" style="background-color:#E6E6E6" id="id" readonly value="${sessionScope.user.userId}" >
 						
 				</div>
 				
 				
 				<div class="form-group">
 					<label for="name" id ="name_label">Name</label><input class="form-control item"
-						type="text" id="name">
+						type="text" id="name" value="${sessionScope.user.name}">
 				</div>
 				<div class="form-group" >
 					<label for="password"  id ="password_label">Password(대문자,소문자,특수문자,숫자를 조합해 8자리 이상 작성해주세요)</label><input
-						class="form-control item" type="password" id="password">
+						class="form-control item" type="password" id="password" value="${sessionScope.user.password}">
 				</div>
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
-						type="email" id="email">
+						type="email" id="email" value="${sessionScope.user.email}">
 					<div class="form-group">
 						<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
-							type="text" id="phone">
+							type="text" id="phone" value="${sessionScope.user.cellPhone}">
 					</div>
 					<div class="form-group">
 						<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
-							class="form-control item" type="text" id="birthday" style="background-color:#E6E6E6" readonly >
+							class="form-control item" type="text" id="birthday" style="background-color:#E6E6E6" readonly value="${sessionScope.user.birthday}" >
 					</div>
 				</div>
+				
+				<div class="col-lg-6" style ="float: left; width: 50%;">
 				<button class="btn btn-primary btn-block"  id="doUpdate">회원정보수정</button>
+				</div>
+				<div class="col-lg-6" style = "float: left; width: 50%;">
+				<button class="btn btn-primary btn-block"  id="doDelete">회원탈퇴</button>
+				
+				</div>
 			</form>
 			
 		</div>
@@ -46,11 +53,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
     
+
     //회원정보수정
 	$("#doUpdate").on("click", function() {
-
+		 
 		
-
 		var name = $("#name").val();
 		name = name.trim();
 		if (null == name || name.length == 0) {
@@ -94,13 +101,24 @@
 			$("#birthday_label").css("color","red"); 
 			return;
 		}
-
+		      
+		
 		$.ajax({
 			type : "POST",
 			url : "${context}/updateUser.do",
 			dataType : "html",
 			data : {
-				"userId":${sessionScope.user}
+				
+				"seq":${sessionScope.user.seq},
+				"name":$("#name").val(),
+				"password":$("#password").val(),
+				"cellPhone":$("#phone").val(),
+				"birthday":$("#birthday").val(),
+				"email":$("#email").val(),
+				"auth":1,
+				"genre":"공포"
+				
+
 			},
 			success : function(data) { //성공
 
@@ -112,6 +130,44 @@
 					$("#password_label").css("color","red");
 				}
 				
+				
+			},
+			error : function(xhr, status, error) {
+				alert("error:" + error);
+			},                    
+			complete : function(data) {
+			}
+
+		});//--ajax
+
+	});
+
+
+
+
+	
+	
+    
+	//회원정보삭제
+	    $("#doDelete").on("click", function() {
+		
+		if (confirm("정말 삭제하시겠습니까??") == false) return false;
+		
+		$.ajax({
+			type : "POST",
+			url : "${context}/deleteUser.do",
+			dataType : "html",
+			data : {
+				
+				"seq":${sessionScope.user.seq}
+
+			},
+			success : function(data) { //성공
+
+				var obj = JSON.parse(data);
+				//alert(obj.msgContents);
+				alert(obj.msgContents);
+					
 			},
 			error : function(xhr, status, error) {
 				alert("error:" + error);

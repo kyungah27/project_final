@@ -43,8 +43,8 @@ public class TestCommentDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** CommentDaoImpl **" + dao);
-		comment01 = new CommentVO(14, 2, "10", "재밌었어요", "", "ehgml", "");
-		comment02 = new CommentVO(10, 2, "10", "재밌었어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", "");
+		comment01 = new CommentVO(14, 2, "10", "재밌었어요", "", "ehgml", "",0);
+		comment02 = new CommentVO(10, 2, "10", "재밌었어요ㅋㅋㅋㅋㅋㅋㅋ", "", "ehgml", "",0);
 
 		LOG.debug("[comment01] " + comment01);
 		LOG.debug("[comment02] " + comment02);
@@ -60,7 +60,7 @@ public class TestCommentDao {
 		// dao.doDelete(comment02);
 
 		// 삽입
-		// flag = dao.doInsert(comment01);
+		 flag = dao.doInsert(comment01);
 		// assertThat(flag, is(1));
 		// flag = dao.doInsert(comment02);
 		// assertThat(flag, is(1));
