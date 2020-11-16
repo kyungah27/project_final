@@ -152,13 +152,11 @@
 													//console.log(vo.modDt);
 													console.log(vo.cnt);
 													html += '<span>'
-													html += '<strong>'
-															+ vo.regId + ""
-															+ '</strong>';
+													html += '<strong>'+ vo.regId + ""+ '</strong>';
 													html += '<button onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
 													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>';
+													html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
 													html += '</button>';
-													html += vo.likeCnt
 													html += '</span>'
 													html += '<br/>';
 													html += '<div>'+ vo.content+ '</div>';
@@ -180,9 +178,9 @@
 						error : function(xhr, status, error) {
 							alert("error:" + error);
 						}
-					});
+					});//--ajax
 
-		}
+		}//--commentList
 		function commentdelete(commentSeq) {
 			console.log("commentdelete" + commentSeq);
 
@@ -211,10 +209,10 @@
 				}
 
 			});//--ajax
-		}
+		}//--commentdelete
 		function like(commentSeq){
 			console.log("======like====== ");
-			//  var frm_read = $('#frm_read');
+			  var frm_read = $('#frm_read');
 			 // var commentSeq = $('#commentSeq', frm_read).val();
 			 // var mno = $('#memberSeq', frm_read).val();
 			  var url = "${context}/comment/like.do"
@@ -228,16 +226,24 @@
 			    data: {"commentSeq" : commentSeq},//+'&memberSeq=' +memberSeq,
 			    success: function(data) {
 					var obj = JSON.parse(data);
-
-			    	$("#commentList").empty();
+				     var like_img = '';
+					    if(obj.likeCheck == 0){
+				        like_img = "${context}/resources/img/comment/heart.png";
+				      } else {
+				        like_img = "${context}/resources/img/comment/fullheart.png";
+				      }      
+				      $('#like_img', frm_read).attr('src', like_img);
+				    /*   $('#like_cnt').html(data.like_cnt);
+				      $('#like_check').html(data.like_check); */
+				  	$("#commentList").empty();
 					commentList();
-			  
+	
 			    },
 			    error : function(xhr, status, error) {
 					//alert(meesage.msgContents);
 				}
-			  });
-			}
+			  });//--ajax
+			}//--like
 
 		// 게시글 열리면 자동으로 리스트 홀출할 수 있도록 이벤트 만들어줌
 		$(document).ready(function() {
