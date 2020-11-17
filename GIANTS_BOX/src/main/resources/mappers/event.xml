@@ -43,6 +43,22 @@
 				AND target_dt like '%' || #{searchDate} || '%'
 				</where>
 			</when>
+			<when test="'40' == searchDiv ">
+				<where>
+					user_id = #{searchWord}
+				</where>
+			</when>
+			<when test="'50' == searchDiv ">
+				<where>
+					event_seq in 
+					(select event_seq from event_join where member_seq=#{searchWord})
+				</where>
+			</when>
+			<when test="'60' == searchDiv ">
+				<where>
+					target_dt <![CDATA[ < ]]> sysdate
+				</where>
+			</when>
 		</choose>
 	</sql>
 
