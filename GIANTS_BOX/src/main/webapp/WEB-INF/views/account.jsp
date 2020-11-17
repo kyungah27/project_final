@@ -24,22 +24,25 @@
 						class="form-control item" type="password" id="password" placeholder='영문자,숫자,특수문자를 조합해 8자리 이상 작성'>
 				</div>
 				<div class="form-group" >
-					<label for="password"  id ="newPassword_label">New Password(영문자,숫자,특수문자를 조합해 8자리 이상 작성)</label><input
-						class="form-control item" type="password" id="newPassword" placeholder='새비밀번호'><input
+					<label for="password"  id ="newPassword_label">New Password<br/><small>(영문자,숫자,특수문자를 조합해 8자리 이상 작성)</small></label>
+					<input
+						class="form-control item" type="password" id="newPassword" placeholder='새비밀번호'>
+						<input
 						class="form-control item" type="password" id="newPassword1" placeholder='새비밀번호확인'>
 				</div>
-				<div class="form-group">
-					<label for="email" id ="email_label">Email</label><input class="form-control item"
-						type="email" id="email" value="${sessionScope.user.email}">
 					<div class="form-group">
-						<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
+						<label for="email" id ="email_label">Email</label>
+						<input class="form-control item" type="email" id="email" value="${sessionScope.user.email}">
+					</div>
+					
+					<div class="form-group">
+						<label for="phone" id ="phone_label">Phone<br/><small>(ex. -없이 번호만 입력해주세요)</small></label><input class="form-control item"
 							type="text" id="phone" value="${sessionScope.user.cellPhone}">
 					</div>
 					<div class="form-group">
 						<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
 							class="form-control item" type="text" id="birthday" style="background-color:#E6E6E6" readonly value="${sessionScope.user.birthday}" >
 					</div>
-				</div>
 				
 				<div class="form-group row">
 					<div class="col-lg-6 mb-lg-0 mb-3">

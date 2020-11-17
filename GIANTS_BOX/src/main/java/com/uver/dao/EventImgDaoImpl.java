@@ -29,7 +29,15 @@ public class EventImgDaoImpl {
 	   String statement = NAMESPACE + ".getMaxImgSeq";
 	   LOG.debug("[statement]" + statement);
 	   
-	   int imgSeq = sqlSessionTemplate.selectOne(statement, eventSeq);
+	   int imgSeq;
+	   
+	   try {
+		   imgSeq = sqlSessionTemplate.selectOne(statement, eventSeq);
+	   } catch (Exception e) {
+		   imgSeq = 0;
+		   LOG.debug(e.getMessage());
+	   }
+	   
 	   LOG.debug("[imgSeq] " + imgSeq);
 	   
 	   return imgSeq;
@@ -66,7 +74,15 @@ public class EventImgDaoImpl {
 		LOG.debug("[statement] " + statement);
 		LOG.debug("[eventSeq] " + eventSeq);
 		
-		int imgSeq = this.sqlSessionTemplate.selectOne(statement, eventSeq);
+		int imgSeq;
+		
+		try {
+			imgSeq = this.sqlSessionTemplate.selectOne(statement, eventSeq);
+		} catch (Exception e) {
+			imgSeq = 707;
+			LOG.debug(e.getMessage());
+		}
+		
 		LOG.debug("[imgSeq]" + imgSeq);
 		
 		return imgSeq;
@@ -81,7 +97,7 @@ public class EventImgDaoImpl {
     * @param imgSeq
     * @return EventImgVO
     */
-   public EventImgVO doSelectOne(int imgSeq){
+   public EventImgVO doSelectOne(int imgSeq) throws NullPointerException {
 	   String statement = NAMESPACE +".doSelectOne";	
 		LOG.debug("[statement] " + statement);
 		LOG.debug("[imgSeq] " + imgSeq);
@@ -103,11 +119,19 @@ public class EventImgDaoImpl {
 	   LOG.debug("[search] " + search);
 		
 		String statement = NAMESPACE + ".doSelectList";
-		List<EventImgVO> list = this.sqlSessionTemplate.selectList(statement, search);
-		LOG.debug("[statement] " + statement);
+		List<EventImgVO> list;
 		
-		for (EventImgVO vo : list) {
-			LOG.debug("[vo] " + vo);
+		try {
+			list = this.sqlSessionTemplate.selectList(statement, search);
+			
+			LOG.debug("[statement] " + statement);
+			
+			for (EventImgVO vo : list) {
+				LOG.debug("[vo] " + vo);
+			}
+		} catch (Exception e) {
+			list = null;
+			LOG.debug("exception: " + e.getMessage());
 		}
 		
 		return list;
