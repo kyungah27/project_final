@@ -26,6 +26,7 @@ public class EventImgServiceImpl implements EventImgService {
 	}
 	
 	//-------------------------------------------
+	
 	@Override
 	public int doSelectThumbnail(int eventSeq) {
 		return eventImgDao.doSelectThumbnail(eventSeq);
@@ -90,7 +91,10 @@ public class EventImgServiceImpl implements EventImgService {
 		return eventImgDao.getMaxImgSeq(eventSeq);
 	}
 
-
+	@Override
+	public EventImgVO doSelectLatestImg(int eventSeq) {
+		return eventImgDao.doSelectLatestImg(eventSeq);
+	}
 
 	
 	
