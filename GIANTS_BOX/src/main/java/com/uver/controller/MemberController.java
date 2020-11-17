@@ -85,9 +85,16 @@ import com.uver.vo.MemberVO;
 		   public String myUpdate(MemberVO inputUser, HttpServletRequest req) throws ClassNotFoundException, SQLException {
 			LOG.debug(inputUser.getUserId());
 			
+		   
+		   HttpSession session = req.getSession();
+		   MemberVO memberVO = getMember(session);
 		   int updateFlag = 0;
 		   Message message = new Message();
+		   if(inputUser.getPassword().equals("")) {
+			   inputUser.setPassword(memberVO.getPassword());
+		   }
 		   if(memberService.regPw(inputUser) ==1) {
+			 
 		   updateFlag = memberService.myUpdate(inputUser);
 		   }else {
 			   message.setMsgContents("비밀번호 조건을 확인해주세요");
@@ -95,7 +102,6 @@ import com.uver.vo.MemberVO;
 		   
 			if(updateFlag == 1) {
 				message.setMsgContents("회원정보가 수정되었습니다.");
-				HttpSession session = req.getSession();
 		         
 		         MemberVO user = new MemberVO();
 		         user.setSeq(inputUser.getSeq());
@@ -120,7 +126,6 @@ import com.uver.vo.MemberVO;
 		      Gson gson = new Gson();
 		      String json = gson.toJson(message);
 		      LOG.debug("[json] " + json);
-		      LOG.debug("현우쓰 바보 ");
 		      return json;
 		    
 		 }
@@ -273,6 +278,10 @@ import com.uver.vo.MemberVO;
 				session.invalidate();
 			}
 		   
+			private MemberVO getMember(HttpSession session) {
+				return (MemberVO) session.getAttribute("user");
+				
+			}
 		   
 
 
