@@ -44,8 +44,8 @@
                                     <hr class="mt-0"/>
                                     <div class="d-flex mb-3">
                                         <i class="fa fa-film p-2"></i>
-                                        <div class="p-1">
-                                            <h5><strong>도굴</strong></h5>
+                                        <div class="p-1" id="movie_text">
+                                            <h5><strong id="top_name">도굴</strong></h5>
                                             <strong>감독&nbsp;</strong>강대규<br>
                                             <strong>출연 </strong>성동일, 하지원, 김희원 등<br>
                                             <strong>장르</strong>&nbsp;드라마<br>
@@ -753,7 +753,7 @@
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
 				    html +='</div></div></div>';      
 				    console.log(html); 
-				    $("#event_field").append(html);			
+				    $("#event_field").append(html);	    		
 				   });
 				   
 			      	
@@ -839,6 +839,7 @@
 						var html = '';		
 
 						$("#movie_name").text(title);
+						$("#top_name").text(title);
 						$("#movie_plot").text(plot);
 						$("#movie_poster").attr("src", posterUrl);
 
