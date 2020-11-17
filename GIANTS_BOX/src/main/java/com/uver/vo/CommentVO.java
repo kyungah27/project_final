@@ -20,6 +20,16 @@ public class CommentVO {
 	private String modDt;
 	/** 좋아요 수 */
 	private int likeCnt;
+	
+	private int flag;
+
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
 
 	public CommentVO() {
 	}
