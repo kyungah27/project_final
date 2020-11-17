@@ -1,18 +1,29 @@
 package com.uver.controller;
 
 import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+
 import com.uver.cmn.Message;
+import com.uver.cmn.Search;
+import com.uver.cmn.StringUtil;
+import com.uver.dao.ReviewDaoImpl;
 import com.uver.service.ReviewService;
+import com.uver.vo.CommentVO;
+import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
 
 	@Controller("ReviewController")
@@ -30,6 +41,8 @@ import com.uver.vo.ReviewVO;
 	}
 
 	
+	
+
 	
 	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, 
 			produces = "application/json;charset=UTF-8")
@@ -63,6 +76,56 @@ import com.uver.vo.ReviewVO;
 
 		return json;
 	}
+	
+	
+	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
+	public String doSelectList(Search search,Model model) {
+		
+		//param초기화
+		//pageSize, pageNum
+		if(search.getPageNum()==0) {
+			search.setPageNum(1);
+		}
+		
+		if(search.getPageSize()==0) {
+			search.setPageSize(10);
+		}
+		
+		//게시구분 초기화: 공지사항,자유게시판
+		if(search.getDiv()==null) {
+			search.setDiv("40");//글쓴이
+		}		
+		
+		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
+		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
+		
+		LOG.debug("=====================");
+		LOG.debug("=1.param="+search);
+		LOG.debug("=====================");
+		
+		//board_list화면으로 param전달
+		model.addAttribute("vo", search);
+		
+		//조회목록:
+		//서비스 호출: 화면에 전달
+		List<ReviewVO> reviewList = this.reviewservice.doSelectList(search);
+		model.addAttribute("list", reviewList);
+		
+	  		String view = "review/review_list";
+	  		Gson gson = new Gson();
+
+			String json = gson.toJson(view);
+			LOG.debug("3==================");
+			LOG.debug("=json=" + json);
+			LOG.debug("==================");
+
+			return json;
+	  		
+	  		
+	  	}
+	
+	
+	
 	
 	@RequestMapping(value = "review/doDelete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

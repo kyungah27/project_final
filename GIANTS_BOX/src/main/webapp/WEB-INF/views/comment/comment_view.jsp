@@ -7,13 +7,23 @@
 
 <!DOCTYPE html>
 <html>
+<style>
+.like:hover {
+transform: scale( 1.3 );
+color: red;
+}
+.fa:active-color{
+ color: red;
+ }
 
+</style>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>comment</title>
 <link rel="stylesheet"
 	href="${context}/resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="container">
@@ -40,6 +50,8 @@
 			</form>
 		</div>
 	</div>
+	
+
 	<div class="container">
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
@@ -124,7 +136,7 @@
 		//수정,삭제 기능 추가
 		//commentlist do.?이후 부분+출력부분
 		function commentList() {//10:이벤트 20:이벤트 후기
-
+			var check = "";
 			var url = "${context}/comment/doSelectList.do"
 			$.ajax({
 						type : "get", //get방식으로 자료를 전달한다
@@ -138,7 +150,7 @@
 							var commentList = data;//JSON.parse(data);
 							var length = commentList.length;
 							var cnt=commentList.likeCnt;
-							console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>cnt"+commentList.likeCnt);
+							//console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>cnt"+cnt);
 							$("#count").empty();
 							$("#count").append('<b>' + length + '</b>');
 							$("#cnt").append('<b>' +cnt  + '</b>');
@@ -150,11 +162,11 @@
 													//console.log(vo.commentSeq);
 													//console.log(vo.content);
 													//console.log(vo.modDt);
-													console.log(vo.cnt);
 													html += '<span>'
 													html += '<strong>'+ vo.regId + ""+ '</strong>';
-													html += '<button onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
-													html += '<img src="${context}/resources/img/comment/heart.png" style="width: 20px;"/>';
+													html += '<button class="like" onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
+													html += '<i class="fa fa-heart" aria-hidden="true">'+'</i>'
+													//html += '<img src="${context}/resources/img/comment/fullheart.png" style="width: 20px;"/>';
 													html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
 													html += '</button>';
 													html += '</span>'
@@ -168,7 +180,7 @@
 													html += '<input type="button" class="mr-1 btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
 													html += '</p>';
 												});
-								console.log(html);
+								//console.log(html);
 								$("#commentList").append(html);
 							} else {
 								html += "<div class='text-center'><label>등록된 댓글이 없습니다.</label></div>"
@@ -214,7 +226,7 @@
 			console.log("======like====== ");
 			  var frm_read = $('#frm_read');
 			 // var commentSeq = $('#commentSeq', frm_read).val();
-			 // var mno = $('#memberSeq', frm_read).val();
+			 // var memberSeq = $('#memberSeq', frm_read).val();
 			  var url = "${context}/comment/like.do"
 		
 			  console.log("commentSeq : " + commentSeq );
@@ -229,8 +241,13 @@
 				     var like_img = '';
 					    if(obj.likeCheck == 0){
 				        like_img = "${context}/resources/img/comment/heart.png";
+				        alert("좋아요 취소");
 				      } else {
 				        like_img = "${context}/resources/img/comment/fullheart.png";
+				        alert("좋아요 성공");
+				        //toggleClass(".active-color");
+				        $(this).addClass('fa:active-color');
+				        
 				      }      
 				      $('#like_img', frm_read).attr('src', like_img);
 				    /*   $('#like_cnt').html(data.like_cnt);
@@ -240,7 +257,7 @@
 	
 			    },
 			    error : function(xhr, status, error) {
-					//alert(meesage.msgContents);
+					alert(meesage.msgContents);
 				}
 			  });//--ajax
 			}//--like

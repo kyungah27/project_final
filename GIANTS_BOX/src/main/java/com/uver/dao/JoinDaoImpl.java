@@ -44,6 +44,27 @@ public class JoinDaoImpl implements JoinDao {
 		}
 
    };
+   
+   /**
+    * 회원 가장 많이 참여하는 이벤트 리스트 순 추출
+    * 
+    * @return List<JoinVO>
+    */
+   public List doSelectTopEvents() {
+	   LOG.debug("========================");
+		String statement = this.NAME_SPACE +".doSelectTopEvents";
+		
+		LOG.debug("=statement="+statement);
+		LOG.debug("========================");			
+		
+		List<JoinVO> list =this.sqlSessionTemplate.selectList(statement);
+		
+		for(JoinVO resultVO: list) {
+			LOG.debug("=vo="+resultVO);
+		}
+		
+		return list;
+   }
 	
    
 	@Override

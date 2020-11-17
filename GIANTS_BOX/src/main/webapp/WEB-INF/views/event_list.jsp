@@ -181,9 +181,7 @@
 			    },
 			    complete:function(data){		    
 			    }   			  
-		});//--ajax	
-		 
-		
+		});//--ajax		
 	}
 
 /* 	 $(document).on("click","button[name=seleted_seq]",function(){

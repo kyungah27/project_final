@@ -9,6 +9,14 @@ import com.uver.vo.ImgVO;
 public interface EventImgService {
 	
 	
+	/**
+	 * 가장 최근 이미지 조회 by eventSeq
+	 * 
+	 * @param eventSeq
+	 * @return EventImgVO
+	 */
+	public EventImgVO doSelectLatestImg(int eventSeq);
+	
 	
 	/**
 	 * 이미지, 이벤트_이미지 테이블 등록

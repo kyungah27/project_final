@@ -258,6 +258,22 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 		return null;
 	}
 
+
+	public int doDeleteAll() {
+		LOG.debug("=====================");
+		LOG.debug("=doDelete=");
+		LOG.debug("=====================");
+		//등록 : namespace+id = com.sist.ehr.board.doInsert
+		String statement = NAMESPACE +".doDeleteAll";
+		LOG.debug("=statement="+statement);	
+		
+		int flag = sqlSessionTemplate.delete(statement);
+		LOG.debug("=flag="+flag);
+		
+		return flag;
+		
+	}
+
 	/*
 	 * 원래 썼던것
 	 * 

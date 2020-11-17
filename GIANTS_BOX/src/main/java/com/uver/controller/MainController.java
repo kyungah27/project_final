@@ -17,24 +17,25 @@ public class MainController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 
 	//--- 리뷰페이지 이동
-		@RequestMapping(value="review.do")
+		@RequestMapping(value="review_list.do")
 		public String goReview(HttpServletRequest req) {
 			LOG.debug("-------------------");
-			LOG.debug("review()");
+			LOG.debug("review_list()");
 			LOG.debug("-------------------");
 			
-			return "review";
+			return "review_list";
 		}
 	
 	
 	//--- 메인페이지로 이동
 	@RequestMapping(value="main.do")
-	public String goMain(HttpServletRequest req) {
+	public String goMain(HttpServletRequest req, Model model ,  HttpSession session) {
 		LOG.debug("-------------------");
 		LOG.debug("main()");
 		LOG.debug("-------------------");
 		
 		if(isAliveSession(req)) {
+			model.addAttribute("member", getMember(session));
 			return "index_after_login";
 		} else {
 			return "index";
