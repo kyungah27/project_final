@@ -168,6 +168,7 @@
 			type: "POST",
 			url: "${context}/event/doInsert.do",
 			data: JSON.stringify(eventData),
+			dataType: "json",
 			contentType: "application/json",
 			async: false,
 			success: function(result){
@@ -181,10 +182,14 @@
 
 		});//---ajax
 
-		if (eventSeq > 0){
+		if (eventSeq > 0 || transferFile != false){
 			imgInsert(eventSeq);
 			successFunction();
+		} else {
+			successFunction();
 		}
+
+		
 
 	}
 		
@@ -203,7 +208,6 @@
 			data: formData,
 			processData: false,
 			contentType: false,
-			async: false,
 			success: function(result){
 				if(null != result){
 					//---등록 성공시

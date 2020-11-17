@@ -304,7 +304,7 @@ body, html {
 
 .flex-item {
 	flex: 0 1 auto;
-	margin: 5px 5px;
+	margin: 10px 5px;
 	height: fit-content;
 	background-color: inherit;
 }
@@ -323,3 +323,21 @@ body, html {
 	cursor: pointer;
 	border-radius:10px;
 }
+
+.photo-del a i {
+	color: rgba(100,100,100,0.3);
+}
+
+.photo-del a:link i {
+	
+}
+
+
+.photo-del a:hover i {
+	color: #0078ff;
+}
+
+.photo-del a:active{
+	
+}
+

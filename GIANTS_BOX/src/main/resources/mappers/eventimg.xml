@@ -31,6 +31,7 @@
 		 SELECT MAX(i.img_seq) as minImgSeq
 		 FROM event_image ei, image i
 		 WHERE ei.img_seq = i.img_seq
+		 AND i.is_thumbnail = 'n'
 		 AND ei.event_seq = #{eventSeq}
 	</select>
 
@@ -66,6 +67,7 @@
 		                          ,i.reg_id
 		                    FROM event_image ei, image i
 		                    WHERE ei.img_seq = i.img_seq
+		                    AND   i.is_thumbnail = 'n'
 		                    AND   ei.event_seq = #{searchSeq}
 		                    AND   ei.img_seq <![CDATA[ <= ]]> #{searchSeqSub}
 		                    ORDER BY ei.img_seq DESC
@@ -76,9 +78,11 @@
 		) T1 NATURAL JOIN
 		(
 		    SELECT COUNT(*) as totalCnt
-		    From event_image
-		    WHERE img_seq <![CDATA[ <= ]]> #{searchSeqSub}
-		    AND event_seq = #{searchSeq}
+		    FROM event_image ei, image i
+		    WHERE ei.img_seq = i.img_seq
+		    AND i.is_thumbnail = 'n'
+		    AND ei.img_seq <![CDATA[ <= ]]> #{searchSeqSub}
+		    AND ei.event_seq = #{searchSeq}
 		) T2
 	</select>
 	

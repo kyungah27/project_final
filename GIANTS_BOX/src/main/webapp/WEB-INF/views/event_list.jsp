@@ -73,16 +73,7 @@
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                         <div class="container">
-
                             <div class="card clean-card pt-3" id="event_cards">
-               
-						
-                                <!-- 이벤트 반복 -->
-                               
-                  
-
-                                <!-- 참여 이벤트 없을 경우 -->
-                  
                             </div>
                         </div>
                     </div>
@@ -177,7 +168,7 @@
 			    	  "searchDate":	$("#my_calendar").val(),   	//임시값, 이벤트에서 줄거라고 가정   
 			    	  "genreStr" :  genreStr,
 			    	  "pageNum"  : page,
-			    	  "pageSize" : 2		 	   
+			    	  "pageSize" : 2
 			    },
 			    success:function(data){ //성공
 			    	
@@ -211,22 +202,31 @@
 		if(data.length < 1){
 			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
 			flag = false;
-		}else{
+		} else {
 
 	 	$.each(data, function(i, value) {
-		 	console.log(data);
-        html += ' <hr/><div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
-        html += '<img src="resources/img/event_thumbnail/music.jpg" class="img-fluid rounded mb-2">';  //이미지 일단 보류
+		 	console.log(value); 
+
+			
+			//---[썸네일 이미지 주소]
+		 	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+
+		 	//---[이벤트 페이지 주소]
+		 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+		
+        html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
+        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
 		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
 		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
 		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
-		html +=  '</div></div>'
+		html +=  '</div></div><hr/>'
 	 	}); 
 		}
-		$("#event_cards").append(html);		 	  
+		$("#event_cards").append(html);
+
 	}
 
 
