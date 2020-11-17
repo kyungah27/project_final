@@ -372,26 +372,27 @@
 
 	//---[사진 zoom]
 	let zoomFlag = false;
+	let areaFlag = 0;
+
 	function zoom(event) {
-		
-		if(!zoomFlag){
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.removeAttribute("class");
-			thisImg.setAttribute("style", "z-index:1");
-			thisImg.style.position = "fixed";
-			thisImg.style.top = "25%";
-			thisImg.style.left = "30%";
-			thisImg.style.width = (currWidth + 400) + "px";
-			zoomFlag = true;
-		} else {
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.setAttribute("class","img-thumbnail img-fluid image");
-			thisImg.removeAttribute("style");
-			thisImg.style.width = (currWidth - 400) + "px";
-			zoomFlag = false;
-		}
+		console.log("zoom");
+		let thisImg = event.target;
+		let currWidth = thisImg.clientWidth;
+	}
+
+	function closeImg(thisImg){
+		thisImg.setAttribute("class","img-thumbnail img-fluid image area");
+		thisImg.removeAttribute("style");
+		thisImg.style.width = (currWidth - 400) + "px";
+	}
+
+	function zoomImg(thisImg){
+		thisImg.removeAttribute("class");
+		thisImg.setAttribute("style", "z-index:2");
+		thisImg.style.position = "fixed";
+		thisImg.style.top = "25%";
+		thisImg.style.left = "30%";
+		thisImg.style.width = (currWidth + 400) + "px";
 	}
 
 
@@ -480,6 +481,7 @@
 				return;
 			}
 		}
+
 
 		// 이미지 미리보기
 		preview(files);
@@ -644,54 +646,6 @@
 		count();
 	}
 
-	
-
-
-
-
-	
-	//---[fetchList]
-	/*
-	
-	
-	let fetchList = function(){
-		console.log("fetchList()");
-		photoPgNum = ++photoPgNum;
-		
-		if(isEnd == true){
-			console.log("isEnd true");
-			return;
-		}
-	
-		// <li> 태그의 data-no 속성 가져오기
-		let startNo = $("#img_list li").last().data("no") || 0;
-		console.log("startNo : " + startNo);
-	
-		
-		$.ajax({
-			url: "${context}/img/fetchList.do",
-			data: { "eventSeq" : ${eventVO.eventSeq},
-					"maxImgSeq" : ${maxImgSeq},
-					"photoPgNum" : photoPgNum
-				},
-			type: "POST",
-			//dataType: "application/json"
-			success: function(result){
-				//String -> JSON 객체로 변환 
-				let data = JSON.parse(result);
-				let length = data.length;
-				
-				// 목록 렌더링
-				$.each(data, function(index, data){
-					renderList(false, data.imgVO);
-				});
-				
-			}//---END success
-		});//---END ajax
-	}//---END fetchList
-	
-	*/
-	
 	
 
 
