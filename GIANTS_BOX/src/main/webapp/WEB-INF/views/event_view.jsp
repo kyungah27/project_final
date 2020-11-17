@@ -44,8 +44,8 @@
                                     <hr class="mt-0"/>
                                     <div class="d-flex mb-3">
                                         <i class="fa fa-film p-2"></i>
-                                        <div class="p-1">
-                                            <h5><strong>도굴</strong></h5>
+                                        <div class="p-1" id="movie_text">
+                                            <h5><strong id="top_name">도굴</strong></h5>
                                             <strong>감독&nbsp;</strong>강대규<br>
                                             <strong>출연 </strong>성동일, 하지원, 김희원 등<br>
                                             <strong>장르</strong>&nbsp;드라마<br>
@@ -210,38 +210,9 @@
                     <div class="clean-related-items">
                         <h3>추천 이벤트</h3>
                         <div class="items">
-                            <div class="row justify-content-center">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/halloween.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>10월 31일 6:30PM</strong></p>
-                                <h4 class="text-truncate card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>59명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 6일 8:00PM</strong></p>
-                                <h4 class="text-truncate card-title">불금<strong>🔥🔥🔥</strong>&nbsp;온라인 무비 마라톤 (라라랜드, 위플래시, 스쿨오브락 음악영화 달리기)</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/netflix.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 20일 5:00PM</strong></p>
-                                <h4 class="text-truncate card-title">넷플릭스 + 맥주 + Chilling!</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>2명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
+                            <div class="row justify-content-center" id="event_field" >
+          						<!--  추천 이벤트 append-field  -->
+            				</div>
                         </div>
                     </div>
                 </div>
@@ -261,6 +232,14 @@
 		doSelectList(${eventVO.eventSeq});
 		console.log(${joinCheck})
 		searchToIdKM("${movieSeq}" , "${movieId}");
+
+		let today = new Date(); 
+		let year = today.getFullYear(); // 년도
+		let month = today.getMonth() + 1;  // 월
+		let date = today.getDate()-2;  // 날짜
+		var dateForEvent = year+"-"+month+"-"+date;
+		evnetSelectList("${eventVO.genre}",dateForEvent);
+		
 	});
 
 
@@ -370,28 +349,43 @@
 	}//---END renderList
 
 
-	//---[사진 zoom]
-	let zoomFlag = false;
+	//---[사진 zoom flag 작업]
+	let zoomFlag = 0;
 	function zoom(event) {
-		
-		if(!zoomFlag){
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.removeAttribute("class");
-			thisImg.setAttribute("style", "z-index:1");
-			thisImg.style.position = "fixed";
-			thisImg.style.top = "25%";
-			thisImg.style.left = "30%";
-			thisImg.style.width = (currWidth + 400) + "px";
-			zoomFlag = true;
-		} else {
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.setAttribute("class","img-thumbnail img-fluid image");
-			thisImg.removeAttribute("style");
-			thisImg.style.width = (currWidth - 400) + "px";
-			zoomFlag = false;
+		console.log("zoom");
+		let thisImg = event.target;
+		let currWidth = thisImg.clientWidth;
+
+		zoomFlag++;
+		console.log("zoomFlag : " + zoomFlag);
+
+		if (zoomFlag == 1){
+			console.log("zoomFlag = 1");
+			zoomImg(thisImg, currWidth);
+		} else if($(event.target).hasClass("opened")){
+			closeImg(thisImg, currWidth);
+			zoomFlag = 0;			
+		} else{
+			alert("열려있는 이미지를 먼저 닫아 주세요");
 		}
+	}
+	
+
+	function closeImg(thisImg, currWidth){
+		console.log("closeImg()");
+		thisImg.setAttribute("class","img-thumbnail img-fluid image");
+		thisImg.removeAttribute("style");
+		thisImg.style.width = (currWidth - 400) + "px";
+	}
+
+	function zoomImg(thisImg, currWidth){
+		console.log("zoomImg()");
+		thisImg.setAttribute("class", "opened");
+		thisImg.setAttribute("style", "z-index:2");
+		thisImg.style.position = "fixed";
+		thisImg.style.top = "25%";
+		thisImg.style.left = "30%";
+		thisImg.style.width = (currWidth + 400) + "px";
 	}
 
 
@@ -480,6 +474,7 @@
 				return;
 			}
 		}
+
 
 		// 이미지 미리보기
 		preview(files);
@@ -648,7 +643,7 @@
 
 
 
-
+	//로그인하기 되는데 seccess alert안됨 이따가함 
 	
 	//---[fetchList]
 	/*
@@ -696,7 +691,7 @@
 
 
 
-	//로그인하기 되는데 seccess alert안됨 이따가함 
+	//---------------------------------------------------------- 영화정보 처리   -----------------------------------
 	$("#doJoin").on("click", function(e) {
 		alert("doJoin");
 		  $.ajax({
@@ -747,20 +742,60 @@
 		});//--ajax		
 	}
 
+	function evnetSelectList(genres ,currentDate){
+		  
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doSelectList.do",
+			    dataType:"json", 
+			    data:{
+			 	  "searchDate":	currentDate,
+			 	  "genreStr" : genres,
+			 	  "pageNum"  : 1   	
+			    },
+			    success:function(data){ //성공
+			       console.log(data); 
+			       $("#event_field").empty();	
+			       $.each(data, function(i, value) {
+			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+			    	var html = "";
+			    	if(i == 3) return false;
+				    html += '<div class="col-sm-6 col-lg-4">';
+				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
+				    html += '<div class="card-body info">';
+				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
+				    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
+				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
+				    html +='</div></div></div>';      
+				    console.log(html); 
+				    $("#event_field").append(html);	    		
+				   });
+				   
+			      	
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax		
+	}
+
 
 
 	function drawTable(obj){
 		var html  = "";		
 		$.each(obj, function(i, value) {
 			console.log(value);
-			if(value.priority ==1){
-				
-			}else{
-							
-			}
+		
 			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
 			html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">';  //이미지
-			html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';
+			if(value.priority ==1){
+				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'(주최자)</h4>';
+			}else{
+				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';			
+			}
             html += '<p class="card-text text-truncate">'+value.userId+'</p></div></div></div>';      		
 		});
 		$("#join_list").append(html);				  
@@ -820,6 +855,7 @@
 						var html = '';		
 
 						$("#movie_name").text(title);
+						$("#top_name").text(title);
 						$("#movie_plot").text(plot);
 						$("#movie_poster").attr("src", posterUrl);
 

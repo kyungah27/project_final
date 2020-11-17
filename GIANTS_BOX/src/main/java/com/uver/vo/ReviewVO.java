@@ -17,13 +17,15 @@ public class ReviewVO {
 	private String category;
 	
 	private String mod_dt;
+	
+	private int totalCnt;
 
 	public ReviewVO() {
 		super();
 	}
 
 	public ReviewVO(int review_seq, int eventSeq, String writer, String title, String context, String reg_dt,
-			String category, String mod_dt) {
+			String category, String mod_dt, int totalCnt) {
 		super();
 		this.review_seq = review_seq;
 		this.eventSeq = eventSeq;
@@ -33,6 +35,7 @@ public class ReviewVO {
 		this.reg_dt = reg_dt;
 		this.category = category;
 		this.mod_dt = mod_dt;
+		this.totalCnt = totalCnt;
 	}
 
 	public int getReview_seq() {
@@ -99,13 +102,21 @@ public class ReviewVO {
 		this.mod_dt = mod_dt;
 	}
 
+	public int getTotalCnt() {
+		return totalCnt;
+	}
+
+	public void setTotalCnt(int totalCnt) {
+		this.totalCnt = totalCnt;
+	}
+
 	@Override
 	public String toString() {
 		return "ReviewVO [review_seq=" + review_seq + ", eventSeq=" + eventSeq + ", writer=" + writer + ", title="
 				+ title + ", context=" + context + ", reg_dt=" + reg_dt + ", category=" + category + ", mod_dt="
-				+ mod_dt + "]";
+				+ mod_dt + ", totalCnt=" + totalCnt + "]";
 	}
-
+	
 	
 	
 	

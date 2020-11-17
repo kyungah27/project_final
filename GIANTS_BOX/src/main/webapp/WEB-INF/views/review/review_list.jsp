@@ -1,3 +1,8 @@
+<%@page import="com.uver.cmn.Search"%>
+<%@page import="com.uver.vo.ReviewVO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.uver.cmn.StringUtil"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -32,6 +37,7 @@
 <link rel="stylesheet" href="${context}/resources/css/styles.min.css"
 	rel="stylesheet" type="text/css">
 
+
 <!--calendar-->
 <link href="${context}/resources/css/datepicker.min.css"
 	rel="stylesheet" type="text/css">
@@ -50,58 +56,114 @@
 			<div class="container">
 
 				<!-- 게시판 작성  -->
-				<div class="block-heading">
-					<h2 class="text-primary">후기 게시판</h2>
+				<div class="page-header">
+					<!-- 게시판 -->
+					<h1>글목록</h1>
 				</div>
+				<!-- 검색영역 -->
+				<div class="row ">
+					<form action="${hContext}/review/doSelectList.do" name="searchFrm"
+						class="form-inline  col-lg-12 col-md-12 text-right">
+						<input type="hidden" name="pageNum" id="pageNum" /> <input
+							type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
+							type="hidden" name="seq" id="seq" />
+						<div class="form-group">
+
+
+							<input type="text" name="searchWord" id="searchWord"
+								class="form-control  input-sm" value="${vo.searchWord }"
+								placeholder="검색어" /> 
+								<input type="button"
+								class="btn btn-primary btn-sm"
+								value="<spring:message code='message.common.retrieve' />"
+								onclick="javascript:doSelectList();" /> 
+								<input type="button"
+								class="btn btn-primary btn-sm"
+								value="<spring:message code='message.common.save' />"
+								id="doInsertBtn" /> 
+								<input type="button"
+								class="btn btn-primary btn-sm"
+								value="<spring:message code='message.common.excel' />" />
+						</div>
+					</form>
+				</div>
+				<!--// 검색영역 -->
+
+				<div class="table-responsive">
+					<!-- table -->
+					<table
+						class="table table-striped table-bordered table-hover table-condensed eclass_k"
+						id="review">
+						<thead class="bg-primary">
+							<th class="text-center col-lg-6 col-md-6  col-xs-9">글번호</th>
+							<th class="text-center col-lg-6 col-md-6  col-xs-9">이벤트번호</th>
+							<th class="text-center col-lg-2 col-md-2  col-xs-1">카테고리</th>
+							<th class="text-center col-lg-2 col-md-2  col-xs-1">글쓴이</th>
+							<th class="text-center col-lg-2 col-md-2  col-xs-1">제목</th>
+							<th class="text-center col-lg-2 col-md-2  col-xs-1">등록일</th>
+						</thead>
+						<tbody>
+							<!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 -->
+							<c:choose>
+								<c:when test="${list.size()>0 }">
+									<c:forEach var="vo" items="${list}">
+										<tr>
+											<td class="text-center">${vo.review_seq}</td>
+											<td class="text-left">${vo.eventSeq }</td>
+											<td class="text-left">${vo.category }</td>
+											<td class="text-left">${vo.writer}</td>
+											<td class="text-left">${vo.title}</td>
+											<td class="text-center">${vo.context }</td>
+											<td class="text-right">${vo.mod_dt}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td class="text-center" colspan="99">No data found.</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 
 
 
+						</tbody>
+
+					</table>
+					<!--// table -->
+				</div>
 
 				<!-- pagenation -->
+				<div class="text-center">
+					<%
+						int maxNum = 0; //총글수
+					int currPageNo = 1; //현재페이지
+					int rowPerPage = 10; //한페이지에 보여질 행수
+					int bottomCount = 10;//바닥에 보여질 페이지 수
+					String url = ""; //호출url
+					String scriptName = "";//호출javascritpt
 
-				<!--// pagenation -->
-				<!-- search{s} -->
+					maxNum = (Integer) request.getAttribute("totalCnt");
 
-				<div class="form-group row justify-content-center">
+					Search searchPage = (Search) request.getAttribute("vo");
+					if (null != searchPage) {
+						currPageNo = searchPage.getPageNum();
+						rowPerPage = searchPage.getPageSize();
+					}
 
-					<div class="w100" style="padding-right: 10px">
+					url = request.getContextPath() + "/review/doSelectList.do";
+					//out.print("url:"+url);
+					scriptName = "doSearchPage";
 
-						<select class="form-control form-control-sm" name="searchType"
-							id="searchType">
-
-							<option value="title">제목</option>
-
-							<option value="Content">본문</option>
-
-							<option value="reg_id">작성자</option>
-
-						</select>
-
-					</div>
-
-					<div class="w300" style="padding-right: 10px">
-
-						<input type="text" class="form-control form-control-sm"
-							name="keyword" id="keyword">
-
-					</div>
-
-					<div>
-
-						<button class="btn btn-sm btn-primary" name="btnSearch"
-							id="btnSearch">검색</button>
-
-					</div>
-
+					out.print(StringUtil.renderPaging(maxNum, currPageNo, rowPerPage, bottomCount, url, scriptName));
+					%>
 				</div>
-
-				<!-- search{e} -->
-
-
-
-				
-
-				<!-- //게시판 작성  -->
+				<!--// pagenation -->
+			</div>
+			<!--// div container -->
+			<%--     <%@include  file="/cmn/inc/footer.jsp" %> --%>
+			</div>
+			<!-- //게시판 작성  -->
 
 			</div>
 		</section>
@@ -111,7 +173,50 @@
 
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">
+	function doSearchPage(url, num) {
+		//alert(url+":"+num);
+
+		var frm = document.searchFrm;
+		frm.pageNum.value = num;
+		frm.action = url;
+		frm.submit();
+	}
+
 	
+	$("#doInsertBtn").on("click", function() {
+
+		var frm = document.searchFrm;
+		frm.action = "${hContext}/review/doInsert.do";
+		frm.submit();
+
+	});
+
+	function doSelectList() {
+		//alert('doSelectList');
+		var frm = document.searchFrm;
+		frm.pageNum.value = 1;
+		frm.submit();
+	}
+
+	/* 		$(".eclass_k").on("click", function() {
+	 alert(".eclass_k");	
+	 }); */
+
+	$("#review>tbody").on("click", "tr", function() {
+		//console.log("#boardListTable>tbody");
+		var trs = $(this);
+		var tds = trs.children();
+		var seq = tds.eq(5).text();
+
+		console.log("seq:" + seq);
+		//get방식 형태 call
+		//window.location.href="${hContext}/board/doSelectOne.do?seq="+seq;
+
+		var frm = document.searchFrm;
+		frm.seq.value = seq;
+		frm.action = "${hContext}/review/doSelectOne.do";
+		frm.submit();
+	});
 </script>
 
 </html>

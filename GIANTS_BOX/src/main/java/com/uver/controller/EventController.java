@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.junit.runners.Parameterized.UseParametersRunnerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,53 @@ public class EventController {
 	public EventController() {
 	}
 
+	@RequestMapping(value="myEvent.do", method=RequestMethod.GET)
+	public ModelAndView goMyEvent(HttpSession session, EventVO event,
+							@RequestParam String eventSeq) {
+
+		LOG.debug("=============");
+		LOG.debug("goMyEvnet()");
+		LOG.debug("=============");
+		
+		String userId = null;
+		ModelAndView mav = new ModelAndView();
+		
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			userId = memberVO.getUserId();
+		} 
+		
+		
+		
+		int eventSeqInt = Integer.parseInt(eventSeq);
+		
+		EventVO inVO = new EventVO();
+		inVO.setEventSeq(eventSeqInt);
+		
+		//게시판 리스트를 다 부른다.
+		
+		
+		
+		// join 리스트 호출
+		
+		// model 
+		
+		// 뷰로 전달
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return mav;
+			
+	}
+	
 	//------------------------------------------------------------------
 	//--- event_update 이동
 	@RequestMapping(value="event_update.do", method=RequestMethod.GET)
@@ -89,7 +137,7 @@ public class EventController {
 			method = RequestMethod.POST,
 			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(@RequestBody EventVO event, HttpSession session) {
+	public String doInsert(@RequestBody EventVO event, HttpSession session, Model model) {
 		LOG.debug("=================");
 		LOG.debug("=event=" + event);
 		LOG.debug("=================");
@@ -302,16 +350,16 @@ public class EventController {
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req) {
 		LOG.debug("doSelectList");
-		String searchWord = (String) req.getParameter("searchWord");
+		String searchWord = StringUtil.nvl((String) req.getParameter("searchWord"), "");
 		LOG.debug(searchWord);
-		String tmpStr = (String) req.getParameter("searchDate");
+		String tmpStr =  StringUtil.nvl((String) req.getParameter("searchDate"), "");
 		String searchDate = tmpStr.replaceAll("-", "");
 		LOG.debug(searchDate);
-		String genreStr = (String) req.getParameter("genreStr");
+		String genreStr = StringUtil.nvl((String) req.getParameter("genreStr"), "");
 		LOG.debug(genreStr);
-		String pageNum = (String) req.getParameter("pageNum");
+		String pageNum = StringUtil.nvl((String) req.getParameter("pageNum"), "1");
 		LOG.debug("pagenum"+pageNum);
-		Search search = new Search("10", searchWord, searchDate, 2, Integer.parseInt(pageNum));
+		Search search = new Search("10", searchWord, searchDate, 5, Integer.parseInt(pageNum));
 		String [] genreArr = genreStr.split(",");
 	
 		for(int i = 0 ; i< genreArr.length ; i++) {
@@ -345,6 +393,47 @@ public class EventController {
 		if (list.size() > 0) {
 			req.getSession().setAttribute("tot", list.get(0).getTotalCnt());
 		}
+		Gson gson = new Gson();
+
+		String json = gson.toJson(list);
+		LOG.debug("3==================");
+		LOG.debug("=json=" + json);
+		LOG.debug("==================");
+
+		return json;
+	}
+	
+	@RequestMapping(value = "event/doSelectList2.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doSelectList2(Search search,int myDiv,HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("user");
+		
+		
+		if(myDiv == 1) {
+			search.setSearchDiv("40");
+			
+			search.setSearchWord(member.getUserId());
+		} else if(myDiv == 2){
+			search.setSearchDiv("50");
+			
+			search.setSearchWord(String.valueOf(member.getSeq()));
+		} else if(myDiv == 3) {
+			search.setSearchDiv("60");
+			
+			search.setSearchWord("");
+		} else {
+		
+		// 검색구분
+		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
+	
+		// 검색어
+		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
+		}
+		
+		
+		
+		List<EventVO> list = this.eventService.doSelectList(search);
+		
 		Gson gson = new Gson();
 
 		String json = gson.toJson(list);

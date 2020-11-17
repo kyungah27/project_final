@@ -16,7 +16,8 @@ public class JoinServiceImpl implements JoinService {
 	private static final Logger LOG = LoggerFactory.getLogger(JoinServiceImpl.class);
 	@Autowired
 	JoinDao joinDao;
-
+	
+	
 	/**
 	 * priority가 1 인경우 가장 빨리 참여한 id에 priority를 1증가 시킨 후 삭제
 	 * return : flag 1 성공, 0 실패 
@@ -67,6 +68,11 @@ public class JoinServiceImpl implements JoinService {
 
 	// ----------------bypass----------------------
 	@Override
+	public List doSelectTopEvents() {
+		return joinDao.doSelectTopEvents();
+	}
+	
+	@Override
 	public int doInsert(JoinVO vo) {
 		// TODO Auto-generated method stub
 		return joinDao.doInsert(vo);
@@ -101,6 +107,8 @@ public class JoinServiceImpl implements JoinService {
 		// TODO Auto-generated method stub
 		return joinDao.checkJoin(vo);
 	}
+
+	
 
 
 
