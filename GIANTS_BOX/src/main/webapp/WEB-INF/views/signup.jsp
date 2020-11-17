@@ -3,6 +3,7 @@
 <%@include file="cmn/header.jsp"%>
 
 
+
 <main class="page registration-page" style="padding-top: 65px;">
 	<section class="clean-block clean-form dark">
 		<div class="container">
@@ -12,39 +13,54 @@
 			<form onsubmit="return false;">
 				<div class="form-group row" >
 					<label class="col-lg-12" for="id" id ="id_label">Id</label>
-					
 					<div class="col-lg-9">
 						<input class="form-control item" type="text" id="id" >
 					</div>
 						<input class="btn btn-sm btn-primary" type="button" value="ID중복확인" id="id_check" />
-					
 				</div>
-				
-				
 				<div class="form-group">
 					<label for="name" id ="name_label">Name</label><input class="form-control item"
 						type="text" id="name">
 				</div>
+				
 				<div class="form-group" >
 					<label for="password"  id ="password_label">Password</label><input
 						class="form-control item" type="password" id="password" placeholder="영문자,숫자,특수문자를 조합해 8자리 이상 작성해주세요">
 				</div>
+				
 				<div class="form-group" >
 					<label for="password"  id ="passwordConf_label">Password Check</label><input
 						class="form-control item" type="password" id="passwordConf" placeholder="비밀번호를 한 번 더 입력해주세요">
 				</div>
+				
 				<div class="form-group">
 					<label for="email" id ="email_label">Email</label><input class="form-control item"
 						type="email" id="email">
-					<div class="form-group">
-						<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
-							type="text" id="phone">
-					</div>
-					<div class="form-group">
-						<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
-							class="form-control item" type="text" id="birthday">
-					</div>
+				</div>	
+					
+				<div class="form-group">
+					<label for="phone" id ="phone_label">Phone(ex. -없이 번호만 입력해주세요)</label><input class="form-control item"
+						type="text" id="phone">
 				</div>
+				
+				<div class="form-group">
+					<label for="birthday" id ="birthday_label">Birthday(ex.970123)</label><input
+						class="form-control item" type="text" id="birthday">
+				</div>
+ 				
+				<div class="form-group">
+						<label for="genre" id ="genre_label">좋아하는 영화장르 선택</label></br>
+						<label for="genre1"><input type="radio" id="genre1" name="genre" value="드라마">드라마</label>
+   						<label for="genre2"><input type="radio" id="genre2" name="genre" value="액션">액션</label>
+   						<label for="genre3"><input type="radio" id="genre3" name="genre" value="멜로">멜로</label>
+   						<label for="genre4"><input type="radio" id="genre4" name="genre" value="스릴러">스릴러</label>
+   						<label for="genre5"><input type="radio" id="genre5" name="genre" value="기타">기타</label></br>
+   						<label for="genre6"><input type="radio" id="genre6" name="genre" value="기타1">기타1</label>
+   						<label for="genre7"><input type="radio" id="genre7" name="genre" value="기타2">기타2</label>
+   						<label for="genre8"><input type="radio" id="genre8" name="genre" value="기타3">기타3</label>
+   						<label for="genre9"><input type="radio" id="genre9" name="genre" value="기타4">기타4</label>
+   						<label for="genre10"><input type="radio" id="genre10" name="genre" value="기타5">기타5</label>	    	    	 		  		  		  		  		  		 	 		 	 	
+			</div>
 				<button class="btn btn-primary btn-block"  id="doReg">Sign
 					Up</button>
 			</form>
@@ -121,6 +137,13 @@
 			$("#birthday_label").css("color","red"); 
 			return;
 		}
+		var genre = $('input[name="genre"]:checked').val();
+		if (null == genre || genre.length == 0) {
+			$("#birthday").focus();
+			alert("생년월일을 입력 하세요.");//{0} 입력하세요.
+			$("#birthday_label").css("color","red"); 
+			return;
+		}
 
 		$.ajax({
 			type : "POST",
@@ -133,8 +156,7 @@
 				"email" : $("#email").val(),
 				"cellPhone" : $("#phone").val(),
 				"birthday" : $("#birthday").val(),
-				"genre"  : ""
-
+				"genre"  : $('[name=genre]:checked').val()
 			},
 			success : function(data) { //성공
 
