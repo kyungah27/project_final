@@ -53,14 +53,14 @@
 						<label for="genre1"><input type="radio" id="genre1" name="genre" value="드라마">드라마</label>
    						<label for="genre2"><input type="radio" id="genre2" name="genre" value="액션">액션</label>
    						<label for="genre3"><input type="radio" id="genre3" name="genre" value="멜로">멜로</label>
-   						<label for="genre4"><input type="radio" id="genre4" name="genre" value="스릴러">스릴러</label>
-   						<label for="genre5"><input type="radio" id="genre5" name="genre" value="기타">기타</label></br>
-   						<label for="genre6"><input type="radio" id="genre6" name="genre" value="기타1">기타1</label>
-   						<label for="genre7"><input type="radio" id="genre7" name="genre" value="기타2">기타2</label>
-   						<label for="genre8"><input type="radio" id="genre8" name="genre" value="기타3">기타3</label>
-   						<label for="genre9"><input type="radio" id="genre9" name="genre" value="기타4">기타4</label>
-   						<label for="genre10"><input type="radio" id="genre10" name="genre" value="기타5">기타5</label>	    	    	 		  		  		  		  		  		 	 		 	 	
-			</div>
+   						<label for="genre4"><input type="radio" id="genre4" name="genre" value="공포(호러)">공포(호러)</label>
+   						<label for="genre5"><input type="radio" id="genre5" name="genre" value="범죄">범죄</label></br>
+   						<label for="genre6"><input type="radio" id="genre6" name="genre" value="코메디">코메디</label>
+   						<label for="genre7"><input type="radio" id="genre7" name="genre" value="가족">가족</label>
+   						<label for="genre8"><input type="radio" id="genre8" name="genre" value="SF">SF</label>
+   						<label for="genre9"><input type="radio" id="genre9" name="genre" value="판타지">판타지</label>
+   						<label for="genre10"><input type="radio" id="genre10" name="genre" value="">기타</label>	    	    	 		  		  		  		  		  		 	 		 	 	
+			    </div>
 				<button class="btn btn-primary btn-block"  id="doReg">Sign
 					Up</button>
 			</form>
