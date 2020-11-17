@@ -26,11 +26,17 @@ import com.uver.vo.CommentVO;
 import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
 
-	@Controller("ReviewController")
+	@Controller
 	public class ReviewController {
+		
+		// review_write.jsp -> 리뷰 등록
+		// review_list.jsp -> 리뷰 목록
+		// review_read.jsp -> 리뷰 글 읽기
+		// review_mng.jsp -> 리뷰 수정/삭제/단건조회
+		
+		
 	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
-	
 	ReviewService reviewservice;
 
 	public ReviewController() {
@@ -40,7 +46,14 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
-	
+	//기본화면
+	//목록 화면을 기본화면으로 할 것
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.GET)
+	public String review_view() {
+		LOG.debug("review_write");
+		
+		return "review/review_write";
+	}
 	
 
 	
