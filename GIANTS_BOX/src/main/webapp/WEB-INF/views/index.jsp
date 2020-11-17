@@ -368,12 +368,14 @@
 			    
 			       $.each(data, function(i, value) {
 			    	var html = "";
+			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+			    	//let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
 			    	if(i == 3) return false;
 				    html += '<div class="col-sm-6 col-lg-4">';
-				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">';
+				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
 				    html += '<div class="card-body info">';
 				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
-				    html += '<h4 class="text-truncate card-title"><a href="event/doSelectOne.do?seleted_seq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+				    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
 				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
 				    html +='</div></div></div>';      
