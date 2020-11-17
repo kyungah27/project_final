@@ -29,6 +29,18 @@
 		FROM event_join
 		<include refid="searchCondition" />
 	</select>
+	
+	
+	<!-- 회원 가장 많이 참여하는 top3 이벤트 추출 -->
+	<select id="doSelectTopEvents" resultType="JoinVO">
+		SELECT ROWNUM num, eventSeq, totalCnt
+		FROM(
+		    SELECT count(*) as totalCnt, event_seq as eventSeq
+		    FROM event_join
+		    GROUP BY event_seq
+		    ORDER BY totalCnt DESC
+		) 
+	</select>
 
 
 	<insert id="doInsert" parameterType="JoinVO">

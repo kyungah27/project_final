@@ -184,7 +184,6 @@ public class CommentController {
 
 		// likeVO가 null(0) 이면 좋아요에 인서트.
 		CommentVO commentVO = new CommentVO();
-		int cnt = commentVO.getLikeCnt();
 		if (null == outVO) {
 			// 좋아요 인서트.
 			likeVO.setLikeCheck(1);
@@ -201,8 +200,8 @@ public class CommentController {
 			commentVO = commentService.doSelectOne(commentSeq);
 			commentVO.setLikeCnt(commentVO.getLikeCnt() - 1);
 			commentService.likeCntDown(commentVO);
-			likeService.deleteMemberSeq(outVO.getMemberSeq());
-			// likeService.likeCheckCancel(likeVO);
+			//likeService.deleteMemberSeq(outVO.getMemberSeq());
+			likeService.deleteCommentSeq(outVO.getCommentSeq());
 			obj.put("likeCheck", 0);
 
 		}

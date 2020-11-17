@@ -350,16 +350,16 @@ public class EventController {
 	@ResponseBody
 	public String doSelectList(HttpServletRequest req) {
 		LOG.debug("doSelectList");
-		String searchWord = (String) req.getParameter("searchWord");
+		String searchWord = StringUtil.nvl((String) req.getParameter("searchWord"), "");
 		LOG.debug(searchWord);
-		String tmpStr = (String) req.getParameter("searchDate");
+		String tmpStr =  StringUtil.nvl((String) req.getParameter("searchDate"), "");
 		String searchDate = tmpStr.replaceAll("-", "");
 		LOG.debug(searchDate);
-		String genreStr = (String) req.getParameter("genreStr");
+		String genreStr = StringUtil.nvl((String) req.getParameter("genreStr"), "");
 		LOG.debug(genreStr);
-		String pageNum = (String) req.getParameter("pageNum");
+		String pageNum = StringUtil.nvl((String) req.getParameter("pageNum"), "1");
 		LOG.debug("pagenum"+pageNum);
-		Search search = new Search("10", searchWord, searchDate, 2, Integer.parseInt(pageNum));
+		Search search = new Search("10", searchWord, searchDate, 5, Integer.parseInt(pageNum));
 		String [] genreArr = genreStr.split(",");
 	
 		for(int i = 0 ; i< genreArr.length ; i++) {

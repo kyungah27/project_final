@@ -30,8 +30,10 @@ import com.uver.cmn.Message;
 import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
 import com.uver.service.EventImgService;
+import com.uver.service.JoinService;
 import com.uver.vo.EventImgVO;
 import com.uver.vo.ImgVO;
+import com.uver.vo.JoinVO;
 import com.uver.vo.MemberVO;
 
 import net.minidev.json.JSONArray;
@@ -44,20 +46,68 @@ public class EventImgController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 
 	private final EventImgService eventImgService;
-
-	/**
-	 * 파일 시스템에 있는 이미지 파일 응답으로 돌려주기
-	 */
-	private final View imgView;
+	private final JoinService joinService;
+	private final View imgView; /** 파일 시스템에 있는 이미지 파일 응답으로 돌려주기 */
 
 	@Value("${file.path}")
 	private String UPLOAD_FILE_DIR;
 
-	public EventImgController(EventImgService eventImgService, View imgView) {
+	public EventImgController(EventImgService eventImgService, View imgView, JoinService joinService) {
 		this.eventImgService = eventImgService;
 		this.imgView = imgView;
+		this.joinService = joinService;
+	}
+	
+	@RequestMapping(value="top_imgs.do", method = RequestMethod.GET)
+	@ResponseBody
+	public String doSelectTopImgs() {
+		
+		List<JoinVO> topEventList = joinService.doSelectTopEvents();
+		HashMap<String, Object> model = new HashMap<String, Object>();
+		
+		List<EventImgVO> eventImgList = new ArrayList<EventImgVO>();
+		
+		int flag = 0;
+		EventImgVO eventImg = null;
+		
+		for (JoinVO vo : topEventList) {
+			LOG.debug("vo: " + vo);
+			int eventSeq = vo.getEventSeq();
+			try {
+				eventImg = this.eventImgService.doSelectLatestImg(eventSeq);
+				
+				if (!eventImg.equals(null) && eventImg != null) {
+					LOG.debug("--[not null]---");
+					eventImg.setNum(vo.getNum());
+					eventImg.setTotalCnt(vo.getTotalCnt());
+					
+					eventImgList.add(eventImg);
+					flag += 1;
+					
+					LOG.debug("eventImgList" + eventImgList);
+				}
+				
+				if(flag==3) {
+					break;
+				}
+				
+			} catch(NullPointerException e) {
+				LOG.debug("---null---");
+				continue;
+			}
+		}
+		
+		model.put("img01", eventImgList.get(0).getImgSeq());
+		model.put("img02", eventImgList.get(1).getImgSeq());
+		model.put("img03", eventImgList.get(2).getImgSeq());
+		LOG.debug("flag: " + flag);
+
+		return mapper(model);
 	}
 
+	
+	
+	
 	/**
 	 * 이미지 객체 받아서 화면에 이미지 뿌리기
 	 * 
@@ -122,7 +172,6 @@ public class EventImgController {
 		int eventSeq = Integer.parseInt(eventSeqStr);
 		int photoPgNum = Integer.parseInt(photoPgNumStr);
 		
-		String json = null;
 		
 		//eventSeq, pageNum, pageSize
 		Search search = new Search(eventSeq, photoPgNum, 9);
@@ -151,6 +200,13 @@ public class EventImgController {
 			model.put("fetchedMaxImgSeq", 0);
 		}
 		
+		return mapper(model);
+	}
+	
+	
+	
+	private String mapper(HashMap<String, Object> model) {
+		String json = null;
 		
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -169,6 +225,14 @@ public class EventImgController {
 		
 		return json;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 스크롤 할 때 데이터 가져오기
