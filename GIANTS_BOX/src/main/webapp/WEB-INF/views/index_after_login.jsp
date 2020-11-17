@@ -280,21 +280,9 @@
 				<div class="carousel slide shadow" data-ride="carousel"
 					data-interval="false" id="carousel-1">
 					<div class="carousel-inner border rounded" role="listbox">
-						<div class="carousel-item active">
-							<img class="w-100 d-block"
-								src="${context}/resources/img/event_img/photo2.jpg"
-								alt="Slide Image" style="height: 750px;">
-						</div>
-						<div class="carousel-item">
-							<img class="w-100 d-block"
-								src="${context}/resources/img/event_img/photo3.jpg"
-								alt="Slide Image" style="height: 750px;">
-						</div>
-						<div class="carousel-item">
-							<img class="w-100 d-block"
-								src="${context}/resources/img/event_img/photo4.jpg"
-								alt="Slide Image" style="height: 750px;">
-						</div>
+						<div class="carousel-item active"><img id="slide-img-01" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
+                        <div class="carousel-item"><img id="slide-img-02" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
+                        <div class="carousel-item"><img id="slide-img-03" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
 					</div>
 					<div>
 						<!-- Start: Previous -->
@@ -404,8 +392,40 @@
 		var currentDate = year+""+month+""+date;
 		console.log(currentDate);
 		boxOffList(currentDate);
+
+		//---top3 이벤트 최근 이미지
+		doSelectTopImgs();
 	    
 	});
+
+	function doSelectTopImgs(){
+		$.ajax({
+			url : "${context}/img/top_imgs.do",
+			type : "GET",
+			dataType : "json",
+			success : function(data) {
+
+				//---[이미지 설정]
+				let topImg01Src = "${context}/img/" + data.img01 + ".do";
+				let topImg02Src = "${context}/img/" + data.img02 + ".do";
+				let topImg03Src = "${context}/img/" + data.img03 + ".do";
+
+				let slideImg01 = document.getElementById("slide-img-01");
+				let slideImg02 = document.getElementById("slide-img-02");
+				let slideImg03 = document.getElementById("slide-img-03");
+
+				slideImg01.setAttribute("src", topImg01Src);
+				slideImg02.setAttribute("src", topImg02Src);
+				slideImg03.setAttribute("src", topImg03Src);
+				
+			},
+			error : function(xhr, status, error) {
+				console.log("error:" + error);
+			},
+			complete : function(data) {
+			}
+		})
+	}
 
 
 	   function searchOneToNameKM(movieNm) {
