@@ -29,12 +29,13 @@ public class MainController {
 	
 	//--- 메인페이지로 이동
 	@RequestMapping(value="main.do")
-	public String goMain(HttpServletRequest req) {
+	public String goMain(HttpServletRequest req, Model model ,  HttpSession session) {
 		LOG.debug("-------------------");
 		LOG.debug("main()");
 		LOG.debug("-------------------");
 		
 		if(isAliveSession(req)) {
+			model.addAttribute("member", getMember(session));
 			return "index_after_login";
 		} else {
 			return "index";
