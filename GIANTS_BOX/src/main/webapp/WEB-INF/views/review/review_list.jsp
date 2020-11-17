@@ -61,104 +61,147 @@
 					<h1>글목록</h1>
 				</div>
 				<!-- 검색영역 -->
-				<div class="row ">
-					<form action="${hContext}/review/doSelectList.do" name="searchFrm"
-						class="form-inline  col-lg-12 col-md-12 text-right">
-						<input type="hidden" name="pageNum" id="pageNum" /> <input
-							type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
-							type="hidden" name="seq" id="seq" />
-						<div class="form-group">
-
-
-							<input type="text" name="searchWord" id="searchWord"
-								class="form-control  input-sm" value="${vo.searchWord }"
-								placeholder="검색어" /> 
-								<input type="button"
-								class="btn btn-primary btn-sm"
-								value="<spring:message code='message.common.retrieve' />"
-								onclick="javascript:doSelectList();" /> 
-								<input type="button"
-								class="btn btn-primary btn-sm"
-								value="<spring:message code='message.common.save' />"
-								id="doInsertBtn" /> 
-								<input type="button"
-								class="btn btn-primary btn-sm"
-								value="<spring:message code='message.common.excel' />" />
+				<form name="form1" method="post" action="list.do">
+					<div class="search row" style="margin: auto;">
+						<div class="col-xs-2 col-sm-2" style="margin: auto;">
+							<select name="search_option" class="form-control" align="center">
+								<option value="eventSeq"
+									<c:if test="${map.search_option == 'eventSeq'}">selected</c:if>>이벤트번호</option>
+								<option value="writer"
+									<c:if test="${map.search_option == 'writer'}">selected</c:if>>글쓴이</option>	
+								<option value="title"
+									<c:if test="${map.search_option == 'title'}">selected</c:if>>제목</option>
+								<option value="context"
+									<c:if test="${map.search_option == 'context'}">selected</c:if>>내용</option>
+								<option value="category"
+									<c:if test="${map.search_option == 'category'}">selected</c:if>>카테고리</option>
+								
+							</select>
 						</div>
-					</form>
-				</div>
-				<!--// 검색영역 -->
 
-				<div class="table-responsive">
-					<!-- table -->
-					<table
-						class="table table-striped table-bordered table-hover table-condensed eclass_k"
-						id="review">
-						<thead class="bg-primary">
-							<th class="text-center col-lg-6 col-md-6  col-xs-9">글번호</th>
-							<th class="text-center col-lg-6 col-md-6  col-xs-9">이벤트번호</th>
-							<th class="text-center col-lg-2 col-md-2  col-xs-1">카테고리</th>
-							<th class="text-center col-lg-2 col-md-2  col-xs-1">글쓴이</th>
-							<th class="text-center col-lg-2 col-md-2  col-xs-1">제목</th>
-							<th class="text-center col-lg-2 col-md-2  col-xs-1">등록일</th>
-						</thead>
-						<tbody>
-							<!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 -->
-							<c:choose>
-								<c:when test="${list.size()>0 }">
-									<c:forEach var="vo" items="${list}">
-										<tr>
-											<td class="text-center">${vo.review_seq}</td>
-											<td class="text-left">${vo.eventSeq }</td>
-											<td class="text-left">${vo.category }</td>
-											<td class="text-left">${vo.writer}</td>
-											<td class="text-left">${vo.title}</td>
-											<td class="text-center">${vo.context }</td>
-											<td class="text-right">${vo.mod_dt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
+
+						<div class="col-xs-2 col-sm-2" style="margin: auto;">
+							<div class="input-group" style="margin: auto;">
+								<input type="text" name="keyword" value="${map.keyword}"
+									class="form-control" style="width: 300px;" align="center">
+							</div>
+						</div>
+						<input type="submit" value="조회" class="btn btn-default"
+							align="center">
+						<button type="button" id="btnWrite" align="center"
+							class="btn btn-default">글쓰기</button>
+
+					</div>
+			</div>
+			</center>
+
+			</form>
+
+
+
+
+			<div class="row ">
+				<form action="${hContext}/review/doSelectList.do" name="searchFrm"
+					class="form-inline  col-lg-12 col-md-12 text-right">
+					<input type="hidden" name="pageNum" id="pageNum" /> <input
+						type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
+						type="hidden" name="seq" id="seq" />
+					<div class="form-group">
+
+
+						<input type="text" name="searchWord" id="searchWord"
+							class="form-control  input-sm" value="${vo.searchWord }"
+							placeholder="검색어" /> 
+							
+							<input type="button"
+							class="btn btn-primary btn-sm"
+							value="<spring:message code='message.common.retrieve' />"
+							onclick="javascript:doSelectList();" /> 
+							
+							<input type="button"
+							class="btn btn-primary btn-sm"
+							value="<spring:message code='message.common.save' />"
+							id="doInsertBtn" /> 
+							
+							<input type="button"
+							class="btn btn-primary btn-sm"
+							value="<spring:message code='message.common.excel' />" />
+					</div>
+				</form>
+			</div>
+			
+			
+			<!--// 검색영역 -->
+
+			<div class="table-responsive">
+				<!-- table -->
+				<table
+					class="table table-striped table-bordered table-hover table-condensed eclass_k"
+					id="review">
+					<thead class="bg-primary">
+						<th class="text-center col-lg-6 col-md-6  col-xs-9">글번호</th>
+						<th class="text-center col-lg-6 col-md-6  col-xs-9">이벤트번호</th>
+						<th class="text-center col-lg-2 col-md-2  col-xs-1">카테고리</th>
+						<th class="text-center col-lg-2 col-md-2  col-xs-1">글쓴이</th>
+						<th class="text-center col-lg-2 col-md-2  col-xs-1">제목</th>
+						<th class="text-center col-lg-2 col-md-2  col-xs-1">등록일</th>
+					</thead>
+					<tbody>
+						<!-- 문자: 왼쪽, 숫자: 오른쪽, 같은면: 가운데 -->
+						<c:choose>
+							<c:when test="${list.size()>0 }">
+								<c:forEach var="vo" items="${list}">
 									<tr>
-										<td class="text-center" colspan="99">No data found.</td>
+										<td class="text-center">${vo.review_seq}</td>
+										<td class="text-left">${vo.eventSeq }</td>
+										<td class="text-left">${vo.category }</td>
+										<td class="text-left">${vo.writer}</td>
+										<td class="text-left">${vo.title}</td>
+										<td class="text-right">${vo.mod_dt}</td>
 									</tr>
-								</c:otherwise>
-							</c:choose>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td class="text-center" colspan="99">No data found.</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 
 
 
-						</tbody>
+					</tbody>
 
-					</table>
-					<!--// table -->
-				</div>
+				</table>
+				<!--// table -->
+			</div>
 
-				<!-- pagenation -->
-				<div class="text-center">
-					<%
-						int maxNum = 0; //총글수
-					int currPageNo = 1; //현재페이지
-					int rowPerPage = 10; //한페이지에 보여질 행수
-					int bottomCount = 10;//바닥에 보여질 페이지 수
-					String url = ""; //호출url
-					String scriptName = "";//호출javascritpt
+			<!-- pagenation -->
+			<div class="text-center">
+				<%
+					int maxNum = 0; //총글수
+				int currPageNo = 1; //현재페이지
+				int rowPerPage = 10; //한페이지에 보여질 행수
+				int bottomCount = 10;//바닥에 보여질 페이지 수
+				String url = ""; //호출url
+				String scriptName = "";//호출javascritpt
 
-					maxNum = (Integer) request.getAttribute("totalCnt");
+				maxNum = (Integer) request.getAttribute("totalCnt");
 
-					Search searchPage = (Search) request.getAttribute("vo");
-					if (null != searchPage) {
-						currPageNo = searchPage.getPageNum();
-						rowPerPage = searchPage.getPageSize();
-					}
+				Search searchPage = (Search) request.getAttribute("vo");
+				if (null != searchPage) {
+					currPageNo = searchPage.getPageNum();
+					rowPerPage = searchPage.getPageSize();
+				}
 
-					url = request.getContextPath() + "/review/doSelectList.do";
-					//out.print("url:"+url);
-					scriptName = "doSearchPage";
+				url = request.getContextPath() + "/review/doSelectList.do";
+				//out.print("url:"+url);
+				scriptName = "doSearchPage";
 
-					out.print(StringUtil.renderPaging(maxNum, currPageNo, rowPerPage, bottomCount, url, scriptName));
-					%>
-				</div>
-				<!--// pagenation -->
+				out.print(StringUtil.renderPaging(maxNum, currPageNo, rowPerPage, bottomCount, url, scriptName));
+				%>
+			</div>
+			<!--// pagenation -->
 			</div>
 			<!--// div container -->
 			<%--     <%@include  file="/cmn/inc/footer.jsp" %> --%>
@@ -182,7 +225,6 @@
 		frm.submit();
 	}
 
-	
 	$("#doInsertBtn").on("click", function() {
 
 		var frm = document.searchFrm;

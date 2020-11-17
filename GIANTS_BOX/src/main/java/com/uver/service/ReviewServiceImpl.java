@@ -41,10 +41,7 @@ import com.uver.vo.ReviewVO;
 		return reviewDao.doUpdate(reviewVO);
 	}
 
-	@Override
-	public ReviewVO doSelectOne(int review_seq) {
-		return reviewDao.doSelectOne(review_seq);
-	}
+	
 
 	
 	@Override
@@ -56,6 +53,12 @@ import com.uver.vo.ReviewVO;
 	@Override
 	public List<ReviewVO> doSelectList(Search search) {
 		return reviewDao.doSelectList(search);
+	}
+
+	@Override
+	public ReviewVO doSelectOne(ReviewVO reviewVO) {
+		
+		return reviewDao.doSelectOne(reviewVO);
 	}
 	
 	

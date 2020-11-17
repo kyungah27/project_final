@@ -25,7 +25,7 @@ public class ReviewVO {
 	}
 
 	public ReviewVO(int review_seq, int eventSeq, String writer, String title, String context, String reg_dt,
-			String category, String mod_dt, int totalCnt) {
+			String category, String mod_dt) {
 		super();
 		this.review_seq = review_seq;
 		this.eventSeq = eventSeq;
@@ -35,7 +35,7 @@ public class ReviewVO {
 		this.reg_dt = reg_dt;
 		this.category = category;
 		this.mod_dt = mod_dt;
-		this.totalCnt = totalCnt;
+		
 	}
 
 	public int getReview_seq() {

@@ -2,6 +2,7 @@ package com.uver.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -90,6 +91,26 @@ import com.uver.vo.ReviewVO;
 
 		return json;
 	}
+	
+	@RequestMapping(value="review/doSelectOne.do",method = RequestMethod.GET)
+	public String doSelectOne(ReviewVO reviewVO,Locale locale,Model model) {
+		//게시판 관리 화면
+		String returnURL = "review/review_mng";
+		LOG.debug("===================================");
+		LOG.debug("=doSelectOne=");		
+		LOG.debug("=doDelete=");
+		LOG.debug("=param="+reviewVO);  
+		
+		if( 0==reviewVO.getReview_seq()) {
+			throw new IllegalArgumentException("게시글 번호를 확인 하세요.");
+		}
+		
+		ReviewVO outVO = this.reviewservice.doSelectOne(reviewVO);
+		model.addAttribute("vo", outVO);
+		
+		return returnURL;
+	}
+	
 	
 	
 	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
