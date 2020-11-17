@@ -16,6 +16,7 @@ import com.uver.vo.ReviewVO;
 	public class ReviewServiceImpl implements ReviewService {
 	private static final Logger LOG = LoggerFactory.getLogger(ReviewServiceImpl.class);
 
+	@Autowired
 	ReviewDao reviewDao;
 
 	public ReviewServiceImpl() {
