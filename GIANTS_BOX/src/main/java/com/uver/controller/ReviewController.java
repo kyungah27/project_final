@@ -31,12 +31,13 @@ import com.uver.vo.ReviewVO;
 		
 		// review_write.jsp -> 리뷰 등록
 		// review_list.jsp -> 리뷰 목록
-		// review_read.jsp -> 리뷰 글 읽기
-		// review_mng.jsp -> 리뷰 수정/삭제/단건조회
+	
+		// review_mng.jsp -> 리뷰 읽기/수정/삭제/단건조회
 		
 		
 	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
+	@Autowired
 	ReviewService reviewservice;
 
 	public ReviewController() {
@@ -93,48 +94,57 @@ import com.uver.vo.ReviewVO;
 	
 	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
 	public String doSelectList(Search search,Model model) {
-		
 		//param초기화
-		//pageSize, pageNum
-		if(search.getPageNum()==0) {
-			search.setPageNum(1);
-		}
-		
-		if(search.getPageSize()==0) {
-			search.setPageSize(10);
-		}
-		
-		//게시구분 초기화: 공지사항,자유게시판
-		if(search.getDiv()==null) {
-			search.setDiv("40");//글쓴이
-		}		
-		
-		search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
-		search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
-		
-		LOG.debug("=====================");
-		LOG.debug("=1.param="+search);
-		LOG.debug("=====================");
-		
-		//board_list화면으로 param전달
-		model.addAttribute("vo", search);
-		
-		//조회목록:
-		//서비스 호출: 화면에 전달
-		List<ReviewVO> reviewList = this.reviewservice.doSelectList(search);
-		model.addAttribute("list", reviewList);
-		
-	  		String view = "review/review_list";
-	  		Gson gson = new Gson();
-
-			String json = gson.toJson(view);
-			LOG.debug("3==================");
-			LOG.debug("=json=" + json);
-			LOG.debug("==================");
-
-			return json;
-	  		
-	  		
+				//pageSize, pageNum
+				if(search.getPageNum()==0) {
+					search.setPageNum(1);
+				}
+				
+				if(search.getPageSize()==0) {
+					search.setPageSize(10);
+				}
+				
+				//게시구분 초기화: 공지사항,자유게시판
+				if(search.getDiv()==null) {
+					search.setDiv("10");//공지사항
+				}		
+				
+				search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
+				search.setSearchWord(StringUtil.nvl(search.getSearchWord(), ""));
+				
+				LOG.debug("=====================");
+				LOG.debug("=1.param="+search);
+				LOG.debug("=====================");
+				
+				//board_list화면으로 param전달
+				model.addAttribute("vo", search);
+				
+				//조회목록:
+				//서비스 호출: 화면에 전달
+				List<ReviewVO> reviewList = this.reviewservice.doSelectList(search);
+				model.addAttribute("list", reviewList);
+				
+				
+				//총글수
+				int totalCnt = 0;
+				
+				if(reviewList.size()>0) {
+					ReviewVO totalVO = reviewList.get(0);
+					totalCnt = totalVO.getTotalCnt();
+				}
+				model.addAttribute("totalCnt", totalCnt);
+				
+				
+			    for(ReviewVO vo:reviewList) {
+			    	LOG.debug(vo.toString());
+			    }    
+			    
+				//code: PAGE_SIZE,BOARD_CONDITION
+				
+				
+				String view = "review/review_list";
+				//view화면
+				return view;
 	  	}
 	
 	
