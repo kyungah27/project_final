@@ -349,28 +349,43 @@
 	}//---END renderList
 
 
-	//---[사진 zoom]
-	let zoomFlag = false;
+	//---[사진 zoom flag 작업]
+	let zoomFlag = 0;
 	function zoom(event) {
-		
-		if(!zoomFlag){
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.removeAttribute("class");
-			thisImg.setAttribute("style", "z-index:1");
-			thisImg.style.position = "fixed";
-			thisImg.style.top = "25%";
-			thisImg.style.left = "30%";
-			thisImg.style.width = (currWidth + 400) + "px";
-			zoomFlag = true;
-		} else {
-			let thisImg = event.target;
-			let currWidth = thisImg.clientWidth;
-			thisImg.setAttribute("class","img-thumbnail img-fluid image");
-			thisImg.removeAttribute("style");
-			thisImg.style.width = (currWidth - 400) + "px";
-			zoomFlag = false;
+		console.log("zoom");
+		let thisImg = event.target;
+		let currWidth = thisImg.clientWidth;
+
+		zoomFlag++;
+		console.log("zoomFlag : " + zoomFlag);
+
+		if (zoomFlag == 1){
+			console.log("zoomFlag = 1");
+			zoomImg(thisImg, currWidth);
+		} else if($(event.target).hasClass("opened")){
+			closeImg(thisImg, currWidth);
+			zoomFlag = 0;			
+		} else{
+			alert("열려있는 이미지를 먼저 닫아 주세요");
 		}
+	}
+	
+
+	function closeImg(thisImg, currWidth){
+		console.log("closeImg()");
+		thisImg.setAttribute("class","img-thumbnail img-fluid image");
+		thisImg.removeAttribute("style");
+		thisImg.style.width = (currWidth - 400) + "px";
+	}
+
+	function zoomImg(thisImg, currWidth){
+		console.log("zoomImg()");
+		thisImg.setAttribute("class", "opened");
+		thisImg.setAttribute("style", "z-index:2");
+		thisImg.style.position = "fixed";
+		thisImg.style.top = "25%";
+		thisImg.style.left = "30%";
+		thisImg.style.width = (currWidth + 400) + "px";
 	}
 
 
@@ -459,6 +474,7 @@
 				return;
 			}
 		}
+
 
 		// 이미지 미리보기
 		preview(files);
@@ -627,7 +643,7 @@
 
 
 
-
+	//로그인하기 되는데 seccess alert안됨 이따가함 
 	
 	//---[fetchList]
 	/*
