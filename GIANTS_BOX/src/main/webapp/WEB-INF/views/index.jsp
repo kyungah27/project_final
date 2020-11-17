@@ -99,9 +99,12 @@
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
                     <h2 class="text-primary">Films for Events</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="#">See more</a>
                 </div>
+                
                	<div class="row" id = "movie_info">
+         
 				<!--  박스 오피스 정보 append 위치 -->
            	 	</div>
+           	 	<h6  class="text-primary">information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)</h6>
             </div>
         </section>
         <section class="clean-block features">
@@ -265,8 +268,8 @@
 				result = data.Result[0];		
 				//제목
 				var title = result.title;
-				title = title.replace(/!HS/gi, " ");
-				title = title.replace(/!HE/gi, " ");
+				title = title.replace(/!HS/gi, "");
+				title = title.replace(/!HE/gi, "");
 				console.log(title);										
 				//감독
 				var director = result.directors.director[0].directorNm;
@@ -301,7 +304,10 @@
 				html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 				html += '<strong>출연 </strong>'+actors+'<br>'
 				html += '<strong>장르 </strong>'+genre+'</p>'
-				html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+	
+				console.log($.trim(title));
+				title = title.replace(/ +/g, " ");
+				html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 				console.log(html);	
 				$("#movie_info").append(html);		
 			},
