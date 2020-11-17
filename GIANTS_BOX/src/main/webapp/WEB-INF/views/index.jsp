@@ -58,45 +58,16 @@
         <section class="clean-block">
             <div class="container">
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
-                    <h2 class="text-primary">Event near you</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="#">See more</a></div>
+                    <h2 class="text-primary">Event near you</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="${context}/event_list.do?searchWord">See more</a></div>
                 <div class="row justify-content-center" id="event_field">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/halloween.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>10월 31일 6:30PM</strong></p>
-                                <h4 class="text-truncate card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>59명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 6일 8:00PM</strong></p>
-                                <h4 class="text-truncate card-title"><a href="event/doSelectOne.do?seleted_seq=5">링크</a></h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/netflix.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 20일 5:00PM</strong></p>
-                                <h4 class="text-truncate card-title">넷플릭스 + 맥주 + Chilling!</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>2명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
+          			<!--  이벤트 카드 정보 append 위치 -->
             </div>
             </div>
         </section>
         <section class="clean-block clean-info dark">
             <div class="container">
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
-                    <h2 class="text-primary">Films for Events</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="#">See more</a>
+                    <h2 class="text-primary">Films for Events</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="${context}/event_list.do?searchWord">See more</a>
                 </div>
                 
                	<div class="row" id = "movie_info">
@@ -161,9 +132,9 @@
                 </div>
                 <div class="carousel slide shadow" data-ride="carousel" data-interval="false" id="carousel-1">
                     <div class="carousel-inner border rounded" role="listbox">
-                        <div class="carousel-item active"><img class="w-100 d-block" src="${context}/resources/img/event_img/photo2.jpg" alt="Slide Image" style="height: 750px;"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="${context}/resources/img/event_img/photo3.jpg" alt="Slide Image" style="height: 750px;"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="${context}/resources/img/event_img/photo4.jpg" alt="Slide Image" style="height: 750px;"></div>
+                        <div class="carousel-item active"><img id="slide-img-01" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
+                        <div class="carousel-item"><img id="slide-img-02" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
+                        <div class="carousel-item"><img id="slide-img-03" class="w-100 d-block" alt="Slide Image" style="height: 750px;"></div>
                     </div>
                     <div>
                         <!-- Start: Previous --><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a>
@@ -240,15 +211,47 @@
 		let date = today.getDate()-2;  // 날짜
 		var currentDate = year+""+month+""+date;
 		var dateForEvent = year+"-"+month+"-"+date;
-		console.log(currentDate);
 		boxOffList(currentDate);
 		SelectList(dateForEvent);
+
+		//---top3 이벤트 최근 이미지
+		doSelectTopImgs();
 
 
 		$('#search_btn').click(function() {
 			$(location).attr('href',"event_list.do?searchWord="+$("#search-field").val());
 		});
 	});
+
+
+	function doSelectTopImgs(){
+		$.ajax({
+			url : "${context}/img/top_imgs.do",
+			type : "GET",
+			dataType : "json",
+			success : function(data) {
+
+				//---[이미지 설정]
+				let topImg01Src = "${context}/img/" + data.img01 + ".do";
+				let topImg02Src = "${context}/img/" + data.img02 + ".do";
+				let topImg03Src = "${context}/img/" + data.img03 + ".do";
+
+				let slideImg01 = document.getElementById("slide-img-01");
+				let slideImg02 = document.getElementById("slide-img-02");
+				let slideImg03 = document.getElementById("slide-img-03");
+
+				slideImg01.setAttribute("src", topImg01Src);
+				slideImg02.setAttribute("src", topImg02Src);
+				slideImg03.setAttribute("src", topImg03Src);
+				
+			},
+			error : function(xhr, status, error) {
+				console.log("error:" + error);
+			},
+			complete : function(data) {
+			}
+		})
+	}
 
     
     function searchOneToNameKM(movieNm) {

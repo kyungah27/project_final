@@ -86,6 +86,21 @@
 		) T2
 	</select>
 	
+	<!-- [SELECT THE LATEST IMG SEQ] -->
+	<select id="doSelectLatestImg" parameterType="int" resultType="EventImgVO">
+		SELECT imgSeq, eventSeq
+		FROM(
+		    SELECT
+		        ei.img_seq as imgSeq,
+		        ei.event_seq as eventSeq
+		    FROM
+		        event_image ei, image i
+		    WHERE ei.event_seq = #{eventSeq}
+		    ORDER BY ei.img_seq DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+	
 	
 	
 	

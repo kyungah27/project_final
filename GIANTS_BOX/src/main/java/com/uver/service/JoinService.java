@@ -14,7 +14,12 @@ public interface JoinService {
 	public List doSelectList(JoinVO vo);
 	public int doUpdate(JoinVO vo);	
 	public List currentJoinList(JoinVO vo);
+	public List doSelectTopEvents();
 	//--------------bypass---------------------- 
+	
+	
+	
+	
 	
 	/**
 	 * 만약 prioriy가 1이면 등록일이 가장 빠른사람에게 priority를 1 부여

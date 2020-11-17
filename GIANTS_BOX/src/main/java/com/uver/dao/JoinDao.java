@@ -44,5 +44,7 @@ public interface JoinDao {
 	
 	List currentJoinList(JoinVO vo);
 	int checkJoin(JoinVO vo);
+	
+	List doSelectTopEvents();
 
 }
