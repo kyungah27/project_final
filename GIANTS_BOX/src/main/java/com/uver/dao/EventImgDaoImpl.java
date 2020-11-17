@@ -25,6 +25,24 @@ public class EventImgDaoImpl {
 
 
 //---메서드----------------------------------------------------------
+   /**
+    * 가장 최근 이미지 조회 (by eventSeq)
+    * 
+    * @param eventSeq
+    * @return EventImgVO
+    */
+   public EventImgVO doSelectLatestImg(int eventSeq) throws NullPointerException{
+	   String statement = NAMESPACE +".doSelectLatestImg";	
+		LOG.debug("[statement] " + statement);
+		LOG.debug("[eventSeq] " + eventSeq);
+		
+		EventImgVO outVO;
+		outVO = this.sqlSessionTemplate.selectOne(statement, eventSeq);
+		LOG.debug("[outVO]" + outVO);
+		return outVO;
+	}
+   
+   
    public int getMaxImgSeq(int eventSeq) {
 	   String statement = NAMESPACE + ".getMaxImgSeq";
 	   LOG.debug("[statement]" + statement);
