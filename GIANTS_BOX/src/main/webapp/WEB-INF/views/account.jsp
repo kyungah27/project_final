@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <main class="page registration-page" style="padding-top: 65px;">
@@ -44,18 +45,18 @@
 							class="form-control item" type="text" id="birthday" style="background-color:#E6E6E6" readonly value="${sessionScope.user.birthday}" >
 					</div>
 				    <div class="form-group">
-						<label for="genre" id ="genre_label">좋아하는 영화장르 선택</label></br>
-						<label for="genre1"><input type="radio" id="genre1" name="genre" value="드라마" ${sessionScope.user.genre}>드라마</label>
-   						<label for="genre2"><input type="radio" id="genre2" name="genre" value="액션" ${sessionScope.user.genre}>액션</label>
-   						<label for="genre3"><input type="radio" id="genre3" name="genre" value="멜로" ${sessionScope.user.genre}>멜로</label>
-   						<label for="genre4"><input type="radio" id="genre4" name="genre" value="공포(호러)" ${sessionScope.user.genre}>공포(호러)</label>
-   						<label for="genre5"><input type="radio" id="genre5" name="genre" value="범죄" ${sessionScope.user.genre}>범죄</label></br>
-   						<label for="genre6"><input type="radio" id="genre6" name="genre" value="코메디" ${sessionScope.user.genre}>코메디</label>
-   						<label for="genre7"><input type="radio" id="genre7" name="genre" value="가족" ${sessionScope.user.genre}>가족</label>
-   						<label for="genre8"><input type="radio" id="genre8" name="genre" value="SF" ${sessionScope.user.genre}>SF</label>
-   						<label for="genre9"><input type="radio" id="genre9" name="genre" value="판타지" ${sessionScope.user.genre}>판타지</label>
-   						<label for="genre10"><input type="radio" id="genre10" name="genre" value="" ${sessionScope.user.genre}>기타</label>	    	    	 		  		  		  		  		  		 	 		 	 	
-			    </div>
+						<label for="genre" id ="genre_label" >좋아하는 영화장르 선택</label></br>
+						<label for="genre1"><input type="radio" id="genre1" name="genre" value="드라마">드라마</label>
+   						<label for="genre2"><input type="radio" id="genre2" name="genre" value="액션">액션</label>
+   						<label for="genre3"><input type="radio" id="genre3" name="genre" value="멜로">멜로</label>
+   						<label for="genre4"><input type="radio" id="genre4" name="genre" value="공포(호러)">공포(호러)</label>
+   						<label for="genre5"><input type="radio" id="genre5" name="genre" value="범죄">범죄</label></br>
+   						<label for="genre6"><input type="radio" id="genre6" name="genre" value="코메디">코메디</label>
+   						<label for="genre7"><input type="radio" id="genre7" name="genre" value="가족">가족</label>
+   						<label for="genre8"><input type="radio" id="genre8" name="genre" value="SF">SF</label>
+   						<label for="genre9"><input type="radio" id="genre9" name="genre" value="판타지">판타지</label>
+   						<label for="genre10"><input type="radio" id="genre10" name="genre" value="">기타</label>	    	    	 		  		  		  		  		  		 	 		 	 	
+			    	</div>
 				<div class="form-group row">
 					<div class="col-lg-6 mb-lg-0 mb-3">
 						<button class="btn btn-primary btn-block" type="button"  id="doUpdate">회원정보수정</button>
@@ -74,9 +75,7 @@
     
 
     //회원정보수정
-	$("#doUpdate").on("click", function() {
-		 alert("doInset");
-         alert($("#newPassword").val());
+	$("#doUpdate").on("click", function() {	 
 			
 		var name = $("#name").val();
 		name = name.trim();
@@ -156,7 +155,7 @@
 				"birthday":$("#birthday").val(),
 				"email":$("#email").val(),
 				"auth":1,
-				"genre":"공포"
+				"genre"  : $('[name=genre]:checked').val()
 				
 
 			},
@@ -183,7 +182,18 @@
 	});
 
 
+	$(document).ready(function(){
+		var step;
+		for (step = 1; step <= 10; step++) {
+			if($("#genre"+step).val() == "${sessionScope.user.genre}"){
+				console.log($("#genre"+step).val());
+				$("#genre"+step).prop("checked", true);
+			}
+		  console.log('Walking east one step');
+		}
 
+		
+	});
 
 	
 	
