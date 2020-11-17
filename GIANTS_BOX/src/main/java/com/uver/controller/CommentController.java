@@ -47,14 +47,15 @@ public class CommentController {
 		return "comment/comment_view";
 	}
 
-	// 댓글 리스트를 호출 할 때 맵핑 되는 메소드
-	@RequestMapping(value = "comment/list.do")
-	public ModelAndView list(CommentVO commentVO, ModelAndView mav) {
-		List<CommentVO> list = commentService.doSelectList(commentVO);
-		mav.setViewName("comment/comment_view");
-		mav.addObject("list", list);
-		return mav;
-	}
+	/*
+	 * // 댓글 리스트를 호출 할 때 맵핑 되는 메소드
+	 * 
+	 * @RequestMapping(value = "comment/list.do") public ModelAndView list(CommentVO
+	 * commentVO, ModelAndView mav) { List<CommentVO> list =
+	 * commentService.doSelectList(commentVO);
+	 * mav.setViewName("comment/comment_view"); mav.addObject("list", list); return
+	 * mav; }
+	 */
 
 	@RequestMapping(value = "comment/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -91,7 +92,7 @@ public class CommentController {
 	@ResponseBody
 	public String doDelete(CommentVO commentVO) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");
-		LOG.debug(">>>>>>>>>>>>>>doDelet<<<<<<<<<<<<<");
+		LOG.debug(">>>>>>>>>>>>>>doDelete<<<<<<<<<<<<<");
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
 
@@ -118,13 +119,13 @@ public class CommentController {
 
 		return json;
 
-		// *************삭제 되었을때 list뽑도록 return url 바꿔주기
 	}
 
 	@RequestMapping(value = "comment/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doUpdate(CommentVO commentVO) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");
+		LOG.debug(">>>>>>>>>>>>>>doUpdate<<<<<<<<<<<<<");
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
 
