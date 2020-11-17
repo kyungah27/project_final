@@ -214,7 +214,7 @@
 			console.log("======like====== ");
 			  var frm_read = $('#frm_read');
 			 // var commentSeq = $('#commentSeq', frm_read).val();
-			 // var mno = $('#memberSeq', frm_read).val();
+			 // var memberSeq = $('#memberSeq', frm_read).val();
 			  var url = "${context}/comment/like.do"
 		
 			  console.log("commentSeq : " + commentSeq );
@@ -227,6 +227,7 @@
 			    success: function(data) {
 					var obj = JSON.parse(data);
 				     var like_img = '';
+				     console.log(">>>>>>>>>>>>>>>>>>>>>>>>obj.likeCheck:"+obj.likeCheck);
 					    if(obj.likeCheck == 0){
 				        like_img = "${context}/resources/img/comment/heart.png";
 				      } else {
