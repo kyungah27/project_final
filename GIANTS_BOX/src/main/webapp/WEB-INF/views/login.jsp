@@ -45,14 +45,19 @@
         //check되면 : 쿠키에 ID저장
         if($("#checkbox").is(":checked")){
             console.log("sss");
+            
            if(u_id !=null){
               setCookie("id",u_id,7);
+              setCookie()
            }
+
         }else{//그렇치 않으면 쿠키에 ID삭제
            if(u_id !=null){
              deleteCookie("id");
            }
         }
+
+       
 		
 		  $.ajax({
 			    type:"GET",
@@ -113,11 +118,15 @@
         document.cookie = cookie_name +"="+cookieValue;
  
      }
- 	$(document).ready(function(){ 
-	    var userId = getCookie("id");
-	    console.log(userId);
+ 	$(document).ready(function(){ 	
+	   var userId = getCookie("id");
 	    $("#id").val(userId);
-	    
+
+	    if($("#id").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+            $("#checkbox").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+        }
+
+	   
 /* 	    
 	    if($("#userId").val() != "")
 	      $("#saveId").attr("checked", true); */
