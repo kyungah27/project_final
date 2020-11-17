@@ -54,9 +54,9 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"박민경", "나나", "로로로", "", "영화", "");
-		review02 = new ReviewVO(1, 0, "서지은", "가가", "리리리", "","영화", "");
-		review03 = new ReviewVO(1, 0, "김송이", "테스트", "니니니", "","후기", "");
+		review01 = new ReviewVO(1, 1002,"김정은", "여름", "로로로", "", "영화", "");
+		review02 = new ReviewVO(1, 0, "김나현", "여름", "리리리", "","영화", "");
+		review03 = new ReviewVO(1, 0, "김보현", "여름", "니니니", "","후기", "");
 		
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -84,14 +84,14 @@ public class TestReviewDao {
 	public void test() {
 		int flag = 0;
 		// 삽입		
-		
+		/*
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review03);
 		assertThat(flag, is(1));
-		
+		*/
 		
 		// 삭제
 		/*
@@ -148,7 +148,7 @@ public class TestReviewDao {
 
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void doSelectList(){
 		//1.all삭제
 		//2.3건 입력
@@ -156,26 +156,26 @@ public class TestReviewDao {
 		//4.3건비교
 		
 		//1.
-		//this.reviewDaoImpl.doDeleteAll();
+		this.reviewDaoImpl.doDeleteAll();
 		
 		//2.
-		//int flag = reviewDaoImpl.doInsert(review01);
-		//assertThat(flag, is(1));
+		int flag = reviewDaoImpl.doInsert(review01);
+		assertThat(flag, is(1));
 		
-		//flag = reviewDaoImpl.doInsert(review02);
-		//assertThat(flag, is(1));
+		flag = reviewDaoImpl.doInsert(review02);
+		assertThat(flag, is(1));
 		
-		//flag = reviewDaoImpl.doInsert(review03);
-		//assertThat(flag, is(1));
+		flag = reviewDaoImpl.doInsert(review03);
+		assertThat(flag, is(1));
 		
-		//Search search=new Search("40", "c",10,1);
-		Search search=new Search("40", "최규연");
-		//search.setDiv("10");
+		
+		Search search=new Search("50", "여름",5,1);
+		search.setDiv("50");
 		
 		List<ReviewVO> list = reviewDaoImpl.doSelectList(search);
-		
+	
 		assertThat(list.size(), is(3));
-		
+		//LOG.debug(search+"search");
 	}
 	
 	@After
