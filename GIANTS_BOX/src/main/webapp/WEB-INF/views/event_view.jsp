@@ -210,38 +210,9 @@
                     <div class="clean-related-items">
                         <h3>추천 이벤트</h3>
                         <div class="items">
-                            <div class="row justify-content-center">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/halloween.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>10월 31일 6:30PM</strong></p>
-                                <h4 class="text-truncate card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>59명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 6일 8:00PM</strong></p>
-                                <h4 class="text-truncate card-title">불금<strong>🔥🔥🔥</strong>&nbsp;온라인 무비 마라톤 (라라랜드, 위플래시, 스쿨오브락 음악영화 달리기)</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/netflix.jpg">
-                            <div class="card-body info">
-                                <p class="text-left card-text"><strong>11월 20일 5:00PM</strong></p>
-                                <h4 class="text-truncate card-title">넷플릭스 + 맥주 + Chilling!</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>2명 참여</small></div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
+                            <div class="row justify-content-center" id="event_field" >
+          						<!--  추천 이벤트 append-field  -->
+            				</div>
                         </div>
                     </div>
                 </div>
@@ -261,6 +232,14 @@
 		doSelectList(${eventVO.eventSeq});
 		console.log(${joinCheck})
 		searchToIdKM("${movieSeq}" , "${movieId}");
+
+		let today = new Date(); 
+		let year = today.getFullYear(); // 년도
+		let month = today.getMonth() + 1;  // 월
+		let date = today.getDate()-2;  // 날짜
+		var dateForEvent = year+"-"+month+"-"+date;
+		evnetSelectList("${eventVO.genre}",dateForEvent);
+		
 	});
 
 
@@ -664,7 +643,59 @@
 
 
 
+<<<<<<< HEAD
 	//로그인하기 되는데 seccess alert안됨 이따가함 
+=======
+
+	
+	//---[fetchList]
+	/*
+	
+	
+	let fetchList = function(){
+		console.log("fetchList()");
+		photoPgNum = ++photoPgNum;
+		
+		if(isEnd == true){
+			console.log("isEnd true");
+			return;
+		}
+	
+		// <li> 태그의 data-no 속성 가져오기
+		let startNo = $("#img_list li").last().data("no") || 0;
+		console.log("startNo : " + startNo);
+	
+		
+		$.ajax({
+			url: "${context}/img/fetchList.do",
+			data: { "eventSeq" : ${eventVO.eventSeq},
+					"maxImgSeq" : ${maxImgSeq},
+					"photoPgNum" : photoPgNum
+				},
+			type: "POST",
+			//dataType: "application/json"
+			success: function(result){
+				//String -> JSON 객체로 변환 
+				let data = JSON.parse(result);
+				let length = data.length;
+				
+				// 목록 렌더링
+				$.each(data, function(index, data){
+					renderList(false, data.imgVO);
+				});
+				
+			}//---END success
+		});//---END ajax
+	}//---END fetchList
+	
+	*/
+	
+	
+
+
+
+	//---------------------------------------------------------- 영화정보 처리   -----------------------------------
+>>>>>>> main
 	$("#doJoin").on("click", function(e) {
 		alert("doJoin");
 		  $.ajax({
@@ -715,20 +746,60 @@
 		});//--ajax		
 	}
 
+	function evnetSelectList(genres ,currentDate){
+		  
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doSelectList.do",
+			    dataType:"json", 
+			    data:{
+			 	  "searchDate":	currentDate,
+			 	  "genreStr" : genres,
+			 	  "pageNum"  : 1   	
+			    },
+			    success:function(data){ //성공
+			       console.log(data); 
+			       $("#event_field").empty();	
+			       $.each(data, function(i, value) {
+			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+			    	var html = "";
+			    	if(i == 3) return false;
+				    html += '<div class="col-sm-6 col-lg-4">';
+				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
+				    html += '<div class="card-body info">';
+				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
+				    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
+				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
+				    html +='</div></div></div>';      
+				    console.log(html); 
+				    $("#event_field").append(html);			
+				   });
+				   
+			      	
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax		
+	}
+
 
 
 	function drawTable(obj){
 		var html  = "";		
 		$.each(obj, function(i, value) {
 			console.log(value);
-			if(value.priority ==1){
-				
-			}else{
-							
-			}
+		
 			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
 			html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">';  //이미지
-			html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';
+			if(value.priority ==1){
+				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'(주최자)</h4>';
+			}else{
+				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';			
+			}
             html += '<p class="card-text text-truncate">'+value.userId+'</p></div></div></div>';      		
 		});
 		$("#join_list").append(html);				  
