@@ -59,8 +59,7 @@
             <div class="container">
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
                     <h2 class="text-primary">Event near you</h2><a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center" href="#">See more</a></div>
-                <div
-                    class="row justify-content-center">
+                <div class="row justify-content-center" id="event_field">
                     <div class="col-sm-6 col-lg-4">
                         <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/halloween.jpg">
                             <div class="card-body info">
@@ -75,7 +74,7 @@
                         <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">
                             <div class="card-body info">
                                 <p class="text-left card-text"><strong>11월 6일 8:00PM</strong></p>
-                                <h4 class="text-truncate card-title">불금<strong>🔥🔥🔥</strong>&nbsp;온라인 무비 마라톤 (라라랜드, 위플래시, 스쿨오브락 음악영화 달리기)</h4>
+                                <h4 class="text-truncate card-title"><a href="event/doSelectOne.do?seleted_seq=5">링크</a></h4>
                                 <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                                 <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>
                             </div>
@@ -240,14 +239,15 @@
 		let month = today.getMonth() + 1;  // 월
 		let date = today.getDate()-2;  // 날짜
 		var currentDate = year+""+month+""+date;
+		var dateForEvent = year+"-"+month+"-"+date;
 		console.log(currentDate);
 		boxOffList(currentDate);
+		SelectList(dateForEvent);
 
 
 		$('#search_btn').click(function() {
 			$(location).attr('href',"event_list.do?searchWord="+$("#search-field").val());
 		});
-
 	});
 
     
@@ -348,6 +348,46 @@
 			complete : function(data) {
 			}
 		})
+	}
+
+	function SelectList(currentDate){
+		  
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doSelectList.do",
+			    dataType:"json", 
+			    data:{
+			 	  "searchDate":	currentDate,
+			 	  "pageNum"  : 1   	
+			    },
+			    success:function(data){ //성공
+			       console.log(data); 
+			    
+			       $.each(data, function(i, value) {
+			    	var html = "";
+			    	if(i == 3) return false;
+				    html += '<div class="col-sm-6 col-lg-4">';
+				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/music.jpg">';
+				    html += '<div class="card-body info">';
+				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
+				    html += '<h4 class="text-truncate card-title"><a href="event/doSelectOne.do?seleted_seq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
+				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
+				    html +='</div></div></div>';      
+				    console.log(html); 
+				    $("#event_field").append(html);			
+				   });
+				   
+			       
+					
+			      	
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax		
 	}
 
 
