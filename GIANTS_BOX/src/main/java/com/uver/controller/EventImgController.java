@@ -67,13 +67,42 @@ public class EventImgController {
 	 */
 	@RequestMapping("{imgSeq}.do")
 	private ImgView getImg(@PathVariable int imgSeq, ModelMap modelMap) {
-
-		EventImgVO eventImg = eventImgService.doSelectOne(imgSeq);
-		ImgVO img = eventImg.getImgVO();
+		EventImgVO eventImg;
+		ImgVO img;
+		try {
+			
+			eventImg = eventImgService.doSelectOne(imgSeq);
+			LOG.debug(eventImg.toString());
+			img = eventImg.getImgVO();
+		} catch (Exception e) {
+			img = eventImgService.doSelectOne(707).getImgVO();
+			LOG.debug("exception" + e.getMessage());
+		} 
 		modelMap.put("img", img);
-
 		return (ImgView) imgView;
 	}
+	
+	
+	@RequestMapping("/event/{eventSeq}.do")
+	@ResponseBody
+	public ImgView getThumbnail(@PathVariable int eventSeq, ModelMap modelMap) {
+		
+		int imgSeq = eventImgService.doSelectThumbnail(eventSeq);
+		ImgVO img;
+		
+		if (imgSeq > 0) {
+			img = eventImgService.doSelectOne(imgSeq).getImgVO();
+		} else {
+			// default 이미지 설정
+			img = eventImgService.doSelectOne(707).getImgVO();
+			
+		}
+		modelMap.put("img", img);
+		return (ImgView) imgView;
+	}
+	
+	
+	
 
 	/**
 	 * the first doSelectList
@@ -90,32 +119,38 @@ public class EventImgController {
 			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
 
 		HashMap<String, Object> model = new HashMap<String, Object>();
-			
 		int eventSeq = Integer.parseInt(eventSeqStr);
 		int photoPgNum = Integer.parseInt(photoPgNumStr);
+		
+		String json = null;
 		
 		//eventSeq, pageNum, pageSize
 		Search search = new Search(eventSeq, photoPgNum, 9);
 
 		//최신값 설정
 		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
-		LOG.debug("maxImgSeq: " + maxImgSeq);
-		search.setSearchSeqSub(maxImgSeq);
+		LOG.debug("[maxImgSeq] " + maxImgSeq);
+		
+		if (maxImgSeq > 0) {
+			LOG.debug("maxImgSeq: " + maxImgSeq);
+			search.setSearchSeqSub(maxImgSeq);
 
-		// event seq
-		List<EventImgVO> list = eventImgService.doSelectList(search);
-		int cnt = list.get(0).getTotalCnt();
+			// event seq
+			List<EventImgVO> list = eventImgService.doSelectList(search);
+			int cnt = list.get(0).getTotalCnt();
+			
+			model.put("list", list);
+			model.put("cnt", cnt);
+			model.put("fetchedMaxImgSeq", maxImgSeq);
+			model.put("eventSeq", eventSeq);
+			
+			LOG.debug("----------------");
+			LOG.debug("model:"+model.toString());
+			LOG.debug("----------------");
+		} else {
+			model.put("fetchedMaxImgSeq", 0);
+		}
 		
-		model.put("list", list);
-		model.put("cnt", cnt);
-		model.put("maxImgSeq", maxImgSeq);
-		model.put("eventSeq", eventSeq);
-		
-		LOG.debug("----------------");
-		LOG.debug("model:"+model.toString());
-		LOG.debug("----------------");
-		
-		String json = null;
 		
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -123,14 +158,14 @@ public class EventImgController {
 			json = mapper.writeValueAsString(model);
 			LOG.debug(json);
 
-			json=mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
+			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model);
 
 			LOG.debug(json);
 			return json;
-			
+
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-		} 
+		}
 		
 		return json;
 	}
