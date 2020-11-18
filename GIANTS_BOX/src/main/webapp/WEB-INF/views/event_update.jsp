@@ -136,15 +136,19 @@
 		console.log(movieGenre.value);
 		console.log(content.value);
 
+		console.log(transferFile);
+		if(!transferFile){
+			eventUpdate()
+			.then(successFunction)
+			.catch(errorFunction);
+		} else {
+			eventUpdate()
+			.then(imgUpdate)
+			.then(successFunction)
+			.catch(errorFunction);	
+		}
 
 		
-
-
-
-		eventUpdate()
-		.then(imgUpdate)
-		.then(successFunction)
-		.catch(errorFunction);
 
 		
 
@@ -199,7 +203,9 @@
 			let chkImgSeq = document.getElementById("img_area_img").src.split(".")[0];
 			let lastChkImgSeq = chkImgSeq.slice(chkImgSeq.length-3, chkImgSeq.length);
 			console.log(lastChkImgSeq);
+
 			
+					
 			const form = $("form")[0];
 	        let formData = new FormData(form);
 
@@ -223,6 +229,8 @@
 		            }
 				}
 			});//---ajax
+
+			
 		});//---promise
 	}
 
