@@ -103,7 +103,7 @@
 	function drawCards(data,e){
 		var html  = "";	
 		if(data.length < 1){
-			html += '<div class="card-body"><h4 class="card-title">개최한 이벤트가 없습니다.</h4></div>'
+			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
 			flag = false;
 		}else{
 	 	$.each(data, function(i, value) {
@@ -134,7 +134,6 @@
 		$("#reg_cards").empty();
 		$("#reg_cards").append(html);		 	  
 	}
-
 
 
 
