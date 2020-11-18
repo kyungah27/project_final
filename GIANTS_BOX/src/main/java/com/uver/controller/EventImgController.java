@@ -165,7 +165,8 @@ public class EventImgController {
 	@ResponseBody
 	public String doSelectList(
 			@RequestParam("eventSeq") String eventSeqStr,
-			@RequestParam("photoPgNum") String photoPgNumStr) throws ParseException {
+			@RequestParam("photoPgNum") String photoPgNumStr,
+			@RequestParam("maxImgSeq") String maxImgSeqStr ) throws ParseException {
 
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		int eventSeq = Integer.parseInt(eventSeqStr);
@@ -174,27 +175,35 @@ public class EventImgController {
 		
 		//eventSeq, pageNum, pageSize
 		Search search = new Search(eventSeq, photoPgNum, 9);
-
+		
 		//최신값 설정
-		int maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
-		LOG.debug("[maxImgSeq] " + maxImgSeq);
+		int maxImgSeq = Integer.parseInt(maxImgSeqStr);
+		
+		if (maxImgSeq == 0) {
+			maxImgSeq = eventImgService.getMaxImgSeq(eventSeq);
+		}
+		
+		
+		LOG.debug("[final maxImgSeq] " + maxImgSeq);
 		
 		if (maxImgSeq > 0) {
-			LOG.debug("maxImgSeq: " + maxImgSeq);
 			search.setSearchSeqSub(maxImgSeq);
+			LOG.debug("search");
 
-			// event seq
 			List<EventImgVO> list = eventImgService.doSelectList(search);
-			int cnt = list.get(0).getTotalCnt();
+			int listLen = list.size();
+			if (listLen != 0) {
+				int cnt = list.get(0).getTotalCnt();;
+				model.put("list", list);
+				model.put("cnt", cnt);
+				model.put("fetchedMaxImgSeq", maxImgSeq);
+				model.put("eventSeq", eventSeq);
+				
+				LOG.debug("----------------");
+				LOG.debug("model:"+model.toString());
+				LOG.debug("----------------");
+			}
 			
-			model.put("list", list);
-			model.put("cnt", cnt);
-			model.put("fetchedMaxImgSeq", maxImgSeq);
-			model.put("eventSeq", eventSeq);
-			
-			LOG.debug("----------------");
-			LOG.debug("model:"+model.toString());
-			LOG.debug("----------------");
 		} else {
 			model.put("fetchedMaxImgSeq", 0);
 		}

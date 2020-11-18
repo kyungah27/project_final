@@ -31,8 +31,8 @@
 		 SELECT MAX(i.img_seq) as minImgSeq
 		 FROM event_image ei, image i
 		 WHERE ei.img_seq = i.img_seq
-		 AND i.is_thumbnail = 'n'
-		 AND ei.event_seq = #{eventSeq}
+			 AND i.is_thumbnail = 'n'
+			 AND ei.event_seq = #{eventSeq}
 	</select>
 
 	

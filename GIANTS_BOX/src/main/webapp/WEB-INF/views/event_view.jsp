@@ -206,7 +206,8 @@
 
 	//------------------------------------[photo]-------------------------------------------------------
 	let photoPgNum = 1;
-	let maxImgSeq;
+	let maxImgSeq = 0;
+	let zoomFlag = 0;
 
 	//---[사진 탭 클릭]
 	$("#photos-tabs").on("click", photoList);
@@ -225,10 +226,12 @@
 
 		//---파람 초기화
 		photoPgNum = 1;
-		maxImgSeq;
+		//maxImgSeq;
+		zoomFlag = 0;
 
 		//---이미지 목록 가져오기
 		fetchImgList(photoPgNum, maxImgSeq);
+		
 	}; 
 
 	//---[사진 더보기 클릭]
@@ -262,7 +265,14 @@
 			dataType: "json",
 			success: function(result){
 				maxImgSeq = result.fetchedMaxImgSeq;
+				let cnt = result.cnt;
+				console.log("maxImgSeq:" + maxImgSeq);
+				console.log("cnt:" + cnt);
 
+				if(cnt == "0" || cnt == "9"){
+					removePhotoMoreBtn()
+				}
+				
 
 				if(maxImgSeq != "0") {
 					let dataList = result.list;
@@ -275,12 +285,11 @@
 	                });
 
 	                if (dataLen < 9){
-						let imgListBtn = document.getElementById("photo-more-btn");
-						imgListBtn.setAttribute("style","display: none"); 
+	                	removePhotoMoreBtn()
 					};
+					
 				} else {
-					let imgListBtn = document.getElementById("photo-more-btn");
-					imgListBtn.setAttribute("style","display: none"); 
+					removePhotoMoreBtn()
 
 					html = '<p>등록된 사진이 없습니다.</p>';
 					$("#img_list").append(html);
@@ -290,6 +299,12 @@
 		});//---END ajax
 	}//---END firstPhotoList
 
+
+	//---[더보기 버튼 제거]
+	function removePhotoMoreBtn(){
+		let imgListBtn = document.getElementById("photo-more-btn");
+		imgListBtn.setAttribute("style","display: none");
+	}
 
 	
 
@@ -310,7 +325,6 @@
 
 
 	//---[사진 zoom flag 작업]
-	let zoomFlag = 0;
 	let openedImgWidth;
 	function zoom(target) {
 		console.log("zoom");
@@ -510,6 +524,7 @@
 	        		imgArr.length = 0;
 	        		imgAreaTxt();
 	        		count();
+	        		maxImgSeq=0;
 
 	        		//---[리스트 다시 뿌리기]
 					photoList();
