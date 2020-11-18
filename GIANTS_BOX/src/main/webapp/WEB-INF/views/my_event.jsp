@@ -91,10 +91,13 @@
 			 	 	drawCards(data,e);  
 			    },
 			    error:function(xhr,status,error){
+				    
 			     alert("error:"+error);
+			     
 			    },
-			    complete:function(data){		    
-			    }   			  
+			    complete:function(data){
+				    
+			    }
 		});//--ajax	
 		 
 		
@@ -110,11 +113,22 @@
 		 	console.log(data);
 
 
+	 	//---[썸네일 이미지 주소]
+	 	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+
+	 	//---[이벤트 페이지 주소]
+	 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+		
+
 //		html += '<div class="d-flex flex-row justify-content-between block-heading" style="margin-bottom: 7px;">';
 //		html += '<h2 class="text-primary"><label id="menuName">내가 개최한 이벤트</label></h2>';
 //        html += '<button type="button" id="event_reg" class="btn btn-primary">이벤트 등록</button>';
 //        html += '</div><div class="card clean-card text-left" >''
-        html += '<div class="card-body row align-items-center"><div class="col">';
+        html += '<div class="card-body row align-items-center">';
+        html += '<div class="col-lg-3">';
+        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
+        html += '</div>';
+        html += '<div class="col">';
         html += '<p class="text-left card-text">';
         html += '<input type="hidden" name="event_seq" value="' + value.eventSeq  +'"/>'
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>'
