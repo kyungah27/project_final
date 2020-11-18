@@ -118,6 +118,13 @@
 	eventRegBtn.addEventListener("click", eventReg, false);
 	
 	function eventReg(){
+		//---[수정 확인]
+		if(!confirm("수정하시겠습니까?")){
+			console.log(transferFile);
+			return;
+		}
+
+		
 		//---[validation]
 		console.log(eventNm.value);
 		console.log(capacity.value);
@@ -129,15 +136,15 @@
 		console.log(movieGenre.value);
 		console.log(content.value);
 
-		//---[수정 확인]
-		if(!confirm("수정하시겠습니까?")){
-			console.log(transferFile);
-			return;
-		}
 
+		let chkImgSeq = document.getElementById("img_area_img").src.split(".")[0];
+		let lastChkImgSeq = chkImgSeq.slice(chkImgSeq.length-3, chkImgSeq.length);
+		console.log(lastChkImgSeq);
+		
 
+		
 		//---기본 이미지는 수정 대상 X
-        if (${imgSeq} != 707){
+        if (lastChkImgSeq != 707){
         	eventUpdate()
     		.then(imgUpdate)
     		.then(successFunction)
@@ -308,6 +315,7 @@
 			let getFile = files;
 			let image = document.getElementById('img_area_img');
 			image.setAttribute("class", "img-fluid");
+			
 
 			// FileReader 객체 생성
 			let reader = new FileReader();
