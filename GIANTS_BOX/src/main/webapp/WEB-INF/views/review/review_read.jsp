@@ -51,7 +51,7 @@
 
 				<!-- 게시판 작성  -->
 				<div class="page-header">
-				<h2>게시판 조회</h2>
+				<h2>게시판 글읽기</h2>
 			</div>
 			<!--// 제목 -->
 			
@@ -69,8 +69,8 @@
 			</div>
 			<!--// button -->
 			
-			<form  class="form-horizontal" name="mngFrm" action="${hContext}/review/doSelectList.do" 
-			   method="post">
+			<form  class="form-horizontal" name="mngFrm" action="${hContext}/review/doSelectOne.do" 
+			   method="get">
 			    <!-- hidden: work_div,div=10(공지사항),read_cnt=0 -->
 			    <input type="hidden"  name="seq" id="seq" value="${vo.seq }" />
 				<input type="hidden"  name="div" id="div" value="${vo.getDiv() }" />

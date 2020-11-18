@@ -52,27 +52,29 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
-	/*
-	@RequestMapping(value = "review/doSelectOne.do", method = RequestMethod.GET)
-	public String review_read() {
-		LOG.debug("review/review_read");
-		
-		return "review/review_read";
-	}
-	*
+	
+	
+	
 	
 	
 	//기본화면
 	//목록 화면을 기본화면으로 할 것
 	/*
-	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.GET)
 	public String review_view() {
-		LOG.debug("review_list");
+		LOG.debug("review/review_list");
 		
 		return "review/review_list";
 	}
 	*/
 
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.GET)
+	public String review_write() {
+		LOG.debug("review/review_write");
+		
+		return "review/review_write";
+	}
+	
 	
 	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
 	@ResponseBody
@@ -137,7 +139,7 @@ import com.uver.vo.ReviewVO;
 	
 	
 	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
-	@ResponseBody
+	//@ResponseBody
 	public String doSelectList(Search search,Model model) {
 		//param초기화
 				//pageSize, pageNum
@@ -242,6 +244,7 @@ import com.uver.vo.ReviewVO;
 	
 	
 	@RequestMapping(value = "review/doDelete.do", method = RequestMethod.POST)
+	@ResponseBody	
 	public Message doDelete(ReviewVO reviewVO,Locale locale) {
 		LOG.debug("===================================");
 		LOG.debug("=doDelete=");
@@ -272,37 +275,5 @@ import com.uver.vo.ReviewVO;
 	
 	
 	
-	/*
-	@RequestMapping(value = "review/doSelectOneById.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doSelectOneById(writer) throws ClassNotFoundException, SQLException {
-		LOG.debug("==================");
-		LOG.debug("=reviewVO=" + reviewVO);
-		LOG.debug("==================");
-
-		int flag = this.reviewservice.doSelectOneById(writer);
-		LOG.debug("==================");
-		LOG.debug("=flag=" + flag);
-		LOG.debug("==================");
-
-		// 메시지 처리
-		Message message = new Message();
-		message.setMsgId(flag + "");
-
-		//제목으로 등록 알아보기
-		if (flag == 1) {
-			message.setMsgContents(reviewVO.getTitle() + " 이 조회되었습니다.");
-		} else {
-			message.setMsgContents(reviewVO.getTitle() + " 이 조회 실패되었습니다.");
-		}
-
-		Gson gson = new Gson();
-		String json = gson.toJson(message);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
-	}
-	*/
+	
 }

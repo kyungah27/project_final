@@ -63,9 +63,9 @@
 				<!-- 검색영역 -->
 
 				<div class="row ">
-					<!--  <form action="${hContext}/review/doSelectList.do" name="searchFrm"-->
-					<form action="" name="searchFrm"
+					  <form action="${hContext}/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
+					
 						<input type="hidden" name="pageNum" id="pageNum" /> <input
 							type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
 							type="hidden" name="seq" id="seq" />
@@ -90,7 +90,7 @@
 								placeholder="검색어" /> 
 								
 							<input type="button"
-								class="btn btn-primary btn-sm" value="조회"
+								class="btn btn-primary btn-sm" value="조회" id="doSelectListBtn"
 								onclick="javascript:doSelectList();" /> 
 																
 							<!--  <input type="button" class="btn btn-primary btn-sm" value="?!?!" /> -->
@@ -202,6 +202,14 @@
 
 		var frm = document.searchFrm;
 		frm.action = "${hContext}/review/doInsert.do";
+		frm.submit();
+
+	});
+
+	$("#doSelectListBtn").on("click", function() {
+
+		var frm = document.searchFrm;
+		frm.action = "${hContext}/review/doSelectList.do";
 		frm.submit();
 
 	});
