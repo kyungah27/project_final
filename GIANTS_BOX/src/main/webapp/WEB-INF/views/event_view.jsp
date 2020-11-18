@@ -314,8 +314,13 @@
 		let html =
 			"<li data-no='" + vo.num + "' class='col-md-6 col-lg-4 item mt-3'>" +
 			"<a class='lightbox' href='#b' onclick='javascript:zoom(this)'><img class='img-thumbnail img-fluid image' src=" +
-			context + "/img/" + vo.imgSeq + ".do /></a><p class='text-right'><small>"
-			+ vo.imgVO.regId + " | " + vo.imgVO.regDt + "</small></p>";
+			context + "/img/" + vo.imgSeq + ".do /></a>"+
+			"<div class='d-flex flex-row justify-content-end align-items-center my-1'><small>" +
+			vo.imgVO.regId + " | " + vo.imgVO.regDt + "</small>"+
+			"<div class='photo-remove'>"+
+			"<input type='hidden' value='"+ vo.imgSeq +"'>"+
+			"<a href='#' onclick='javascript:deletePhoto(this); return false;'>" +
+			"<i class='fa fa-trash ml-2'></i></a></div>";
 		if(mode) {
 			$("#img_list").prepend(html);
 		} else {
@@ -323,6 +328,16 @@
 		}
 	}//---END renderList
 
+	function deletePhoto(target) {
+
+		let thisImgSeq = target.previousSibling.value;
+		console.log(thisImgSeq);
+
+		
+
+		
+
+	}
 
 	//---[사진 zoom flag 작업]
 	let openedImgWidth;

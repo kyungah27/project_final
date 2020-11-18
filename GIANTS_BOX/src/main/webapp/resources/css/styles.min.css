@@ -328,22 +328,23 @@ body, html {
 	color: rgba(100,100,100,0.3);
 }
 
-
 .photo-del a:hover i {
 	color: #0078ff;
 }
 
-
-.photo-link-style a img {
-	
+.photo-remove a i {
+	color: rgba(100,100,100, 1);
 }
 
-.photo-link-style a:hover img {
-	
+.photo-remove a:hover i {
+	color: #0078ff;
 }
+
+
+
 
 .link-style a {
-	color: rgba(100,100,100);
+	color: rgba(100,100,100, 1);
 }
 
 
