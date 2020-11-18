@@ -72,6 +72,17 @@ public interface EventImgService {
 	public EventImgVO doSelectOne(int imgSeq);
 	
 	
+	
+	/**
+	 * default 이미지 돌려주기
+	 * 
+	 * @param int imgSeq
+	 * @return EventImgVO
+	 */
+	public ImgVO doSelectDefault();
+	
+	
+	
 	/**
 	 * eventSeq로 검색하는 다건 조회
 	 * 
