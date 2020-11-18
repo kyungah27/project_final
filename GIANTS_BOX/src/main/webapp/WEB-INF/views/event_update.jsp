@@ -315,6 +315,7 @@
 			let getFile = files;
 			let image = document.getElementById('img_area_img');
 			image.setAttribute("class", "img-fluid");
+			
 
 			// FileReader 객체 생성
 			let reader = new FileReader();

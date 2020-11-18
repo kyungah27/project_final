@@ -299,7 +299,7 @@ body, html {
 	outline: 2px dashed #ddd ;
     text-align: center;
     transition: all .15s ease-in-out;
-    height: 420px;
+    height: 100%;
  }
 
 .flex-item {
