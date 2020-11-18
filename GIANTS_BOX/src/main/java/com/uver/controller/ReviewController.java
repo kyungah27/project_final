@@ -33,7 +33,7 @@ import com.uver.vo.ReviewVO;
 		
 		// review_write.jsp -> 리뷰 등록
 		// review_list.jsp -> 리뷰 목록
-	
+		//review_read.jsp->상세조회
 		// review_mng.jsp -> 리뷰 읽기/수정/삭제/단건조회
 		
 		
@@ -52,15 +52,26 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
+	/*
+	@RequestMapping(value = "review/doSelectOne.do", method = RequestMethod.GET)
+	public String review_read() {
+		LOG.debug("review/review_read");
+		
+		return "review/review_read";
+	}
+	*
+	
+	
 	//기본화면
 	//목록 화면을 기본화면으로 할 것
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.GET)
+	/*
+	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.POST)
 	public String review_view() {
-		LOG.debug("review_write");
+		LOG.debug("review_list");
 		
-		return "review/review_write";
+		return "review/review_list";
 	}
-	
+	*/
 
 	
 	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
@@ -105,15 +116,17 @@ import com.uver.vo.ReviewVO;
 	@RequestMapping(value="review/doSelectOne.do",method = RequestMethod.GET)
 	public String doSelectOne(ReviewVO reviewVO,Locale locale,Model model) {
 		//게시판 관리 화면
-		String returnURL = "review/review_mng";
+		String returnURL = "review/review_read";
 		LOG.debug("===================================");
 		LOG.debug("=doSelectOne=");		
 		LOG.debug("=doDelete=");
 		LOG.debug("=param="+reviewVO);  
 		
+		/*
 		if( 0==reviewVO.getReview_seq()) {
 			throw new IllegalArgumentException("게시글 번호를 확인 하세요.");
 		}
+		*/
 		
 		ReviewVO outVO = this.reviewservice.doSelectOne(reviewVO);
 		model.addAttribute("vo", outVO);
@@ -124,6 +137,7 @@ import com.uver.vo.ReviewVO;
 	
 	
 	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
+	@ResponseBody
 	public String doSelectList(Search search,Model model) {
 		//param초기화
 				//pageSize, pageNum
@@ -179,72 +193,84 @@ import com.uver.vo.ReviewVO;
 	  	}
 	
 	
-	
-	
-	@RequestMapping(value = "review/doDelete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "review/doUpdate.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String doDelete(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
-		LOG.debug("==================");
-		LOG.debug("=reviewVO=" + reviewVO);
-		LOG.debug("==================");
-
+	public Message doUpdate(ReviewVO reviewVO, Locale locale) {
+		//servliet-context.xml -> <annotation-driven /> 
+		//
+		//HttpMessageConverter를 구현한 모든 변환기가 생성된다.
+		LOG.debug("===================================");
+		LOG.debug("=doUpdate=");
+		LOG.debug("=param="+reviewVO);
+		
+		//예외 발생!
+		if(null == reviewVO.getTitle()) {
+			//message.common.message.valid
+			Object[] args01 = new String[] {"제목"};
+			String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
+			
+			throw new IllegalArgumentException(msgTitleConfirm);
+		}
+		
+		//예외 발생!
+		if(null == reviewVO.getContext()) {
+			//message.common.message.valid
+			Object[] args01 = new String[] {"내용"};
+			String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
+			
+			throw new IllegalArgumentException(msgTitleConfirm);
+		}
+		
+		int  flag = reviewservice.doUpdate(reviewVO);
+		Message  message=new Message();
+		message.setMsgId(String.valueOf(flag));
+		
+		if(flag>0) {
+			Object[] args01 = new String[] {"수정"};
+			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
+			//LOG.debug("=msgConfirm="+msgConfirm);
+			message.setMsgContents(msgConfirm);
+		}else {
+			message.setMsgContents("수정 실패.");
+		}
+		
+		LOG.debug("=message="+message);
+		LOG.debug("===================================");		
+		
+		return message;
+	}
+	
+	
+	@RequestMapping(value = "review/doDelete.do", method = RequestMethod.POST)
+	public Message doDelete(ReviewVO reviewVO,Locale locale) {
+		LOG.debug("===================================");
+		LOG.debug("=doDelete=");
+		LOG.debug("=param="+reviewVO);
+		if( 0==reviewVO.getReview_seq()) {
+			throw new IllegalArgumentException("게시글 번호를 확인 하세요.");
+		}
+		
 		int flag = this.reviewservice.doDelete(reviewVO);
-		LOG.debug("==================");
-		LOG.debug("=flag=" + flag);
-		LOG.debug("==================");
-
-		// 메시지 처리
-		Message message = new Message();
-		message.setMsgId(flag + "");
-
-		//제목으로 등록 알아보기
-		if (flag == 1) {
-			message.setMsgContents(reviewVO.getTitle() + " 이 삭제 되었습니다.");
-		} else {
-			message.setMsgContents(reviewVO.getTitle() + " 이 삭제 실패되었습니다.");
+		Message message=new Message();
+		message.setMsgId(String.valueOf(flag));
+		
+		if(flag>0) {
+			Object[] args01 = new String[] {"삭제"};
+			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
+			message.setMsgContents(msgConfirm);
+		}else {
+			message.setMsgContents("등록 실패.");
 		}
-
-		Gson gson = new Gson();
-		String json = gson.toJson(message);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
+				
+		
+		return message;
 	}
 	
 	
-	@RequestMapping(value = "review/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String doUpdate(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
-		LOG.debug("==================");
-		LOG.debug("=reviewVO=" + reviewVO);
-		LOG.debug("==================");
-
-		int flag = this.reviewservice.doUpdate(reviewVO);
-		LOG.debug("==================");
-		LOG.debug("=flag=" + flag);
-		LOG.debug("==================");
-
-		// 메시지 처리
-		Message message = new Message();
-		message.setMsgId(flag + "");
-
-		//제목으로 등록 알아보기
-		if (flag == 1) {
-			message.setMsgContents(reviewVO.getTitle() + " 이 수정 되었습니다.");
-		} else {
-			message.setMsgContents(reviewVO.getTitle() + " 이 수정 실패되었습니다.");
-		}
-
-		Gson gson = new Gson();
-		String json = gson.toJson(message);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
-	}
+	
+	
+	
+	
 	
 	/*
 	@RequestMapping(value = "review/doSelectOneById.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
