@@ -41,12 +41,12 @@ color: red;
 			<hr />
 			<form name="commentInsertForm" id="commentInsertForm">
 				<div>
-					<input type="hidden" name="regId" id="regId" value="${vo.regId}" />
+					<input type="hidden" name="user_id" id="user_id" value="${user.userId}" />
 					<input type="hidden" name="seq" id="seq" value="${vo.seq}" /> <input
 						type="hidden" name="div" id="div" value="${vo.getDiv()}" />
 					<!-- 세션처리받아서 아이디 받는걸로 수정하기 -->
 					<input style="text-align: center; width: 150px;" id="user_id"
-						name="user_id" type="text" class="form-control" value="yeji"
+						name="user_id" type="text" class="form-control" value="${user.userId}"
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="content"
 						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
@@ -107,7 +107,7 @@ color: red;
 					"seq" : "2",
 					"div" : "10",//임의의값
 					"content" : content,
-					"regId" : "yeji"//${user}
+					"regId" : "${sessionScope.user.userId}"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
@@ -162,7 +162,7 @@ color: red;
 					"seq" : "2",
 					"div" : "10",//임의의값
 					"content" : content,
-					"regId" : "yeji"//${user}
+					"regId" : "${sessionScope.user.userId}"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
@@ -336,7 +336,9 @@ color: red;
 			    url: url,
 			    type: "GET",
 			    dataType: "html",
-			    data: {"commentSeq" : commentSeq},//+'&memberSeq=' +memberSeq,
+			    data: {"commentSeq" : commentSeq,
+					"regId" : "${sessionScope.user.userId}"
+				    },
 			    success: function(data) {
 					var obj = JSON.parse(data);
 				     var like_img = '';
