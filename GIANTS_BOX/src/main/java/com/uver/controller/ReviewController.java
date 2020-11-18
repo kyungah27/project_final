@@ -52,23 +52,10 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
-	
-	
-	
-	
-	
-	//기본화면
-	//목록 화면을 기본화면으로 할 것
-	/*
-	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.GET)
-	public String review_view() {
-		LOG.debug("review/review_list");
-		
-		return "review/review_list";
-	}
-	*/
 
+	
 	@RequestMapping(value = "review/doInsertView.do", method = RequestMethod.GET)
+	//doInsertView
 	public String doInsertView(Model model) {
 		String view = "review/review_write";
 		
@@ -77,16 +64,23 @@ import com.uver.vo.ReviewVO;
 		LOG.debug("==doInsertView==");
 		LOG.debug("====================");
 		
-		return view;
+		//return view;
+		return "review/review_write";
+		
+	
+		
 	}
+	
 	
 	
 	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
 	@ResponseBody
+	//Message->String
 	public Message doInsert(ReviewVO reviewVO,Locale locale) {
-	    //servliet-context.xml -> <annotation-driven /> 
-		//
-		//HttpMessageConverter를 구현한 모든 변환기가 생성된다.
+	   
+		//ReviewVO reviewVO = new ReviewVO();
+		
+		String returnURL = "review/review_write";
 		LOG.debug("===================================");
 		LOG.debug("=doInsert=");
 		LOG.debug("=param="+reviewVO);
@@ -100,14 +94,14 @@ import com.uver.vo.ReviewVO;
 			throw new IllegalArgumentException(msgTitleConfirm);
 		}
 		
-		int  flag = reviewservice.doInsert(reviewVO);
+		int  flag = this.reviewservice.doInsert(reviewVO);
 		Message  message=new Message();
 		message.setMsgId(String.valueOf(flag));
 		if(flag>0) {
 			Object[] args01 = new String[] {"등록"};
-			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
+			//String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
 			//LOG.debug("=msgConfirm="+msgConfirm);
-			message.setMsgContents(msgConfirm);
+			message.setMsgContents("등록 성공");
 		}else {
 			message.setMsgContents("등록 실패.");
 		}
@@ -116,6 +110,7 @@ import com.uver.vo.ReviewVO;
 		LOG.debug("===================================");		
 		
 		return message;
+		//return returnURL;
 	}
 	
 	
