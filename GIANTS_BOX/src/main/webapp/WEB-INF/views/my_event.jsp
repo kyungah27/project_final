@@ -116,15 +116,16 @@
 //        html += '</div><div class="card clean-card text-left" >''
         html += '<div class="card-body row align-items-center"><div class="col">';
         html += '<p class="text-left card-text">';
+        html += '<input type="hidden" name="event_seq" value="' + value.eventSeq  +'"/>'
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>'
-        html += '<strong>${targetFormatDate}</strong></p>';
+        html += '<strong>'+ value.targetDt +'</strong></p>';
         html += '<h4 class="card-title">'+value.eventNm+'</h4>';
         html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
         html += '<p class="card-text mb-2">'+value.content+'</p>';
-    	html += '</div><div class="col-lg-2 col-md-3 text-center">';
+    	html += '</div><div class="col-lg-3 col-md-3 text-center">';
     	if(e=="1"){
-       		html += '<button type="button" onclick="수정 처리메소드(value.eventSeq)" class="btn btn-outline-primary">수정</button>';
-       		html += '<button type="button" onclick="삭제 처리메소드(value.eventSeq)" class="btn btn-outline-primary">삭제</button>';
+       		html += '<button type="button" onclick="updateEvent(this)" class="btn btn-outline-primary mx-1">수정</button>';
+       		html += '<button type="button" onclick="deleteEvent(this)" class="btn btn-outline-primary">삭제</button>';
     	} else if(e=="2"){
     		html += '<button type="button" onclick="참여취소 처리메소드(value2.eventSeq)" class="btn btn-outline-primary">참여 취소</button>';
         }
@@ -136,6 +137,47 @@
 	}
 
 
+	function updateEvent(updateBtn){
+		let eventSeq = updateBtn.parentNode.previousSibling.firstChild.firstChild.value;
+		window.location.href="event_update.do?eventSeq=" + eventSeq;
+	}
+
+	function deleteEvent(deleteBtn){
+		if(!confirm("[경고] \n이벤트를 삭제하시겠습니까? \n삭제하실 경우 관련 정보들이 모두 삭제됩니다.")){
+			return;
+		};
+		
+		let eventSeq = deleteBtn.parentNode.previousSibling.firstChild.firstChild.value;
+		 $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doDelete.do",
+			    dataType:"html", 
+			    data:{ "eventSeq":eventSeq },
+			    success:function(data){ //성공
+
+			    	var obj = JSON.parse(data);
+
+				    if(null != obj && obj.msgId=="1"){
+				    	console.log("success");
+		                alert(obj.msgContents);
+		                selectList(1);
+					} else{
+		                alert(obj.msgId+"|"+obj.msgContents);
+		            }
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){
+			    }   
+			  
+		});//--ajax
+		
+	}
+	
+
+
+	
 
 
 
