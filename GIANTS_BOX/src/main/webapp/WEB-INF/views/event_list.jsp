@@ -215,7 +215,7 @@
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
 		html += '<p class="card-text mb-2">'+value.content.substring(0, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
-		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
+		html +=	'<button  onclick="location.href= &#39;'+eventUrl+'&#39;" class="btn btn-outline-primary">참여</button>';
 		html +=  '</div></div><hr/>'
 	 	}); 
 		}
