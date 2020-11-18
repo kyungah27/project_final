@@ -110,6 +110,7 @@
                                 </div>
                                 
                                 <!-- photoList -->
+                           
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos" style="display:hidden">
                                 	<!-- photo write -->
 									<div id="photo_insert_frm">
@@ -141,9 +142,10 @@
                                     </div>
                                 </div>
                                 
-                                
+                                 
                                 <div class="tab-pane fade show" role="tabpanel" id="comments">
-                                    <div class="reviews">
+                                 <%@include file="comment/comment_view.jsp" %>
+                                   <!--  <div class="reviews">
                                         <div class="review-item">
                                             <h4>완전 기대돼요</h4><span class="text-muted"><a href="#">이영희</a>, 2020년 11월 11일</span>
                                             <p>기대됩니다.</p>
@@ -163,7 +165,7 @@
                                     </div>
                                      <div class="row">
                                         <button class="btn btn-outline-primary btn-block">더보기</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="tab-pane fade show" role="tabpanel" id="reviews">
                                     후기게시판
@@ -190,11 +192,9 @@
      <script type="text/javascript">
 			
  	$(document).ready(function() {
-		console.log("document ready");
 
 		drawJoinBtn();
 		doSelectList(${eventVO.eventSeq});
-		console.log(${joinCheck})
 		searchToIdKM("${movieSeq}" , "${movieId}");
 
 		let today = new Date(); 
@@ -607,7 +607,6 @@
 
 	//---------------------------------------------------------- 영화정보 처리   -----------------------------------
 	$("#doJoin").on("click", function(e) {
-		alert("doJoin");
 		  $.ajax({
 			    type:"POST",
 			    url:"${context}/join/doInsert.do",
@@ -618,11 +617,10 @@
 			    },
 			    success:function(data){ //성공
 			       var obj = JSON.parse(data);
-			       console.log("obj="+obj);
 			       if(obj.msgId == 1){
 						alert(obj.msgContents);
 						doSelectList(${eventVO.eventSeq});
-						drawJoinBtn();
+						location.reload();
 				   }else{
 						alert(obj.msgContents);
 				   }
@@ -643,7 +641,6 @@
 			    data:{"eventSeq":eventSeq	//임시값, 이벤트에서 줄거라고 가정         
 			    },
 			    success:function(data){ //성공
-			       console.log("data="+data);
 			       var obj = JSON.parse(data);
 		          	  $("#join_list").empty();
 		          	  drawTable(obj);   
@@ -668,7 +665,6 @@
 			 	  "pageNum"  : 1   	
 			    },
 			    success:function(data){ //성공
-			       console.log(data); 
 			       $("#event_field").empty();	
 			       $.each(data, function(i, value) {
 			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
@@ -682,7 +678,6 @@
 				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
 				    html +='</div></div></div>';      
-				    console.log(html); 
 				    $("#event_field").append(html);	    		
 				   });
 				   
@@ -700,13 +695,8 @@
 
 	function drawTable(obj){
 		var html  = "";		
-
-		
-
-		
-		$.each(obj, function(i, value) {
-			console.log(value);
-		
+	
+		$.each(obj, function(i, value) {	
 			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
 			
 			if(value.priority ==1){
@@ -721,45 +711,37 @@
 		$("#join_list").append(html);				  
 	}
 
-
+	//information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
 	function searchToIdKM(movieSeq, movieId) {
-		console.log("searchToIdKM  : " + movieId  + movieSeq);
 		var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 		var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&movieSeq='+movieSeq+'&movieId='+movieId;
 		//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-		console.log(url);
 		$.ajax({
 			url : url,
 			type : 'GET',
 			dataType : 'html',
 			success : function(s) {
 				var item = JSON.parse(s);
-				console.log(item);
 				$.each(item.Data, function(i,data) {
 
 					$.each(data.Result, function(i,result) {
 
 						var title = result.title;
 						title = title.replace(/!HS/gi, " ");
-						title = title.replace(/!HE/gi, " ");
-						console.log(title);										
+						title = title.replace(/!HE/gi, " ");									
 						//감독
 						var director = result.directors.director[0].directorNm;
-						console.log(director);
 						//출연
 						var actors = "";
 						$.each(result.actors.actor, function(i,actor) {
 							if(i == 3) return false;
 							
 							actors += actor.actorNm+"  ";
-							console.log(actors);
 						})							
 						//장르
-						var genre = result.genre;
-						console.log(genre); 								
+						var genre = result.genre;								
 						//코드
 						var DOCID = result.DOCID;
-						console.log(DOCID); 
 						//포스터 url
 						var poster = result.posters;
 						poster = poster.split("|");
@@ -768,12 +750,9 @@
 						if(posterUrl.length < 1){
 							posterUrl = "${context}/resources/img/logo.png"
 						}
-						console.log(posterUrl); 
 						// 줄거리
-						var plot = result.plots.plot[0].plotText;
-						console.log(plot); 	
+						var plot = result.plots.plot[0].plotText;	
 						var html = '';		
-
 						$("#movie_name").text(title);
 						$("#top_name").text(title);
 						$("#movie_plot").text(plot);

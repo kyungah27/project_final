@@ -59,13 +59,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="${context}/resources/js/movie_func.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			console.log("document ready");
-			//boxOffList(date);
-			//detailMovieInfo(20192193);
-			//searchToName("광해");
-			//searchToNameKM("우뢰매");
-		});
 			
 		$("#search_btn").on("click", function(e) {
 			var movieNm = $("#movie_name").val();
@@ -84,47 +77,39 @@
 		}) ;
 		
 
-
+		//information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
 		function searchToNameKM(movieNm) {
 			$("#movie_info").empty();	
-			console.log("searchToNameKM");
 			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
 			url += movieNm;
 			//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'GET',
 				dataType : 'html',
 				success : function(s) {
 					var item = JSON.parse(s);
-					console.log(item);
 					$.each(item.Data, function(i,data) {
 
 						$.each(data.Result, function(i,result) {
 
 							var title = result.title;
 							title = title.replace(/!HS/gi, " ");
-							title = title.replace(/!HE/gi, " ");
-							console.log(title);										
+							title = title.replace(/!HE/gi, " ");									
 							//감독
 							var director = result.directors.director[0].directorNm;
-							console.log(director);
 							//출연
 							var actors = "";
 							$.each(result.actors.actor, function(i,actor) {
 								if(i == 3) return false;
 								
 								actors += actor.actorNm+"  ";
-								console.log(actors);
 							})							
 							//장르
-							var genre = result.genre;
-							console.log(genre); 								
+							var genre = result.genre;							
 							//코드
 							var DOCID = result.DOCID;
-							console.log(DOCID); 
 							//포스터 url
 							var poster = result.posters;
 							poster = poster.split("|");
@@ -133,10 +118,8 @@
 							if(posterUrl.length < 1){
 								posterUrl = "${context}/resources/img/logo.png"
 							}
-							console.log(posterUrl); 
 							// 줄거리
 							var plot = result.plots.plot[0].plotText;
-							console.log(plot); 	
 							var html = '';
 							html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
 							html +=	'<div class="card">'
@@ -145,8 +128,8 @@
 							html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 							html += '<strong>출연 </strong>'+actors+'<br>'
 							html += '<strong>장르</strong>'+genre+'</p>'
-							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button value='+DOCID+"|"+genre+' name="select_btn" class="btn btn-outline-primary btn-sm" type="button">선택</button></div></div></div>'	
-							console.log(html);	
+							html += '</div><div class="text-center" style="margin-bottom: 20px;"><button value='+DOCID+"|"+genre+' name="select_btn" class="btn btn-outline-primary btn-sm" type="button">선택</button></div></div></div>'	;
+							
 							$("#movie_info").append(html);			
 						}) 
 					})  			
@@ -160,49 +143,39 @@
 		}
 
 	
-		
+		//information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
 		function searchOneToNameKM(movieNm) {
-			console.log("searchOneToNameKM");
 			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
 			url += movieNm;
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'GET',
 				dataType : 'html',
 				success : function(s) {
 					var item = JSON.parse(s);
-					console.log(item);
 					data = item.Data[0];
 					result = data.Result[0];		
 					//제목
-					var title = result.title;
-					console.log(title);										
+					var title = result.title;									
 					//감독
 					var director = result.directors.director[0].directorNm;
-					console.log(director);
 					//출연
 					$.each(result.actors.actor, function(i,actor) {
 						if(i == 3) return false;
 						var actors = "";
 						actors += actor.actorNm+"  ";
-						console.log(actors);
 					})							
 					//장르
-					var genre = result.genre;
-					console.log(genre); 								
+					var genre = result.genre;								
 					//코드
 					var DOCID = result.DOCID;
-					console.log(DOCID); 
 					//포스터 url
 					var poster = result.posters;
 					poster = poster.split("|");
 					var posterUrl = poster[0];
-					console.log(posterUrl); 
 					// 줄거리
-					var plot = result.plots.plot[0].plotText;
-					console.log(plot); 				
+					var plot = result.plots.plot[0].plotText;			
 				 			
 				},
 				error : function(xhr, status, error) {
@@ -219,13 +192,11 @@
 
 
 
-		
+		//information by KOFIC 영화관입장권통합전산망 오픈 API (http://kobis.or.kr/kobisopenapi)
 		function searchToName(movieNm) {
-			console.log("searchToName");
 			var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=6f53bd46d6879627e90298b05f473d62&movieNm=';
 			url += movieNm;
 			//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'get',
@@ -233,13 +204,9 @@
 				success : function(item) {
 					$.each(item.movieListResult.movieList, function(i,content) {
 						var movieCd = content.movieCd; // 영화코드	 관련이벤트 조회때 필요
-						console.log(movieCd);
 						var movieNm = content.movieNm;
-						console.log(movieNm);
 						var nationAlt = content.nationAlt;
-						console.log(nationAlt);
 						var prdtYear = content.prdtYear;
-						console.log(prdtYear);
 						var directorList = content.directors;
 						var directorsNames = "";
 						$.each(directorList, function(i, content) {
@@ -257,6 +224,7 @@
 		}
 
 		//박스오피스 조회
+		//information by KOFIC 영화관입장권통합전산망 오픈 API (http://kobis.or.kr/kobisopenapi)
 		function boxOffList(date) {
 			console.log("boxOffList");
 			var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=6f53bd46d6879627e90298b05f473d62&itemPerPage=3&targetDt=';
@@ -272,11 +240,9 @@
 							content) {
 
 						var movieCd = content.movieCd;
-						console.log(movieCd);
 						
 						//detailMovieInfo(movieCd);
 						var movieNm = content.movieNm;
-						console.log(movieNm);
 						searchOneToNameKM(movieNm);
 					})
 				},
@@ -289,12 +255,11 @@
 		}
 
 		//영화 상세조회
+		//information by KOFIC 영화관입장권통합전산망 오픈 API (http://kobis.or.kr/kobisopenapi)
 		function detailMovieInfo(movieCd) {
-			console.log("detailMovieInfo");
 			var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=6f53bd46d6879627e90298b05f473d62&movieCd=';
 			url += movieCd;
 			//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'get',
@@ -305,10 +270,8 @@
 
 					//영화제목
 					var movieNm = movieInfo.movieNm;
-					console.log("영화제목  : " + movieNm);
 					//영화 감독 정보
 					var directorName = movieInfo.directors[0].peopleNm;
-					console.log("감독  : " + directorName);
 				},
 				error : function(xhr, status, error) {
 					alert("error:" + error);

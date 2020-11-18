@@ -41,12 +41,12 @@ color: red;
 			<hr />
 			<form name="commentInsertForm" id="commentInsertForm">
 				<div>
-					<input type="hidden" name="regId" id="regId" value="${vo.regId}" />
+					<input type="hidden" name="user_id" id="user_id" value="${user.userId}" />
 					<input type="hidden" name="seq" id="seq" value="${vo.seq}" /> <input
 						type="hidden" name="div" id="div" value="${vo.getDiv()}" />
 					<!-- 세션처리받아서 아이디 받는걸로 수정하기 -->
 					<input style="text-align: center; width: 150px;" id="user_id"
-						name="user_id" type="text" class="form-control" value="yeji"
+						name="user_id" type="text" class="form-control" value="${user.userId}"
 						readonly="readonly" /><br />
 					<textarea style="resize: none;" rows="5" cols="80" name="content"
 						id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
@@ -58,13 +58,14 @@ color: red;
 			</form>
 		</div>
 	<!-- </div> -->
-	<div class="update">
+	
+	<!-- <div class="update">
 	<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />
 	<br />
 	<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 	<br />
 	<input type="button" class="btn btn-primary btn-sm" value="수정" style="float: right" /><br/>
-	</div>
+	</div> -->
 
 		<!--<div class="container">-->
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
@@ -73,25 +74,6 @@ color: red;
 			</b> <br />
 			<hr />
 			<!-- json에 추가해주기 -->
-			<%-- <div>
-				<span><b>ehgml</b></span>
-				<button id="like"
-					style="background-color: #ffffff; float: right; border: none;">
-					<img src="${context}/resources/img/comment/heart.png"
-						style="width: 20px;">
-				</button>
-				<br />
-				<div>진짜 너무재밌네요~~ㅋㅋㅋㅋㅋㅋzz</div>
-				<br /> <br />
-				<p>
-					<span>2020.11.11</span> <input type="button"
-						class="btn btn-primary btn-sm" value="삭제" id="doDelete"
-						style="float: right"> <input type="button"
-						class="btn btn-primary btn-sm" value="수정" id="doUpdate"
-						style="float: right"> <br />
-				</p>
-			</div> --%>
-			<!-- //제이슨 추가 -->
 			<div id="commentList" class="commentList">
 				<!--  그리기 -->
 			</div>
@@ -100,7 +82,7 @@ color: red;
 		<!-- 댓글리스트  -->
 	</div>
 	<!-- 흰색배경 -->
-</div>
+
 	<!-- container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -125,7 +107,7 @@ color: red;
 					"seq" : "2",
 					"div" : "10",//임의의값
 					"content" : content,
-					"regId" : "yeji"//${user}
+					"regId" : "${sessionScope.user.userId}"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
@@ -150,7 +132,7 @@ color: red;
 		//---[수정]
 	function commentUpdate(commentSeq,content) {
 	var html = "";
-	html += '<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
+	html += '<input style="text-align: center; width: 130px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
 	html += '<br />';
 	html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
 	html += '<br />';
@@ -180,7 +162,7 @@ color: red;
 					"seq" : "2",
 					"div" : "10",//임의의값
 					"content" : content,
-					"regId" : "yeji"//${user}
+					"regId" : "${sessionScope.user.userId}"
 				},//보낼 데이터
 				success : function(data) { //성공
 					console.log("data=" + data);
@@ -238,10 +220,12 @@ color: red;
 														html += '<span>';
 														html += vo.modDt;
 														html += '</span>';
+														if(vo.regId=="${sessionScope.user.userId}"){
 														html += '<div class="row justify-content-end mb-3">';
 															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
 															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
 														html += '</div>';
+														}
 													html += '</div>';
 												});
 								//console.log(html);
@@ -354,7 +338,9 @@ color: red;
 			    url: url,
 			    type: "GET",
 			    dataType: "html",
-			    data: {"commentSeq" : commentSeq},//+'&memberSeq=' +memberSeq,
+			    data: {"commentSeq" : commentSeq,
+					"regId" : "${sessionScope.user.userId}"
+				    },
 			    success: function(data) {
 					var obj = JSON.parse(data);
 				     var like_img = '';

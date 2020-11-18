@@ -125,7 +125,7 @@ public class EventImgController {
 			LOG.debug(eventImg.toString());
 			img = eventImg.getImgVO();
 		} catch (Exception e) {
-			img = eventImgService.doSelectOne(707).getImgVO();
+			img = eventImgService.doSelectDefault();
 			LOG.debug("exception" + e.getMessage());
 		} 
 		modelMap.put("img", img);
@@ -140,12 +140,11 @@ public class EventImgController {
 		int imgSeq = eventImgService.doSelectThumbnail(eventSeq);
 		ImgVO img;
 		
-		if (imgSeq > 0) {
+		if (imgSeq > 0 && imgSeq != 707) {
 			img = eventImgService.doSelectOne(imgSeq).getImgVO();
 		} else {
 			// default 이미지 설정
-			img = eventImgService.doSelectOne(707).getImgVO();
-			
+			img = eventImgService.doSelectDefault();
 		}
 		modelMap.put("img", img);
 		return (ImgView) imgView;
@@ -326,9 +325,16 @@ public class EventImgController {
 			@RequestParam String eventSeq,
 			@RequestParam String imgSeq,
 			@RequestParam String isThumbnail) throws IllegalStateException, IOException {
-
-		int flagDel = this.eventImgService.doDelete(Integer.parseInt(imgSeq));
-		LOG.debug("flag after del : " + flagDel);
+		
+		int flagDel = 0;
+		
+		if(imgSeq!="707") {
+			flagDel = this.eventImgService.doDelete(Integer.parseInt(imgSeq));
+			LOG.debug("flag after del : " + flagDel);
+		} else {
+			flagDel += 1;
+			LOG.debug("flag no del : " + flagDel);
+		}
 
 
 		if (session.getAttribute("user") != null) {
