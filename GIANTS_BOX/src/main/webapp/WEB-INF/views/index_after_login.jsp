@@ -534,7 +534,7 @@
 	 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
 			
 
-        html += '<div class="card-body row" >';
+        html += '<div class="card-body row align-items-center" >';
         html += '<div class="col-lg-3">';
         html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
         html += '</div>';

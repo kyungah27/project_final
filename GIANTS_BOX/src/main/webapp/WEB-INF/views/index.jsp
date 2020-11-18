@@ -362,14 +362,15 @@
 			       $.each(data, function(i, value) {
 			    	var html = "";
 			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
-			    	//let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+			    	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+			    	
 			    	if(i == 3) return false;
 				    html += '<div class="col-sm-6 col-lg-4">';
-				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
-				    html += '<div class="card-body info">';
+				    html += '<div class="card clean-card text-center"><a href="'+ eventUrl +'"><img class="card-img-top w-100 d-block" src="'+thumbnailUrl+'"></a>';
+				    html += '<div class="card-body info link-style">';
 				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
-				    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
-				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
+				    html += '<a href="'+ eventUrl +'"><h4 class="text-truncate card-title">'+value.eventNm+'</h4></a>';
+				    html += '<p class="card-text">'+value.content.substring(0, 30)+'..</p>';
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 				    html +='</div></div></div>';      
 				    $("#event_field").append(html);			
