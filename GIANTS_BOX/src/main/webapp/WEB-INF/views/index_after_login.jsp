@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>Home - Giants Box</title>
+<title>Giants Box</title>
 <!-- favicon -->
 <link rel=" shortcut icon" href="${context}/resources/img/favicon.ico">
 <link rel="icon" href="${context}/resources/img/favicon.ico">
@@ -271,8 +271,8 @@
 				<div class="col-sm-3">
 					<h5>Get started</h5>
 					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Log out</a></li>
+						<li><a href="${context}/home.do">Home</a></li>
+						<li><a href="${context}/logout.do">Log out</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-3">
@@ -280,9 +280,9 @@
 						<strong>Event</strong><br>
 					</h5>
 					<ul>
-						<li><a href="#">Explore</a></li>
-						<li><a href="#">Today's Events</a></li>
-						<li><a href="#">My Events</a></li>
+						<li><a href="${context}/event_list.do">Explore</a></li>
+						<li><a href="${context}/event_reg.do">Make Events</a></li>
+						<li><a href="${context}/my_event.do">My Events</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-3">
