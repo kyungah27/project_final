@@ -36,14 +36,18 @@
 <body>
 
 	<!-- movie_list -->
-        <section class="clean-block clean-info dark">
+        <section class="clean-block clean-info">
             <div class="container">
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
-                    <h2 class="text-primary">영화이름을 검색해 주세요</h2></div>
+                    <h2 class="text-primary">영화이름을 검색해주세요</h2></div>
                 
-         			<div class="row">
-                   	<input   class="form-control input-sm " type="text" style="width:1000px; float:right" id="movie_name"placeholder="이름을 검색해주세요" value=""></input>
-                    <input type="button" class="btn btn-primary btn-sm" style="float:right" value="찾기"  id="search_btn" />
+         			<div class="d-flex flex-row justify-content-between">
+         				<div class="py-2 flex-fill bd-highlight">
+	                   		<input class="form-control" type="text" id="movie_name" placeholder="이름을 검색해주세요" value="">
+	                   	</div>
+	                   	<div class="py-2 pl-2">
+	                    	<input type="button" class="btn btn-primary" style="float:right" value="찾기" id="search_btn">
+	                    </div>
                     </div>
                 <div class="row" id = "movie_info">
     
