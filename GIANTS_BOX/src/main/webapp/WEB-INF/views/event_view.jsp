@@ -711,7 +711,7 @@
 		$("#join_list").append(html);				  
 	}
 
-
+	//information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
 	function searchToIdKM(movieSeq, movieId) {
 		var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 		var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&movieSeq='+movieSeq+'&movieId='+movieId;
