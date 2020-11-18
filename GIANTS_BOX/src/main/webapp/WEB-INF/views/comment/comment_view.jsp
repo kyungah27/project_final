@@ -104,7 +104,7 @@ color: red;
 				url : url,//데이터를 보낼 url
 				dataType : "html",
 				data : {
-					"seq" : "2",
+					"seq" : "${eventVO.eventSeq}",
 					"div" : "10",//임의의값
 					"content" : content,
 					"regId" : "${sessionScope.user.userId}"
@@ -187,7 +187,7 @@ color: red;
 						type : "get", //get방식으로 자료를 전달한다
 						url : url, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
 						data : {
-							"seq" : "2",
+							"seq" : "${eventVO.eventSeq}",
 							"div" : "10"
 						},
 						success : function(data) { //데이터를 보내는것이 성공했을때 출력되는 메시지
