@@ -198,9 +198,10 @@
 	}
 
 	$("#doInsertBtn").on("click", function() {
-
+		window.location.href="${context}/review/doInsert.do";//?
+		
 		var frm = document.searchFrm;
-		frm.action = "${Context}/review/doInsert.do";
+		frm.action = "${Context}/review/doInsertView.do";
 		frm.submit();
 
 	});
