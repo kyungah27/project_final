@@ -567,21 +567,25 @@
 	 	$.each(data, function(i, value) {
 		 	console.log(data);
 
+	 	//---[썸네일 이미지 주소]
+	 	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
 
+	 	//---[이벤트 페이지 주소]
+	 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+			
 
-        html += '<div class="card-body" >';
+        html += '<div class="card-body row" >';
+        html += '<div class="col-lg-3">';
+        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
+        html += '</div>';
+        html += '<div class="col">';
         html += '<p class="text-left card-text">';
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>';
         html += '<strong>'+value.targetDt+'</strong></p>';
         html += '<h4 class="card-title">'+value.eventNm+'</h4>';
         html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
         html += '<p class="card-text mb-2">'+value.content+'</p></div>';
-//    	if(e=="1"){
-//       		html += '<button type="button" onclick="수정 처리메소드(value.eventSeq)" class="btn btn-outline-primary">수정</button>';
-//       		html += '<button type="button" onclick="삭제 처리메소드(value.eventSeq)" class="btn btn-outline-primary">삭제</button>';
-//    	} else if(e=="2"){
-//    		html += '<button type="button" onclick="참여취소 처리메소드(value2.eventSeq)" class="btn btn-outline-primary">참여 취소</button>';
-//        }
+    	html += '</div>';
     	html += '</div></div><hr />';
 	 	}); 
 		}
