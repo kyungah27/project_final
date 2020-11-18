@@ -117,7 +117,7 @@
         html += '<div class="card-body row align-items-center"><div class="col">';
         html += '<p class="text-left card-text">';
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>'
-        html += '<strong>${targetFormatDate}</strong></p>';
+        html += '<strong>'+value.targetDt+'</strong></p>';
         html += '<h4 class="card-title">'+value.eventNm+'</h4>';
         html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
         html += '<p class="card-text mb-2">'+value.content+'</p>';
