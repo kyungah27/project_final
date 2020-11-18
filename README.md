@@ -43,10 +43,10 @@
 ### 13. 개발 URL  
 ### 14. 사용 openAPI
 #### 14.1. KMDb - 한국영화 데이터 베이스
-    - KMDb 한국영화 데이터 베이스(link : https://www.kmdb.or.kr )
+    - KMDb 한국영화 데이터 베이스(link : https://kmdb.or.kr )
     - 사용처 : 포스터썸네일 , 영화정보(감독, 배우, 장르 등등..)
 #### 14.2. 
-    - KOFIC 영화관입장권통합전산망 오픈API (link : http://www.kobis.or.kr/kobisopenapi )
+    - KOFIC 영화관입장권통합전산망 오픈API (link : http://kobis.or.kr/kobisopenapi )
     - 사용처 : 박스오피스 정보
  
  
