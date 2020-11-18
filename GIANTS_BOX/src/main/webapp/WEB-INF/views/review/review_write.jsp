@@ -44,14 +44,16 @@
 </head>
 
 <body>
-
+<div id="wrap">
+<%-- 	<%@include  file="/cmn/inc/header.jsp" %> --%>
+	<section>
+	
 	<main class="page review-page" style="padding-top: 65px;">
 		<section class="clean-block clean-form">
 			<div class="container">
 				<!-- 게시판 작성  -->
 				<!-- 제목 -->
-				<!-- 제목 -->
-			<div class="page-header">
+				<div class="page-header">
 				<h2>게시글 등록</h2>
 			</div>
 			<!--// 제목 -->
@@ -101,26 +103,19 @@
 						<textarea rows="5" cols="40" name="context" id="context" class="form-control"></textarea>
 					</div>
 				</div>
-				
 			</form>
 		</div>
-			<!--// container -->
+		<!--// container -->
 		</section>
 		<%--     <%@include  file="/cmn/inc/footer.jsp" %>	 --%>
 		</div>
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 		
 		<!-- //게시판 작성  -->
 
-		</div>
-		</section>
-	</main>
-
-</body>
-
-
+<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->		
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">

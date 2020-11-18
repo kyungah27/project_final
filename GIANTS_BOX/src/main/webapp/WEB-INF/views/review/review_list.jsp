@@ -50,7 +50,10 @@
 </head>
 
 <body>
-
+<div id="wrap">
+<%-- 	<%@include  file="/cmn/inc/header.jsp" %> --%>
+	<section>  
+    <!-- div container -->
 	<main class="page review-page" style="padding-top: 65px;">
 		<section class="clean-block clean-form">
 			<div class="container">
@@ -63,12 +66,10 @@
 				<!-- 검색영역 -->
 
 				<div class="row ">
-					  <form action="${hContext}/review/doSelectList.do" name="searchFrm"
+					  <form action="${context}/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
-					
-						<input type="hidden" name="pageNum" id="pageNum" /> <input
-							type="hidden" name="div" id="div" value="${vo.getDiv()}" /> <input
-							type="hidden" name="seq" id="seq" />
+							  <input type="hidden" name="pageNum" id="pageNum" />
+							<input	type="hidden" name="review_seq" id="review_seq" />
 						<div class="form-group">
 
 							<select name="search_option" class="form-control" align="center">
@@ -181,11 +182,9 @@
 			</div>
 			<!-- //게시판 작성  -->
 
-			</div>
-		</section>
-	</main>
-
-</body>
+<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->		
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="${context}/resources/js/movie_func.js"></script>
 
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">
@@ -201,7 +200,7 @@
 	$("#doInsertBtn").on("click", function() {
 
 		var frm = document.searchFrm;
-		frm.action = "${hContext}/review/doInsert.do";
+		frm.action = "${Context}/review/doInsert.do";
 		frm.submit();
 
 	});
@@ -209,7 +208,7 @@
 	$("#doSelectListBtn").on("click", function() {
 
 		var frm = document.searchFrm;
-		frm.action = "${hContext}/review/doSelectList.do";
+		frm.action = "${Context}/review/doSelectList.do";
 		frm.submit();
 
 	});
@@ -236,17 +235,22 @@
 		//console.log("#boardListTable>tbody");
 		var trs = $(this);
 		var tds = trs.children();
-		var seq = tds.eq(5).text();
+		var review_seq = tds.eq(5).text();
 
-		console.log("seq:" + seq);
+		console.log("review_seq:" + review_seq);
 		//get방식 형태 call
 		//window.location.href="${hContext}/board/doSelectOne.do?seq="+seq;
 
 		var frm = document.searchFrm;
-		frm.seq.value = seq;
-		frm.action = "${hContext}/review/doSelectList.do";
+		frm.review_seq.value = review_seq;
+		frm.action = "${context}/review/doSelectOne.do";
 		frm.submit();
 	});
-</script>
-
-</html>
+	 </script>
+	    
+	    
+	    
+	    
+	    
+	  </body>
+	</html>

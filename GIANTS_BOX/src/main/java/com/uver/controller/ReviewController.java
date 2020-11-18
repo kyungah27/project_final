@@ -37,7 +37,7 @@ import com.uver.vo.ReviewVO;
 		// review_mng.jsp -> 리뷰 읽기/수정/삭제/단건조회
 		
 		
-	private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
+	final Logger   LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	ReviewService reviewservice;
@@ -68,11 +68,16 @@ import com.uver.vo.ReviewVO;
 	}
 	*/
 
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.GET)
-	public String review_write() {
-		LOG.debug("review/review_write");
+	@RequestMapping(value = "review/doInsertView.do", method = RequestMethod.GET)
+	public String doInsertView(Model model) {
+		String view = "review/review_write";
 		
-		return "review/review_write";
+		LOG.debug("review/review_write");
+		LOG.debug("====================");
+		LOG.debug("==doInsertView==");
+		LOG.debug("====================");
+		
+		return view;
 	}
 	
 	
@@ -118,17 +123,17 @@ import com.uver.vo.ReviewVO;
 	@RequestMapping(value="review/doSelectOne.do",method = RequestMethod.GET)
 	public String doSelectOne(ReviewVO reviewVO,Locale locale,Model model) {
 		//게시판 관리 화면
-		String returnURL = "review/review_read";
+		String returnURL = "review/review_mng";
 		LOG.debug("===================================");
 		LOG.debug("=doSelectOne=");		
 		LOG.debug("=doDelete=");
 		LOG.debug("=param="+reviewVO);  
 		
-		/*
+		
 		if( 0==reviewVO.getReview_seq()) {
 			throw new IllegalArgumentException("게시글 번호를 확인 하세요.");
 		}
-		*/
+		
 		
 		ReviewVO outVO = this.reviewservice.doSelectOne(reviewVO);
 		model.addAttribute("vo", outVO);
