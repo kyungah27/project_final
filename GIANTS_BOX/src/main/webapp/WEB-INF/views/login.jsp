@@ -22,7 +22,7 @@
                         	<label class="form-check-label" for="checkbox">Remember me</label>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-block" type="button" id="doLogin">Log In</button>
+                    <button class="btn btn-primary btn-block" type="button"  id="doLogin">Log In</button>
                 </form>
             </div>
         </section>
@@ -162,6 +162,7 @@
       console.log("expire_date.getDate():"+expire_date.getDate());
       document.cookie  = cookie_name+"="+";expires="+expire_date.toUTCString();
    }
-    
+
+   
 </script>
 <%@ include file="cmn/footer2.jsp" %>
