@@ -21,6 +21,7 @@ import com.uver.service.CommentService;
 import com.uver.service.LikeServiceImpl;
 import com.uver.vo.CommentVO;
 import com.uver.vo.LikeVO;
+import com.uver.vo.MemberVO;
 
 import net.minidev.json.JSONObject;
 
@@ -59,7 +60,7 @@ public class CommentController {
 
 	@RequestMapping(value = "comment/doInsert.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doInsert(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+	public String doInsert(CommentVO commentVO,HttpSession session) throws ClassNotFoundException, SQLException {
 		LOG.debug("==================");
 		LOG.debug("=commentVO=" + commentVO);
 		LOG.debug("==================");
@@ -68,7 +69,8 @@ public class CommentController {
 		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
-
+		MemberVO memberVO =  (MemberVO) session.getAttribute("user");
+		//commentVO.setRegId(commentVO.getLikeCnt() + 1);
 		// 메시지 처리 합니다
 		Message message = new Message();
 		message.setMsgId(flag + "");
