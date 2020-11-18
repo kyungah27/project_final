@@ -220,10 +220,12 @@ color: red;
 														html += '<span>';
 														html += vo.modDt;
 														html += '</span>';
+														if(vo.regId=="${sessionScope.user.userId}"){
 														html += '<div class="row justify-content-end mb-3">';
 															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
 															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
 														html += '</div>';
+														}
 													html += '</div>';
 												});
 								//console.log(html);
