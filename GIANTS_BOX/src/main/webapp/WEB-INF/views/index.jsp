@@ -77,6 +77,8 @@
            	 	<h6  class="text-primary">information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)</h6>
             </div>
         </section>
+        
+        <!--  
         <section class="clean-block features">
             <div class="container">
                 <div class="d-flex flex-column justify-content-between block-heading" style="margin-bottom: 7px;">
@@ -125,7 +127,9 @@
                 </div>
             </div>
         </section>
-        <section class="clean-block slider dark">
+        
+        -->
+        <section class="clean-block slider">
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-primary">Gallery</h2>
@@ -229,6 +233,11 @@
 			dataType : "json",
 			success : function(data) {
 
+
+				console.log(data.img01);
+				console.log(data.img02);
+				console.log(data.img03);
+				
 				//---[이미지 설정]
 				let topImg01Src = "${context}/img/" + data.img01 + ".do";
 				let topImg02Src = "${context}/img/" + data.img02 + ".do";

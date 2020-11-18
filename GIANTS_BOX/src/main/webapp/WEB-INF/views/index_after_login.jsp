@@ -161,6 +161,7 @@
 			</div>
 		</section>
 
+<!-- 
 		<section class="clean-block dark">
 			<div class="container">
 				<div
@@ -216,8 +217,10 @@
 				</div>
 			</div>
 		</section>
+		
+	 -->
 
-		<section class="clean-block slider">
+		<section class="clean-block slider dark">
 			<div class="container">
 				<div class="block-heading">
 					<h2 class="text-primary">Gallery</h2>
