@@ -71,7 +71,6 @@
                 </div>
                 
                	<div class="row" id = "movie_info">
-         
 				<!--  박스 오피스 정보 append 위치 -->
            	 	</div>
            	 	<h6  class="text-primary">information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)</h6>
@@ -203,6 +202,9 @@
     <script src="${context}/resources/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="${context}/resources/js/script.min.js"></script>
+    
+    
+    
     <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -226,6 +228,7 @@
 	});
 
 
+	<!-- Gallery -->
 	function doSelectTopImgs(){
 		$.ajax({
 			url : "${context}/img/top_imgs.do",

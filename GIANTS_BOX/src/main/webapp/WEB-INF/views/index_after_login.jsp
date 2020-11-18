@@ -91,33 +91,12 @@
 					</div>
 
 					<div class="col-lg-9 col-md-7">
-						<div class="card clean-card text-left" id="reg_cards" onclick="selectList(2); return false;">
-<%-- 							<div class="card-body" >
-								<p class="text-left card-text">
-									<strong>10월 31일 6:30PM</strong>
-								</p>
-								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-							</div>--%>
+						<div class="card clean-card text-left" id="reg_cards">
 
-							<!-- 이벤트 반복 -->
 							<hr/>
-							
-							<%--<div class="card-body">
-								 <p class="text-left card-text">
-									<strong>10월 31일 6:30PM</strong>
-								</p>
-								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
-								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
-								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-							</div>--%>
-							
-							<!-- 참여 이벤트 없을 경우 -->
-							<hr/>
-							<%-- <div class="card-body">
-								<h4 class="card-title">참여하는 이벤트가 없습니다.</h4>
-							</div>--%>
+
+
+
 						</div>
 					
 					
@@ -135,8 +114,7 @@
 					class="d-flex flex-column justify-content-between block-heading"
 					style="margin-bottom: 7px;">
 					<h2 class="text-primary">Event near you</h2>
-					<a
-						class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
+					<a class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-end justify-content-sm-end justify-content-md-end justify-content-lg-end justify-content-xl-end align-items-xl-center"
 						href="${context}/event_list.do?searchWord">See more</a>
 				</div>
 				<div class="row justify-content-center" id="event_field">
@@ -490,10 +468,10 @@
 				    	var html = "";
 				    	if(i == 3) return false;
 					    html += '<div class="col-sm-6 col-lg-4">';
-					    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
-					    html += '<div class="card-body info">';
+					    html += '<div class="card clean-card text-center"><a href="${context}/event_view.do?eventSeq="'+value.eventSeq+'"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'></a>';
+					    html += '<div class="card-body info link-style">';
 					    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
-					    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+					    html += '<a href="${context}/event_view.do?eventSeq="'+value.eventSeq+'"><h4 class="text-truncate card-title">'+value.eventNm+'</h4></a>';
 					    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 					    html +='</div></div></div>';      
@@ -560,13 +538,13 @@
         html += '<div class="col-lg-3">';
         html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
         html += '</div>';
-        html += '<div class="col">';
+        html += '<div class="col link-style">';
         html += '<p class="text-left card-text">';
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>';
         html += '<strong>'+value.targetDt+'</strong></p>';
-        html += '<h4 class="card-title">'+value.eventNm+'</h4>';
+        html += '<a href="'+ eventUrl +'"><h4 class="card-title">'+value.eventNm+'</h4></a>';
         html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
-        html += '<p class="card-text mb-2">'+value.content+'</p></div>';
+//         html += '<p class="card-text mb-2">'+value.content+'</p></div>';
     	html += '</div>';
     	html += '</div></div><hr />';
 	 	}); 

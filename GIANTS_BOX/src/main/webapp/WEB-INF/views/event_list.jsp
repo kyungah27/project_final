@@ -209,9 +209,9 @@
 		 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
 		
         html += '<div class="card-body row align-items-center justify-content-center"><div class="col-lg-3">';
-        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
-		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
-		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
+        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '"class="img-fluid rounded mb-2"></a>';
+ 		html += '</div><div class="col-lg-6 text-left link-style"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
+		html += '</p><a href="'+ eventUrl +'"><h4 class="card-title">'+value.eventNm+'</h4></a>';
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
 		html += '<p class="card-text mb-2">'+value.content.substring(0, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';

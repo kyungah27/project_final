@@ -12,7 +12,7 @@
                 </div>
                 <div class="block-content">
                     <div class="product-info">
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col-lg-7 col-md-12">
                                 <img src="${context}/img/${imgSeq}.do" class="img-fluid" />
                             </div>
@@ -132,7 +132,7 @@
 	                               <!-- //photo write -->
 
                                    <div class="row mt-4 mb-4">
-	                                   	<ul id = "img_list" class="row" style="list-style:none;"></ul>
+	                                   	<ul id = "img_list" class="row container align-items-center" style="list-style:none;"></ul>
                                 	</div>
                                     <div class="row">
                                         <button class="btn btn-outline-primary btn-block" id="photo-more-btn" type="button">더보기</button>
@@ -400,6 +400,7 @@
 	var imgArr = [];
 	var idx;
 
+	
 	$('.flex-container')
 	.on("dragover", dragOver)
 	.on("dragleave", dragOver)
@@ -685,10 +686,10 @@
 			    	var html = "";
 			    	if(i == 3) return false;
 				    html += '<div class="col-sm-6 col-lg-4">';
-				    html += '<div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'>';
-				    html += '<div class="card-body info">';
+				    html += '<div class="card clean-card text-center"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'"><img class="card-img-top w-100 d-block" src='+thumbnailUrl+'></a>';
+				    html += '<div class="card-body info link-style">';
 				    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
-				    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
+				    html += '<a href="${context}/event_view.do?eventSeq='+value.eventSeq+'"><h4 class="text-truncate card-title">'+value.eventNm+'</h4></a>';
 				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
 				    html +='</div></div></div>';      

@@ -128,14 +128,12 @@
         html += '<div class="col-lg-3">';
         html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
         html += '</div>';
-        html += '<div class="col">';
+        html += '<div class="col link-style">';
         html += '<p class="text-left card-text">';
         html += '<input type="hidden" name="event_seq" value="' + value.eventSeq  +'"/>'
         html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>'
         html += '<strong>'+value.targetDt+'</strong></p>';
-
-
-        html += '<h4 class="card-title">'+value.eventNm+'</h4>';
+        html += '<a href="'+ eventUrl +'"><h4 class="card-title">'+value.eventNm+'</h4></a>';
         html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
         html += '<p class="card-text mb-2">'+value.content+'</p>';
     	html += '</div><div class="col-lg-3 col-md-3 text-center">';

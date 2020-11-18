@@ -258,12 +258,16 @@
 	//---[영화 검색]-----------------------------------------------------
 	$("#search_movie").on("click",function(){
 			//$(document).find('#selected_seq').val($(this).val());
-			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=500");
+			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=900");
 	});
 	
 
 	
 	//---[이미지 드래그 앤 드롭]--------------------------------------
+	
+	
+	
+	
 	$('.flex-container')
 	.on("dragover", dragOver)
 	.on("dragleave", dragOver)

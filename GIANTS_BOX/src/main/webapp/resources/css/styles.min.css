@@ -328,16 +328,28 @@ body, html {
 	color: rgba(100,100,100,0.3);
 }
 
-.photo-del a:link i {
-	
-}
-
 
 .photo-del a:hover i {
 	color: #0078ff;
 }
 
-.photo-del a:active{
+
+.photo-link-style a img {
 	
 }
+
+.photo-link-style a:hover img {
+	
+}
+
+.link-style a {
+	color: rgba(100,100,100);
+}
+
+
+.link-style a:hover {
+	color: #0078ff;
+	text-decoration: none;
+}
+
 

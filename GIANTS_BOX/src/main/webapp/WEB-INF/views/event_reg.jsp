@@ -244,7 +244,7 @@
 	//---[영화 검색]-----------------------------------------------------
 	$("#search_movie").on("click",function(){
 			//$(document).find('#selected_seq').val($(this).val());
-			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=600");
+			window.open("movieInfo/movie_info.do", "window" ,"width=800 height=900");
 	});
 	
 
