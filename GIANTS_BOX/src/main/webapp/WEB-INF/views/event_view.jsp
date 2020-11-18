@@ -607,7 +607,6 @@
 
 	//---------------------------------------------------------- 영화정보 처리   -----------------------------------
 	$("#doJoin").on("click", function(e) {
-		alert("doJoin");
 		  $.ajax({
 			    type:"POST",
 			    url:"${context}/join/doInsert.do",
@@ -622,7 +621,7 @@
 			       if(obj.msgId == 1){
 						alert(obj.msgContents);
 						doSelectList(${eventVO.eventSeq});
-						drawJoinBtn();
+						location.reload();
 				   }else{
 						alert(obj.msgContents);
 				   }
