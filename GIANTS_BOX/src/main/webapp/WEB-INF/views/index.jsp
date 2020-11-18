@@ -162,17 +162,15 @@
                 <div class="col-sm-3">
                     <h5>Get started</h5>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
-                        <li><a href="#">Log in</a></li>
+                        <li><a href="${context}/main.do">Home</a></li>
+                        <li><a href="${context}/signup.do">Sign up</a></li>
+                        <li><a href="${context}/login.do">Log in</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
                     <h5><strong>Event</strong><br></h5>
                     <ul>
-                        <li><a href="#">Events</a></li>
-                        <li><a href="#">Movies</a></li>
-                        <li><a href="#">Reviews</a></li>
+                        <li><a href="${context}/event_list.do">Explore</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
