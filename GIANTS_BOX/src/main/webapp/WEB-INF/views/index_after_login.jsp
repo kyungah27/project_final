@@ -91,39 +91,42 @@
 					</div>
 
 					<div class="col-lg-9 col-md-7">
-						<div class="card clean-card text-left">
-							<div class="card-body">
+						<div class="card clean-card text-left" id="reg_cards" onclick="selectList(2); return false;">
+<%-- 							<div class="card-body" >
 								<p class="text-left card-text">
 									<strong>10월 31일 6:30PM</strong>
 								</p>
 								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
 								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-							</div>
+							</div>--%>
 
 							<!-- 이벤트 반복 -->
 							<hr/>
-							<div class="card-body">
-								<p class="text-left card-text">
+							
+							<%--<div class="card-body">
+								 <p class="text-left card-text">
 									<strong>10월 31일 6:30PM</strong>
 								</p>
 								<h4 class="card-title">[할로윈 파티] 무서운 영화 시리즈 함께 보실 분 :)</h4>
 								<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>강남역 CGV</span></p>
 								<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-							</div>
+							</div>--%>
 							
 							<!-- 참여 이벤트 없을 경우 -->
 							<hr/>
-							<div class="card-body">
+							<%-- <div class="card-body">
 								<h4 class="card-title">참여하는 이벤트가 없습니다.</h4>
-							</div>
+							</div>--%>
 						</div>
+					
+					
 					</div>
 
 
 				</div>
 
-			</div>
+			
 		</section>
 
 		<section class="clean-block dark">
@@ -323,6 +326,10 @@
 	
 	
 	<script type="text/javascript">
+
+	 var flag = true;
+	 var page = 1;
+	 
 	$(document).ready(function(){
 	    $("#my_calendar").data('datepicker').selectDate(new Date());
 
@@ -339,6 +346,9 @@
 		//---top3 이벤트 최근 이미지
 		doSelectTopImgs();
 
+		//myevent
+		selectList(2);
+	
 
 
 		
@@ -426,6 +436,7 @@
 					var plot = result.plots.plot[0].plotText;
 					console.log(plot); 	
 					var html = '';
+					title = title.replace(/ +/g, " ");
 					html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
 					html +=	'<div class="card">'
 					html += '<img class= "card-img-top w-100 d-block" src= '+posterUrl+'>'
@@ -433,7 +444,7 @@
 					html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 					html += '<strong>출연 </strong>'+actors+'<br>'
 					html += '<strong>장르 </strong>'+genre+'</p>'
-					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 					console.log(html);	
 					$("#movie_info").append(html);		
 				},
@@ -500,7 +511,7 @@
 					    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
 					    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
 					    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
-					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
+					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 					    html +='</div></div></div>';      
 					    console.log(html); 
 					    $("#event_field").append(html);			
@@ -518,6 +529,75 @@
 			});//--ajax		
 		}
 
+		//----[upcoming event]--------------------------------------
+		
+		  function selectList(e){
+		  
+		  $.ajax({
+			    type:"GET",
+			    url:"${context}/event/doSelectList2.do",
+			    dataType:"json",
+			    data:{
+			    	  "pageNum"  : page,
+			    	  "pageSize" : 3,
+			    	  "myDiv" : e
+			    },
+			    success:function(data){ //성공
+			    	
+			       console.log("data="+data);
+			 	 
+			 	 	drawCards(data,e);  
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){		    
+			    }   			  
+		});//--ajax	
+		 
+		
+	}
+	
+	function drawCards(data,e){
+		var html  = "";	
+		if(data.length < 1){
+			html += '<div class="card-body"><h4 class="card-title">이벤트가 없습니다.</h4></div>'
+			flag = false;
+		}else{
+	 	$.each(data, function(i, value) {
+		 	console.log(data);
+
+	 	//---[썸네일 이미지 주소]
+	 	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
+
+	 	//---[이벤트 페이지 주소]
+	 	let eventUrl = "${context}/event_view.do?eventSeq=" + value.eventSeq;
+			
+
+        html += '<div class="card-body row" >';
+        html += '<div class="col-lg-3">';
+        html += '<a href="'+ eventUrl +'"><img src="'+ thumbnailUrl + '" class="img-fluid rounded mb-2"></a>';
+        html += '</div>';
+        html += '<div class="col">';
+        html += '<p class="text-left card-text">';
+        html += '<input type="hidden" id="user_id" value="${sessionScope.user.userId}"/>';
+        html += '<strong>'+value.targetDt+'</strong></p>';
+        html += '<h4 class="card-title">'+value.eventNm+'</h4>';
+        html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
+        html += '<p class="card-text mb-2">'+value.content+'</p></div>';
+    	html += '</div>';
+    	html += '</div></div><hr />';
+	 	}); 
+		}
+		$("#reg_cards").empty();
+		$("#reg_cards").append(html);		 	  
+	}
+
+
+		
+		
+		
+		
 	</script>
 
 </body>

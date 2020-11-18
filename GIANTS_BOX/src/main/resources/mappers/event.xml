@@ -87,7 +87,7 @@
 		             SELECT *                                                       
 		             FROM  event 
 		             <include refid="searchCondition"/>                                               
-		             ORDER BY reg_dt DESC                                           
+		             ORDER BY target_dt ASC                                           
  		         )A                                                                 
 		         WHERE ROWNUM <![CDATA[ <= ]]> (#{pageSize} *(#{pageNum}-1)+#{pageSize})              
 		     )B                                                                     

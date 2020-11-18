@@ -37,28 +37,28 @@
 							    <input type="checkbox" name="options" id="option2" autocomplete="off" value="액션"> 액션
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option3">
-							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="공포"> 공포
+							    <input type="checkbox" name="options" id="option3" autocomplete="off" value="공포(호러)"> 공포(호러)
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option4">
-							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="genre4"> genre4
+							    <input type="checkbox" name="options" id="option4" autocomplete="off" value="범죄"> 범죄
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option5">
-							    <input type="checkbox" name="options" id="option5" autocomplete="off" value="genre5"> genre5
+							    <input type="checkbox" name="options" id="option5" autocomplete="off" value="코메디"> 코메디
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option6">
-							    <input type="checkbox" name="options" id="option6" autocomplete="off" value="genre6"> genre6
+							    <input type="checkbox" name="options" id="option6" autocomplete="off" value="가족"> 가족
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option7" >
-							    <input type="checkbox" name="options" id="option7" autocomplete="off" value="genre6"> genre7
+							    <input type="checkbox" name="options" id="option7" autocomplete="off" value="SF"> SF
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option8">
-							    <input type="checkbox" name="options" id="option8" autocomplete="off" value="genre6"> genre8
+							    <input type="checkbox" name="options" id="option8" autocomplete="off" value="멜로"> 멜로
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option9">
-							    <input type="checkbox" name="options" id="option9" autocomplete="off" value="genre6"> genre9
+							    <input type="checkbox" name="options" id="option9" autocomplete="off" value="판타지"> 판타지
 						  </label>
 						  <label class="ml-2 my-2 btn btn-outline-primary rounded-pill" for="option10">
-							    <input type="checkbox" name="options" id="option10" autocomplete="off" value="genre6"> genre10
+							    <input type="checkbox" name="options" id="option10" autocomplete="off" value="기타"> 기타
 						  </label>
 						</div>
 						
@@ -217,7 +217,7 @@
 		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
 		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
-		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
+		html += '<p class="card-text mb-2">'+value.content.substring(0, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
 		html +=  '</div></div><hr/>'
