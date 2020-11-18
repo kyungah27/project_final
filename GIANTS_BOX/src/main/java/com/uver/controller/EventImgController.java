@@ -58,6 +58,57 @@ public class EventImgController {
 		this.joinService = joinService;
 	}
 	
+	
+	
+	
+	@RequestMapping(value="doDelete.do", method=RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String doDeleteImg(@RequestParam("imgSeq") String imgSeqStr) {
+		LOG.debug("param imgSeq: " + imgSeqStr);
+		int imgSeq = Integer.parseInt(imgSeqStr);
+		
+		int flag = 0;
+		
+		flag = this.eventImgService.doDelete(imgSeq);
+		flag += deleteFile(imgSeq);
+		
+		Message message = new Message();
+		message.setMsgId(String.valueOf(flag));
+
+		if (flag == 2) {
+			message.setMsgContents("이미지를 삭제했습니다.");
+		} else {
+			message.setMsgContents("이미지 삭제를 실패했습니다.");
+		}
+
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+		LOG.debug("[json] " + json);
+		return json;
+		
+	}
+	
+	//---[파일삭제]
+	private int deleteFile(int imgSeq) {
+		int flag=0;
+		
+		ImgVO img = this.eventImgService.doSelectOne(imgSeq).getImgVO();
+		String serverName = img.getServerName();
+		String imgType = img.getImgType();
+		String filePath = UPLOAD_FILE_DIR + "\\" + serverName + "." + imgType;
+		
+		File deleteFile = new File(filePath);
+		
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+			flag += 1;
+		}
+		
+		return flag;
+	}
+	
+	
+	
 	@RequestMapping(value="top_imgs.do", method = RequestMethod.GET)
 	@ResponseBody
 	public String doSelectTopImgs() {

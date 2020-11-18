@@ -4,6 +4,7 @@
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
+                	
                     <p>${eventVO.regDt}</p>
                     <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
@@ -208,7 +209,7 @@
 	let photoPgNum = 1;
 	let maxImgSeq = 0;
 	let zoomFlag = 0;
-
+	
 	//---[사진 탭 클릭]
 	$("#photos-tabs").on("click", photoList);
 	function photoList(){
@@ -311,16 +312,27 @@
 	//---[사진 목록 렌더링]
 	let renderList = function(mode, vo){
 		let context = '<c:out value="${context}" />';
+		let regId = vo.imgVO.regId;
 		let html =
-			"<li data-no='" + vo.num + "' class='col-md-6 col-lg-4 item mt-3'>" +
-			"<a class='lightbox' href='#b' onclick='javascript:zoom(this)'><img class='img-thumbnail img-fluid image' src=" +
-			context + "/img/" + vo.imgSeq + ".do /></a>"+
-			"<div class='d-flex flex-row justify-content-end align-items-center my-1'><small>" +
-			vo.imgVO.regId + " | " + vo.imgVO.regDt + "</small>"+
-			"<div class='photo-remove'>"+
-			"<input type='hidden' value='"+ vo.imgSeq +"'>"+
-			"<a href='#' onclick='javascript:deletePhoto(this); return false;'>" +
-			"<i class='fa fa-trash ml-2'></i></a></div>";
+					"<li data-no='" + vo.num + "' class='col-md-6 col-lg-4 item mt-3'>" +
+					"<a class='lightbox' href='#b' onclick='javascript:zoom(this)'><img class='img-thumbnail img-fluid image' src=" +
+					context + "/img/" + vo.imgSeq + ".do /></a>"+
+					"<div class='d-flex flex-row justify-content-end align-items-center my-1'><small>" +
+					regId + " | " + vo.imgVO.regDt + "</small>";
+
+		let userId = '<c:out value="${user.userId}" />';
+
+		console.log(userId);		
+		if(userId != 0){
+			if (userId == regId){
+				html += "<div class='photo-remove'>"+
+				"<input type='hidden' value='"+ vo.imgSeq +"' />"+
+				"<a href='#' onclick='javascript:deletePhoto(this); return false;'>" +
+				"<i class='fa fa-trash ml-2'></i></a></div>";
+			};
+		}
+			
+		html += "</div>";
 		if(mode) {
 			$("#img_list").prepend(html);
 		} else {
@@ -328,18 +340,40 @@
 		}
 	}//---END renderList
 
+	
+
+	
+
+	//---[사진 삭제]
 	function deletePhoto(target) {
 
 		let thisImgSeq = target.previousSibling.value;
-		console.log(thisImgSeq);
 
-		
-
-		
-
+		$.ajax({
+		    type:"POST",
+		    url:"${context}/img/doDelete.do",
+		    dataType:"json", 
+		    data: { imgSeq : thisImgSeq },
+		    success:function(result){ 	//성공
+			  if(null != result & result.msgId == "2"){
+	                alert(result.msgContents);
+	                photoList();
+	                
+			  } else {
+				  alert(result.msgId + ": " + result.msgContents);
+			  }
+			  
+		    },
+		    error:function(xhr,status,error){
+		     	alert("error:"+error);
+		    },
+		    complete:function(data){ }   			  
+		});//--ajax		
 	}
 
-	//---[사진 zoom flag 작업]
+	
+
+	//---[사진 zoom in / zoom out]
 	let openedImgWidth;
 	function zoom(target) {
 		console.log("zoom");
@@ -368,7 +402,7 @@
 		}
 	}
 	
-
+	// 닫기
 	function closeImg(thisImg,currWidth){
 		console.log("closeImg()");
 		thisImg.removeAttribute("class","opened");
@@ -380,6 +414,7 @@
 		console.log("닫은 후 현재 width: " + thisImg.clientWidth);
 	}
 
+	// 확대
 	function zoomImg(thisImg,currWidth){
 		console.log("zoomImg()");
 		thisImg.setAttribute("class", "opened");
@@ -388,13 +423,11 @@
 		thisImg.style.left="35%";
 		thisImg.style.position = "fixed";
 
-
 		console.log("열 현재 width: " + currWidth);
 		openedImgWidth = currWidth * 2.5;
 		thisImg.style.width = openedImgWidth + "px";
 		console.log("연 후 현재 width: " + currWidth);
 	}
-
 
 	
 
