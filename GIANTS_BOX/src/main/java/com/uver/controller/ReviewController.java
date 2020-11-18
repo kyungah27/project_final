@@ -1,10 +1,7 @@
 package com.uver.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
 
 import com.uver.cmn.Message;
 import com.uver.cmn.Search;
 import com.uver.cmn.StringUtil;
-import com.uver.dao.ReviewDaoImpl;
 import com.uver.service.ReviewService;
-import com.uver.vo.CommentVO;
-import com.uver.vo.EventVO;
 import com.uver.vo.ReviewVO;
 
 	@Controller
@@ -54,7 +45,7 @@ import com.uver.vo.ReviewVO;
 
 	//기본화면
 	//목록 화면을 기본화면으로 할 것
-	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "review/doSelectList2.do", method = RequestMethod.GET)
 	public String review_view() {
 		LOG.debug("review_selectlist");
 		
