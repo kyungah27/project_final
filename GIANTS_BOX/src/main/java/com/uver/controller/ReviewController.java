@@ -33,7 +33,7 @@ import com.uver.vo.ReviewVO;
 		
 		// review_write.jsp -> 리뷰 등록
 		// review_list.jsp -> 리뷰 목록
-	
+		//review_read.jsp->상세조회
 		// review_mng.jsp -> 리뷰 읽기/수정/삭제/단건조회
 		
 		
@@ -52,15 +52,23 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
+	@RequestMapping(value = "review/doSelectOne.do", method = RequestMethod.GET)
+	public String review_read() {
+		LOG.debug("review/review_read");
+		
+		return "review/review_read";
+	}
+	
 	//기본화면
 	//목록 화면을 기본화면으로 할 것
+	/*
 	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.GET)
 	public String review_view() {
 		LOG.debug("review_selectlist");
 		
 		return "review/review_selectlist";
 	}
-	
+	*/
 
 	
 	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
@@ -105,15 +113,17 @@ import com.uver.vo.ReviewVO;
 	@RequestMapping(value="review/doSelectOne.do",method = RequestMethod.GET)
 	public String doSelectOne(ReviewVO reviewVO,Locale locale,Model model) {
 		//게시판 관리 화면
-		String returnURL = "review/review_mng";
+		String returnURL = "review/review_read";
 		LOG.debug("===================================");
 		LOG.debug("=doSelectOne=");		
 		LOG.debug("=doDelete=");
 		LOG.debug("=param="+reviewVO);  
 		
+		/*
 		if( 0==reviewVO.getReview_seq()) {
 			throw new IllegalArgumentException("게시글 번호를 확인 하세요.");
 		}
+		*/
 		
 		ReviewVO outVO = this.reviewservice.doSelectOne(reviewVO);
 		model.addAttribute("vo", outVO);
