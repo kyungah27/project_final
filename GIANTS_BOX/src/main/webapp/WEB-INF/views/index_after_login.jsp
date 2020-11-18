@@ -339,7 +339,15 @@
 		//---top3 이벤트 최근 이미지
 		doSelectTopImgs();
 
+
+
+		
 	    
+	});
+
+	$('#search_btn').click(function() {
+		$(location).attr('href',"event_list.do?searchWord="+$("#search-field").val());
+
 	});
 
 	function doSelectTopImgs(){

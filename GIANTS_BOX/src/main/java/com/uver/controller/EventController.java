@@ -390,6 +390,20 @@ public class EventController {
 		LOG.debug("==================");
 
 		List<EventVO> list = this.eventService.doSelectList(search);
+		
+		// 이벤트 참여 인원 확인
+		for(int i= 0 ; i <list.size() ; i++) {
+			
+			EventVO vo =  list.get(i);
+			JoinVO jVO = new JoinVO();
+			jVO.setEventSeq(vo.getEventSeq());
+			
+			List jList = joinService.currentJoinList(jVO);
+			vo.setTotalCnt(jList.size());
+			
+		}
+		
+		
 		if (list.size() > 0) {
 			req.getSession().setAttribute("tot", list.get(0).getTotalCnt());
 		}
