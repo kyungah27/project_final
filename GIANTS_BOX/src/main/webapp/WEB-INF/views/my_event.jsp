@@ -81,7 +81,7 @@
 			    dataType:"json",
 			    data:{
 			    	  "pageNum"  : page,
-			    	  "pageSize" : 100,
+			    	  "pageSize" : 3,
 			    	  "myDiv" : e
 			    },
 			    success:function(data){ //성공
