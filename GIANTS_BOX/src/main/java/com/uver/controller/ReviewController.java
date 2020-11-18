@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,9 @@ import com.uver.vo.ReviewVO;
 	@Autowired
 	ReviewService reviewservice;
 
+	@Autowired
+	MessageSource  messageSource;
+	
 	public ReviewController() {
 	}
 
@@ -59,38 +63,44 @@ import com.uver.vo.ReviewVO;
 	
 
 	
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST, 
-			produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String doInsert(ReviewVO reviewVO) throws ClassNotFoundException, SQLException {
-		LOG.debug("==================");
-		LOG.debug("=reviewVO=" + reviewVO);
-		LOG.debug("==================");
-
-		int flag = this.reviewservice.doInsert(reviewVO);
-		LOG.debug("==================");
-		LOG.debug("=flag=" + flag);
-		LOG.debug("==================");
-
-		// 메시지 처리
-		Message message = new Message();
-		message.setMsgId(flag + "");
-
-		//제목으로 등록 알아보기
-		if (flag == 1) {
-			message.setMsgContents(reviewVO.getTitle() + " 이 등록 되었습니다.");
-		} else {
-			message.setMsgContents(reviewVO.getTitle() + " 이 등록 실패되었습니다.");
+	public Message doInsert(ReviewVO reviewVO,Locale locale) {
+	    //servliet-context.xml -> <annotation-driven /> 
+		//
+		//HttpMessageConverter를 구현한 모든 변환기가 생성된다.
+		LOG.debug("===================================");
+		LOG.debug("=doInsert=");
+		LOG.debug("=param="+reviewVO);
+		
+		//예외 발생!
+		if(null == reviewVO.getTitle()) {
+			//message.common.message.valid
+			Object[] args01 = new String[] {"제목"};
+			String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
+			
+			throw new IllegalArgumentException(msgTitleConfirm);
 		}
-
-		Gson gson = new Gson();
-		String json = gson.toJson(message);
-		LOG.debug("==================");
-		LOG.debug("=json=" + json);
-		LOG.debug("==================");
-
-		return json;
+		
+		int  flag = reviewservice.doInsert(reviewVO);
+		Message  message=new Message();
+		message.setMsgId(String.valueOf(flag));
+		if(flag>0) {
+			Object[] args01 = new String[] {"등록"};
+			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
+			//LOG.debug("=msgConfirm="+msgConfirm);
+			message.setMsgContents(msgConfirm);
+		}else {
+			message.setMsgContents("등록 실패.");
+		}
+		
+		LOG.debug("=message="+message);
+		LOG.debug("===================================");		
+		
+		return message;
 	}
+	
+	
 	
 	@RequestMapping(value="review/doSelectOne.do",method = RequestMethod.GET)
 	public String doSelectOne(ReviewVO reviewVO,Locale locale,Model model) {
