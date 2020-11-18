@@ -217,7 +217,7 @@
 		html += '</div><div class="col-lg-6 text-left"><p class="text-left card-text"><strong>'+value.targetDt+'</strong>';
 		html += '</p><h4 class="card-title">'+value.eventNm+'</h4>';
 		html += '<p class="card-text mb-1"><i class="fa fa-map-marker p-1"></i><span>'+value.location+'</span></p>';
-		html += '<p class="card-text mb-2">'+value.content.substring(1, 50)+'..</p>';
+		html += '<p class="card-text mb-2">'+value.content.substring(0, 50)+'..</p>';
 		html += '</div> <div class="col-lg-3 col-md-5 text-center">';
 		html +=	'<form method ="GET" action ="${context}/event/doSelectOne.do"><button  value ='+value.eventSeq+' type="submit" name="seleted_seq" class="btn btn-outline-primary">참여</button></form>';
 		html +=  '</div></div><hr/>'

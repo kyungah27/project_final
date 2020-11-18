@@ -127,13 +127,35 @@
        		html += '<button type="button" onclick="updateEvent(this)" class="btn btn-outline-primary mx-1">수정</button>';
        		html += '<button type="button" onclick="deleteEvent(this)" class="btn btn-outline-primary">삭제</button>';
     	} else if(e=="2"){
-    		html += '<button type="button" onclick="참여취소 처리메소드(value2.eventSeq)" class="btn btn-outline-primary">참여 취소</button>';
+    		html += '<button type="button" onclick="deleteJoin('+value.eventSeq+')" class="btn btn-outline-primary">참여 취소</button>';
         }
     	html += '</div></div><hr />';
 	 	}); 
 		}
 		$("#reg_cards").empty();
 		$("#reg_cards").append(html);		 	  
+	}
+
+
+	function deleteJoin(eventSeq){
+		if(!confirm("[경고] 이벤트 참여를 취소 하시겠습니까?")){
+			return;
+		};
+		
+		 $.ajax({
+			    type:"POST",
+			    url:"${context}/join/doDelete.do",
+			    dataType:"html", 
+			    data:{ "eventSeq":eventSeq },
+			    success:function(data){ //성공
+			    	selectList(2);            
+			    },
+			    error:function(xhr,status,error){
+			     alert("error:"+error);
+			    },
+			    complete:function(data){
+			}   
+		});
 	}
 
 

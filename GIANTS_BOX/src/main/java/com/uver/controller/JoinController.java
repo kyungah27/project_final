@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import com.uver.cmn.Message;
 import com.uver.service.JoinService;
 import com.uver.vo.JoinMemberVO;
 import com.uver.vo.JoinVO;
+import com.uver.vo.MemberVO;
 
 @Controller("JoinController")
 public class JoinController {
@@ -119,6 +121,38 @@ public class JoinController {
         	message.setMsgContents("추방 되었습니다.");
         }else {
         	message.setMsgContents("추방 실패했습니다.");
+        }
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(message);
+        LOG.debug("[json] "+json);
+		return json;
+	}
+	
+	@RequestMapping(value="join/doDelete.do",method = RequestMethod.POST
+			,produces = "application/json;charset=UTF-8"
+			)
+	@ResponseBody
+	public String doDelete(JoinVO vo , HttpSession session) {
+
+		int memberSeq = 0;
+		if(session.getAttribute("user") !=null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("user");
+			LOG.debug(memberVO.toString());
+			vo.setMemberSeq(memberVO.getSeq());
+		} 
+		
+		
+		Message message=new Message();
+		//세션에서 가져올 예정
+		LOG.debug(vo.toString());
+		int flag = joinService.doDelete(vo);
+        message.setMsgId(String.valueOf(flag));
+        
+        if(flag > 0) {
+        	message.setMsgContents("취소하였습니다..");
+        }else {
+        	message.setMsgContents("취소 실패했습니다.");
         }
 		
 		Gson gson = new Gson();
