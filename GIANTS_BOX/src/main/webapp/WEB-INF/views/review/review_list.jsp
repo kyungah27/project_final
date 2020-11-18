@@ -68,20 +68,20 @@
 				<div class="row ">
 					  <form action="${context}/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
-							  <input type="hidden" name="pageNum" id="pageNum" />
-							<input	type="hidden" name="review_seq" id="review_seq" />
+							  <input type="text" name="pageNum" id="pageNum" />
+							<input	type="text" name="review_seq" id="review_seq" />
 						<div class="form-group">
 
-							<select name="search_option" class="form-control" align="center">
-								<option value="eventSeq"
+							<select name="searchDiv" class="form-control" align="center">
+								<option value="30"
 									<c:if test="${map.search_option == 'eventSeq'}">selected</c:if>>이벤트번호</option>
-								<option value="writer"
+								<option value="40"
 									<c:if test="${map.search_option == 'writer'}">selected</c:if>>글쓴이</option>
-								<option value="title"
+								<option value="50"
 									<c:if test="${map.search_option == 'title'}">selected</c:if>>제목</option>
-								<option value="context"
+								<option value="60"
 									<c:if test="${map.search_option == 'context'}">selected</c:if>>내용</option>
-								<option value="category"
+								<option value="70"
 									<c:if test="${map.search_option == 'category'}">selected</c:if>>카테고리</option>
 
 							</select> 
@@ -235,11 +235,11 @@
 		//console.log("#boardListTable>tbody");
 		var trs = $(this);
 		var tds = trs.children();
-		var review_seq = tds.eq(5).text();
+		var review_seq = tds.eq(0).text();
 
 		console.log("review_seq:" + review_seq);
 		//get방식 형태 call
-		//window.location.href="${hContext}/board/doSelectOne.do?seq="+seq;
+		window.location.href="${context}/board/doSelectOne.do?review_seq="+review_seq;
 
 		var frm = document.searchFrm;
 		frm.review_seq.value = review_seq;

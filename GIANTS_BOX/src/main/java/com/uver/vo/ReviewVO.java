@@ -1,6 +1,8 @@
 package com.uver.vo;
 
-public class ReviewVO {
+import com.uver.cmn.DTO;
+
+public class ReviewVO extends DTO {
 	
 	private int review_seq;	
 	
@@ -110,6 +112,14 @@ public class ReviewVO {
 		this.totalCnt = totalCnt;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ReviewVO [review_seq=" + review_seq + ", eventSeq=" + eventSeq + ", writer=" + writer + ", title="

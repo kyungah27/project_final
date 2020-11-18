@@ -14,7 +14,7 @@
 
 
 	<!-- 동적 검색조건 
-	 
+	  20 review_seq 글번호
       30 event_seq 이벤트번호
       40 writer 글쓴이
       50 title  제목
@@ -24,6 +24,10 @@
    -->	
 	<sql id="searchCondition">
       <choose>
+      	<when test=" '20' == searchDiv">
+      	   where review_seq like #{searchWord} ||'%'
+      	</when>
+      
       	<when test=" '30' == searchDiv">
       	   where eventSeq like #{searchWord} ||'%'
       	</when> 

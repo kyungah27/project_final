@@ -150,20 +150,23 @@ $("#moveList").on("click", function() {
 //삭제
 $("#deleteBtn").on("click", function() {
 	//alert("deleteBtn click");
-	var review_seq = $("#review_seq").val();
-	//console.log("seq:"+seq);
-	if(null == review_seq || review_seq.trim().length==0){
+	var reviewSeq = ${vo.review_seq};
+	
+	console.log("review_seq:"+reviewSeq);
+	
+	if(null == reviewSeq ){
 		alert("review_seq를 입력하세요.");
 		return;
-	}			
+	}	
+			
 	if(false==confirm("삭제 하시겠습니까?"))return;
 
 	$.ajax({
 	    type:"POST",
-	    url:"${Context}/review/doDelete.do",
+	    url:"${context}/review/doDelete.do",
 	    dataType:"html", 
 	    data:{
-		      "review_seq" :$("#review_seq").val(),
+		      "review_seq" :reviewSeq
 	    },  
 	    success:function(data){ //성공
 	       //console.log("data="+data);
@@ -184,7 +187,7 @@ $("#deleteBtn").on("click", function() {
 	     alert("error:"+error);
 	    },
 	    complete:function(data){
-	    
+	    	alert("success:");
 	    }   
 	  
 });//--ajax
@@ -198,7 +201,7 @@ $("#updateBtn").on("click", function() {
 	if(null == title || title.trim().length==0){
 		$("#title").focus();
 		
-		alert('<spring:message code="message.common.message.valid" arguments="제목" />');
+		alert("제목을 입력하세요.");
 		return;
 	}
 	

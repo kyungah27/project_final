@@ -138,7 +138,9 @@ import com.uver.vo.ReviewVO;
 		ReviewVO outVO = this.reviewservice.doSelectOne(reviewVO);
 		model.addAttribute("vo", outVO);
 		
+		
 		return returnURL;
+		
 	}
 	
 	
@@ -156,9 +158,10 @@ import com.uver.vo.ReviewVO;
 					search.setPageSize(10);
 				}
 				
-				//게시구분 초기화: 공지사항,자유게시판
-				if(search.getDiv()==null) {
-					search.setDiv("10");//공지사항
+				
+				//게시구분 초기화:
+				if(search.getSearchDiv()==null) {
+					search.setSearchDiv("20");//review_seq로 검색
 				}		
 				
 				search.setSearchDiv(StringUtil.nvl(search.getSearchDiv(), ""));
@@ -250,7 +253,10 @@ import com.uver.vo.ReviewVO;
 	
 	@RequestMapping(value = "review/doDelete.do", method = RequestMethod.POST)
 	@ResponseBody	
-	public Message doDelete(ReviewVO reviewVO,Locale locale) {
+	public Message doDelete(String review_seq,Locale locale) {
+		ReviewVO reviewVO = new ReviewVO();
+		reviewVO.setReview_seq(Integer.parseInt(review_seq));
+		
 		LOG.debug("===================================");
 		LOG.debug("=doDelete=");
 		LOG.debug("=param="+reviewVO);
@@ -264,10 +270,10 @@ import com.uver.vo.ReviewVO;
 		
 		if(flag>0) {
 			Object[] args01 = new String[] {"삭제"};
-			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
-			message.setMsgContents(msgConfirm);
+			
+			message.setMsgContents("삭제 성공.");
 		}else {
-			message.setMsgContents("등록 실패.");
+			message.setMsgContents("삭제 실패.");
 		}
 				
 		
