@@ -140,12 +140,11 @@ public class EventImgController {
 		int imgSeq = eventImgService.doSelectThumbnail(eventSeq);
 		ImgVO img;
 		
-		if (imgSeq > 0) {
+		if (imgSeq > 0 && imgSeq != 707) {
 			img = eventImgService.doSelectOne(imgSeq).getImgVO();
 		} else {
 			// default 이미지 설정
 			img = eventImgService.doSelectDefault();
-			
 		}
 		modelMap.put("img", img);
 		return (ImgView) imgView;
