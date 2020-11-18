@@ -11,7 +11,8 @@ import com.uver.vo.ReviewVO;
 	public int doInsert(ReviewVO reviewVO);	
 	public int doDelete(ReviewVO reviewVO);	
 	public int doUpdate(ReviewVO reviewVO);	
-	public ReviewVO doSelectOne(int review_seq);	
+	//public ReviewVO doSelectOne(int review_seq);	
 	public List<ReviewVO> doSelectList(Search search);
 	public ReviewVO doSelectOneByTitle(ReviewVO review);
+	public ReviewVO doSelectOne(ReviewVO reviewVO);
 }

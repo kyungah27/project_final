@@ -4,7 +4,7 @@
         <section class="clean-block clean-product dark">
             <div class="container">
                 <div class="block-heading">
-                    <p>${eventVO.regDt}</p>
+                    <p>${eventVO.targetDt}</p>
                     <h2 class="text-primary">${eventVO.eventNm}</h2>
                     <p>주최자</p>
                     <strong>${eventVO.regId}</strong>
@@ -45,10 +45,10 @@
                                     <div class="d-flex mb-3">
                                         <i class="fa fa-film p-2"></i>
                                         <div class="p-1" id="movie_text">
-                                            <h5><strong id="top_name">도굴</strong></h5>
-                                            <strong>감독&nbsp;</strong>강대규<br>
-                                            <strong>출연 </strong>성동일, 하지원, 김희원 등<br>
-                                            <strong>장르</strong>&nbsp;드라마<br>
+                                            <h5><strong id="top_name"></strong></h5>
+                                            <strong>감독&nbsp;</strong><h6 id="top_director"></h6>
+                                            <strong >출연 </strong> <h6 id="top_actor"></h6>
+                                            <strong >장르</strong>&nbsp;<h6 id="top_genre"></h6>
                                         </div>
                                     </div>
                                     <div id="join_btn_field">
@@ -855,9 +855,14 @@
 						var html = '';		
 
 						$("#movie_name").text(title);
-						$("#top_name").text(title);
 						$("#movie_plot").text(plot);
 						$("#movie_poster").attr("src", posterUrl);
+						
+						$("#top_name").text(title);
+						$("#top_director").text(director);
+						$("#top_actor").text(actors);
+						$("#top_genre").text(genre);
+		
 
 						
 					}) 

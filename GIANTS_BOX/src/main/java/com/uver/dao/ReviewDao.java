@@ -19,7 +19,7 @@ public interface ReviewDao {
 	
 	int doUpdate(ReviewVO review);
 	
-	ReviewVO doSelectOne(int review_seq);
+	//ReviewVO doSelectOne(int review_seq);
 	
 	ReviewVO  doSelectOneByTitle(ReviewVO review);
 	
@@ -29,6 +29,7 @@ public interface ReviewDao {
 	
 	List<ReviewVO> doSelectList(Search search);
 
+	ReviewVO doSelectOne(ReviewVO reviewVO);
 
 	
 
