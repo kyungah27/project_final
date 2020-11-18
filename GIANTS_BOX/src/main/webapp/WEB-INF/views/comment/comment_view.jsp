@@ -220,16 +220,15 @@ color: red;
 													//console.log(vo.content);
 													//console.log(vo.modDt);
 													html += '<div name="commentDiv">';
-														html += '<span>';
+														html += '<p class="my-2">';
 															html += '<button class="like" onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
 																html += '<i class="fa fa-heart" aria-hidden="true">'+'</i>'
 																//html += '<img src="${context}/resources/img/comment/fullheart.png" style="width: 20px;"/>';
 																html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
 															html += '</button>';
 														html += '<strong>'+ vo.regId + ""+ '</strong>';
-														html += '</span>'
-														html += '<br/>';
-														html += '<div>'+ vo.content+ '</div>';
+														html += '</p>';
+														html += '<div class="my-3">'+ vo.content+ '</div>';
 														html += '<br/>';
 														html += '<span>';
 															html += vo.modDt;
