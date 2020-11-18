@@ -96,6 +96,11 @@ public class EventImgServiceImpl implements EventImgService {
 		return eventImgDao.doSelectLatestImg(eventSeq);
 	}
 
+	@Override
+	public ImgVO doSelectDefault() {
+		return imgDao.doSelectOne(707);
+	}
+
 	
 	
 
