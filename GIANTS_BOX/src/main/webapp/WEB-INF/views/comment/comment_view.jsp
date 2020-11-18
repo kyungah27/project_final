@@ -57,10 +57,16 @@ color: red;
 				</div>
 			</form>
 		</div>
+	<!-- </div> -->
+	<div class="update">
+	<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />
+	<br />
+	<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
+	<br />
+	<input type="button" class="btn btn-primary btn-sm" value="수정" style="float: right" /><br/>
 	</div>
-	
 
-	<div class="container">
+		<!--<div class="container">-->
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
 			style="padding-top: 10px">
 			<b>comment list</b> <b>( <b id="count"> </b> )
@@ -94,7 +100,7 @@ color: red;
 		<!-- 댓글리스트  -->
 	</div>
 	<!-- 흰색배경 -->
-
+</div>
 	<!-- container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -220,23 +226,21 @@ color: red;
 													//console.log(vo.content);
 													//console.log(vo.modDt);
 													html += '<div name="commentDiv">';
-														html += '<span>';
+														html += '<p class="my-2">';
 															html += '<button class="like" onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
 																html += '<i class="fa fa-heart" aria-hidden="true">'+'</i>'
 																//html += '<img src="${context}/resources/img/comment/fullheart.png" style="width: 20px;"/>';
 																html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
 															html += '</button>';
 														html += '<strong>'+ vo.regId + ""+ '</strong>';
-														html += '</span>'
-														html += '<br/>';
-														html += '<div>'+ vo.content+ '</div>';
-														html += '<br/>';
+														html += '</p>';
+														html += '<div class="my-3">'+ vo.content+ '</div>';
 														html += '<span>';
-															html += vo.modDt;
+														html += vo.modDt;
 														html += '</span>';
 														html += '<div class="row justify-content-end mb-3">';
 															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
-															html += '<input type="button" onclick="commentdelete(105);" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
+															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
 														html += '</div>';
 													html += '</div>';
 												});
@@ -265,9 +269,9 @@ color: red;
 
  			var commentDt = idx.parentNode.previousSibling;
  			console.log("date: " + commentDt.textContent);
- 			var commentContent = commentDt.previousSibling.previousSibling;
+ 			var commentContent = commentDt.previousSibling;
  			console.log("content: " + commentContent.textContent);
- 			var commentRegId = commentContent.previousSibling.previousSibling.lastChild;
+ 			var commentRegId = commentContent.previousSibling.lastChild;
  			console.log("regId: " + commentRegId.textContent);
 
 

@@ -51,7 +51,7 @@
 				<!-- 게시판 작성  -->
 				<!-- 제목 -->
 				<div class="page-header">
-					<h2>게시판 등록</h2>
+					<h2>게시글 등록</h2>
 				</div>
 				<!--// 제목 -->
 
@@ -73,19 +73,28 @@
 					<!-- hidden: work_div,div=10(공지사항),read_cnt=0 -->
 					<input type="hidden" name="review_seq" id="review_seq" />
 					<div class="form-group">
-						<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">글 순서?</label>
+						
 						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-							<%
-								//페이지 사이즈
-
-							//??몰라 이부분
-
-							//검색조건
-							%>
+							
 						</div>
 					</div>
+					
+					
+					<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">이벤트번호</label>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+								<input type="text" class="form-control" name="eventSeq"
+									id="eventSeq" placeholder="이벤트번호" />
+							</div>
+							
+					<div class="form-group">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+								<input type="text" class="form-control" name="category"
+									id="category" placeholder="카테고리" />
+							</div>
 
-
+	
 					<div class="form-group">
 						<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">작성자</label>
 						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -94,12 +103,7 @@
 						</div>
 					</div>
 					
-					<div class="form-group">
-							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
-							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-								<input type="text" class="form-control" name="category"
-									id="category" placeholder="카테고리" />
-							</div>
+					
 
 					<div class="form-group">
 						<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">제목</label>
