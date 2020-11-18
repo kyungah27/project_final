@@ -69,8 +69,13 @@ public class EventImgController {
 		
 		int flag = 0;
 		
-		flag = this.eventImgService.doDelete(imgSeq);
 		flag += deleteFile(imgSeq);
+		
+		if (flag == 1) {
+			flag += this.eventImgService.doDelete(imgSeq);			
+		}
+		
+		
 		
 		Message message = new Message();
 		message.setMsgId(String.valueOf(flag));
@@ -96,6 +101,7 @@ public class EventImgController {
 		String serverName = img.getServerName();
 		String imgType = img.getImgType();
 		String filePath = UPLOAD_FILE_DIR + "\\" + serverName + "." + imgType;
+		LOG.debug("[filePath] " + filePath);
 		
 		File deleteFile = new File(filePath);
 		
