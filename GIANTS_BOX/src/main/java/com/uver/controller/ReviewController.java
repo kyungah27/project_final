@@ -52,21 +52,24 @@ import com.uver.vo.ReviewVO;
 		this.reviewservice = reviewservice;
 	}
 
+	/*
 	@RequestMapping(value = "review/doSelectOne.do", method = RequestMethod.GET)
 	public String review_read() {
 		LOG.debug("review/review_read");
 		
 		return "review/review_read";
 	}
+	*
+	
 	
 	//기본화면
 	//목록 화면을 기본화면으로 할 것
 	/*
-	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "review/doSelectList.do", method = RequestMethod.POST)
 	public String review_view() {
-		LOG.debug("review_selectlist");
+		LOG.debug("review_list");
 		
-		return "review/review_selectlist";
+		return "review/review_list";
 	}
 	*/
 
@@ -134,6 +137,7 @@ import com.uver.vo.ReviewVO;
 	
 	
 	@RequestMapping(value="review/doSelectList.do",method = RequestMethod.GET)
+	@ResponseBody
 	public String doSelectList(Search search,Model model) {
 		//param초기화
 				//pageSize, pageNum
