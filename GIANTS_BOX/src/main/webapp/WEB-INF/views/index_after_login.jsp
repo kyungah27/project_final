@@ -436,6 +436,7 @@
 					var plot = result.plots.plot[0].plotText;
 					console.log(plot); 	
 					var html = '';
+					title = title.replace(/ +/g, " ");
 					html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
 					html +=	'<div class="card">'
 					html += '<img class= "card-img-top w-100 d-block" src= '+posterUrl+'>'
@@ -443,7 +444,7 @@
 					html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 					html += '<strong>출연 </strong>'+actors+'<br>'
 					html += '<strong>장르 </strong>'+genre+'</p>'
-					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
+					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
 					console.log(html);	
 					$("#movie_info").append(html);		
 				},
@@ -510,7 +511,7 @@
 					    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
 					    html += '<h4 class="text-truncate card-title"><a href="${context}/event_view.do?eventSeq='+value.eventSeq+'">'+value.eventNm+'</a></h4>';
 					    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
-					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>12명 참여</small></div>';
+					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 					    html +='</div></div></div>';      
 					    console.log(html); 
 					    $("#event_field").append(html);			

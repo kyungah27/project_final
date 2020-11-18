@@ -255,9 +255,9 @@ public class EventController {
 		message.setMsgId(flag + "");
 
 		if (flag == 1) {
-			message.setMsgContents(event.getEventSeq() + "삭제");
+			message.setMsgContents("이벤트번호 [" + event.getEventSeq() + "]를 삭제합니다.");
 		} else {
-			message.setMsgContents(event.getEventSeq() + "삭제 실패");
+			message.setMsgContents(event.getEventSeq() + "의 삭제를 실패했습니다.");
 		}
 
 		Gson gson = new Gson();
