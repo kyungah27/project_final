@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp" %>
+<% response.setHeader("Pragma", "no-cache"); 
+response.setHeader("Cache-Control", "no-cache"); 
+response.setHeader("Cache-Control", "no-store"); 
+response.setDateHeader("Expires", 0L); %>
+
 
 
  <main class="page landing-page" style="padding:145px 100px 100px 100px;">

@@ -2,7 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@include file="cmn/header.jsp"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
-
+<% response.setHeader("Pragma", "no-cache"); 
+response.setHeader("Cache-Control", "no-cache"); 
+response.setHeader("Cache-Control", "no-store"); 
+response.setDateHeader("Expires", 0L); %>
 
 <main class="page registration-page" style="padding-top: 65px;">
 	<section class="clean-block clean-form dark">

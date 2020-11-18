@@ -45,6 +45,31 @@
 		<beans:property name="maxInMemorySize" value="10485760" />
 	</beans:bean>
 	
+		<!-- login interceptor -->
+	<beans:bean id="authLoginInterceptor" class="com.uver.cmn.AuthLoginInterceptor">
+	</beans:bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*.do" />
+			<mvc:mapping path="/event/*.do/"/>
+			<mvc:exclude-mapping path="/main.do"/>
+			<mvc:exclude-mapping path="/event_list.do"/>
+			<mvc:exclude-mapping path="/event_view.do"/>
+			<mvc:exclude-mapping path="/signup.do"/>
+			<mvc:exclude-mapping path="/loginn.do"/>
+			<mvc:exclude-mapping path="/login.do"/>
+			<mvc:exclude-mapping path="/logout.do"/>
+			<mvc:exclude-mapping path="/checkId.do"/>
+
+			<beans:ref bean="authLoginInterceptor"/>
+			
+			<!-- 뒤로가기 방지 캐시 삭제 -->
+
+
+		
+		</mvc:interceptor>
+	</mvc:interceptors>
 	
 	<!-- [스캔 범위: component, controller] -->
 	<context:component-scan base-package="com.uver" use-default-filters="false">
