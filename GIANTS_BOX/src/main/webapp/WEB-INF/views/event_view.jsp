@@ -302,7 +302,7 @@
 		let context = '<c:out value="${context}" />';
 		let html =
 			"<li data-no='" + vo.num + "' class='col-md-6 col-lg-4 item mt-3'>" +
-			"<a class='lightbox' href='#b' onclick='javascript:zoom(event)'><img class='img-thumbnail img-fluid image' src=" +
+			"<a class='lightbox' href='#b' onclick='javascript:zoom(this)'><img class='img-thumbnail img-fluid image' src=" +
 			context + "/img/" + vo.imgSeq + ".do /></a><p class='text-right'><small>"
 			+ vo.imgVO.regId + " | " + vo.imgVO.regDt + "</small></p>";
 		if(mode) {
@@ -315,41 +315,53 @@
 
 	//---[사진 zoom flag 작업]
 	let zoomFlag = 0;
-	function zoom(event) {
+	function zoom(target) {
 		console.log("zoom");
-		let thisImg = event.target;
+		let thisImg = target;
+
+		console.log(thisImg);
+		
 		let currWidth = thisImg.clientWidth;
 
 		zoomFlag++;
 		console.log("zoomFlag : " + zoomFlag);
 
 		if (zoomFlag == 1){
+			console.log("커짐: " + thisImg);
 			console.log("zoomFlag = 1");
-			zoomImg(thisImg, currWidth);
-		} else if($(event.target).hasClass("opened")){
-			closeImg(thisImg, currWidth);
-			zoomFlag = 0;			
+			zoomImg(thisImg,currWidth);
+		} else if(thisImg.className == "opened"){
+			zoomFlag = 0;
+			console.log("작아짐: " + thisImg);
+			closeImg(thisImg,currWidth);
 		} else{
 			alert("열려있는 이미지를 먼저 닫아 주세요");
 		}
 	}
 	
 
-	function closeImg(thisImg, currWidth){
+	function closeImg(thisImg,currWidth){
 		console.log("closeImg()");
-		thisImg.setAttribute("class","img-thumbnail img-fluid image");
+		thisImg.removeAttribute("class","opened");
 		thisImg.removeAttribute("style");
+		
+		console.log("닫을 현재 width: " + currWidth);
 		thisImg.style.width = (currWidth - 400) + "px";
+		console.log("닫은 후 현재 width: " + thisImg.clientWidth);
 	}
 
-	function zoomImg(thisImg, currWidth){
+	function zoomImg(thisImg,currWidth){
 		console.log("zoomImg()");
 		thisImg.setAttribute("class", "opened");
-		thisImg.setAttribute("style", "z-index:2");
+		thisImg.setAttribute("style", "z-index:3");
+		thisImg.style.top="25%";
+		thisImg.style.left="40%";
 		thisImg.style.position = "fixed";
-		thisImg.style.top = "25%";
-		thisImg.style.left = "30%";
-		thisImg.style.width = (currWidth + 400) + "px";
+		
+		
+		console.log("열 현재 width: " + currWidth);
+		thisImg.style.width = (currWidth - 400) + "px";
+		console.log("연 후 현재 width: " + currWidth);
 	}
 
 
