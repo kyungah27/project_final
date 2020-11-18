@@ -86,15 +86,11 @@
                                     <div>
                                         <hr/>
                                         <h3>세부사항</h3>
-                                        <p><br/>${eventVO.content}<br/></p>
+                                        <p class="my-4"><pre style="font-size:100%; font-family:Montserrat,sans-serif"><c:out value="${eventVO.content}" /></pre></p>
                                     </div>
                                     <hr/>
                                     
-                                    
-                                    
-                                    <!-- [영진님] 이벤트 참여자 목록 작업 필요 -->
                                     <div>
-                                    
                                         <div class="my-3">
                                             <h3>참석자(<strong>${joinCount }</strong>)</h3>
                                         </div>
@@ -104,11 +100,9 @@
                                         </div>
                                         
                                     </div>
-                                    <!-- //이벤트 참여자 목록 작업 필요 -->
                                 </div>
                                 
                                 <!-- photoList -->
-                           
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos" style="display:hidden">
                                 	<!-- photo write -->
 									<div id="photo_insert_frm">
