@@ -325,7 +325,7 @@ color: red;
 
 			});//--ajax
 		}//--commentdelete
-		function like(commentSeq){
+		function like(commentSeq,regId){
 			console.log("======like====== ");
 			  var frm_read = $('#frm_read');
 			 // var commentSeq = $('#commentSeq', frm_read).val();
