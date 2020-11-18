@@ -14,7 +14,15 @@ color: red;
 }
 .fa:active-color{
  color: red;
+
+ 
+}
+
+ .className1{
+ 
+ 
  }
+ 
 
 </style>
 <head>
@@ -88,8 +96,7 @@ color: red;
 	<!-- 흰색배경 -->
 
 	<!-- container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
 		//var div,seq해주기
 		$("#doInsert").on("click", function() {
@@ -129,11 +136,61 @@ color: red;
 					alert(meesage.msgContents);
 				}
 
-			});
+			});//-----ajax
 
-		});
+		});//----------doInsert
 
-		//수정,삭제 기능 추가
+
+		//---[수정]
+	function commentUpdate(commentSeq,content) {
+	var html = "";
+	html += '<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
+	html += '<br />';
+	html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
+	html += '<br />';
+	html += '<input type="button" onclick="commentUpdateSave('+ commentSeq+ ');" class="btn btn-primary btn-sm" value="수정" style="float: right" />'+'<br/>'
+	$("#commentList").append(html);
+
+	}//commentUpdate
+
+		//보내는값에 session추가
+		function commentUpdateSave(commentSeq) {
+			console.log(">>>>>>>>>>doUpdate");
+			var url = "${context}/comment/doUpdate.do"
+			var content = $("#content").val();//댓글 내용
+			console.log("content:" + content);
+			if (null == content || content.trim().length == 0) {
+				$("#content").focus();
+				alert("내용을 입력하세요.");
+				return;
+			} else {
+				alert("수정 하시겠습니까?");
+			}
+			$.ajax({
+				type : "POST",//데이터를 보낼 방식
+				url : url,//데이터를 보낼 url
+				dataType : "html",
+				data : {
+					"seq" : "2",
+					"div" : "10",//임의의값
+					"content" : content,
+					"regId" : "yeji"//${user}
+				},//보낼 데이터
+				success : function(data) { //성공
+					console.log("data=" + data);
+					console.log("content=" + content);
+						alert("댓글이 수정되었습니다");
+						$("#commentList").empty();
+						commentList();
+						document.getElementById("content").value = '';	
+				}
+				
+
+			});//-----ajax
+
+		}//----------doUpdate
+
+
 		//commentlist do.?이후 부분+출력부분
 		function commentList() {//10:이벤트 20:이벤트 후기
 			var check = "";
@@ -162,23 +219,26 @@ color: red;
 													//console.log(vo.commentSeq);
 													//console.log(vo.content);
 													//console.log(vo.modDt);
-													html += '<span>'
-													html += '<strong>'+ vo.regId + ""+ '</strong>';
-													html += '<button class="like" onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
-													html += '<i class="fa fa-heart" aria-hidden="true">'+'</i>'
-													//html += '<img src="${context}/resources/img/comment/fullheart.png" style="width: 20px;"/>';
-													html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
-													html += '</button>';
-													html += '</span>'
-													html += '<br/>';
-													html += '<div>'+ vo.content+ '</div>';
-													html += '<br/>';
-													html += '<p>';
-													html += '<span>';
-													html += vo.modDt;
-													html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm" value="삭제" id="doDelete" style="float: right">';
-													html += '<input type="button" class="mr-1 btn btn-primary btn-sm" value="수정" id="doUpdate" style="float: right">';
-													html += '</p>';
+													html += '<div name="commentDiv">';
+														html += '<span>';
+															html += '<button class="like" onclick="like('+ vo.commentSeq+ ');" id="like" style="background-color: #ffffff; float: right; border: none;">';
+																html += '<i class="fa fa-heart" aria-hidden="true">'+'</i>'
+																//html += '<img src="${context}/resources/img/comment/fullheart.png" style="width: 20px;"/>';
+																html += '<span>' +"&nbsp"+vo.likeCnt+""+'</span>'
+															html += '</button>';
+														html += '<strong>'+ vo.regId + ""+ '</strong>';
+														html += '</span>'
+														html += '<br/>';
+														html += '<div>'+ vo.content+ '</div>';
+														html += '<br/>';
+														html += '<span>';
+															html += vo.modDt;
+														html += '</span>';
+														html += '<div class="row justify-content-end mb-3">';
+															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
+															html += '<input type="button" onclick="commentdelete(105);" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
+														html += '</div>';
+													html += '</div>';
 												});
 								//console.log(html);
 								$("#commentList").append(html);
@@ -186,6 +246,7 @@ color: red;
 								html += "<div class='text-center'><label>등록된 댓글이 없습니다.</label></div>"
 								$("#commentList").append(html);
 							}
+							//$("#commentList").append(html);
 						},
 						error : function(xhr, status, error) {
 							alert("error:" + error);
@@ -193,6 +254,60 @@ color: red;
 					});//--ajax
 
 		}//--commentList
+
+//-------
+
+		function commentUpdate(idx) {
+ 			console.log(idx);
+
+ 			var appendDiv = idx.parentNode.parentNode;
+ 			console.log(appendDiv);
+
+ 			var commentDt = idx.parentNode.previousSibling;
+ 			console.log("date: " + commentDt.textContent);
+ 			var commentContent = commentDt.previousSibling.previousSibling;
+ 			console.log("content: " + commentContent.textContent);
+ 			var commentRegId = commentContent.previousSibling.previousSibling.lastChild;
+ 			console.log("regId: " + commentRegId.textContent);
+
+
+			commentDt.textContent = "";
+			commentContent.textContent = "";
+			commentRegId.textContent = "";
+
+			let inputElement = document.createElement("input");
+			let taElement = document.createElement("textarea");
+			let inputElement2 = document.createElement("input");
+
+			console.log(inputElement);
+			console.log(taElement);
+			console.log(inputElement2);
+
+			inputElement.setAttribute("style","text-align: center; width: 150px");
+			inputElement.setAttribute("name", "user_id");
+			inputElement.setAttribute("type", "text");
+			inputElement.setAttribute("class", "form-control");
+			inputElement.setAttribute("value", "yeji");
+			//${user.userId}
+			
+			appendDiv.appendChild(inputElement);
+			
+			
+
+			//var html = "";
+			//html += '<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
+			//html += '<br />';
+			//html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
+			//html += '<br />';
+			//html += '<input type="button" class="btn btn-primary btn-sm" value="수정" style="float: right" />'+'<br/>';
+			
+ 			
+		}
+
+
+
+
+		
 		function commentdelete(commentSeq) {
 			console.log("commentdelete" + commentSeq);
 

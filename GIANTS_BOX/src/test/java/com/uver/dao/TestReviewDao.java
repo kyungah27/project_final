@@ -54,9 +54,9 @@ public class TestReviewDao {
 		LOG.debug("***************************************");
 		LOG.debug("** context **" + context);
 		LOG.debug("** ReviewDaoImpl **" + reviewDao);
-		review01 = new ReviewVO(1, 1002,"김정은", "여름", "로로로", "", "영화", "");
-		review02 = new ReviewVO(1, 0, "김나현", "여름", "리리리", "","영화", "");
-		review03 = new ReviewVO(1, 0, "김보현", "여름", "니니니", "","후기", "");
+		review01 = new ReviewVO(1, 120,"오수진", "커피", "내용", "", "영화", "");
+		review02 = new ReviewVO(1, 121, "최나래", "김펭수", "사사", "","영화", "");
+		review03 = new ReviewVO(1, 120, "김가람", "펭수", "우왕", "","후기", "");
 		
 		LOG.debug("[review01] " + review01);
 		LOG.debug("[review02] " + review02);
@@ -84,14 +84,14 @@ public class TestReviewDao {
 	public void test() {
 		int flag = 0;
 		// 삽입		
-		/*
+		
 		flag = reviewDao.doInsert(review01);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review02);
 		assertThat(flag, is(1));
 		flag = reviewDao.doInsert(review03);
 		assertThat(flag, is(1));
-		*/
+		
 		
 		// 삭제
 		/*

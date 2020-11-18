@@ -94,7 +94,8 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 
 	
 	@Override
-	//새로 바꾼 것
+	//원래 내꺼
+	/*
 	public ReviewVO doSelectOne(int review_seq) {
 		ReviewVO outVO = null; 	
 		String statement = this.NAMESPACE+".doSelectOne";
@@ -113,7 +114,7 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 
     	return outVO;
 	}
-	
+	*/
 	
 	//SELECT BY TITLE
 	  public ReviewVO doSelectOneByTitle(ReviewVO review) { 
@@ -131,6 +132,23 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 					
 			return outVO;
 			}
+	
+	
+
+	public ReviewVO doSelectOne(ReviewVO reviewVO) {
+		LOG.debug("=====================");
+		LOG.debug("=doSelectOne=");
+		LOG.debug("=====================");
+		// 단건조회 : namespace+id = com.sist.ehr.board.doSelectOne
+		String statement = NAMESPACE + ".doSelectOne";
+		LOG.debug("=statement=" + statement);
+		LOG.debug("=reviewVO=" + reviewVO);
+
+		ReviewVO outVO = this.sqlSessionTemplate.selectOne(statement, reviewVO);
+		LOG.debug("=outVO=" + outVO);
+
+		return outVO;
+	}
 	
 	
 	// div 조회? selectlist
@@ -226,22 +244,8 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 	 
 
 	// selectOne 써야되는것
-	/*
-	public ReviewVO doSelectOne(ReviewVO reviewVO) {
-		LOG.debug("=====================");
-		LOG.debug("=doSelectOne=");
-		LOG.debug("=====================");
-		// 단건조회 : namespace+id = com.sist.ehr.board.doSelectOne
-		String statement = NAMESPACE + ".doSelectOne";
-		LOG.debug("=statement=" + statement);
-		LOG.debug("=reviewVO=" + reviewVO);
-
-		ReviewVO outVO = this.sqlSessionTemplate.selectOne(statement, reviewVO);
-		LOG.debug("=outVO=" + outVO);
-
-		return outVO;
-	}
-	*/
+	
+	
 	
 	
 	
@@ -252,11 +256,6 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 		return null;
 	}
 
-	
-	public static ReviewVO doSelectOne(ReviewVO reviewVO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	public int doDeleteAll() {
@@ -273,6 +272,9 @@ public class ReviewDaoImpl implements ReviewDao { //interface줘야 연결고리
 		return flag;
 		
 	}
+
+
+
 
 	/*
 	 * 원래 썼던것
