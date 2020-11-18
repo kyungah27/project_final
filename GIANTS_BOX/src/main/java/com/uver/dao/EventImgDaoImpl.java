@@ -80,7 +80,6 @@ public class EventImgDaoImpl {
    
    
    
-   
    /**
     * 썸네일 이미지 조회
     * 
@@ -99,6 +98,10 @@ public class EventImgDaoImpl {
 		} catch (Exception e) {
 			imgSeq = 707;
 			LOG.debug(e.getMessage());
+		}
+		
+		if (imgSeq == 0) {
+			imgSeq =707;
 		}
 		
 		LOG.debug("[imgSeq]" + imgSeq);

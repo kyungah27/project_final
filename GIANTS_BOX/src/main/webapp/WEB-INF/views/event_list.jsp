@@ -170,10 +170,7 @@
 			    	  "pageNum"  : page,
 			    	  "pageSize" : 2
 			    },
-			    success:function(data){ //성공
-			    	
-			       console.log("data="+data);
-			 	 
+			    success:function(data){ //성공	 	 
 			 	 	drawCards(data);  
 			    },
 			    error:function(xhr,status,error){
@@ -203,7 +200,6 @@
 		} else {
 
 	 	$.each(data, function(i, value) {
-		 	console.log(value); 
 
 			
 			//---[썸네일 이미지 주소]

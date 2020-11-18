@@ -251,52 +251,42 @@
 		})
 	}
 
-    
+    //information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
     function searchOneToNameKM(movieNm) {
-		console.log("searchOneToNameKM");
 		var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 		var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
 		url += movieNm;
-		console.log(url);
 		$.ajax({
 			url : url,
 			type : 'GET',
 			dataType : 'html',
 			success : function(s) {
 				var item = JSON.parse(s);
-				console.log(item);
 				data = item.Data[0];
 				result = data.Result[0];		
 				//제목
 				var title = result.title;
 				title = title.replace(/!HS/gi, "");
-				title = title.replace(/!HE/gi, "");
-				console.log(title);										
+				title = title.replace(/!HE/gi, "");									
 				//감독
 				var director = result.directors.director[0].directorNm;
-				console.log(director);
 				//출연
 				var actors = "";
 				$.each(result.actors.actor, function(i,actor) {
 					if(i == 3) return false;
 					
 					actors += actor.actorNm+"  ";
-					console.log(actors);
 				})							
 				//장르
-				var genre = result.genre;
-				console.log(genre); 								
+				var genre = result.genre;								
 				//코드
 				var DOCID = result.DOCID;
-				console.log(DOCID); 
 				//포스터 url
 				var poster = result.posters;
 				poster = poster.split("|");
 				var posterUrl = poster[0];
-				console.log(posterUrl); 
 				// 줄거리
 				var plot = result.plots.plot[0].plotText;
-				console.log(plot); 	
 				var html = '';
 				html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
 				html +=	'<div class="card">'
@@ -306,10 +296,8 @@
 				html += '<strong>출연 </strong>'+actors+'<br>'
 				html += '<strong>장르 </strong>'+genre+'</p>'
 	
-				console.log($.trim(title));
 				title = title.replace(/ +/g, " ");
-				html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
-				console.log(html);	
+				html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	;
 				$("#movie_info").append(html);		
 			},
 			error : function(xhr, status, error) {
@@ -319,13 +307,11 @@
 			}
 		})
 	}
-
+  //information by KOFIC 영화관입장권통합전산망 오픈 API (http://kobis.or.kr/kobisopenapi)
 	function boxOffList(date) {
-		console.log("boxOffList");
 		var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=6f53bd46d6879627e90298b05f473d62&itemPerPage=3&targetDt=';
 		url += date;
 		//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-		console.log(url);
 		$.ajax({
 			url : url,
 			type : 'get',
@@ -335,11 +321,11 @@
 						content) {
 
 					var movieCd = content.movieCd;
-					console.log(movieCd);
+		
 					
 					//detailMovieInfo(movieCd);
 					var movieNm = content.movieNm;
-					console.log(movieNm);
+
 					searchOneToNameKM(movieNm);
 				})
 			},
@@ -351,8 +337,7 @@
 		})
 	}
 
-	function SelectList(currentDate){
-		  
+	function SelectList(currentDate){	  
 		  $.ajax({
 			    type:"GET",
 			    url:"${context}/event/doSelectList.do",
@@ -361,9 +346,7 @@
 			 	  "searchDate":	currentDate,
 			 	  "pageNum"  : 1   	
 			    },
-			    success:function(data){ //성공
-			       console.log(data); 
-			    
+			    success:function(data){ //성공		    
 			       $.each(data, function(i, value) {
 			    	var html = "";
 			    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
@@ -377,7 +360,6 @@
 				    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 				    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 				    html +='</div></div></div>';      
-				    console.log(html); 
 				    $("#event_field").append(html);			
 				   });
 				   

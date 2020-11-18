@@ -136,24 +136,20 @@
 		console.log(movieGenre.value);
 		console.log(content.value);
 
-
-		let chkImgSeq = document.getElementById("img_area_img").src.split(".")[0];
-		let lastChkImgSeq = chkImgSeq.slice(chkImgSeq.length-3, chkImgSeq.length);
-		console.log(lastChkImgSeq);
-		
-
-		
-		//---기본 이미지는 수정 대상 X
-        if (lastChkImgSeq != 707){
-        	eventUpdate()
-    		.then(imgUpdate)
-    		.then(successFunction)
-    		.catch(errorFunction)
-		} else {
+		console.log(transferFile);
+		if(!transferFile){
 			eventUpdate()
 			.then(successFunction)
-    		.catch(errorFunction)
+			.catch(errorFunction);
+		} else {
+			eventUpdate()
+			.then(imgUpdate)
+			.then(successFunction)
+			.catch(errorFunction);	
 		}
+
+		
+
 		
 
 	}
@@ -203,7 +199,13 @@
 	function imgUpdate(flag){
 		return new Promise(function(resolve, reject) {
 			console.log(flag);
+
+			let chkImgSeq = document.getElementById("img_area_img").src.split(".")[0];
+			let lastChkImgSeq = chkImgSeq.slice(chkImgSeq.length-3, chkImgSeq.length);
+			console.log(lastChkImgSeq);
+
 			
+					
 			const form = $("form")[0];
 	        let formData = new FormData(form);
 
@@ -227,6 +229,8 @@
 		            }
 				}
 			});//---ajax
+
+			
 		});//---promise
 	}
 

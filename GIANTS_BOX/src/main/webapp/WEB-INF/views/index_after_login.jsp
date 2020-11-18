@@ -340,7 +340,6 @@
 		let date = today.getDate()-2;  // 날짜
 		var currentDate = year+""+month+""+date;
 		var dateForEvent = year+"-"+month+"-"+date;
-		console.log(currentDate);
 		boxOffList(currentDate);
 		SelectList("${member.genre}",dateForEvent);
 		//---top3 이벤트 최근 이미지
@@ -389,52 +388,42 @@
 		})
 	}
 
-
+	//information by KOFIC 영화관입장권통합전산망 오픈 API (http://kobis.or.kr/kobisopenapi)
 	   function searchOneToNameKM(movieNm) {
-			console.log("searchOneToNameKM");
 			var key = 'HAE2WH3Y4F7C3N2R6Z1Y';
 			var url = 'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y&ServiceKey='+key+'&title=';
 			url += movieNm;
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'GET',
 				dataType : 'html',
 				success : function(s) {
 					var item = JSON.parse(s);
-					console.log(item);
 					data = item.Data[0];
 					result = data.Result[0];		
 					//제목
 					var title = result.title;
 					title = title.replace(/!HS/gi, " ");
-					title = title.replace(/!HE/gi, " ");
-					console.log(title);										
+					title = title.replace(/!HE/gi, " ");								
 					//감독
 					var director = result.directors.director[0].directorNm;
-					console.log(director);
 					//출연
 					var actors = "";
 					$.each(result.actors.actor, function(i,actor) {
 						if(i == 3) return false;
 						
 						actors += actor.actorNm+"  ";
-						console.log(actors);
 					})							
 					//장르
-					var genre = result.genre;
-					console.log(genre); 								
+					var genre = result.genre;								
 					//코드
 					var DOCID = result.DOCID;
-					console.log(DOCID); 
 					//포스터 url
 					var poster = result.posters;
 					poster = poster.split("|");
 					var posterUrl = poster[0];
-					console.log(posterUrl); 
 					// 줄거리
-					var plot = result.plots.plot[0].plotText;
-					console.log(plot); 	
+					var plot = result.plots.plot[0].plotText; 	
 					var html = '';
 					title = title.replace(/ +/g, " ");
 					html += '<div class="col-md-6 col-lg-4" style= "margin-bottom: 10px;">'
@@ -444,8 +433,7 @@
 					html += '<p class="card-text"><strong>감독 </strong>'+director+'<br>'
 					html += '<strong>출연 </strong>'+actors+'<br>'
 					html += '<strong>장르 </strong>'+genre+'</p>'
-					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	
-					console.log(html);	
+					html += '</div><div class="text-center" style="margin-bottom: 20px;"><button onclick="location.href= &#39;${context}/event_list.do?searchWord='+title+'&#39;" class="btn btn-outline-primary btn-sm" type="button">관련 이벤트</button></div></div></div>'	;
 					$("#movie_info").append(html);		
 				},
 				error : function(xhr, status, error) {
@@ -455,13 +443,11 @@
 				}
 			})
 		}
-
+	    //information by 한국영화데이터 베이스 (https://www.kmdb.or.kr)
 		function boxOffList(date) {
-			console.log("boxOffList");
 			var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=6f53bd46d6879627e90298b05f473d62&itemPerPage=3&targetDt=';
 			url += date;
 			//url += $("#txtYear").val()+$("#selMon").val()+$("#selDay").val();
-			console.log(url);
 			$.ajax({
 				url : url,
 				type : 'get',
@@ -471,11 +457,7 @@
 							content) {
 
 						var movieCd = content.movieCd;
-						console.log(movieCd);
-						
-						//detailMovieInfo(movieCd);
 						var movieNm = content.movieNm;
-						console.log(movieNm);
 						searchOneToNameKM(movieNm);
 					})
 				},
@@ -499,7 +481,6 @@
 				 	  "pageNum"  : 1   	
 				    },
 				    success:function(data){ //성공
-				       console.log(data); 
 				    	
 				       $.each(data, function(i, value) {
 				    	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
@@ -513,7 +494,6 @@
 					    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
 					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 					    html +='</div></div></div>';      
-					    console.log(html); 
 					    $("#event_field").append(html);			
 					   });
 					   
@@ -565,7 +545,6 @@
 			flag = false;
 		}else{
 	 	$.each(data, function(i, value) {
-		 	console.log(data);
 
 	 	//---[썸네일 이미지 주소]
 	 	let thumbnailUrl = "${context}/img/event/" + value.eventSeq + ".do";
