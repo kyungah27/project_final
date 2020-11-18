@@ -94,17 +94,14 @@
                                     <!-- [영진님] 이벤트 참여자 목록 작업 필요 -->
                                     <div>
                                     
-                                        <div>
+                                        <div class="my-3">
                                             <h3>참석자(<strong>${joinCount }</strong>)</h3>
                                         </div>
-                                        
                             			
                                         <div class="row justify-content-center" id="join_list">   
                                             
                                         </div>
-                                        <div class="row justify-content-end mr-auto mt-2">
-                                            <a href="#">더보기</a>
-                                        </div>
+                                        
                                     </div>
                                     <!-- //이벤트 참여자 목록 작업 필요 -->
                                 </div>
@@ -270,7 +267,6 @@
 				if(maxImgSeq != "0") {
 					let dataList = result.list;
 					let dataLen = dataList.length;
-
 					
 					console.log("maxImgSeq: " + maxImgSeq);
 	                
@@ -315,13 +311,16 @@
 
 	//---[사진 zoom flag 작업]
 	let zoomFlag = 0;
+	let openedImgWidth;
 	function zoom(target) {
 		console.log("zoom");
 		let thisImg = target;
 
 		console.log(thisImg);
 		
-		let currWidth = thisImg.clientWidth;
+		let currWidth = thisImg.firstChild.clientWidth;
+		
+		console.log("width: " + currWidth);
 
 		zoomFlag++;
 		console.log("zoomFlag : " + zoomFlag);
@@ -330,6 +329,7 @@
 			console.log("커짐: " + thisImg);
 			console.log("zoomFlag = 1");
 			zoomImg(thisImg,currWidth);
+			openedImgWidth = currWidth;
 		} else if(thisImg.className == "opened"){
 			zoomFlag = 0;
 			console.log("작아짐: " + thisImg);
@@ -346,7 +346,8 @@
 		thisImg.removeAttribute("style");
 		
 		console.log("닫을 현재 width: " + currWidth);
-		thisImg.style.width = (currWidth - 400) + "px";
+		
+		//thisImg.style.width = (currWidth - 400) + "px";
 		console.log("닫은 후 현재 width: " + thisImg.clientWidth);
 	}
 
@@ -355,12 +356,13 @@
 		thisImg.setAttribute("class", "opened");
 		thisImg.setAttribute("style", "z-index:3");
 		thisImg.style.top="25%";
-		thisImg.style.left="40%";
+		thisImg.style.left="35%";
 		thisImg.style.position = "fixed";
-		
-		
+
+
 		console.log("열 현재 width: " + currWidth);
-		thisImg.style.width = (currWidth - 400) + "px";
+		openedImgWidth = currWidth * 2.5;
+		thisImg.style.width = openedImgWidth + "px";
 		console.log("연 후 현재 width: " + currWidth);
 	}
 
