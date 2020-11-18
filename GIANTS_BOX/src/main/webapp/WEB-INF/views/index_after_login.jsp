@@ -539,7 +539,7 @@
 			    dataType:"json",
 			    data:{
 			    	  "pageNum"  : page,
-			    	  "pageSize" : 5,
+			    	  "pageSize" : 3,
 			    	  "myDiv" : e
 			    },
 			    success:function(data){ //성공
