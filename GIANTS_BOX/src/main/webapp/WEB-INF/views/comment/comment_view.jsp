@@ -58,13 +58,14 @@ color: red;
 			</form>
 		</div>
 	<!-- </div> -->
-	<div class="update">
+	
+	<!-- <div class="update">
 	<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />
 	<br />
 	<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요"></textarea>
 	<br />
 	<input type="button" class="btn btn-primary btn-sm" value="수정" style="float: right" /><br/>
-	</div>
+	</div> -->
 
 		<!--<div class="container">-->
 		<div class="my-3 p-3 bg-white rounded shadow-sm"
@@ -73,25 +74,6 @@ color: red;
 			</b> <br />
 			<hr />
 			<!-- json에 추가해주기 -->
-			<%-- <div>
-				<span><b>ehgml</b></span>
-				<button id="like"
-					style="background-color: #ffffff; float: right; border: none;">
-					<img src="${context}/resources/img/comment/heart.png"
-						style="width: 20px;">
-				</button>
-				<br />
-				<div>진짜 너무재밌네요~~ㅋㅋㅋㅋㅋㅋzz</div>
-				<br /> <br />
-				<p>
-					<span>2020.11.11</span> <input type="button"
-						class="btn btn-primary btn-sm" value="삭제" id="doDelete"
-						style="float: right"> <input type="button"
-						class="btn btn-primary btn-sm" value="수정" id="doUpdate"
-						style="float: right"> <br />
-				</p>
-			</div> --%>
-			<!-- //제이슨 추가 -->
 			<div id="commentList" class="commentList">
 				<!--  그리기 -->
 			</div>
@@ -100,7 +82,7 @@ color: red;
 		<!-- 댓글리스트  -->
 	</div>
 	<!-- 흰색배경 -->
-</div>
+
 	<!-- container -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -150,7 +132,7 @@ color: red;
 		//---[수정]
 	function commentUpdate(commentSeq,content) {
 	var html = "";
-	html += '<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
+	html += '<input style="text-align: center; width: 130px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
 	html += '<br />';
 	html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
 	html += '<br />';

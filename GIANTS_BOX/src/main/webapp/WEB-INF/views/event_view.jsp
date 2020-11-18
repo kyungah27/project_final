@@ -146,6 +146,7 @@
                                 </div>
                                 
                                 <!-- photoList -->
+                           
                                 <div class="tab-pane fade show photos" role="tabpanel" id="photos" style="display:hidden">
                                 	<!-- photo write -->
 									<div id="photo_insert_frm">
@@ -177,9 +178,10 @@
                                     </div>
                                 </div>
                                 
-                                
+                                 
                                 <div class="tab-pane fade show" role="tabpanel" id="comments">
-                                    <div class="reviews">
+                                 <%@include file="comment/comment_view.jsp" %>
+                                   <!--  <div class="reviews">
                                         <div class="review-item">
                                             <h4>완전 기대돼요</h4><span class="text-muted"><a href="#">이영희</a>, 2020년 11월 11일</span>
                                             <p>기대됩니다.</p>
@@ -199,7 +201,7 @@
                                     </div>
                                      <div class="row">
                                         <button class="btn btn-outline-primary btn-block">더보기</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="tab-pane fade show" role="tabpanel" id="reviews">
                                     후기게시판
