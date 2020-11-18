@@ -710,10 +710,10 @@
 			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
 			
 			if(value.priority ==1){
-				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar_host.jpg">';  //이미지
+				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/avatars/avatar_host.jpg">';  //이미지
 				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'(주최자)</h4>';
 			}else{
-				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar_guest.jpg">';  //이미지
+				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/avatars/avatar_guest.jpg">';  //이미지
 				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';			
 			}
             html += '<p class="card-text text-truncate">'+value.userId+'</p></div></div></div>';      		
