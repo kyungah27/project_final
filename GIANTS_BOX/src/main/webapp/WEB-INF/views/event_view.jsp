@@ -99,43 +99,7 @@
                                         </div>
                                         
                             			
-                                        <div class="row justify-content-center" id="join_list">    
-                        <%--                     <div class="col-sm-6 col-lg-3">
-                                                <div class="card clean-card text-center">
-                                                    <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title text-truncate">김철수(주최자)</h4>
-                                                        <p class="card-text text-truncate">chriwj2</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-3">
-                                                <div class="card clean-card text-center">
-                                                    <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title text-truncate">이영희</h4>
-                                                        <p class="card-text">youngee2</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-3">
-                                                <div class="card clean-card text-center">
-                                                    <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title text-truncate">Jimmy Krus</h4>
-                                                        <p class="card-text text-truncate">jikrrr</p>
-                                                    </div>
-                                                </div>
-                                            </div> --%>
-    <%--                                         <div class="col-sm-6 col-lg-3">
-                                                <div class="card clean-card text-center">
-                                                    <img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title text-truncate">박모모</h4>
-                                                        <p class="card-text text-truncate">momo0509</p>
-                                                    </div>
-                                                </div>
-                                            </div> --%>
+                                        <div class="row justify-content-center" id="join_list">   
                                             
                                         </div>
                                         <div class="row justify-content-end mr-auto mt-2">
@@ -243,7 +207,7 @@
 	});
 
 
-	//---[photo: 작업중]-------------------------------------------------------
+	//------------------------------------[photo]-------------------------------------------------------
 	let photoPgNum = 1;
 	let maxImgSeq;
 
@@ -639,56 +603,6 @@
 		count();
 	}
 
-	
-
-
-
-	//로그인하기 되는데 seccess alert안됨 이따가함 
-	
-	//---[fetchList]
-	/*
-	
-	
-	let fetchList = function(){
-		console.log("fetchList()");
-		photoPgNum = ++photoPgNum;
-		
-		if(isEnd == true){
-			console.log("isEnd true");
-			return;
-		}
-	
-		// <li> 태그의 data-no 속성 가져오기
-		let startNo = $("#img_list li").last().data("no") || 0;
-		console.log("startNo : " + startNo);
-	
-		
-		$.ajax({
-			url: "${context}/img/fetchList.do",
-			data: { "eventSeq" : ${eventVO.eventSeq},
-					"maxImgSeq" : ${maxImgSeq},
-					"photoPgNum" : photoPgNum
-				},
-			type: "POST",
-			//dataType: "application/json"
-			success: function(result){
-				//String -> JSON 객체로 변환 
-				let data = JSON.parse(result);
-				let length = data.length;
-				
-				// 목록 렌더링
-				$.each(data, function(index, data){
-					renderList(false, data.imgVO);
-				});
-				
-			}//---END success
-		});//---END ajax
-	}//---END fetchList
-	
-	*/
-	
-	
-
 
 
 	//---------------------------------------------------------- 영화정보 처리   -----------------------------------
@@ -786,14 +700,20 @@
 
 	function drawTable(obj){
 		var html  = "";		
+
+		
+
+		
 		$.each(obj, function(i, value) {
 			console.log(value);
 		
 			html += '<div class="col-sm-6 col-lg-3"><div class="card clean-card text-center">';
-			html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/event_thumbnail/avatar1.jpg">';  //이미지
+			
 			if(value.priority ==1){
+				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/avatars/avatar_host.jpg">';  //이미지
 				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'(주최자)</h4>';
 			}else{
+				html += '<img class="card-img-top w-100 d-block" src="${context}/resources/img/avatars/avatar_guest.jpg">';  //이미지
 				html += '<div class="card-body">   <h4 class="card-title text-truncate">'+value.name+'</h4>';			
 			}
             html += '<p class="card-text text-truncate">'+value.userId+'</p></div></div></div>';      		
