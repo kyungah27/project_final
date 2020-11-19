@@ -110,6 +110,10 @@
 								value="글쓰기" id="doInsertBtn"
 								onclick="javascript:doInsert();" />	
 								
+							<input  type="button" class="btn btn-primary btn-sm" 
+							href="/giants_box/review/doSelectList.do"
+							value="목록" id="move_list"  
+							onclick="javascript:doInsert();" />
 								
 								
 							
@@ -201,6 +205,16 @@
 
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">
+
+	function moveToListView(){
+	window.location.href="${context}/review/doSelectList.do";}
+
+	$("#move_list").on("click",function(){
+		console.log("move_list");
+		//window.location.href="/EJDBC/board/board.do?work_div=doSelectList";
+		moveToListView();
+	});
+	
 	function doSearchPage(url, num) {
 		//alert(url+":"+num);
 
