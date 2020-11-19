@@ -66,7 +66,7 @@
 				<!-- 검색영역 -->
 
 				<div class="row ">
-					  <form action="${context}/review/doSelectList.do" name="searchFrm"
+					  <form action="/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
 							  <input type="text" name="pageNum" id="pageNum" />
 							<input	type="text" name="review_seq" id="review_seq" />
@@ -96,9 +96,17 @@
 																
 							<!--  <input type="button" class="btn btn-primary btn-sm" value="?!?!" /> -->
 							
-							<input type="button"
+							<!--  <input type="button"
 								class="btn btn-primary btn-sm" value="글쓰기" id="doInsertBtn"
-								onclick="javascript:doInsert();" />
+								onclick="javascript:doInsert();" /> -->
+							
+							<input type="button"
+								class="nav-link text-white" href="/giants_box/review/doInsertView.do" 
+								value="글쓰기" id="doInsertBtn"
+								onclick="javascript:doInsert();" />	
+								
+								
+								
 							
 						</div>
 					</form>
@@ -198,10 +206,10 @@
 	}
 
 	$("#doInsertBtn").on("click", function() {
-		window.location.href="${context}/review/doInsert.do";//?
+		window.location.href="${context}/review/doInsertView.do";//?
 		
 		var frm = document.searchFrm;
-		frm.action = "${Context}/review/doInsertView.do";
+		frm.action = "${context}/review/doInsertView.do";
 		frm.submit();
 
 	});

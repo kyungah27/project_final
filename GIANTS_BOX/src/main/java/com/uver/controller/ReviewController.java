@@ -33,7 +33,7 @@ import com.uver.vo.ReviewVO;
 		
 		// review_write.jsp -> 리뷰 등록
 		// review_list.jsp -> 리뷰 목록
-		//review_read.jsp->상세조회
+		
 		// review_mng.jsp -> 리뷰 읽기/수정/삭제/단건조회
 		
 		
@@ -57,17 +57,16 @@ import com.uver.vo.ReviewVO;
 	@RequestMapping(value = "review/doInsertView.do", method = RequestMethod.GET)
 	//doInsertView
 	public String doInsertView(Model model) {
+	
 		String view = "review/review_write";
 		
-		LOG.debug("review/review_write");
+		
 		LOG.debug("====================");
 		LOG.debug("==doInsertView==");
 		LOG.debug("====================");
 		
 		//return view;
 		return "review/review_write";
-		
-	
 		
 	}
 	

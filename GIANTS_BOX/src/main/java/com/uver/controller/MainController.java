@@ -17,7 +17,7 @@ public class MainController {
 	private static final Logger LOG = LoggerFactory.getLogger(EventImgController.class);
 
 	//--- 리뷰페이지 이동
-		@RequestMapping(value="review_list.do")
+		@RequestMapping(value="/review/doSelectList.do")
 		public String goReview(HttpServletRequest req) {
 			LOG.debug("-------------------");
 			LOG.debug("review_list()");
