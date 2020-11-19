@@ -63,7 +63,7 @@
 	FROM(                                                                               
 		   SELECT B.rnum as num,                                                               
 		 		   B.review_seq, 
-		 		   B.eventSeq AS event_seq,
+		 		   B.eventSeq AS eventSeq,
 		 		   B.writer,                                                                
 		 		   B.title, 
 		 		   B.context,                                                                
