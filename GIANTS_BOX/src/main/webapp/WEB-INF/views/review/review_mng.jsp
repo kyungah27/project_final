@@ -79,51 +79,61 @@
 			    <!-- hidden: work_div,div=10(공지사항),read_cnt=0 -->
 			    <input type="hidden"  name="seq" id="seq" value="${vo.review_seq }" />
 				<input type="hidden"  name="div" id="div" value="${vo.getDiv() }" />
+				
+				<div class="form-group">
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">글번호</label>
+				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+				    	<input type="number" class="form-control" name="review_seq" id="review_seq" placeholder="글번호" 
+				    	 value="${vo.review_seq }"
+				    	 maxlength="200" readonly="readonly"
+				    	 />
+				    </div>
+				    
 				<div class="form-group">
 					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">이벤트번호</label>
 				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    	<input type="text" class="form-control" name="eventSeq" id="eventSeq" placeholder="이벤트번호" 
+				    	<input type="number" class="form-control" name="eventSeq" id="eventSeq" placeholder="이벤트번호" 
 				    	 value="${vo.eventSeq }"
 				    	 maxlength="200"
 				    	 />
 				    </div>
 				<div class="form-group">
-					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">제목</label>
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">작성자</label>
 				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    	<input type="text" class="form-control" name="title" id="title" placeholder="제목" 
-				    	 value="${vo.title }"
+				    	<input type="text" class="form-control" name="writer" id="writer" placeholder="작성자" 
+				    	 value="${vo.writer }"
 				    	 maxlength="200"
 				    	 />
 				    </div>
 				</div>
 				<div class="form-group">
-					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">제목</label>
 				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    	<input type="text" class="form-control" name="category" id="category" placeholder="category" 
-				    	 value="${vo.category }" readonly="readonly"
+				    	<input type="text" class="form-control" name="title" id="title" placeholder="제목" 
+				    	 value="${vo.title }"
 				    	 maxlength="6"
 				    	 />
 				    </div>
 				</div>
 								
 				<div class="form-group">
-					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">작성자</label>
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
 				    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    	<input type="text" class="form-control" name="writer" id=""writer"" placeholder="작성자"
-				    	 value="${vo.writer}"  maxlength="20"  readonly="readonly"/>
+				    	<input type="text" class="form-control" name="category" id="category" placeholder="작성일"
+				    	 value="${vo.category}"  maxlength="20"/>
 				    </div>
 				</div>
 				<div class="form-group">
 					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">작성일</label>
 				    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    	<input type="text" class="form-control" name="mod_dt" id="mod_dt" placeholder="작성일"
-				    	 value="${vo.mod_dt }" readonly="readonly"/>
+				    	 value="${vo.mod_dt }"   readonly="readonly" />
 				    </div>
 				</div>					
 				<div class="form-group">
-					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">내용</label>
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">본문</label>
 					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-						<textarea rows="5" cols="40" name="context" id="context" class="form-control">${vo.context }</textarea>
+						<textarea rows="5" cols="40" name="context" id="context" class="form-control" value="${vo.context }"/></textarea>
 					</div>
 				</div>
 			</form>
@@ -150,7 +160,7 @@ $("#moveList").on("click", function() {
 //삭제
 $("#deleteBtn").on("click", function() {
 	//alert("deleteBtn click");
-	var reviewSeq = ${vo.review_seq};
+	var review_seq = ${vo.review_seq};
 	
 	console.log("review_seq:"+reviewSeq);
 	
@@ -212,6 +222,15 @@ $("#updateBtn").on("click", function() {
 		alert("등록자를 입력하세요.");
 		return;
 	}
+
+
+	var eventSeq = $("#eventSeq").val();
+	console.log("eventSeq:"+eventSeq);
+	if(null == eventSeq || eventSeq.trim().length==0){
+		$("#eventSeq").focus();
+		alert("eventSeq 입력하세요.");
+		return;
+	}
 	
 	var context = $("#context").val();
 	console.log("context:"+context);
@@ -225,18 +244,19 @@ $("#updateBtn").on("click", function() {
 
 	$.ajax({
 	    type:"POST",
-	    url:"${Context}/review/doUpdate.do",
+	    url:"${context}/review/doUpdate.do",
 	    dataType:"html", 
-	    data:{
+	    data:{	    	  
 		      "eventSeq" :$("#eventSeq").val(),
 	    	  "writer" :$("#writer").val(),
 	    	  "title":$("#title").val(),
 	    	  "context":$("#context").val(),
-	          "category":$("#category").val()
+	          "category":$("#category").val(),
+	          "mod_dt":$("#mod_dt").val()
 	    },  
 	    success:function(data){ //성공
-	       //console.log("data="+data);
-	       //alert("data:"+data);
+	       console.log("data="+data);
+	       alert("data:"+data);
 	       
 	       //json 분리해서 변수
 	       var jsonObj = JSON.parse(data);
@@ -249,6 +269,7 @@ $("#updateBtn").on("click", function() {
 	    	   moveToListView();
 	       }
 	    },
+	    
 	    error:function(xhr,status,error){
 	     alert("error:"+error);
 	    },

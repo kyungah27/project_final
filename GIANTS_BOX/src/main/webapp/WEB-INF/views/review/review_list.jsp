@@ -68,8 +68,7 @@
 				<div class="row ">
 					  <form action="/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
-							  <input type="text" name="pageNum" id="pageNum" />
-							<input	type="text" name="review_seq" id="review_seq" />
+							
 						<div class="form-group">
 
 							<select name="searchDiv" class="form-control" align="center">
@@ -97,11 +96,11 @@
 							<!--  <input type="button" class="btn btn-primary btn-sm" value="?!?!" /> -->
 							
 							<!--  <input type="button"
-								class="btn btn-primary btn-sm" value="글쓰기" id="doInsertBtn"
+								class="nav-link text-white" "btn btn-primary btn-sm" value="글쓰기" id="doInsertBtn"
 								onclick="javascript:doInsert();" /> -->
 							
 							<input type="button"
-								class="nav-link text-white" href="/giants_box/review/doInsertView.do" 
+								class="btn btn-primary btn-sm" href="/giants_box/review/doInsertView.do" 
 								value="글쓰기" id="doInsertBtn"
 								onclick="javascript:doInsert();" />	
 								
