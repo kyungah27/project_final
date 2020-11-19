@@ -44,17 +44,14 @@
 </head>
 
 <body>
-<div id="wrap">
+	<div id="wrap">
 <%-- 	<%@include  file="/cmn/inc/header.jsp" %> --%>
 	<section>
-	
-	<main class="page review-page" style="padding-top: 65px;">
-		<section class="clean-block clean-form">
-			<div class="container">
-				<!-- 게시판 작성  -->
-				<!-- 제목 -->
-				<div class="page-header">
-				<h2>게시글 등록</h2>
+		<!-- container -->
+		<div class="container">
+			<!-- 제목 -->
+			<div class="page-header">
+				<h2>게시판 등록</h2>
 			</div>
 			<!--// 제목 -->
 			
@@ -75,20 +72,23 @@
 				<input type="hidden"  name="work_div" id="work_div"  />
 				<input type="hidden"  name="div" id="div" value="10" />
 				<input type="hidden"  name="read_cnt" id="read_cnt" value="0" />
+				
 				<div class="form-group">
 					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">이벤트번호</label>
 				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    	<input type="text" class="form-control" name="eventSeq" id="eventSeq" placeholder="이벤트번호"  />
+				    	<input type="number" class="form-control" name="eventSeq" id="eventSeq" placeholder="eventSeq"  />
 				    </div>
-				<div class="form-group">
-					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
-				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-				    	<input type="text" class="form-control" name="category" id="category" placeholder="카테고리"  />
-				    </div> 
+				</div>
 				<div class="form-group">
 					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">제목</label>
 				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 				    	<input type="text" class="form-control" name="title" id="title" placeholder="제목"  />
+				    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">카테고리</label>
+				    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+				    	<input type="text" class="form-control" name="category" id="category" placeholder="제목"  />
 				    </div>
 				</div>
 				<div class="form-group">
@@ -103,40 +103,51 @@
 						<textarea rows="5" cols="40" name="context" id="context" class="form-control"></textarea>
 					</div>
 				</div>
+				
 			</form>
 		</div>
 		<!--// container -->
-		</section>
-		<%--     <%@include  file="/cmn/inc/footer.jsp" %>	 --%>
-		</div>
-		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-		
-		<!-- //게시판 작성  -->
-
-<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->		
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	</section>
+<%--     <%@include  file="/cmn/inc/footer.jsp" %>	 --%>
+</div>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${context}/resources/js/movie_func.js"></script>
+    
+    <!-- javascript -->
+    <script type="text/javascript">
 
-<!-- 자바스크립트 자리 -->
-<script type="text/javascript">
-
-$("#insert_btn").on('click',function(){
-			console.log("#insert_btn");
+	    //모든 컨트롤(element)가 로딩이 완료되면.
+		$(document).ready(function(){   
+			console.log("document ready");   		
 			
+		});//document ready    
+    
+		//목록 Event감지
+		$("#move_list").on("click",function(){
+			console.log("move_list");
+			//window.location.href="/EJDBC/board/board.do?work_div=doSelectList";
+			moveToListView();
+		});
+		
+		
+		//목록화면으로 이동
+		//?
+		function moveToListView(){
+			window.location.href="${context}/review/doSelectList.do";
+		}
+		
+		
+		
+		
+		//jquery event감지:id
+		$("#insert_btn").on('click',function(){
+			console.log("#insert_btn");
+
 			var eventSeq = $("#eventSeq").val();
 			console.log("eventSeq:"+eventSeq);
 			if(null == eventSeq || eventSeq.trim().length==0){
 				$("#eventSeq").focus();
-				alert("이벤트번호를 입력하세요.");
-				return;
-			}
-			
-			var category = $("#category").val();
-			console.log("category:"+category);
-			if(null == category || category.trim().length==0){
-				$("#category").focus();
-				alert("category 입력하세요.");
+				alert("eventSeq 입력하세요.");
 				return;
 			}
 			
@@ -152,7 +163,7 @@ $("#insert_btn").on('click',function(){
 			console.log("writer:"+writer);
 			if(null == writer || writer.trim().length==0){
 				$("#writer").focus();
-				alert("글쓴이를 입력하세요.");
+				alert("등록자를 입력하세요.");
 				return;
 			}
 			
@@ -162,25 +173,33 @@ $("#insert_btn").on('click',function(){
 				$("#context").focus();
 				alert("내용을 입력하세요.");
 				return;
-			}			
+			}		
+				
+			var category = $("#category").val();
+			console.log("category:"+category);
+			if(null == category || category.trim().length==0){
+				$("#category").focus();
+				alert("category 입력하세요.");
+				return;
+			}		
 			
 			//confirm : 확인
     		if( false==confirm("저장 하시겠습니까?"))return;
 			
 			
 			//fiddler : web debuger(오후)
-			//ajax->BoardController.java 
+			//ajax->ReviewController.java 
 			//return json   
 			$.ajax({
 				    type:"POST",
-				    url:"review/doSelectList.do",
+				    url:"${context}/review/doInsertView.do",
 				    dataType:"html", 
 				    data:{"work_div":"doInsert",
-				     	  "writer":$("#writer").val()
-				    	  "category" :$("#div").val(),				    	  
-				          "title":$("#title").val(),
+				    	  "eventSeq" :$("#eventSeq").val(),
+				    	  "writer":$("#writer").val(),
+				    	  "title":$("#title").val(),				    	  				          
 				          "context":$("#context").val(),
-				         
+				          "category":$("#category").val()
 				    },
 				    success:function(data){ //성공
 				       //console.log("data="+data);
@@ -241,11 +260,18 @@ $("#insert_btn").on('click',function(){
     			return;
     		}
     		
+    		var eventSeq = frm.writer.value;
+    		if(eventSeq==""){
+    			alert("eventSeq 입력하세요.");
+    			frm.eventSeq.focus();
+    			return;
+    		}
+    		
     		//등록자ID
-    		var writer = frm.reg_id.value;
+    		var writer = frm.writer.value;
     		if(writer==""){
     			alert("등록자를 입력하세요.");
-    			frm.reg_id.focus();
+    			frm.writer.focus();
     			return;
     		}
     		
@@ -265,10 +291,21 @@ $("#insert_btn").on('click',function(){
     		frm.work_div.value="doInsert";   
     		
     		//브라우저 to server로
-    		frm.action = "review/doSelectList.do"
+    		//?
+    		frm.action = "giants_box/review/doSelectList.do"
     		frm.submit();
 	
 		}
-    	</script>
-</body>
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </body>
 </html>
