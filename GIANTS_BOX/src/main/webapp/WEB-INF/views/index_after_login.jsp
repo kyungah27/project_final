@@ -475,7 +475,7 @@
 					    html += '<div class="card-body info link-style">';
 					    html += '<p class="text-left card-text"><strong>'+value.targetDt+'</strong></p>'
 					    html += '<a href="'+ eventUrl +'"><h4 class="text-truncate card-title">'+value.eventNm+'</h4></a>';
-					    html += '<p class="card-text">'+value.content.substring(1, 30)+'..</p>';
+					    html += '<p class="card-text">'+value.content.substring(0, 30)+'..</p>';
 					    html += '<div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a><small>'+value.totalCnt+' 참여</small></div>';
 					    html +='</div></div></div>';      
 					    $("#event_field").append(html);			
