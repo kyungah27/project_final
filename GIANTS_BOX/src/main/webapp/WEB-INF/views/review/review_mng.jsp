@@ -247,6 +247,7 @@ $("#updateBtn").on("click", function() {
 	    url:"${context}/review/doUpdate.do",
 	    dataType:"html", 
 	    data:{	    	  
+	    	  "review_seq" :$("#review_seq").val(),
 		      "eventSeq" :$("#eventSeq").val(),
 	    	  "writer" :$("#writer").val(),
 	    	  "title":$("#title").val(),

@@ -209,19 +209,19 @@ import com.uver.vo.ReviewVO;
 		//예외 발생!
 		if(null == reviewVO.getTitle()) {
 			//message.common.message.valid
-			Object[] args01 = new String[] {"제목"};
-			String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
+			//Object[] args01 = new String[] {"제목"};
+			//String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
 			
-			throw new IllegalArgumentException(msgTitleConfirm);
+			throw new IllegalArgumentException("제목을 확인하세요");
 		}
 		
 		//예외 발생!
 		if(null == reviewVO.getContext()) {
 			//message.common.message.valid
-			Object[] args01 = new String[] {"내용"};
-			String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
+			//Object[] args01 = new String[] {"내용"};
+			//String msgTitleConfirm = this.messageSource.getMessage("message.common.message.valid", args01, locale);
 			
-			throw new IllegalArgumentException(msgTitleConfirm);
+			throw new IllegalArgumentException("내용을 확인하세요");
 		}
 		
 		int  flag = reviewservice.doUpdate(reviewVO);
@@ -230,9 +230,9 @@ import com.uver.vo.ReviewVO;
 		
 		if(flag>0) {
 			Object[] args01 = new String[] {"수정"};
-			String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
+			//String msgConfirm = this.messageSource.getMessage("message.common.message.confirm", args01, locale);
 			//LOG.debug("=msgConfirm="+msgConfirm);
-			message.setMsgContents(msgConfirm);
+			message.setMsgContents("수정 성공");
 		}else {
 			message.setMsgContents("수정 실패.");
 		}
