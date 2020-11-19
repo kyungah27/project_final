@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.uver.cmn.Message;
@@ -125,13 +125,24 @@ public class CommentController {
 
 	@RequestMapping(value = "comment/doUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(CommentVO commentVO) throws ClassNotFoundException, SQLException {
+	public String doUpdate(
+			@RequestParam String commentSeq,
+			@RequestParam String content,
+			@RequestParam String regId
+			) throws ClassNotFoundException, SQLException {
+		
+		
+		CommentVO vo = new CommentVO();
+		vo.setDiv("10");
+		vo.setCommentSeq(Integer.parseInt(commentSeq));
+		vo.setContent(content);
+		
 		LOG.debug("==================");
 		LOG.debug(">>>>>>>>>>>>>>doUpdate<<<<<<<<<<<<<");
-		LOG.debug("=commentVO=" + commentVO);
+		LOG.debug("=commentVO=" + vo);
 		LOG.debug("==================");
 
-		int flag = this.commentService.doUpdate(commentVO);
+		int flag = this.commentService.doUpdate(vo);
 		LOG.debug("==================");
 		LOG.debug("=flag=" + flag);
 		LOG.debug("==================");
@@ -141,9 +152,9 @@ public class CommentController {
 		message.setMsgId(flag + "");
 
 		if (flag == 1) {
-			message.setMsgContents(commentVO.getContent() + " 이 수정 되었습니다.");
+			message.setMsgContents(vo.getContent() + " 이 수정 되었습니다.");
 		} else {
-			message.setMsgContents(commentVO.getContent() + " 이 수정 실패되었습니다.");
+			message.setMsgContents(vo.getContent() + " 이 수정 실패되었습니다.");
 		}
 
 		Gson gson = new Gson();
