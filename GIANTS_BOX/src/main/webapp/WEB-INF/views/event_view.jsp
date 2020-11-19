@@ -86,7 +86,7 @@
                                     <div>
                                         <hr/>
                                         <h3>세부사항</h3>
-                                        <p class="my-4"><pre style="font-size:100%; font-family:Montserrat,sans-serif"><c:out value="${eventVO.content}" /></pre></p>
+                                       	<pre class="my-4" style="font-size:100%; font-family:Montserrat,sans-serif"><c:out value="${eventVO.content}" /></pre>
                                     </div>
                                     <hr/>
                                     
