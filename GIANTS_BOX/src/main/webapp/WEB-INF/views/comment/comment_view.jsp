@@ -130,23 +130,39 @@ color: red;
 
 
 		//---[수정]
-	function commentUpdate(commentSeq,content) {
-	var html = "";
-	html += '<input style="text-align: center; width: 130px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
-	html += '<br />';
-	html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
-	html += '<br />';
-	html += '<input type="button" onclick="commentUpdateSave('+ commentSeq+ ');" class="btn btn-primary btn-sm" value="수정" style="float: right" />'+'<br/>'
-	$("#commentList").append(html);
+	function commentUpdate(commentSeq, content) {
+
+		
+//	var html = "";
+//	html += '<input style="text-align: center; width: 130px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
+//	html += '<br />';
+//	html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
+//	html += '<br />';
+//	html += '<input type="button" onclick="commentUpdateSave('+ commentSeq+ ');" class="btn btn-primary btn-sm" value="수정" style="float: right" />'+'<br/>'
+//	$("#commentList").append(html);
+
+		
+		
+	
+
 
 	}//commentUpdate
 
+
+
+
+
+
+	
+
 		//보내는값에 session추가
-		function commentUpdateSave(commentSeq) {
+		function commentUpdateSave(commentSeq, content) {
 			console.log(">>>>>>>>>>doUpdate");
+			console.log(content);
+			console.log(commentSeq);
+
 			var url = "${context}/comment/doUpdate.do"
-			var content = $("#content").val();//댓글 내용
-			console.log("content:" + content);
+
 			if (null == content || content.trim().length == 0) {
 				$("#content").focus();
 				alert("내용을 입력하세요.");
@@ -154,12 +170,13 @@ color: red;
 			} else {
 				alert("수정 하시겠습니까?");
 			}
+			
 			$.ajax({
 				type : "POST",//데이터를 보낼 방식
 				url : url,//데이터를 보낼 url
 				dataType : "html",
 				data : {
-					"seq" : "2",
+					"seq" : commentSeq,
 					"div" : "10",//임의의값
 					"content" : content,
 					"regId" : "${sessionScope.user.userId}"
@@ -170,7 +187,7 @@ color: red;
 						alert("댓글이 수정되었습니다");
 						$("#commentList").empty();
 						commentList();
-						document.getElementById("content").value = '';	
+						//document.getElementById("content").value = '';	
 				}
 				
 
@@ -222,11 +239,18 @@ color: red;
 														html += '</span>';
 														if(vo.regId=="${sessionScope.user.userId}"){
 														html += '<div class="row justify-content-end mb-3">';
+<<<<<<< Updated upstream
 															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
 															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
+=======
+														 
+															html += '<input type="button" onclick="commentUpdate(this)" class="btn btn-outline-primary rounded-pill btn-sm mr-1" value="수정" >';
+															html+='<input type="hidden" value="'+ vo.commentSeq +'" />';
+															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-outline-primary rounded-pill btn-sm mr-2" value="삭제" id="doDelete" >';
+>>>>>>> Stashed changes
 														html += '</div>';
 														}
-													html += '</div>';
+													html += '</div><hr/>';
 												});
 								//console.log(html);
 								$("#commentList").append(html);
@@ -246,51 +270,49 @@ color: red;
 //-------
 
 		function commentUpdate(idx) {
- 			console.log(idx);
-
- 			var appendDiv = idx.parentNode.parentNode;
- 			console.log(appendDiv);
+			
+ 			var commentSeq = idx.parentNode.parentNode;
+ 			console.log(commentSeq);
 
  			var commentDt = idx.parentNode.previousSibling;
- 			console.log("date: " + commentDt.textContent);
  			var commentContent = commentDt.previousSibling;
  			console.log("content: " + commentContent.textContent);
- 			var commentRegId = commentContent.previousSibling.lastChild;
- 			console.log("regId: " + commentRegId.textContent);
 
+ 			var commentContentTxt = commentContent.textContent;
 
-			commentDt.textContent = "";
-			commentContent.textContent = "";
-			commentRegId.textContent = "";
-
-			let inputElement = document.createElement("input");
-			let taElement = document.createElement("textarea");
-			let inputElement2 = document.createElement("input");
-
-			console.log(inputElement);
-			console.log(taElement);
-			console.log(inputElement2);
-
-			inputElement.setAttribute("style","text-align: center; width: 150px");
-			inputElement.setAttribute("name", "user_id");
-			inputElement.setAttribute("type", "text");
-			inputElement.setAttribute("class", "form-control");
-			inputElement.setAttribute("value", "yeji");
-			//${user.userId}
-			
-			appendDiv.appendChild(inputElement);
-			
-			
-
-			//var html = "";
-			//html += '<input style="text-align: center; width: 150px;" id="user_id" name="user_id" type="text" class="form-control" value="yeji" readonly="readonly" />';
-			//html += '<br />';
-			//html += '<textarea style="resize: none;" rows="5" cols="80" name="upcontent" id="content" class="form-control" placeholder="내용을 입력해주세요">'+'</textarea>';
-			//html += '<br />';
-			//html += '<input type="button" class="btn btn-primary btn-sm" value="수정" style="float: right" />'+'<br/>';
-			
  			
+			//textarea
+			let taElement = document.createElement("textarea");
+			taElement.setAttribute("style","width: 100%; resize: none;");
+			taElement.setAttribute("name", "content");
+			taElement.setAttribute("class", "form-control my-3");
+			taElement.textContent = commentContentTxt;
+			console.log(taElement);
+			
+			commentContent.replaceWith(taElement);
+
+			//버튼
+			
+			let regBtn = document.createElement("button");
+			regBtn.className = "btn btn-outline-primary rounded-pill btn-sm mr-1";
+			regBtn.setAttribute('onclick','plzUpdate(this)');
+			regBtn.textContent = "수정";
+
+			idx.replaceWith(regBtn);
 		}
+
+		function plzUpdate(idx){
+			var commentSeq = idx.nextSibling.value;
+			var commentDt = idx.parentNode.previousSibling;
+ 			var commentContent = commentDt.previousSibling;
+ 			console.log("content: " + commentContent.textContent);
+ 			var commentContentTxt = commentContent.textContent;
+
+ 			commentUpdateSave(commentSeq, commentContentTxt);	
+			
+		}
+
+		
 
 
 
