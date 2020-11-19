@@ -39,7 +39,7 @@
 [프로그램목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5564733/default.xlsx)
 
 ### 10. 개발산출물
-[GIANT BOX.pptx](https://github.com/HYKim8/GIANTS_BOX/files/5564731/GIANT.BOX.pptx)
+[GIANT BOX.pptx](https://github.com/HYKim8/GIANTS_BOX/files/5564949/GIANT.BOX.pptx)
 ### 11. 이행
 ### 12. 개발 URL  
 ### 13. 사용 openAPI
