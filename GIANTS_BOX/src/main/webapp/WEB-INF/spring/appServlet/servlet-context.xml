@@ -56,6 +56,7 @@
 			<mvc:exclude-mapping path="/main.do"/>
 			<mvc:exclude-mapping path="/event_list.do"/>
 			<mvc:exclude-mapping path="/event_view.do"/>
+			<mvc:exclude-mapping path="/regUser.do"/>
 			<mvc:exclude-mapping path="/signup.do"/>
 			<mvc:exclude-mapping path="/loginn.do"/>
 			<mvc:exclude-mapping path="/login.do"/>

@@ -121,7 +121,8 @@
 	<!-- 수정 -->
 	<update id="doUpdate" parameterType="reviewVO">
 		UPDATE review			
-		SET event_seq = #{eventSeq,jdbcType=INTEGER}    
+		SET 
+			event_seq = #{eventSeq,jdbcType=INTEGER}    
 		    ,writer = #{writer,jdbcType=VARCHAR}   
 		    ,title = #{title,jdbcType=VARCHAR}    
 		    ,context = #{context,jdbcType=INTEGER}   

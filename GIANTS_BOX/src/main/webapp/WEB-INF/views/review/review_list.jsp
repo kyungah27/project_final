@@ -68,8 +68,7 @@
 				<div class="row ">
 					  <form action="/review/doSelectList.do" name="searchFrm"
 						class="form-inline  col-lg-12 col-md-12 text-right">
-							  <input type="text" name="pageNum" id="pageNum" />
-							<input	type="text" name="review_seq" id="review_seq" />
+							
 						<div class="form-group">
 
 							<select name="searchDiv" class="form-control" align="center">
@@ -90,21 +89,31 @@
 								class="form-control  input-sm" value="${vo.searchWord }"
 								placeholder="검색어" /> 
 								
-							<input type="button"
+							<!--  <input type="button"
 								class="btn btn-primary btn-sm" value="조회" id="doSelectListBtn"
-								onclick="javascript:doSelectList();" /> 
+								onclick="javascript:doSelectList();" /> -->
+								
+							<input type="button"
+								class="btn btn-primary btn-sm" 
+								href="/giants_box/review/doSelectList.do"
+								value="조회" id="doSelectListBtn"
+								onclick="javascript:doSelectList();" />
 																
 							<!--  <input type="button" class="btn btn-primary btn-sm" value="?!?!" /> -->
 							
 							<!--  <input type="button"
-								class="btn btn-primary btn-sm" value="글쓰기" id="doInsertBtn"
+								class="nav-link text-white" "btn btn-primary btn-sm" value="글쓰기" id="doInsertBtn"
 								onclick="javascript:doInsert();" /> -->
 							
 							<input type="button"
-								class="nav-link text-white" href="/giants_box/review/doInsertView.do" 
+								class="btn btn-primary btn-sm" href="/giants_box/review/doInsertView.do" 
 								value="글쓰기" id="doInsertBtn"
 								onclick="javascript:doInsert();" />	
 								
+							<input  type="button" class="btn btn-primary btn-sm" 
+							href="/giants_box/review/doSelectList.do"
+							value="목록" id="move_list"  
+							onclick="javascript:doInsert();" />
 								
 								
 							
@@ -196,6 +205,16 @@
 
 <!-- 자바스크립트 자리 -->
 <script type="text/javascript">
+
+	function moveToListView(){
+	window.location.href="${context}/review/doSelectList.do";}
+
+	$("#move_list").on("click",function(){
+		console.log("move_list");
+		//window.location.href="/EJDBC/board/board.do?work_div=doSelectList";
+		moveToListView();
+	});
+	
 	function doSearchPage(url, num) {
 		//alert(url+":"+num);
 
@@ -217,7 +236,7 @@
 	$("#doSelectListBtn").on("click", function() {
 
 		var frm = document.searchFrm;
-		frm.action = "${Context}/review/doSelectList.do";
+		frm.action = "${context}/review/doSelectList.do";
 		frm.submit();
 
 	});
@@ -248,7 +267,7 @@
 
 		console.log("review_seq:" + review_seq);
 		//get방식 형태 call
-		window.location.href="${context}/board/doSelectOne.do?review_seq="+review_seq;
+		window.location.href="${context}/review/doSelectOne.do?review_seq="+review_seq;
 
 		var frm = document.searchFrm;
 		frm.review_seq.value = review_seq;
