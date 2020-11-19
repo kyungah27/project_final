@@ -35,17 +35,18 @@
 ![image](https://user-images.githubusercontent.com/70499031/98215405-16e5b480-1f8b-11eb-96f5-f75c6f445c70.png)
 
 ### 9. 개발 목록
-[개발목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5492628/UVER_.xlsx)
 
-### 10. 단위테스트
-### 11. 통합테스트
-### 12. 이행
-### 13. 개발 URL  
-### 14. 사용 openAPI
-#### 14.1. [KMDb 한국영화 데이터 베이스](https://kmdb.or.kr).
+[프로그램목록.xlsx](https://github.com/HYKim8/GIANTS_BOX/files/5564733/default.xlsx)
+
+### 10. 개발산출물
+[GIANT BOX.pptx](https://github.com/HYKim8/GIANTS_BOX/files/5564731/GIANT.BOX.pptx)
+### 11. 이행
+### 12. 개발 URL  
+### 13. 사용 openAPI
+#### 13.1. [KMDb 한국영화 데이터 베이스](https://kmdb.or.kr).
      -link   :https://kmdb.or.kr
     - 사용처 : 포스터썸네일 , 영화정보(감독, 배우, 장르 등등..)
-#### 14.2. [KOFIC 영화관입장권통합전산망 오픈 API](http://kobis.or.kr/kobisopenapi).
+#### 13.2. [KOFIC 영화관입장권통합전산망 오픈 API](http://kobis.or.kr/kobisopenapi).
     - link : http://kobis.or.kr/kobisopenapi
     - 사용처 : 박스오피스 정보 
  
