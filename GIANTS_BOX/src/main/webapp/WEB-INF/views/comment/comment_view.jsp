@@ -222,8 +222,8 @@ color: red;
 														html += '</span>';
 														if(vo.regId=="${sessionScope.user.userId}"){
 														html += '<div class="row justify-content-end mb-3">';
-															html += '<input type="button" onclick="commentUpdate(this)" class="mr-1 btn btn-primary btn-sm" value="수정" style="float: right">';
-															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-primary btn-sm mr-2" value="삭제" id="doDelete" style="float: right">';
+															html += '<input type="button" onclick="commentUpdate(this)" class="btn btn-outline-primary rounded-pill btn-sm mr-1" value="수정" >';
+															html += '<input type="button" onclick="commentdelete('+ vo.commentSeq+ ');" class="btn btn-outline-primary rounded-pill btn-sm mr-2" value="삭제" id="doDelete" >';
 														html += '</div>';
 														}
 													html += '</div>';
