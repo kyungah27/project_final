@@ -248,7 +248,7 @@
 
 		console.log("review_seq:" + review_seq);
 		//get방식 형태 call
-		window.location.href="${context}/board/doSelectOne.do?review_seq="+review_seq;
+		window.location.href="${context}/review/doSelectOne.do?review_seq="+review_seq;
 
 		var frm = document.searchFrm;
 		frm.review_seq.value = review_seq;

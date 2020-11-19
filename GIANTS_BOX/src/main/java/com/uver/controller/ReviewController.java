@@ -72,12 +72,11 @@ import com.uver.vo.ReviewVO;
 	
 	
 	
-	@RequestMapping(value = "review/doInsert.do", method = RequestMethod.POST)
+	@RequestMapping(value = "review/doInsertView.do", method = RequestMethod.POST)
 	@ResponseBody
 	//Message->String
-	public Message doInsert(ReviewVO reviewVO,Locale locale) {
+	public Message doInsert(ReviewVO reviewVO, String eventSeq,Locale locale) {
 	   
-		//ReviewVO reviewVO = new ReviewVO();
 		
 		String returnURL = "review/review_write";
 		LOG.debug("===================================");
