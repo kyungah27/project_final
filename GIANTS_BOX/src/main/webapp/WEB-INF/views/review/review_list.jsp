@@ -89,9 +89,15 @@
 								class="form-control  input-sm" value="${vo.searchWord }"
 								placeholder="검색어" /> 
 								
-							<input type="button"
+							<!--  <input type="button"
 								class="btn btn-primary btn-sm" value="조회" id="doSelectListBtn"
-								onclick="javascript:doSelectList();" /> 
+								onclick="javascript:doSelectList();" /> -->
+								
+							<input type="button"
+								class="btn btn-primary btn-sm" 
+								href="/giants_box/review/doSelectList.do"
+								value="조회" id="doSelectListBtn"
+								onclick="javascript:doSelectList();" />
 																
 							<!--  <input type="button" class="btn btn-primary btn-sm" value="?!?!" /> -->
 							
@@ -216,7 +222,7 @@
 	$("#doSelectListBtn").on("click", function() {
 
 		var frm = document.searchFrm;
-		frm.action = "${Context}/review/doSelectList.do";
+		frm.action = "${context}/review/doSelectList.do";
 		frm.submit();
 
 	});
