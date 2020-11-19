@@ -160,7 +160,7 @@
                                     </div> -->
                                 </div>
                                 <div class="tab-pane fade show" role="tabpanel" id="reviews">
-                                    후기게시판
+                                    <a href="${context}/review/doSelectList.do">후기게시판</a> 
                                 </div>
                             </div>
                         </div>
